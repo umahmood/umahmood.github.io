@@ -7,7 +7,257 @@
     <language>en-us</language>
     <author>Usman Mahmood</author>
     <copyright>2015 Usman Mahmood</copyright>
-    <updated>Sat, 25 Jul 2015 17:15:08 BST</updated>
+    <updated>Sat, 25 Jul 2015 20:18:15 BST</updated>
+    
+    
+    <item>
+      <title>Calling C from Go</title>
+      <link>http://fallthrough.io/2015/07/calling-c-from-go/</link>
+      <pubDate>Sat, 25 Jul 2015 20:18:15 BST</pubDate>
+      <author>Usman Mahmood</author>
+      <guid>http://fallthrough.io/2015/07/calling-c-from-go/</guid>
+      <description>
+
+&lt;p&gt;This post will show you the basics of how to call C code from a Go package.&lt;/p&gt;
+
+&lt;p&gt;Lets get started with an example:&lt;/p&gt;
+
+&lt;p&gt;Create a header file &amp;ldquo;add.h&amp;rdquo; with a function prototype:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;#ifndef _ADD_H_
+#define _ADD_H_
+int add(int, int);
+#endif
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Create the source file &amp;ldquo;add.c&amp;rdquo; containing the definition for add:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;#include &amp;quot;add.h&amp;quot;
+
+int add(int a, int b) 
+{
+   return a + b;
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Create a Go package &amp;ldquo;main.go&amp;rdquo;:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;package main
+
+// #include &amp;quot;add.c&amp;quot;
+import &amp;quot;C&amp;quot;
+
+import (
+    &amp;quot;fmt&amp;quot;
+)
+
+func main() {
+    r := C.add(40, 2)
+    fmt.Println(&amp;quot;result = &amp;quot;, r)
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Ouptut:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;$ go build main.go
+$ ./main
+result = 42
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Notice the comment above the import &amp;ldquo;C&amp;rdquo; statement we include add.c not add.h.&lt;/p&gt;
+
+&lt;p&gt;If import &amp;ldquo;C&amp;rdquo; is immediately preceded by comments, then those comments become apart of the compilation process. If there are any spaces between the comments, then those are seen as normal go comments, for example:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;// #include &amp;lt;math.h&amp;gt;
+
+// #include &amp;lt;stdio.h&amp;gt;
+// #include &amp;lt;errno.h&amp;gt;
+import &amp;quot;C&amp;quot;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;The header files stdio.h and errno.h are included as part of the compilation process, math.h is &lt;strong&gt;not&lt;/strong&gt;.&lt;/p&gt;
+
+&lt;h2 id=&#34;inline-c:f1759daed9e47388fe7eae5373f5e76d&#34;&gt;Inline C&lt;/h2&gt;
+
+&lt;p&gt;You can also write C code directly in the comments, here is an example:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;package main
+
+/*
+int fortytwo()
+{
+    return 42;
+}
+*/
+import &amp;quot;C&amp;quot;
+
+import (
+    &amp;quot;fmt&amp;quot;
+)
+
+func main() {
+    fmt.Println(C.fortytwo)     // address
+    fmt.Println(C.fortytwo())   // invocation
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Output:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;$ go build inline.go
+$ ./inline
+0x40014a0
+42
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2 id=&#34;accessing-c-structs:f1759daed9e47388fe7eae5373f5e76d&#34;&gt;Accessing C structs&lt;/h2&gt;
+
+&lt;p&gt;Assume we have the below C struct defined in a .h or .c file:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;struct point {
+    int x;
+    int y;
+};
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;In order to access this from a Go package, you simple prefix the type name &amp;ldquo;point&amp;rdquo; with &amp;ldquo;C.struct_&amp;rdquo;:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;func main() {
+    p := C.struct_point{}
+    p.x = 99
+    p.y = 42
+    fmt.Printf(&amp;quot;type:   %T\n&amp;quot;, p)
+    fmt.Printf(&amp;quot;struct: %+v\n&amp;quot;, p)
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Output:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;$ go build cstruct.go
+$ ./cstruct
+type:   main._Ctype_struct_point
+struct: {x:99 y:42}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2 id=&#34;controlling-the-behaviour-of-the-c-compiler:f1759daed9e47388fe7eae5373f5e76d&#34;&gt;Controlling the behaviour of the C compiler&lt;/h2&gt;
+
+&lt;p&gt;You can pass flags to the C compiler to control its behaviour. This is done by defining a CFLAGS with a pseudo #cgo directive in the comments. In the example below, the -H flag will be passed to the C compiler (clang in my case) when it&amp;rsquo;s invoked. The -H flag tells clang to show the header includes and nesting depth.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;package main
+
+// #cgo CFLAGS: -H
+// #include &amp;quot;add.c&amp;quot;
+import &amp;quot;C&amp;quot;
+
+import (
+    &amp;quot;fmt&amp;quot;
+)
+
+func main() {
+    r := C.add(40, 2)
+    fmt.Println(&amp;quot;result = &amp;quot;, r)
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Ouptut:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;$ go build main.go
+!! this output is from clang writing to stdout because we passed the -H flag !!
+. ./add.c
+.. ./add.h
+. /usr/include/errno.h
+.. /usr/include/sys/errno.h
+... /usr/include/sys/cdefs.h
+.... /usr/include/sys/_symbol_aliasing.h
+.... /usr/include/sys/_posix_availability.h
+...
+
+$ ./main
+result = 42
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2 id=&#34;peeking-behind-the-scenes:f1759daed9e47388fe7eae5373f5e76d&#34;&gt;Peeking behind the scenes&lt;/h2&gt;
+
+&lt;p&gt;What is happening when we build a Go package that includes an import &amp;ldquo;C&amp;rdquo; statement.&lt;/p&gt;
+
+&lt;p&gt;Firstly import &amp;ldquo;C&amp;rdquo; is a pseudo-package it is not listed in the standard library. When the go compiler sees the pseudo-package import &amp;ldquo;C&amp;rdquo; it runs the &lt;strong&gt;cgo&lt;/strong&gt; command, this generates all the supporting infrastructure. It transforms main.go outputting some .h and .c files, these are then passed to clang to compile.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Note:&lt;/strong&gt; the cgo command actually invokes the gcc compiler, however on my machine gcc is an alias for clang, so it&amp;rsquo;s clang that is doing the compiling.&lt;/p&gt;
+
+&lt;p&gt;The output from the C compiler is an object file named _cgo_.o, which contains the compiled C code. This object code (_cgo_.o) is then linked into the rest of the go binary.&lt;/p&gt;
+
+&lt;p&gt;Lets runs the cgo command directly to get a better understanding:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;$ go tool cgo main.go
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;This command will output a directory called _obj:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;$ ls _obj/  
+
+_cgo_.o
+_cgo_defun.c
+_cgo_export.c
+_cgo_export.h
+_cgo_flags
+_cgo_gotypes.go
+_cgo_main.c
+main.cgo1.go
+main.cgo2.c
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;As stated _cgo_.o contains the compiled C code, one interesting file to browse is main.cgo2.c:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;$ cat main.cgo2.c
+
+#line 10 &amp;quot;/go/src/samples/main.go&amp;quot;
+
+ #include &amp;quot;add.c&amp;quot;
+
+// Usual nonsense: if x and y are not equal, the type will be invalid
+// (have a negative array count) and an inscrutable error will come
+// out of the compiler and hopefully mention &amp;quot;name&amp;quot;.
+#define __cgo_compile_assert_eq(x, y, name) typedef char name[(x-y)*(x-y)*-2+1];
+
+// Check at compile time that the sizes we use match our expectations.
+#define __cgo_size_assert(t, n) __cgo_compile_assert_eq(sizeof(t), n, _cgo_sizeof_##t##_is_not_##n)
+
+__cgo_size_assert(char, 1)
+__cgo_size_assert(short, 2)
+__cgo_size_assert(int, 4)
+typedef long long __cgo_long_long;
+__cgo_size_assert(__cgo_long_long, 8)
+__cgo_size_assert(float, 4)
+__cgo_size_assert(double, 8)
+
+extern char* _cgo_topofstack(void);
+
+#include &amp;lt;errno.h&amp;gt;
+#include &amp;lt;string.h&amp;gt;
+
+void
+_cgo_7474d4d504ba_Cfunc_add(void *v)
+{
+    struct {
+        int p0;
+        int p1;
+        int r;
+        char __pad12[4];
+    } __attribute__((__packed__)) *a = v;
+    char *stktop = _cgo_topofstack();
+    __typeof__(a-&amp;gt;r) r = add(a-&amp;gt;p0, a-&amp;gt;p1);
+    a = (void*)((char*)a + (_cgo_topofstack() - stktop));
+    a-&amp;gt;r = r;
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Take a while to browse the other files, they are quite interesting.&lt;/p&gt;
+
+&lt;p&gt;I hope you enjoyed this post.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Note:&lt;/strong&gt; I am on OSX 10.10.4 64 bit using go version 1.4.2 and clang version 602.0.53.&lt;/p&gt;
+</description>
+    </item>
+    
     
     
     <item>
