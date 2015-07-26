@@ -3,7 +3,7 @@
   <channel>
       <title>Usman Mahmood</title>
       <generator uri="https://hugo.spf13.com">Hugo</generator>
-    <link>http://fallthrough.io/blog/</link>
+    <link>https://fallthrough.io/blog/</link>
     <language>en-us</language>
     <author>Usman Mahmood</author>
     <copyright>2015 Usman Mahmood</copyright>
@@ -12,10 +12,10 @@
     
     <item>
       <title>Calling C from Go</title>
-      <link>http://fallthrough.io/2015/07/calling-c-from-go/</link>
+      <link>https://fallthrough.io/2015/07/calling-c-from-go/</link>
       <pubDate>Sat, 25 Jul 2015 20:18:15 BST</pubDate>
       <author>Usman Mahmood</author>
-      <guid>http://fallthrough.io/2015/07/calling-c-from-go/</guid>
+      <guid>https://fallthrough.io/2015/07/calling-c-from-go/</guid>
       <description>
 
 &lt;p&gt;This post will show you the basics of how to call C code from a Go package.&lt;/p&gt;
@@ -262,10 +262,10 @@ _cgo_7474d4d504ba_Cfunc_add(void *v)
     
     <item>
       <title>First Post</title>
-      <link>http://fallthrough.io/2015/07/first/</link>
+      <link>https://fallthrough.io/2015/07/first/</link>
       <pubDate>Sat, 25 Jul 2015 17:15:08 BST</pubDate>
       <author>Usman Mahmood</author>
-      <guid>http://fallthrough.io/2015/07/first/</guid>
+      <guid>https://fallthrough.io/2015/07/first/</guid>
       <description>&lt;p&gt;This is my blog. There are many like it, but this one is mine.&lt;/p&gt;
 </description>
     </item>
