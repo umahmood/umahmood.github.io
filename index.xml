@@ -7,7 +7,85 @@
     <language>en-us</language>
     <author>Usman Mahmood</author>
     <copyright>2015 Usman Mahmood</copyright>
-    <updated>Sat, 25 Jul 2015 20:18:15 BST</updated>
+    <updated>Sun, 26 Jul 2015 18:45:28 BST</updated>
+    
+    
+    <item>
+      <title>Go and String Concatenation</title>
+      <link>https://fallthrough.io/2015/07/go-string-concat/</link>
+      <pubDate>Sun, 26 Jul 2015 18:45:28 BST</pubDate>
+      <author>Usman Mahmood</author>
+      <guid>https://fallthrough.io/2015/07/go-string-concat/</guid>
+      <description>
+
+&lt;p&gt;When writing Go code you should try to stay away from concatenating strings using the &amp;lsquo;+&amp;rsquo; and &amp;lsquo;+=&amp;rdquo; operators.&lt;/p&gt;
+
+&lt;p&gt;Strings in Go, like many other languages (Java, C#, etc&amp;hellip;) are immutable, this means after a string has been created it is impossible to change. Here is what the &lt;a href=&#34;https://golang.org/ref/spec#String_types&#34;&gt;Go Programming Language Specification&lt;/a&gt; has to say about the string type:&lt;/p&gt;
+
+&lt;p&gt;&lt;em&gt;&amp;ldquo;A string type represents the set of string values. A string value is a (possibly empty) sequence of bytes. Strings are immutable: once created, it is impossible to change the contents of a string. The predeclared string type is string.&amp;rdquo;&lt;/em&gt;&lt;/p&gt;
+
+&lt;p&gt;Lets look at an example:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;var town string = &amp;quot;Spring&amp;quot;
+town += &amp;quot;field&amp;quot;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;When you write the above code the compiler actually creates a new sequence of bytes, and assigns it to the variable &amp;lsquo;town&amp;rsquo;. The string &amp;ldquo;Spring&amp;rdquo; is then eligible for garbage collection. Here is what the heap would look like, after the above code was run:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;           &amp;quot;Spring&amp;quot;
+
+town ----&amp;gt; &amp;quot;Springfield&amp;quot;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Now if we concatenate the string &amp;lsquo;town&amp;rsquo; with the another string:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;town = &amp;quot;742 Evergreen Terrace &amp;quot; + town
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;The heap would look like this:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;           &amp;quot;Spring&amp;quot;
+
+           &amp;quot;Springfield&amp;quot;
+
+town ----&amp;gt; &amp;quot;742 Evergreen Terrace Springfield&amp;quot;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;If you concatenate a lot of strings using &amp;lsquo;+&amp;rsquo; and &amp;lsquo;+=&amp;rsquo; you will be generating a lot of garbage. This will make the garbage collector work harder as all those potential dead strings will need to be analyzed and freed.&lt;/p&gt;
+
+&lt;p&gt;There are two ways to concatenate string more efficiently:&lt;/p&gt;
+
+&lt;h5 id=&#34;1-strings-join:09d97f42a93e7b11514ce16c8075547b&#34;&gt;1. strings.Join()&lt;/h5&gt;
+
+&lt;pre&gt;&lt;code&gt;town := strings.Join([]string{&amp;quot;Spring&amp;quot;, &amp;quot;field&amp;quot;}, &amp;quot;&amp;quot;))
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h5 id=&#34;2-bytes-buffer:09d97f42a93e7b11514ce16c8075547b&#34;&gt;2. bytes.Buffer&lt;/h5&gt;
+
+&lt;pre&gt;&lt;code&gt;func concat(vals ...string) string {
+    var buffer bytes.Buffer
+    for _, s := range vals {
+        buffer.WriteString(s)
+    }
+    return buffer.String()
+}
+
+func main() {
+    town := concat(&amp;quot;Spring&amp;quot;, &amp;quot;field&amp;quot;)
+
+    names := []string{&amp;quot;Homer&amp;quot;, &amp;quot;Moe&amp;quot;, &amp;quot;Barney&amp;quot;, &amp;quot;Carl&amp;quot;, &amp;quot;Lenny&amp;quot;}
+
+    friends := concat(names...)
+    ...
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;You can use either, I prefer using the &amp;lsquo;concat&amp;rsquo; method as it&amp;rsquo;s easier to read.&lt;/p&gt;
+
+&lt;p&gt;These two methods are much more efficient as behind the scenes they allocate a variable size buffer of bytes. Which can be modified over and over again with out leaving behind a lot of unused strings.&lt;/p&gt;
+</description>
+    </item>
+    
     
     
     <item>

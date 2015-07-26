@@ -74,6 +74,90 @@
   
   <div class="post">
     <h1 class="post-title">
+      <a href="https://fallthrough.io/2015/07/go-string-concat/">
+        Go and String Concatenation
+      </a>
+    </h1>
+
+    <span class="post-date">Jul 26, 2015</span>
+
+    
+
+
+    
+
+<p>When writing Go code you should try to stay away from concatenating strings using the &lsquo;+&rsquo; and &lsquo;+=&rdquo; operators.</p>
+
+<p>Strings in Go, like many other languages (Java, C#, etc&hellip;) are immutable, this means after a string has been created it is impossible to change. Here is what the <a href="https://golang.org/ref/spec#String_types">Go Programming Language Specification</a> has to say about the string type:</p>
+
+<p><em>&ldquo;A string type represents the set of string values. A string value is a (possibly empty) sequence of bytes. Strings are immutable: once created, it is impossible to change the contents of a string. The predeclared string type is string.&rdquo;</em></p>
+
+<p>Lets look at an example:</p>
+
+<pre><code>var town string = &quot;Spring&quot;
+town += &quot;field&quot;
+</code></pre>
+
+<p>When you write the above code the compiler actually creates a new sequence of bytes, and assigns it to the variable &lsquo;town&rsquo;. The string &ldquo;Spring&rdquo; is then eligible for garbage collection. Here is what the heap would look like, after the above code was run:</p>
+
+<pre><code>           &quot;Spring&quot;
+
+town ----&gt; &quot;Springfield&quot;
+</code></pre>
+
+<p>Now if we concatenate the string &lsquo;town&rsquo; with the another string:</p>
+
+<pre><code>town = &quot;742 Evergreen Terrace &quot; + town
+</code></pre>
+
+<p>The heap would look like this:</p>
+
+<pre><code>           &quot;Spring&quot;
+
+           &quot;Springfield&quot;
+
+town ----&gt; &quot;742 Evergreen Terrace Springfield&quot;
+</code></pre>
+
+<p>If you concatenate a lot of strings using &lsquo;+&rsquo; and &lsquo;+=&rsquo; you will be generating a lot of garbage. This will make the garbage collector work harder as all those potential dead strings will need to be analyzed and freed.</p>
+
+<p>There are two ways to concatenate string more efficiently:</p>
+
+<h5 id="1-strings-join:09d97f42a93e7b11514ce16c8075547b">1. strings.Join()</h5>
+
+<pre><code>town := strings.Join([]string{&quot;Spring&quot;, &quot;field&quot;}, &quot;&quot;))
+</code></pre>
+
+<h5 id="2-bytes-buffer:09d97f42a93e7b11514ce16c8075547b">2. bytes.Buffer</h5>
+
+<pre><code>func concat(vals ...string) string {
+    var buffer bytes.Buffer
+    for _, s := range vals {
+        buffer.WriteString(s)
+    }
+    return buffer.String()
+}
+
+func main() {
+    town := concat(&quot;Spring&quot;, &quot;field&quot;)
+
+    names := []string{&quot;Homer&quot;, &quot;Moe&quot;, &quot;Barney&quot;, &quot;Carl&quot;, &quot;Lenny&quot;}
+
+    friends := concat(names...)
+    ...
+}
+</code></pre>
+
+<p>You can use either, I prefer using the &lsquo;concat&rsquo; method as it&rsquo;s easier to read.</p>
+
+<p>These two methods are much more efficient as behind the scenes they allocate a variable size buffer of bytes. Which can be modified over and over again with out leaving behind a lot of unused strings.</p>
+
+  </div>
+  
+  
+  
+  <div class="post">
+    <h1 class="post-title">
       <a href="https://fallthrough.io/2015/07/calling-c-from-go/">
         Calling C from Go
       </a>

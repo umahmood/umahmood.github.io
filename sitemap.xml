@@ -3,8 +3,13 @@
   
   <url>
     <loc>https://fallthrough.io/</loc>
-    <lastmod>2015-07-25T20:18:15+01:00</lastmod>
+    <lastmod>2015-07-26T18:45:28+01:00</lastmod>
     <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://fallthrough.io/2015/07/go-string-concat/</loc>
+    <lastmod>2015-07-26T18:45:28+01:00</lastmod>
   </url>
   
   <url>

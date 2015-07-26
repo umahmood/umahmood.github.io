@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en-us">
+<head>
+  <link href="http://gmpg.org/xfn/11" rel="profile">
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+
+  
+
+  <title> Go and String Concatenation  &middot; Usman Mahmood </title>
+
+  
+  <link rel="stylesheet" href="https://fallthrough.io/css/poole.css">
+  <link rel="stylesheet" href="https://fallthrough.io/css/syntax.css">
+  <link rel="stylesheet" href="https://fallthrough.io/css/hyde.css">
+  <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=PT+Sans:400,400italic,700|Abril+Fatface">
+
+  
+  <link rel="apple-touch-icon-precomposed" sizes="144x144" href="/apple-touch-icon-144-precomposed.png">
+  <link rel="shortcut icon" href="/favicon.ico">
+
+  
+  <link href="" rel="alternate" type="application/rss+xml" title="Usman Mahmood" />
+
+  <link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
+
+  <link href='http://fonts.googleapis.com/css?family=Raleway:400,300' rel='stylesheet' type='text/css'>
+
+  <script src="//ajax.googleapis.com/ajax/libs/webfont/1.4.7/webfont.js"></script>
+  <script>
+    WebFont.load({
+      google: {
+        families: ['Raleway']
+      }
+    });
+  </script>
+
+</head>
+
+<body>
+
+  <div class="sidebar">
+  <div class="container sidebar-sticky">
+    <div class="sidebar-about">
+      <h1 style="font-size: 60px" class="brand"><a href="https://fallthrough.io">Usman Mahmood</a></h1><br/>
+      <p class="lead">
+       Algorithms &#43; Data Structures = Programs 
+      </p>
+    </div>
+
+    <ul class="sidebar-nav">
+      <li><a href="https://fallthrough.io/blog">Posts</a></li>
+      
+        <li><a href="/about/">About </a></li>
+      
+      <li><a href="https://github.com/umahmood">Github</a></li>
+      <br/>
+     
+      <a href="https://github.com/umahmood"><i class="fa fa-github-square"></i></a>&nbsp;&nbsp;
+    
+    <br/><br/>
+    &copy; 2015 Usman Mahmood. All rights reserved.</p>
+    
+  </div>
+</div>
+
+
+  <div class="content container">
+    <div class="post">
+    <h1 class="post-title">Go and String Concatenation</h1>
+    <span class="post-date">Jul 26, 2015</span>
+    
+    
+
+<p>When writing Go code you should try to stay away from concatenating strings using the &lsquo;+&rsquo; and &lsquo;+=&rdquo; operators.</p>
+
+<p>Strings in Go, like many other languages (Java, C#, etc&hellip;) are immutable, this means after a string has been created it is impossible to change. Here is what the <a href="https://golang.org/ref/spec#String_types">Go Programming Language Specification</a> has to say about the string type:</p>
+
+<p><em>&ldquo;A string type represents the set of string values. A string value is a (possibly empty) sequence of bytes. Strings are immutable: once created, it is impossible to change the contents of a string. The predeclared string type is string.&rdquo;</em></p>
+
+<p>Lets look at an example:</p>
+
+<pre><code>var town string = &quot;Spring&quot;
+town += &quot;field&quot;
+</code></pre>
+
+<p>When you write the above code the compiler actually creates a new sequence of bytes, and assigns it to the variable &lsquo;town&rsquo;. The string &ldquo;Spring&rdquo; is then eligible for garbage collection. Here is what the heap would look like, after the above code was run:</p>
+
+<pre><code>           &quot;Spring&quot;
+
+town ----&gt; &quot;Springfield&quot;
+</code></pre>
+
+<p>Now if we concatenate the string &lsquo;town&rsquo; with the another string:</p>
+
+<pre><code>town = &quot;742 Evergreen Terrace &quot; + town
+</code></pre>
+
+<p>The heap would look like this:</p>
+
+<pre><code>           &quot;Spring&quot;
+
+           &quot;Springfield&quot;
+
+town ----&gt; &quot;742 Evergreen Terrace Springfield&quot;
+</code></pre>
+
+<p>If you concatenate a lot of strings using &lsquo;+&rsquo; and &lsquo;+=&rsquo; you will be generating a lot of garbage. This will make the garbage collector work harder as all those potential dead strings will need to be analyzed and freed.</p>
+
+<p>There are two ways to concatenate string more efficiently:</p>
+
+<h5 id="1-strings-join:09d97f42a93e7b11514ce16c8075547b">1. strings.Join()</h5>
+
+<pre><code>town := strings.Join([]string{&quot;Spring&quot;, &quot;field&quot;}, &quot;&quot;))
+</code></pre>
+
+<h5 id="2-bytes-buffer:09d97f42a93e7b11514ce16c8075547b">2. bytes.Buffer</h5>
+
+<pre><code>func concat(vals ...string) string {
+    var buffer bytes.Buffer
+    for _, s := range vals {
+        buffer.WriteString(s)
+    }
+    return buffer.String()
+}
+
+func main() {
+    town := concat(&quot;Spring&quot;, &quot;field&quot;)
+
+    names := []string{&quot;Homer&quot;, &quot;Moe&quot;, &quot;Barney&quot;, &quot;Carl&quot;, &quot;Lenny&quot;}
+
+    friends := concat(names...)
+    ...
+}
+</code></pre>
+
+<p>You can use either, I prefer using the &lsquo;concat&rsquo; method as it&rsquo;s easier to read.</p>
+
+<p>These two methods are much more efficient as behind the scenes they allocate a variable size buffer of bytes. Which can be modified over and over again with out leaving behind a lot of unused strings.</p>
+
+    
+
+     
+	
+</div>
+</div> 
+
+</body>
+</html>
