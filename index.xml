@@ -7,7 +7,165 @@
     <language>en-us</language>
     <author>Usman Mahmood</author>
     <copyright>2015 Usman Mahmood</copyright>
-    <updated>Sun, 26 Jul 2015 18:45:28 BST</updated>
+    <updated>Tue, 04 Aug 2015 23:26:39 BST</updated>
+    
+    
+    <item>
+      <title>Gofmt and Rewrite Rules</title>
+      <link>https://fallthrough.io/2015/08/gofmt-rewrite-rules/</link>
+      <pubDate>Tue, 04 Aug 2015 23:26:39 BST</pubDate>
+      <author>Usman Mahmood</author>
+      <guid>https://fallthrough.io/2015/08/gofmt-rewrite-rules/</guid>
+      <description>&lt;p&gt;One thing I absolutely love about Go is its tooling support. Whenever I use the
+numerous tools I always discover something new. In this short post I will be
+showing off gofmt&amp;rsquo;s -r flag, this flag allows you to apply a rewrite rule to your
+source before formatting.&lt;/p&gt;
+
+&lt;p&gt;A rewrite rule is a string in the following format:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;pattern -&amp;gt; replacement
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Both pattern and replacement must be valid Go expressions (more on this later), lets
+apply a simple rewrite to the following code:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;// test1.go
+package main
+
+import (
+    &amp;quot;fmt&amp;quot;
+)
+
+func main() {
+    foo := &amp;quot;Hello World&amp;quot;
+
+    fmt.Println(foo)
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;The following rewrite rule changes the variable name from &amp;lsquo;foo&amp;rsquo; to &amp;lsquo;bar&amp;rsquo;:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;$ gofmt -r=&#39;foo -&amp;gt; bar&#39; test1.go
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Output:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;// test1.go
+package main
+
+import (
+    &amp;quot;fmt&amp;quot;
+)
+
+func main() {
+    bar := &amp;quot;Hello World&amp;quot;
+
+    fmt.Println(bar)
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;We will now apply a more powerful rule to the below code:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;// test2.go
+package main
+
+func main() {
+    vals := make([]int, 0)
+
+    vals = append(vals, 15)
+    vals = append(vals, 17)
+    vals = append(vals, 23)
+
+    slice := vals[1:len(vals)]
+
+    _ = slice
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;The line:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;slice := vals[1:len(vals)]
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Is not very idiomatic Go so lets change this:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;$ gofmt -r=&#39;a[b:len(a)] -&amp;gt; a[b:]&#39; test2.go
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Output:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;// test2.go
+package main
+
+func main() {
+    vals := make([]int, 0)
+
+    vals = append(vals, 15)
+    vals = append(vals, 17)
+    vals = append(vals, 23)
+
+    slice := vals[1:]
+
+    _ = slice
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;As you can see the code was correctly transformed. Notice how the rule used the
+characters &amp;lsquo;a&amp;rsquo; and &amp;lsquo;b&amp;rsquo;. If your rule uses single-character lowercase identifiers,
+then these will serve as wild-cards matching arbitrary sub-expressions; these
+expressions will be substituted for the same identifiers in the replacement. So
+the rule:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;-r=&#39;a[b:len(a)] -&amp;gt; a[b:]&#39;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Would match:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;x := vals[1:len(vals)] // vals[1:]
+y := nums[5:len(nums)] // nums[5:]
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Were on the first match:&lt;/p&gt;
+
+&lt;p&gt;&amp;lsquo;a&amp;rsquo; would be substituted for &amp;lsquo;val&amp;rsquo; &lt;br/&gt;
+&amp;lsquo;b&amp;rsquo; would be substituted for &amp;lsquo;1&amp;rsquo; &lt;br/&gt;&lt;/p&gt;
+
+&lt;p&gt;And on the second match:&lt;/p&gt;
+
+&lt;p&gt;&amp;lsquo;a&amp;rsquo; would be substituted for &amp;lsquo;nums&amp;rsquo; &lt;br/&gt;
+&amp;lsquo;b&amp;rsquo; would be substituted for &amp;lsquo;5&amp;rsquo; &lt;br/&gt;&lt;/p&gt;
+
+&lt;p&gt;An important thing to remember when using the -r flag is that the resulting
+transformation must be a syntactically valid declaration list, statement list,
+or expression. So the following rule:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;-r=&#39;a[b:len(a)] -&amp;gt; a[const]&#39;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Would be syntactically incorrect (const is a reserved keyword), and you would get
+the error:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;parsing replacement a[const] at 1:4: expected operand, found &#39;const&#39; 
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;If you would like to learn more about rewrite rules then run:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;$ godoc gofmt
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;strong&gt;Note&lt;/strong&gt;: godoc gofmt reports the following at the end:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;BUGS
+
+The implementation of -r is a bit slow.
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;:)&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Note&lt;/strong&gt;: I am using Go version 1.4.2&lt;/p&gt;
+</description>
+    </item>
+    
     
     
     <item>
