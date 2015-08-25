@@ -7,7 +7,64 @@
     <language>en-us</language>
     <author>Usman Mahmood</author>
     <copyright>2015 Usman Mahmood</copyright>
-    <updated>Tue, 04 Aug 2015 23:26:39 BST</updated>
+    <updated>Tue, 25 Aug 2015 22:09:24 BST</updated>
+    
+    
+    <item>
+      <title>Golang UK Conference 2015</title>
+      <link>https://fallthrough.io/2015/08/golang-uk-conf-2015/</link>
+      <pubDate>Tue, 25 Aug 2015 22:09:24 BST</pubDate>
+      <author>Usman Mahmood</author>
+      <guid>https://fallthrough.io/2015/08/golang-uk-conf-2015/</guid>
+      <description>
+
+&lt;p&gt;&lt;img src=&#34;https://i.imgur.com/LJfFYSS.png&#34; alt=&#34;British Gopher&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;On Friday the 21st of August I attended the &lt;a href=&#34;http://www.golanguk.com/&#34;&gt;Golang UK conference 2015&lt;/a&gt; held at
+the amazing Brewery in London. This post is a short write up of my time at the
+conference.&lt;/p&gt;
+
+&lt;p&gt;This was my first ever conference so apart from the talks, I did not know what
+else to expect. Overall though, I found the conference was excellent and I met
+a wide range of interesting people.&lt;/p&gt;
+
+&lt;h5 id=&#34;turnout:95f078b9982a0bb9d2c4f8afc300946a&#34;&gt;Turnout&lt;/h5&gt;
+
+&lt;p&gt;The turnout was quite big with over 250 delegates from all over the world.&lt;/p&gt;
+
+&lt;h5 id=&#34;go-usage:95f078b9982a0bb9d2c4f8afc300946a&#34;&gt;Go usage&lt;/h5&gt;
+
+&lt;p&gt;From the people I met no one was really using Go in a big way, but had an
+API or a small server component written in Go. However, everyone was expecting
+to increase there Go usage through out the coming year.&lt;/p&gt;
+
+&lt;h5 id=&#34;talks:95f078b9982a0bb9d2c4f8afc300946a&#34;&gt;Talks&lt;/h5&gt;
+
+&lt;p&gt;The conference consisted of 2 tracks, a main track and a side track. The talks I
+went to:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Opening Keynote&lt;/li&gt;
+&lt;li&gt;Crossing the Language Chasm&lt;/li&gt;
+&lt;li&gt;Building API&amp;rsquo;s&lt;/li&gt;
+&lt;li&gt;Complex Concurrency Patterns in Go&lt;/li&gt;
+&lt;li&gt;Code Analysis&lt;/li&gt;
+&lt;li&gt;Understanding Memory Allocation&lt;/li&gt;
+&lt;li&gt;Whispered Secrets&lt;/li&gt;
+&lt;li&gt;The Go Community&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;Out of all the talks, the best one was Code Analysis presented by Francesc Campoy.&lt;/p&gt;
+
+&lt;h5 id=&#34;food:95f078b9982a0bb9d2c4f8afc300946a&#34;&gt;Food :)&lt;/h5&gt;
+
+&lt;p&gt;The food served at the conference was absoutetly amazing. Many of the delgates
+said that it was best food of any conference they had been to.&lt;/p&gt;
+
+&lt;p&gt;Fin.&lt;/p&gt;
+</description>
+    </item>
+    
     
     
     <item>
