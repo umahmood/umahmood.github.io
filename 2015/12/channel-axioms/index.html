@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en-us">
+<head>
+  <link href="http://gmpg.org/xfn/11" rel="profile">
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+
+  
+
+  <title> Go Channel Axioms  &middot; Usman Mahmood </title>
+
+  
+  <link rel="stylesheet" href="http://localhost:1313//css/poole.css">
+  <link rel="stylesheet" href="http://localhost:1313//css/syntax.css">
+  <link rel="stylesheet" href="http://localhost:1313//css/hyde.css">
+  <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=PT+Sans:400,400italic,700|Abril+Fatface">
+
+  
+  <link rel="apple-touch-icon-precomposed" sizes="144x144" href="/apple-touch-icon-144-precomposed.png">
+  <link rel="shortcut icon" href="/favicon.ico">
+
+  
+  <link href="" rel="alternate" type="application/rss+xml" title="Usman Mahmood" />
+
+  <link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
+
+  <link href='http://fonts.googleapis.com/css?family=Raleway:400,300' rel='stylesheet' type='text/css'>
+
+  <script src="//ajax.googleapis.com/ajax/libs/webfont/1.4.7/webfont.js"></script>
+  <script>
+    WebFont.load({
+      google: {
+        families: ['Raleway']
+      }
+    });
+  </script>
+
+</head>
+
+<body>
+
+  <div class="sidebar">
+  <div class="container sidebar-sticky">
+    <div class="sidebar-about">
+      <h1 style="font-size: 60px" class="brand"><a href="http://localhost:1313/">Usman Mahmood</a></h1><br/>
+      <p class="lead">
+       Algorithms &#43; Data Structures = Programs 
+      </p>
+    </div>
+
+    <ul class="sidebar-nav">
+      <li><a href="http://localhost:1313//blog">Posts</a></li>
+      
+        <li><a href="/about/">About </a></li>
+      
+      <br/>
+      <li><a href="https://github.com/umahmood">Github</a></li>
+      <li><a href="https://twitter.com/make_slice">Twitter</a></li>
+      <li><a href="https://keybase.io/usman">Keybase</a></li>
+
+    <br/>
+    &copy; 2015 Usman Mahmood. All rights reserved.</p>
+    
+  </div>
+</div>
+
+
+  <div class="content container">
+    <div class="post">
+    <h1 class="post-title">Go Channel Axioms</h1>
+    <span class="post-date">Dec 14, 2015</span>
+    
+    
+
+<p>A while ago I was watching a tech talk by Blake Caldwell on <a href="https://www.youtube.com/watch?v=PyBJQA4clfc">Building Resilient Services with Go</a>. In his presentation he had a slide which listed go channel axioms. I have listed his channel axioms here and provided some short code snippets to hopefully clarify them.</p>
+
+<h3 id="a-send-to-a-nil-channel-blocks-forever:3c6d760ac1dd0a5b6f008ac700644390">A send to a nil channel blocks forever</h3>
+
+<pre><code class="language-go">var ch chan bool
+ch &lt;- true // will always block
+</code></pre>
+
+<p>We declare a channel &lsquo;ch&rsquo; but do not initialize it (with make), so it is a nil channel. We then attempt to <strong>send</strong> a value down the channel, this causes a blocking operation.</p>
+
+<h3 id="a-receive-from-a-nil-channel-blocks-forever:3c6d760ac1dd0a5b6f008ac700644390">A receive from a nil channel blocks forever</h3>
+
+<pre><code class="language-go">var ch chan bool
+v := &lt;-ch // will always block
+</code></pre>
+
+<p>We declare a channel &lsquo;ch&rsquo; but do not initialize it (with make), so it is a nil channel, We then attempt to <strong>receive</strong> a value from the channel, this causes a blocking operation.</p>
+
+<h3 id="a-send-to-a-closed-channel-panics:3c6d760ac1dd0a5b6f008ac700644390">A send to a closed channel panics</h3>
+
+<pre><code class="language-go">ch := make(chan bool)
+...
+close(ch)
+...
+ch &lt;- true // panics!
+</code></pre>
+
+<p>We initialize a channel &lsquo;ch&rsquo; then later close the channel, and then later attempt to <strong>send</strong> a value down the channel. This causes a panic, and we receive a stack trace. In this case, before we send a value down the channel, we may want check if the channel is open:</p>
+
+<pre><code class="language-go">if v, ok := &lt;-ch; ok {
+    // ch is open
+}
+</code></pre>
+
+<h3 id="a-receive-from-a-closed-channel-returns-the-zero-value-immediately:3c6d760ac1dd0a5b6f008ac700644390">A receive from a closed channel returns the zero value immediately</h3>
+
+<pre><code class="language-go">ch := make(chan int)
+...
+close(ch)
+...
+v := &lt;-ch // v = 0
+</code></pre>
+
+<p>We initialize a channel &lsquo;ch&rsquo; then later close the channel, and then later attempt to <strong>receive</strong> a value from the channel. This causes the zero value to be returned immediately, this is a non-blocking operation.</p>
+
+    
+
+     
+	
+</div>
+</div> 
+
+<script data-no-instant>document.write('<script src="http://'
+        + (location.host || 'localhost').split(':')[0]
+		+ ':1313/livereload.js?mindelay=10"></'
+        + 'script>')</script></body>
+</html>
