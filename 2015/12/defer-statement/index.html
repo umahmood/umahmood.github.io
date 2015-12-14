@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en-us">
+<head>
+  <link href="http://gmpg.org/xfn/11" rel="profile">
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+
+  
+
+  <title> The Defer Statement  &middot; Usman Mahmood </title>
+
+  
+  <link rel="stylesheet" href="https://fallthrough.io/css/poole.css">
+  <link rel="stylesheet" href="https://fallthrough.io/css/syntax.css">
+  <link rel="stylesheet" href="https://fallthrough.io/css/hyde.css">
+  <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=PT+Sans:400,400italic,700|Abril+Fatface">
+
+  
+  <link rel="apple-touch-icon-precomposed" sizes="144x144" href="/apple-touch-icon-144-precomposed.png">
+  <link rel="shortcut icon" href="/favicon.ico">
+
+  
+  <link href="" rel="alternate" type="application/rss+xml" title="Usman Mahmood" />
+
+  <link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
+
+  <link href='http://fonts.googleapis.com/css?family=Raleway:400,300' rel='stylesheet' type='text/css'>
+
+  <script src="//ajax.googleapis.com/ajax/libs/webfont/1.4.7/webfont.js"></script>
+  <script>
+    WebFont.load({
+      google: {
+        families: ['Raleway']
+      }
+    });
+  </script>
+
+</head>
+
+<body>
+
+  <div class="sidebar">
+  <div class="container sidebar-sticky">
+    <div class="sidebar-about">
+      <h1 style="font-size: 60px" class="brand"><a href="https://fallthrough.io">Usman Mahmood</a></h1><br/>
+      <p class="lead">
+       Algorithms &#43; Data Structures = Programs 
+      </p>
+    </div>
+
+    <ul class="sidebar-nav">
+      <li><a href="https://fallthrough.io/blog">Posts</a></li>
+      
+        <li><a href="/about/">About </a></li>
+      
+      <br/>
+      <li><a href="https://github.com/umahmood">Github</a></li>
+      <li><a href="https://twitter.com/make_slice">Twitter</a></li>
+      <li><a href="https://keybase.io/usman">Keybase</a></li>
+
+    <br/>
+    &copy; 2015 Usman Mahmood. All rights reserved.</p>
+    
+  </div>
+</div>
+
+
+  <div class="content container">
+    <div class="post">
+    <h1 class="post-title">The Defer Statement</h1>
+    <span class="post-date">Dec 14, 2015</span>
+    
+    
+
+<p>The Go programming language has a defer statement that allows for a function call to be run just before the currently running function returns. Here is how the defer statement is explained in the language specification:</p>
+
+<p><em>&ldquo;A &ldquo;defer&rdquo; statement invokes a function whose execution is deferred to the moment the surrounding function returns, either because the surrounding function executed a return statement, reached the end of its function body, or because the corresponding goroutine is panicking.&rdquo;</em></p>
+
+<p>Here is example usage of the defer statement:</p>
+
+<pre><code class="language-go">func DoWork(f Foo) {
+    defer f.CleanUp()
+    f.DoTask()
+}
+</code></pre>
+
+<p>The function call in the defer statement (CleanUp), happens just before the function &lsquo;DoWork&rsquo; exits. Below I have listed some properties of the defer statement:</p>
+
+<h3 id="defer-d-functions-are-executed-in-lifo:c0ee3214aa0f030d3b7e9ff843504550">Defer&rsquo;d functions are executed in LIFO</h3>
+
+<p>Given the following program:</p>
+
+<pre><code class="language-go">package main
+
+import &quot;fmt&quot;
+
+func a() {
+	defer fmt.Println(&quot;a0&quot;)
+	defer fmt.Println(&quot;a1&quot;)
+	b()
+}	
+	
+func b() {
+	defer fmt.Println(&quot;b&quot;)
+	c()
+}
+
+
+func c() {
+	defer fmt.Println(&quot;c&quot;)
+}
+
+func main() {
+	a()
+}
+</code></pre>
+
+<p>Here is what the defer&rsquo;d queue looks like:</p>
+
+<p>Front : [ fmt.Println(&ldquo;c&rdquo;) ][ fmt.Println(&ldquo;b&rdquo;) ][ fmt.Println(&ldquo;a1&rdquo;) ][ fmt.Println(&ldquo;a0&rdquo;) ]</p>
+
+<p>And the output:</p>
+
+<pre><code class="language-text">c
+b
+a1
+a0
+</code></pre>
+
+<h3 id="defer-d-functions-execute-even-if-the-function-panics:c0ee3214aa0f030d3b7e9ff843504550">Defer&rsquo;d functions execute even if the function panics</h3>
+
+<p>In the following program the method &lsquo;Space&rsquo; panics, but the defer&rsquo;d function queued up still executes.</p>
+
+<pre><code class="language-go">func Space() {
+    defer fmt.Println(&quot;I'm a rocket ship on my way to Mars&quot;)
+    panic(&quot;On a collision course&quot;)
+}
+</code></pre>
+
+<p>Output:</p>
+
+<pre><code class="language-text">I'm a rocket ship on my way to Mars
+panic: On a collision course
+
+goroutine 1 [running]:
+main.Space()
+	/tmp/sandbox062698335/main.go:46 +0x160
+main.main()
+	/tmp/sandbox062698335/main.go:51 +0x20
+</code></pre>
+
+<p>When a panic function executes, it begins to unwind the stack executing any defer statements as it goes.</p>
+
+<h3 id="arguments-are-evaluated-when-the-defer-statement-is-encountered:c0ee3214aa0f030d3b7e9ff843504550">Arguments are evaluated when the defer statement is encountered</h3>
+
+<p>Take the following example:</p>
+
+<pre><code class="language-go">func Foo() {
+    var x int
+    defer fmt.Println(&quot;value of x =&quot;, x)
+    x = x + 1
+    fmt.Println(&quot;value of x =&quot;, x)
+}
+</code></pre>
+
+<p>You may expect the program to output:</p>
+
+<pre><code class="language-text">value of x = 1
+value of x = 1
+</code></pre>
+
+<p>But instead the output is:</p>
+
+<pre><code class="language-text">value of x = 1
+value of x = 0  // defer'd function call output
+</code></pre>
+
+<p>The reason for this is before the defer&rsquo;d function was queued, it&rsquo;s arguments were evaluated and saved (x = 0). When the defer&rsquo;d function was executed, rather than seeing that x == 1, it instead output the value of x it saved previously. The defer section in the Go language specification states:</p>
+
+<p><em>&ldquo;Each time a &ldquo;defer&rdquo; statement executes, the function value and parameters to the call are evaluated as usual and saved anew but the actual function is not invoked.&rdquo;</em></p>
+
+<p>If we would like to have the arguments evaluated when the defer executes, wrap the function in a closure:</p>
+
+<pre><code class="language-go">func Foo() {
+    var x int
+    defer func() {
+        fmt.Println(&quot;value of x =&quot;, x) 
+    }
+    x = x + 1
+    fmt.Println(&quot;value of x =&quot;, x)
+}
+</code></pre>
+
+<p>Output:</p>
+
+<pre><code class="language-text">value of x = 1
+value of x = 1
+</code></pre>
+
+<h3 id="defer-d-functions-can-access-named-parameters:c0ee3214aa0f030d3b7e9ff843504550">Defer&rsquo;d functions can access named parameters</h3>
+
+<p>In the following example (taken from the defer section of the language specification):</p>
+
+<pre><code class="language-go">// f returns 1
+func f() (result int) {
+	defer func() {
+		result++
+	}()
+	return 0
+}
+</code></pre>
+
+<p>You can see that defer&rsquo;d functions can access and modify named parameters. Notice how the defer in function f is a closure, otherwise we could not capture the most up to date value of &lsquo;result&rsquo; or modify it.</p>
+
+<p>Fin.</p>
+
+    
+
+     
+	
+</div>
+</div> 
+
+</body>
+</html>

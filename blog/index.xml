@@ -7,7 +7,161 @@
     <language>en-us</language>
     <author>Usman Mahmood</author>
     <copyright>2015 Usman Mahmood</copyright>
-    <updated>Mon, 14 Dec 2015 01:40:39 UTC</updated>
+    <updated>Mon, 14 Dec 2015 20:55:08 &#43;0100</updated>
+    
+    
+    <item>
+      <title>The Defer Statement</title>
+      <link>https://fallthrough.io/2015/12/defer-statement/</link>
+      <pubDate>Mon, 14 Dec 2015 20:55:08 &#43;0100</pubDate>
+      <author>Usman Mahmood</author>
+      <guid>https://fallthrough.io/2015/12/defer-statement/</guid>
+      <description>
+
+&lt;p&gt;The Go programming language has a defer statement that allows for a function call to be run just before the currently running function returns. Here is how the defer statement is explained in the language specification:&lt;/p&gt;
+
+&lt;p&gt;&lt;em&gt;&amp;ldquo;A &amp;ldquo;defer&amp;rdquo; statement invokes a function whose execution is deferred to the moment the surrounding function returns, either because the surrounding function executed a return statement, reached the end of its function body, or because the corresponding goroutine is panicking.&amp;rdquo;&lt;/em&gt;&lt;/p&gt;
+
+&lt;p&gt;Here is example usage of the defer statement:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-go&#34;&gt;func DoWork(f Foo) {
+    defer f.CleanUp()
+    f.DoTask()
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;The function call in the defer statement (CleanUp), happens just before the function &amp;lsquo;DoWork&amp;rsquo; exits. Below I have listed some properties of the defer statement:&lt;/p&gt;
+
+&lt;h3 id=&#34;defer-d-functions-are-executed-in-lifo:c0ee3214aa0f030d3b7e9ff843504550&#34;&gt;Defer&amp;rsquo;d functions are executed in LIFO&lt;/h3&gt;
+
+&lt;p&gt;Given the following program:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-go&#34;&gt;package main
+
+import &amp;quot;fmt&amp;quot;
+
+func a() {
+	defer fmt.Println(&amp;quot;a0&amp;quot;)
+	defer fmt.Println(&amp;quot;a1&amp;quot;)
+	b()
+}	
+	
+func b() {
+	defer fmt.Println(&amp;quot;b&amp;quot;)
+	c()
+}
+
+
+func c() {
+	defer fmt.Println(&amp;quot;c&amp;quot;)
+}
+
+func main() {
+	a()
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Here is what the defer&amp;rsquo;d queue looks like:&lt;/p&gt;
+
+&lt;p&gt;Front : [ fmt.Println(&amp;ldquo;c&amp;rdquo;) ][ fmt.Println(&amp;ldquo;b&amp;rdquo;) ][ fmt.Println(&amp;ldquo;a1&amp;rdquo;) ][ fmt.Println(&amp;ldquo;a0&amp;rdquo;) ]&lt;/p&gt;
+
+&lt;p&gt;And the output:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-text&#34;&gt;c
+b
+a1
+a0
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h3 id=&#34;defer-d-functions-execute-even-if-the-function-panics:c0ee3214aa0f030d3b7e9ff843504550&#34;&gt;Defer&amp;rsquo;d functions execute even if the function panics&lt;/h3&gt;
+
+&lt;p&gt;In the following program the method &amp;lsquo;Space&amp;rsquo; panics, but the defer&amp;rsquo;d function queued up still executes.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-go&#34;&gt;func Space() {
+    defer fmt.Println(&amp;quot;I&#39;m a rocket ship on my way to Mars&amp;quot;)
+    panic(&amp;quot;On a collision course&amp;quot;)
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Output:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-text&#34;&gt;I&#39;m a rocket ship on my way to Mars
+panic: On a collision course
+
+goroutine 1 [running]:
+main.Space()
+	/tmp/sandbox062698335/main.go:46 +0x160
+main.main()
+	/tmp/sandbox062698335/main.go:51 +0x20
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;When a panic function executes, it begins to unwind the stack executing any defer statements as it goes.&lt;/p&gt;
+
+&lt;h3 id=&#34;arguments-are-evaluated-when-the-defer-statement-is-encountered:c0ee3214aa0f030d3b7e9ff843504550&#34;&gt;Arguments are evaluated when the defer statement is encountered&lt;/h3&gt;
+
+&lt;p&gt;Take the following example:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-go&#34;&gt;func Foo() {
+    var x int
+    defer fmt.Println(&amp;quot;value of x =&amp;quot;, x)
+    x = x + 1
+    fmt.Println(&amp;quot;value of x =&amp;quot;, x)
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;You may expect the program to output:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-text&#34;&gt;value of x = 1
+value of x = 1
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;But instead the output is:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-text&#34;&gt;value of x = 1
+value of x = 0  // defer&#39;d function call output
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;The reason for this is before the defer&amp;rsquo;d function was queued, it&amp;rsquo;s arguments were evaluated and saved (x = 0). When the defer&amp;rsquo;d function was executed, rather than seeing that x == 1, it instead output the value of x it saved previously. The defer section in the Go language specification states:&lt;/p&gt;
+
+&lt;p&gt;&lt;em&gt;&amp;ldquo;Each time a &amp;ldquo;defer&amp;rdquo; statement executes, the function value and parameters to the call are evaluated as usual and saved anew but the actual function is not invoked.&amp;rdquo;&lt;/em&gt;&lt;/p&gt;
+
+&lt;p&gt;If we would like to have the arguments evaluated when the defer executes, wrap the function in a closure:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-go&#34;&gt;func Foo() {
+    var x int
+    defer func() {
+        fmt.Println(&amp;quot;value of x =&amp;quot;, x) 
+    }
+    x = x + 1
+    fmt.Println(&amp;quot;value of x =&amp;quot;, x)
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Output:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-text&#34;&gt;value of x = 1
+value of x = 1
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h3 id=&#34;defer-d-functions-can-access-named-parameters:c0ee3214aa0f030d3b7e9ff843504550&#34;&gt;Defer&amp;rsquo;d functions can access named parameters&lt;/h3&gt;
+
+&lt;p&gt;In the following example (taken from the defer section of the language specification):&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-go&#34;&gt;// f returns 1
+func f() (result int) {
+	defer func() {
+		result++
+	}()
+	return 0
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;You can see that defer&amp;rsquo;d functions can access and modify named parameters. Notice how the defer in function f is a closure, otherwise we could not capture the most up to date value of &amp;lsquo;result&amp;rsquo; or modify it.&lt;/p&gt;
+
+&lt;p&gt;Fin.&lt;/p&gt;
+</description>
+    </item>
+    
     
     
     <item>
