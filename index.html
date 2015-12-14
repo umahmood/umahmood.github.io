@@ -74,6 +74,69 @@
   
   <div class="post">
     <h1 class="post-title">
+      <a href="https://fallthrough.io/2015/12/channel-axioms/">
+        Go Channel Axioms
+      </a>
+    </h1>
+
+    <span class="post-date">Dec 14, 2015</span>
+
+    
+
+
+    
+
+<p>A while ago I was watching a tech talk by Blake Caldwell on <a href="https://www.youtube.com/watch?v=PyBJQA4clfc">Building Resilient Services with Go</a>. In his presentation he had a slide which listed go channel axioms. I have listed his channel axioms here and provided some short code snippets to hopefully clarify them.</p>
+
+<h3 id="a-send-to-a-nil-channel-blocks-forever:3c6d760ac1dd0a5b6f008ac700644390">A send to a nil channel blocks forever</h3>
+
+<pre><code class="language-go">var ch chan bool
+ch &lt;- true // will always block
+</code></pre>
+
+<p>We declare a channel &lsquo;ch&rsquo; but do not initialize it (with make), so it is a nil channel. We then attempt to <strong>send</strong> a value down the channel, this causes a blocking operation.</p>
+
+<h3 id="a-receive-from-a-nil-channel-blocks-forever:3c6d760ac1dd0a5b6f008ac700644390">A receive from a nil channel blocks forever</h3>
+
+<pre><code class="language-go">var ch chan bool
+v := &lt;-ch // will always block
+</code></pre>
+
+<p>We declare a channel &lsquo;ch&rsquo; but do not initialize it (with make), so it is a nil channel, We then attempt to <strong>receive</strong> a value from the channel, this causes a blocking operation.</p>
+
+<h3 id="a-send-to-a-closed-channel-panics:3c6d760ac1dd0a5b6f008ac700644390">A send to a closed channel panics</h3>
+
+<pre><code class="language-go">ch := make(chan bool)
+...
+close(ch)
+...
+ch &lt;- true // panics!
+</code></pre>
+
+<p>We initialize a channel &lsquo;ch&rsquo; then later close the channel, and then later attempt to <strong>send</strong> a value down the channel. This causes a panic, and we receive a stack trace. In this case, before we send a value down the channel, we may want check if the channel is open:</p>
+
+<pre><code class="language-go">if v, ok := &lt;-ch; ok {
+    // ch is open
+}
+</code></pre>
+
+<h3 id="a-receive-from-a-closed-channel-returns-the-zero-value-immediately:3c6d760ac1dd0a5b6f008ac700644390">A receive from a closed channel returns the zero value immediately</h3>
+
+<pre><code class="language-go">ch := make(chan int)
+...
+close(ch)
+...
+v := &lt;-ch // v = 0
+</code></pre>
+
+<p>We initialize a channel &lsquo;ch&rsquo; then later close the channel, and then later attempt to <strong>receive</strong> a value from the channel. This causes the zero value to be returned immediately, this is a non-blocking operation.</p>
+
+  </div>
+  
+  
+  
+  <div class="post">
+    <h1 class="post-title">
       <a href="https://fallthrough.io/2015/11/dotgo-eu-2015/">
         dotGo 2015
       </a>

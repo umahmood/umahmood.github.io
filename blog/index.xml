@@ -7,7 +7,64 @@
     <language>en-us</language>
     <author>Usman Mahmood</author>
     <copyright>2015 Usman Mahmood</copyright>
-    <updated>Thu, 12 Nov 2015 13:15:12 &#43;0100</updated>
+    <updated>Mon, 14 Dec 2015 01:40:39 UTC</updated>
+    
+    
+    <item>
+      <title>Go Channel Axioms</title>
+      <link>https://fallthrough.io/2015/12/channel-axioms/</link>
+      <pubDate>Mon, 14 Dec 2015 01:40:39 UTC</pubDate>
+      <author>Usman Mahmood</author>
+      <guid>https://fallthrough.io/2015/12/channel-axioms/</guid>
+      <description>
+
+&lt;p&gt;A while ago I was watching a tech talk by Blake Caldwell on &lt;a href=&#34;https://www.youtube.com/watch?v=PyBJQA4clfc&#34;&gt;Building Resilient Services with Go&lt;/a&gt;. In his presentation he had a slide which listed go channel axioms. I have listed his channel axioms here and provided some short code snippets to hopefully clarify them.&lt;/p&gt;
+
+&lt;h3 id=&#34;a-send-to-a-nil-channel-blocks-forever:3c6d760ac1dd0a5b6f008ac700644390&#34;&gt;A send to a nil channel blocks forever&lt;/h3&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-go&#34;&gt;var ch chan bool
+ch &amp;lt;- true // will always block
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;We declare a channel &amp;lsquo;ch&amp;rsquo; but do not initialize it (with make), so it is a nil channel. We then attempt to &lt;strong&gt;send&lt;/strong&gt; a value down the channel, this causes a blocking operation.&lt;/p&gt;
+
+&lt;h3 id=&#34;a-receive-from-a-nil-channel-blocks-forever:3c6d760ac1dd0a5b6f008ac700644390&#34;&gt;A receive from a nil channel blocks forever&lt;/h3&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-go&#34;&gt;var ch chan bool
+v := &amp;lt;-ch // will always block
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;We declare a channel &amp;lsquo;ch&amp;rsquo; but do not initialize it (with make), so it is a nil channel, We then attempt to &lt;strong&gt;receive&lt;/strong&gt; a value from the channel, this causes a blocking operation.&lt;/p&gt;
+
+&lt;h3 id=&#34;a-send-to-a-closed-channel-panics:3c6d760ac1dd0a5b6f008ac700644390&#34;&gt;A send to a closed channel panics&lt;/h3&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-go&#34;&gt;ch := make(chan bool)
+...
+close(ch)
+...
+ch &amp;lt;- true // panics!
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;We initialize a channel &amp;lsquo;ch&amp;rsquo; then later close the channel, and then later attempt to &lt;strong&gt;send&lt;/strong&gt; a value down the channel. This causes a panic, and we receive a stack trace. In this case, before we send a value down the channel, we may want check if the channel is open:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-go&#34;&gt;if v, ok := &amp;lt;-ch; ok {
+    // ch is open
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h3 id=&#34;a-receive-from-a-closed-channel-returns-the-zero-value-immediately:3c6d760ac1dd0a5b6f008ac700644390&#34;&gt;A receive from a closed channel returns the zero value immediately&lt;/h3&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-go&#34;&gt;ch := make(chan int)
+...
+close(ch)
+...
+v := &amp;lt;-ch // v = 0
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;We initialize a channel &amp;lsquo;ch&amp;rsquo; then later close the channel, and then later attempt to &lt;strong&gt;receive&lt;/strong&gt; a value from the channel. This causes the zero value to be returned immediately, this is a non-blocking operation.&lt;/p&gt;
+</description>
+    </item>
+    
     
     
     <item>
