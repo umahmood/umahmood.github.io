@@ -9,7 +9,7 @@
 
   
 
-  <title> Blogs  &middot; Usman Mahmood </title>
+  <title> tmux Cross Platform Config.  &middot; Usman Mahmood </title>
 
   
   <link rel="stylesheet" href="https://fallthrough.io/css/poole.css">
@@ -22,7 +22,7 @@
   <link rel="shortcut icon" href="/favicon.ico">
 
   
-  <link href="https://fallthrough.io/blog/index.xml" rel="alternate" type="application/rss+xml" title="Usman Mahmood" />
+  <link href="" rel="alternate" type="application/rss+xml" title="Usman Mahmood" />
 
   <link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
 
@@ -41,7 +41,7 @@
 
 <body>
 
-<div class="sidebar">
+  <div class="sidebar">
   <div class="container sidebar-sticky">
     <div class="sidebar-about">
       <h1 style="font-size: 60px" class="brand"><a href="https://fallthrough.io">Usman Mahmood</a></h1><br/>
@@ -67,28 +67,33 @@
 </div>
 
 
-    <div class="content container">
-  <h1 class="title">Blog Posts</h1> 
-  <ul class="posts">
-      
-      <li><span><a href="https://fallthrough.io/2015/11/dotgo-eu-2015/">dotGo 2015</a><time class="pull-right post-list">Thu, Nov 12, 2015</h4></time></span></span></li>
-      
-      <li><span><a href="https://fallthrough.io/2015/10/tmux-cross-platform/">tmux Cross Platform Config.</a><time class="pull-right post-list">Tue, Oct 20, 2015</h4></time></span></span></li>
-      
-      <li><span><a href="https://fallthrough.io/2015/09/go-todo/">Things to do before committing Go code</a><time class="pull-right post-list">Wed, Sep 2, 2015</h4></time></span></span></li>
-      
-      <li><span><a href="https://fallthrough.io/2015/08/golang-uk-conf-2015/">Golang UK Conference 2015</a><time class="pull-right post-list">Tue, Aug 25, 2015</h4></time></span></span></li>
-      
-      <li><span><a href="https://fallthrough.io/2015/08/gofmt-rewrite-rules/">Gofmt and Rewrite Rules</a><time class="pull-right post-list">Tue, Aug 4, 2015</h4></time></span></span></li>
-      
-      <li><span><a href="https://fallthrough.io/2015/07/go-string-concat/">Go and String Concatenation</a><time class="pull-right post-list">Sun, Jul 26, 2015</h4></time></span></span></li>
-      
-      <li><span><a href="https://fallthrough.io/2015/07/calling-c-from-go/">Calling C from Go</a><time class="pull-right post-list">Sat, Jul 25, 2015</h4></time></span></span></li>
-      
-      <li><span><a href="https://fallthrough.io/2015/07/first/">First Post</a><time class="pull-right post-list">Sat, Jul 25, 2015</h4></time></span></span></li>
-      
-  </ul>
-    </div>
+  <div class="content container">
+    <div class="post">
+    <h1 class="post-title">tmux Cross Platform Config.</h1>
+    <span class="post-date">Oct 20, 2015</span>
+    
+    <p>If like me you use tmux on both Linux and OS X, then managing your tmux configuration can be a pain. The problem is there is configuration that is specific to either OS, such as copy and paste behavior. This blog post will show you how to manage your tmux configuration across platforms in a better way.</p>
 
-  </body>
+<p>The first thing you want to do is create a dot file for each platform, so for Linux create <em>.tmux-linux.conf</em> and for OS X create <em>.tmux-osx.conf</em>. Create and place these files in the same location as your <em>.tmux.conf</em> file (most likely your home directory).</p>
+
+<p>Now move any OS specific settings out of <em>.tmux.conf</em> into <em>.tmux-osx.conf</em> and <em>.tmux-linux.conf</em> respectively.</p>
+
+<p>In your <em>.tmux.conf</em> file add the line:</p>
+
+<pre><code class="language-bash">if-shell &quot;uname | grep -q Darwin&quot; 'source-file ~/.tmux-osx.conf' \
+'source-file ~/.tmux-linux.conf'
+</code></pre>
+
+<p>Basically, when tmux reads in it&rsquo;s configuration, if the OS is &lsquo;Darwin&rsquo; (OS X) then it will read <em>.tmux-osx.conf</em> else it will read in <em>.tmux-linux.conf</em>.</p>
+
+<p>Note: the above code snippet assumes that the three *.conf files are placed in your home directory, if they are not change the paths.</p>
+
+    
+
+     
+	
+</div>
+</div> 
+
+</body>
 </html>

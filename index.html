@@ -74,6 +74,243 @@
   
   <div class="post">
     <h1 class="post-title">
+      <a href="https://fallthrough.io/2015/11/dotgo-eu-2015/">
+        dotGo 2015
+      </a>
+    </h1>
+
+    <span class="post-date">Nov 12, 2015</span>
+
+    
+
+
+    
+
+<p><img src="https://i.imgur.com/uiLTeK2.png" alt="Dot conf. logo" /></p>
+
+<p>On Monday the 9th of November I was in Paris attending dotGo, the European Go conference. This blog post is a summary of my time there.</p>
+
+<h3 id="pre-conference:184802dcbae007fe12d15202c45527c5">Pre-Conference</h3>
+
+<p>The day before the conference, the Paris tech talks group organized a pre-conference meetup/party. There were a large number of delegates who turned up and the meet up consisted of about six or seven talks. The talks were about how individuals at there respective companies were using Go. All the projects demoed and talked about were network related i.e. using Go to write a load balancer which solved a particular problem. After the talks, there was a chance to socialize and eat pizza with other gophers :).</p>
+
+<h3 id="venue:184802dcbae007fe12d15202c45527c5">Venue</h3>
+
+<p>On the day of the conference I made my way down to the venue Théâtre de Paris. This venue was absolutely beautiful, the high ceilings, the seating, the theatre boxes and stage. Made this venue truly great, and I was very grateful that the building owners allowed the conference to take place there.</p>
+
+<h3 id="talks:184802dcbae007fe12d15202c45527c5">Talks</h3>
+
+<p>dotGo is a single track conference which I prefer, as I always have a hard time making my mind up about which talks to attend. Here is a summary of the talks:</p>
+
+<h4 id="microservices:184802dcbae007fe12d15202c45527c5">Microservices</h4>
+
+<p>This talk was given by Peter Bourgon the creator of Gokit. The talk centered around his thoughts, opinions and efforts of getting people to adopt microservices in organizations.</p>
+
+<p><a href="https://github.com/go-kit/kit">gokit on github</a></p>
+
+<h4 id="tools-for-working-with-go-code:184802dcbae007fe12d15202c45527c5">Tools for working with Go code</h4>
+
+<p>This talk was given by Fatih Arslan the creator of Vim-go. This was a great talk were you were introduced to a wide range of tools that exist in the Go ecosystem. Tools such as <em>gorename</em>, <em>generate</em> and <em>oracle</em> were presented along with examples on how to use them.</p>
+
+<h4 id="the-docker-trail:184802dcbae007fe12d15202c45527c5">The Docker Trail</h4>
+
+<p>This talk was given by Jessica Frazelle who is a core team member at Docker. She talked about three odd things the team at Docker noticed and how they went about debugging and fixing them.</p>
+
+<h4 id="applied-concurrency-in-go:184802dcbae007fe12d15202c45527c5">Applied Concurrency in Go</h4>
+
+<p>A talk given by Matt Aimonetti who is the co-founder and CTO of Splice. Matt was running Go code (which used concurrency) on an Arduino which made some LED&rsquo;s blink according to some rules. He ran various versions of the code all of which contained concurrency related bugs, he fixed the bugs as he went along. Showing all the the mistakes we usually make when writing concurrent code.</p>
+
+<h4 id="functional-go:184802dcbae007fe12d15202c45527c5">Functional Go?</h4>
+
+<p>A talk given by the excellent Francesc Campoy Flores a member of the Google Go team. This talk concentrated on his efforts to use Go in a functional manner, after his experiences with Haskell. The functional code he wrote for the problem he was trying solve was scary, he really was actively working against the language (something he admitted). It was a fun talk though.</p>
+
+<h4 id="the-other-side-of-go-programming-pictures:184802dcbae007fe12d15202c45527c5">The Other Side of Go: Programming Pictures</h4>
+
+<p>This talk was given by Anthony Starks the creator of SVGo. It was great to see what people were doing with Go outside the network related projects we always see. Anthony&rsquo;s talk was great, he was using Go to generate SVG for all sorts of things. One important point that stayed with me about his talk, was about dissecting a complex image into just lines and arcs, this allowed you to then build up a replica image (using SVGo) using just these primitives. He also spoke about his project with great passion.</p>
+
+<h4 id="gomobile:184802dcbae007fe12d15202c45527c5">Gomobile</h4>
+
+<p>David Crawshaw the creator of gomobile spoke about the challenges of getting Go up and running on mobile platforms. Some of the topics he discussed were Go&rsquo;s calling convention and threading (goroutines, OS threads and CPUs).</p>
+
+<p><a href="https://github.com/golang/mobile">gombile on github</a></p>
+
+<h4 id="a-tour-of-the-bleve:184802dcbae007fe12d15202c45527c5">A Tour of the Bleve</h4>
+
+<p>Marty Schoch the creator of Bleve gave an excellent talk on the open-source full-text search library for Go. Marty presented great code examples along side his talk, which really helped clarify the points he was trying to get across. He also spoke about how members of the community have contributed to the project. This was probably my favorite talk, and I also learned how to pronounce Bleve :)</p>
+
+<p><a href="http://www.blevesearch.com/">bleve homepage</a></p>
+
+<h4 id="simplicity-is-complicated:184802dcbae007fe12d15202c45527c5">Simplicity is Complicated</h4>
+
+<p>A talk given by the excellent Rob Pike co-creator of Go. He stated that even though Go is a very simple language, a lot of the complexity is hidden behind the scenes. He talked about how simplicity and complexity are part of the design and finding the right balance is a challenging task. This was good talk, and when listening I thought about the <em>go</em> keyword.</p>
+
+<pre><code class="language-go">go someFunction()
+</code></pre>
+
+<p>This in Go is a simple way to get concurrency into your program and all the complexity of scheduling is hidden behind the scenes.</p>
+
+<p>There were also a series of ten minute lightning talks, one of these was given by Brad Fitz about http2 in Go. http2 will be available in go 1.6.</p>
+
+<p>Full list of dotGo videos can be found <a href="http://www.thedotpost.com/conference/dotgo-2015">here</a>.</p>
+
+<p>Overall I really enjoyed my time at dotGo, and Paris is an amazing and buzzing city. I will never forget standing on my Hotel balcony and listening to a trumpeter playing for tips, with the noise of the city in the background.</p>
+
+<p>Fin.</p>
+
+  </div>
+  
+  
+  
+  <div class="post">
+    <h1 class="post-title">
+      <a href="https://fallthrough.io/2015/10/tmux-cross-platform/">
+        tmux Cross Platform Config.
+      </a>
+    </h1>
+
+    <span class="post-date">Oct 20, 2015</span>
+
+    
+
+
+    <p>If like me you use tmux on both Linux and OS X, then managing your tmux configuration can be a pain. The problem is there is configuration that is specific to either OS, such as copy and paste behavior. This blog post will show you how to manage your tmux configuration across platforms in a better way.</p>
+
+<p>The first thing you want to do is create a dot file for each platform, so for Linux create <em>.tmux-linux.conf</em> and for OS X create <em>.tmux-osx.conf</em>. Create and place these files in the same location as your <em>.tmux.conf</em> file (most likely your home directory).</p>
+
+<p>Now move any OS specific settings out of <em>.tmux.conf</em> into <em>.tmux-osx.conf</em> and <em>.tmux-linux.conf</em> respectively.</p>
+
+<p>In your <em>.tmux.conf</em> file add the line:</p>
+
+<pre><code class="language-bash">if-shell &quot;uname | grep -q Darwin&quot; 'source-file ~/.tmux-osx.conf' \
+'source-file ~/.tmux-linux.conf'
+</code></pre>
+
+<p>Basically, when tmux reads in it&rsquo;s configuration, if the OS is &lsquo;Darwin&rsquo; (OS X) then it will read <em>.tmux-osx.conf</em> else it will read in <em>.tmux-linux.conf</em>.</p>
+
+<p>Note: the above code snippet assumes that the three *.conf files are placed in your home directory, if they are not change the paths.</p>
+
+  </div>
+  
+  
+  
+  <div class="post">
+    <h1 class="post-title">
+      <a href="https://fallthrough.io/2015/09/go-todo/">
+        Things to do before committing Go code
+      </a>
+    </h1>
+
+    <span class="post-date">Sep 2, 2015</span>
+
+    
+
+
+    <p>This blog post will list some of the basic things you should really do before committing Go code into your repository.</p>
+
+<p><strong>1)</strong> Run gofmt/goimports</p>
+
+<p><em>gofmt</em> is probably the most popular Go tool amongst gophers. The job of <em>gofmt</em> is to
+format Go packages, your code will be formatted to be consistent across your code base. For example if we have the following <em>if</em> statement:</p>
+
+<pre><code class="language-go">if x == 42 { fmt.Println(&quot;The answer to everything&quot;) }
+</code></pre>
+
+<p>Then running <em>gofmt</em> on this will format the code to:</p>
+
+<pre><code class="language-go">if x == 42 { 
+    fmt.Println(&quot;The answer to everything&quot;) 
+}
+</code></pre>
+
+<p><em>goimports</em> is a tool that does exactly what <em>gofmt</em> does, but takes it a step further and adds/removes packages. For example if you had the following code:</p>
+
+<pre><code class="language-go">package main
+
+import (
+    &quot;log&quot;
+)
+
+func main() {
+    fmt.Println(&quot;Hello&quot;)
+}
+</code></pre>
+
+<p>As you can see from this code, package &lsquo;log&rsquo; is not used anywhere and package &lsquo;fmt&rsquo; has not been imported. Running <em>goimports</em> on this code transforms it to:</p>
+
+<pre><code class="language-go">package main
+
+import (
+    &quot;fmt&quot;
+)
+
+func main() {
+    fmt.Println(&quot;Hello&quot;)
+}
+</code></pre>
+
+<p>Running either of these tools on your code is a must, its great to see a code base using common idioms and a consistent format/style. And to me, it&rsquo;s one of main things that makes Go code bases so more approachable than code bases in other languages.</p>
+
+<p><strong>2)</strong> Run golint</p>
+
+<p><em>golint</em> will lint your source code and make suggestions concerning coding style.</p>
+
+<p>see <a href="https://github.com/golang/lint">golint on github</a>.</p>
+
+<p><strong>3)</strong> Run go vet</p>
+
+<p>Go <em>vet</em> is another important tool, it&rsquo;s perfectly summed up by it&rsquo;s documentation:</p>
+
+<p><em>&ldquo;Vet examines Go source code and reports suspicious constructs, such as Printf calls whose arguments do not align with the format string. Vet uses heuristics that do not guarantee all reports are genuine problems, but it can find errors not caught by the compilers.&rdquo;</em></p>
+
+<p>If we run go <em>vet</em> on the following code:</p>
+
+<pre><code class="language-go">fmt.Printf(&quot;%s&quot;, 42)
+</code></pre>
+
+<p>We would get the following error:</p>
+
+<pre><code>test.go:6: arg 42 for printf verb %s of wrong type: int
+exit status 1
+</code></pre>
+
+<p>Go <em>vet</em> differs from <em>golint</em>, go <em>vet</em> is concerned with correctness and <em>golint</em> is concerned with coding style.</p>
+
+<p>see <a href="https://godoc.org/golang.org/x/tools/cmd/vet">here</a> for more information on <em>vet</em>.</p>
+
+<p><strong>4)</strong> Run build/install/run with -race flag:</p>
+
+<p>There is a fully integrated race detector in the go tool chain. The race detector contains complex race detection and deadlock algorithms, to help you hunt down those hard to find concurrency related bugs.</p>
+
+<p>To enable the race detector in your code, add the -race flag on the command line:</p>
+
+<pre><code>$ go test -race mypkg    // test the package
+$ go run -race mysrc.go  // compile and run the program
+$ go build -race mycmd   // build the command
+$ go install -race mypkg // install the package
+</code></pre>
+
+<p>Note: Your code will run slower when you enable this flag, as the race detector is busy doing its thing :)</p>
+
+<p><strong>5)</strong> Run a dependency management tool</p>
+
+<p>It&rsquo;s very likely that your project will make use of 3rd party libraries. If you need to capture there versions, run a dependency management tool. Below is a list of some popular ones:</p>
+
+<ul>
+<li><a href="https://github.com/constabulary/gb">gb on github</a></li>
+<li><a href="https://github.com/tools/godep">godeps on github</a></li>
+<li><a href="https://github.com/Masterminds/glide">glide on github</a></li>
+</ul>
+
+<p>I have no real experience with the above tools but instead use the go 1.5 vendor experiment feature to capture dependencies.</p>
+
+<p>I hope this lists helps you in some way in managing your Go projects. Remember, this is just a basic list, Go has numerous tools that you probably run which are essential to you or your project. The ones listed above are ones which I believe are the basics.</p>
+
+  </div>
+  
+  
+  
+  <div class="post">
+    <h1 class="post-title">
       <a href="https://fallthrough.io/2015/08/golang-uk-conf-2015/">
         Golang UK Conference 2015
       </a>
