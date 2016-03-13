@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en-us">
+<head>
+  <link href="http://gmpg.org/xfn/11" rel="profile">
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+
+  
+
+  <title> sort.Sort &amp; sort.Stable  &middot; Usman Mahmood </title>
+
+  
+  <link rel="stylesheet" href="https://fallthrough.io/css/poole.css">
+  <link rel="stylesheet" href="https://fallthrough.io/css/syntax.css">
+  <link rel="stylesheet" href="https://fallthrough.io/css/hyde.css">
+  <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=PT+Sans:400,400italic,700|Abril+Fatface">
+
+  
+  <link rel="apple-touch-icon-precomposed" sizes="144x144" href="/apple-touch-icon-144-precomposed.png">
+  <link rel="shortcut icon" href="/favicon.ico">
+
+  
+  <link href="" rel="alternate" type="application/rss+xml" title="Usman Mahmood" />
+
+  <link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
+
+  <link href='http://fonts.googleapis.com/css?family=Raleway:400,300' rel='stylesheet' type='text/css'>
+
+  <script src="//ajax.googleapis.com/ajax/libs/webfont/1.4.7/webfont.js"></script>
+  <script>
+    WebFont.load({
+      google: {
+        families: ['Raleway']
+      }
+    });
+  </script>
+
+</head>
+
+<body>
+
+  <div class="sidebar">
+  <div class="container sidebar-sticky">
+    <div class="sidebar-about">
+      <h1 style="font-size: 60px" class="brand"><a href="https://fallthrough.io">Usman Mahmood</a></h1><br/>
+      <p class="lead">
+       Algorithms &#43; Data Structures = Programs 
+      </p>
+    </div>
+
+    <ul class="sidebar-nav">
+      <li><a href="https://fallthrough.io/blog">Posts</a></li>
+      
+        <li><a href="/about/">About </a></li>
+      
+      <br/>
+      <li><a href="https://github.com/umahmood">Github</a></li>
+      <li><a href="https://twitter.com/make_slice">Twitter</a></li>
+      <li><a href="https://keybase.io/usman">Keybase</a></li>
+
+    <br/>
+    &copy; 2016 Usman Mahmood. All rights reserved.</p>
+    
+  </div>
+</div>
+
+
+  <div class="content container">
+    <div class="post">
+    <h1 class="post-title">sort.Sort &amp; sort.Stable</h1>
+    <span class="post-date">Mar 13, 2016</span>
+    
+    <p>Go 1.6 made improvements to the Sort function in the sort package. It was improved to make fewer calls to the Less and Swap methods. Here are some benchmarks showing the performance of sort.Sort in Go 1.5 vs 1.6:</p>
+
+<pre><code>Sort []int with Go 1.5
+BenchmarkSort_1-4       20000000              67.2 ns/op
+BenchmarkSort_10-4      10000000               227 ns/op
+BenchmarkSort_100-4       500000              3863 ns/op
+BenchmarkSort_1000-4       30000             52189 ns/op
+
+Sort []int with Go 1.6
+BenchmarkSort_1-4       20000000              64.7 ns/op
+BenchmarkSort_10-4      10000000               137 ns/op
+BenchmarkSort_100-4       500000              2849 ns/op
+BenchmarkSort_1000-4       30000             46949 ns/op
+</code></pre>
+
+<p><em>source: <a href="https://talks.golang.org/2016/state-of-go.slide#24">state of go</a></em></p>
+
+<p>Sort does not use a stable sorting algorithm, it does not make any guarantees about the final order of equal values. A stable sort algorithm, is one in which items which have the same key stay in the same relative order during the sort. The sorting algorithms mergesort and radixsort are stable, were as quicksort, heapsort and shellsort are not stable. If this property is important to your application then you may want to use sort.Stable.</p>
+
+<p><a href="https://golang.org/src/sort/sort.go?s=5443:5468#L211">sort.Sort</a> under the hood uses the quicksort algorithm, were as <a href="https://golang.org/src/sort/sort.go?s=10143:10170#L336">sort.Stable</a> uses insertion sort. Below is an example of Sort and Stable in action:</p>
+
+<pre><code>type byLength []string
+
+func (b byLength) Len() int           { return len(b) }
+func (b byLength) Less(i, j int) bool { return len(b[i]) &lt; len(b[j]) }
+func (b byLength) Swap(i, j int)      { b[i], b[j] = b[j], b[i] }
+
+func main() {
+    values1 := []string{&quot;ball&quot;, &quot;hell&quot;, &quot;one&quot;, &quot;joke&quot;, &quot;fool&quot;, &quot;moon&quot;, &quot;two&quot;}
+    sort.Sort(byLength(values1))
+    fmt.Println(&quot;sort.Sort&quot;, values1)
+    
+    values2 := []string{&quot;ball&quot;, &quot;hell&quot;, &quot;one&quot;, &quot;joke&quot;, &quot;fool&quot;, &quot;moon&quot;, &quot;two&quot;}
+    sort.Stable(byLength(values2))
+    fmt.Println(&quot;sort.Stable&quot;, values2)
+}
+</code></pre>
+
+<p>Output:</p>
+
+<pre><code>sort.Sort   [two one hell joke fool moon ball]
+sort.Stable [one two ball hell joke fool moon]
+</code></pre>
+
+<p>Fin.</p>
+
+    
+
+     
+	
+</div>
+</div> 
+
+</body>
+</html>
