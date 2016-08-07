@@ -7,7 +7,45 @@
     <language>en-us</language>
     <author>Usman Mahmood</author>
     <copyright>2016 Usman Mahmood</copyright>
-    <updated>Sun, 13 Mar 2016 19:34:13 UTC</updated>
+    <updated>Sat, 11 Jun 2016 14:43:49 BST</updated>
+    
+    
+    <item>
+      <title>Updating Third Party Packages in Go</title>
+      <link>https://fallthrough.io/2016/06/update_packages/</link>
+      <pubDate>Sat, 11 Jun 2016 14:43:49 BST</pubDate>
+      <author>Usman Mahmood</author>
+      <guid>https://fallthrough.io/2016/06/update_packages/</guid>
+      <description>&lt;p&gt;Just a short post on how to update packages using &lt;em&gt;go get&lt;/em&gt;.&lt;/p&gt;
+
+&lt;p&gt;To update all third party packages in your &lt;em&gt;GOPATH&lt;/em&gt; use the following command:&lt;/p&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;go get -u all&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;To update a specific package, just provide the full package name to &lt;em&gt;go get&lt;/em&gt;:&lt;/p&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;go get -u github.com/gorilla/mux&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;What about vendor-ed packages? These are updated in exactly the same way as above:&lt;/p&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;go get -u my-project/vendor/megacorp/foo&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;If you want more information about your &lt;em&gt;GOPATH&lt;/em&gt;, run the command:&lt;/p&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;go help gopath&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;Fin.&lt;/p&gt;
+</description>
+    </item>
+    
     
     
     <item>
