@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en-us">
+<head>
+  <link href="http://gmpg.org/xfn/11" rel="profile">
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+
+  
+
+  <title> SVG Sprites  &middot; Usman Mahmood </title>
+
+  
+  <link rel="stylesheet" href="https://fallthrough.io/css/poole.css">
+  <link rel="stylesheet" href="https://fallthrough.io/css/syntax.css">
+  <link rel="stylesheet" href="https://fallthrough.io/css/hyde.css">
+  <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=PT+Sans:400,400italic,700|Abril+Fatface">
+
+  
+  <link rel="apple-touch-icon-precomposed" sizes="144x144" href="/apple-touch-icon-144-precomposed.png">
+  <link rel="shortcut icon" href="/favicon.ico">
+
+  
+  <link href="" rel="alternate" type="application/rss+xml" title="Usman Mahmood" />
+
+  <link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
+
+  <link href='http://fonts.googleapis.com/css?family=Raleway:400,300' rel='stylesheet' type='text/css'>
+
+  <script src="//ajax.googleapis.com/ajax/libs/webfont/1.4.7/webfont.js"></script>
+  <script>
+    WebFont.load({
+      google: {
+        families: ['Raleway']
+      }
+    });
+  </script>
+
+</head>
+
+<body>
+
+  <div class="sidebar">
+  <div class="container sidebar-sticky">
+    <div class="sidebar-about">
+      <h1 style="font-size: 60px" class="brand"><a href="https://fallthrough.io">Usman Mahmood</a></h1><br/>
+      <p class="lead">
+       Algorithms &#43; Data Structures = Programs 
+      </p>
+    </div>
+
+    <ul class="sidebar-nav">
+      <li><a href="https://fallthrough.io/blog">Posts</a></li>
+      
+        <li><a href="/about/">About </a></li>
+      
+      <br/>
+      <li><a href="https://github.com/umahmood">Github</a></li>
+      <li><a href="https://twitter.com/make_slice">Twitter</a></li>
+      <li><a href="https://keybase.io/usman">Keybase</a></li>
+
+    <br/>
+    &copy; 2016 Usman Mahmood. All rights reserved.</p>
+    
+  </div>
+</div>
+
+
+  <div class="content container">
+    <div class="post">
+    <h1 class="post-title">SVG Sprites</h1>
+    <span class="post-date">Aug 16, 2016</span>
+    
+    <p>Within an single SVG file we can define many sprites. This consists of merging all your SVG sprites into a single .svg image file. Every sprite is wrapped in a &lsquo;symbol&rsquo; tag, like this:</p>
+
+<pre><code>&lt;svg class=&quot;character&quot; width=&quot;100pt&quot; height=&quot;100pt&quot; version=&quot;1.1&quot; xmlns=&quot;http://www.w3.org/2000/svg&quot;&gt;
+    &lt;symbol id=&quot;circle-red&quot; viewBox=&quot;0 0 100 100&quot;&gt;    
+      &lt;circle cx=&quot;50&quot; cy=&quot;50&quot; r=&quot;40&quot; stroke=&quot;black&quot; stroke-width=&quot;3&quot; fill=&quot;red&quot; /&gt;
+    &lt;/symbol&gt;
+    &lt;symbol id=&quot;circle-black&quot; viewBox=&quot;0 0 100 100&quot;&gt;    
+      &lt;circle cx=&quot;50&quot; cy=&quot;50&quot; r=&quot;40&quot; stroke=&quot;black&quot; stroke-width=&quot;3&quot; /&gt;
+    &lt;/symbol&gt;
+&lt;/svg&gt;
+</code></pre>
+
+<p>We can then use HTML or CSS to pick out each part of the image:</p>
+
+<pre><code>&lt;hmtl&gt;
+  &lt;body&gt;
+     &lt;svg class=&quot;c-red&quot; &gt;
+            &lt;use xlink:href=&quot;test.svg#circle-red&quot;&gt;&lt;/use&gt;
+        &lt;/svg&gt;
+        &lt;svg class=&quot;c-black&quot; &gt;
+            &lt;use xlink:href=&quot;test.svg#circle-black&quot;&gt;&lt;/use&gt;
+        &lt;/svg&gt;        
+  &lt;/body&gt;
+&lt;/hmtl&gt;
+</code></pre>
+
+<p>We can animate the sprite with CSS:</p>
+
+<pre><code>&lt;style type=&quot;text/css&quot;&gt;
+    .c-black:hover {
+        fill: #fe2fd0;
+    }
+&lt;style&gt;
+</code></pre>
+
+<p>If creating an SVG sprite file seems tedious or error prone. You can use a tool like <a href="https://github.com/w0rm/gulp-svgstore">gulp-svgstore</a> to automate the process. And generate a single SVG file from your individual sprite files.</p>
+
+<p>One of the advantages of using SVG sprites are the improved page load times. One of the disadvantages of using SVG sprites, is that when linking the &lsquo;use&rsquo; tag to the &lsquo;symbol&rsquo; tag, the image gets injected into the <a href="https://developer.mozilla.org/en-US/docs/Web/Web_Components/Shadow_DOM">Shadow DOM</a>. Meaning we lose some CSS capabilities, and cannot apply some styling to the SVG image.</p>
+
+<p>Fin.</p>
+
+    
+
+     
+	
+</div>
+</div> 
+
+</body>
+</html>

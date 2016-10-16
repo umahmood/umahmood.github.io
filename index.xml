@@ -7,7 +7,58 @@
     <language>en-us</language>
     <author>Usman Mahmood</author>
     <copyright>2016 Usman Mahmood</copyright>
-    <updated>Sat, 11 Jun 2016 14:43:49 BST</updated>
+    <updated>Tue, 16 Aug 2016 19:54:44 BST</updated>
+    
+    
+    <item>
+      <title>SVG Sprites</title>
+      <link>https://fallthrough.io/2016/08/svg-sprites/</link>
+      <pubDate>Tue, 16 Aug 2016 19:54:44 BST</pubDate>
+      <author>Usman Mahmood</author>
+      <guid>https://fallthrough.io/2016/08/svg-sprites/</guid>
+      <description>&lt;p&gt;Within an single SVG file we can define many sprites. This consists of merging all your SVG sprites into a single .svg image file. Every sprite is wrapped in a &amp;lsquo;symbol&amp;rsquo; tag, like this:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;&amp;lt;svg class=&amp;quot;character&amp;quot; width=&amp;quot;100pt&amp;quot; height=&amp;quot;100pt&amp;quot; version=&amp;quot;1.1&amp;quot; xmlns=&amp;quot;http://www.w3.org/2000/svg&amp;quot;&amp;gt;
+    &amp;lt;symbol id=&amp;quot;circle-red&amp;quot; viewBox=&amp;quot;0 0 100 100&amp;quot;&amp;gt;    
+      &amp;lt;circle cx=&amp;quot;50&amp;quot; cy=&amp;quot;50&amp;quot; r=&amp;quot;40&amp;quot; stroke=&amp;quot;black&amp;quot; stroke-width=&amp;quot;3&amp;quot; fill=&amp;quot;red&amp;quot; /&amp;gt;
+    &amp;lt;/symbol&amp;gt;
+    &amp;lt;symbol id=&amp;quot;circle-black&amp;quot; viewBox=&amp;quot;0 0 100 100&amp;quot;&amp;gt;    
+      &amp;lt;circle cx=&amp;quot;50&amp;quot; cy=&amp;quot;50&amp;quot; r=&amp;quot;40&amp;quot; stroke=&amp;quot;black&amp;quot; stroke-width=&amp;quot;3&amp;quot; /&amp;gt;
+    &amp;lt;/symbol&amp;gt;
+&amp;lt;/svg&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;We can then use HTML or CSS to pick out each part of the image:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;&amp;lt;hmtl&amp;gt;
+  &amp;lt;body&amp;gt;
+     &amp;lt;svg class=&amp;quot;c-red&amp;quot; &amp;gt;
+            &amp;lt;use xlink:href=&amp;quot;test.svg#circle-red&amp;quot;&amp;gt;&amp;lt;/use&amp;gt;
+        &amp;lt;/svg&amp;gt;
+        &amp;lt;svg class=&amp;quot;c-black&amp;quot; &amp;gt;
+            &amp;lt;use xlink:href=&amp;quot;test.svg#circle-black&amp;quot;&amp;gt;&amp;lt;/use&amp;gt;
+        &amp;lt;/svg&amp;gt;        
+  &amp;lt;/body&amp;gt;
+&amp;lt;/hmtl&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;We can animate the sprite with CSS:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;&amp;lt;style type=&amp;quot;text/css&amp;quot;&amp;gt;
+    .c-black:hover {
+        fill: #fe2fd0;
+    }
+&amp;lt;style&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;If creating an SVG sprite file seems tedious or error prone. You can use a tool like &lt;a href=&#34;https://github.com/w0rm/gulp-svgstore&#34;&gt;gulp-svgstore&lt;/a&gt; to automate the process. And generate a single SVG file from your individual sprite files.&lt;/p&gt;
+
+&lt;p&gt;One of the advantages of using SVG sprites are the improved page load times. One of the disadvantages of using SVG sprites, is that when linking the &amp;lsquo;use&amp;rsquo; tag to the &amp;lsquo;symbol&amp;rsquo; tag, the image gets injected into the &lt;a href=&#34;https://developer.mozilla.org/en-US/docs/Web/Web_Components/Shadow_DOM&#34;&gt;Shadow DOM&lt;/a&gt;. Meaning we lose some CSS capabilities, and cannot apply some styling to the SVG image.&lt;/p&gt;
+
+&lt;p&gt;Fin.&lt;/p&gt;
+</description>
+    </item>
+    
     
     
     <item>
