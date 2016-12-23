@@ -7,7 +7,63 @@
     <language>en-us</language>
     <author>Usman Mahmood</author>
     <copyright>2016 Usman Mahmood</copyright>
-    <updated>Sat, 22 Oct 2016 21:45:22 BST</updated>
+    <updated>Tue, 15 Nov 2016 19:29:07 UTC</updated>
+    
+    
+    <item>
+      <title>Changing the Date of Git Commits</title>
+      <link>https://fallthrough.io/2016/11/git-commit-change-date/</link>
+      <pubDate>Tue, 15 Nov 2016 19:29:07 UTC</pubDate>
+      <author>Usman Mahmood</author>
+      <guid>https://fallthrough.io/2016/11/git-commit-change-date/</guid>
+      <description>&lt;p&gt;Have you ever looked at peoples Github contribution timelines and seen a word or some ASCII art. This is done by creating a repo, then manipulating the dates of commits, to create the desired design.&lt;/p&gt;
+
+&lt;p&gt;This blog post is not about creating funky pieces of art in your Github commit history timeline. But instead, shows you how to change the date of a commit using Git.&lt;/p&gt;
+
+&lt;p&gt;When you make a git commit you can actually set the date of the commit to anything you want. Lets get started.&lt;/p&gt;
+
+&lt;p&gt;First, you have to set two environment variables - &lt;em&gt;GIT_AUTHOR_DATE&lt;/em&gt; and &lt;em&gt;GIT_COMMITTER_DATE&lt;/em&gt;, like so:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;$ export GIT_AUTHOR_DATE=&amp;quot;Wed Jan 10 14:00 2099 +0100&amp;quot;
+$ export GIT_COMMITTER_DATE=&amp;quot;Wed Jan 10 14:00 2099 +0100&amp;quot;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Create a git repo:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;$ mkdir test
+$ cd test
+$ git init
+$ echo &amp;quot;hello world&amp;quot; &amp;gt;&amp;gt; hello.txt
+$ git add hello.txt
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Now lets commit our changes:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;$ git commit -m &amp;quot;initial commit&amp;quot;
+$ git log
+commit 80b2d1f499d6ae455a4f87f68e107b275abfefe8
+Author: Philip J. Fry &amp;lt;fry@planet-express.com&amp;gt;
+Date:   Wed Jan 10 14:00:00 2099 +0100
+
+    initial commit
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;You can see the date of our commit has changed, rather the being the current date/time, it is set to day in the year 2099.&lt;/p&gt;
+
+&lt;p&gt;If you want to change the date of a commit in the past, I recommend reading this &lt;a href=&#34;http://eddmann.com/posts/changing-the-timestamp-of-a-previous-git-commit/&#34;&gt;blog post&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;Useful links:&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&#34;https://git-scm.com/docs/git-commit#_date_formats&#34;&gt;Git commit date formats&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&#34;http://eddmann.com/posts/changing-the-timestamp-of-a-previous-git-commit/&#34;&gt;Changing the timestamp of a previous Git commit&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&#34;https://github.com/gelstudios/gitfiti&#34;&gt;gitfiti - abusing github commit history for the lulz&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;Fin.&lt;/p&gt;
+</description>
+    </item>
+    
     
     
     <item>
