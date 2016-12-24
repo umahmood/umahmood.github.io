@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en-us">
+<head>
+  <link href="http://gmpg.org/xfn/11" rel="profile">
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+
+  
+
+  <title> Runtime and User Level Panics in Go  &middot; Usman Mahmood </title>
+
+  
+  <link rel="stylesheet" href="https://fallthrough.io/css/poole.css">
+  <link rel="stylesheet" href="https://fallthrough.io/css/syntax.css">
+  <link rel="stylesheet" href="https://fallthrough.io/css/hyde.css">
+  <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=PT+Sans:400,400italic,700|Abril+Fatface">
+
+  
+  <link rel="apple-touch-icon-precomposed" sizes="144x144" href="/apple-touch-icon-144-precomposed.png">
+  <link rel="shortcut icon" href="/favicon.ico">
+
+  
+  <link href="" rel="alternate" type="application/rss+xml" title="Usman Mahmood" />
+
+  <link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
+
+  <link href='http://fonts.googleapis.com/css?family=Raleway:400,300' rel='stylesheet' type='text/css'>
+
+  <script src="//ajax.googleapis.com/ajax/libs/webfont/1.4.7/webfont.js"></script>
+  <script>
+    WebFont.load({
+      google: {
+        families: ['Raleway']
+      }
+    });
+  </script>
+
+</head>
+
+<body>
+
+  <div class="sidebar">
+  <div class="container sidebar-sticky">
+    <div class="sidebar-about">
+      <h1 style="font-size: 60px" class="brand"><a href="https://fallthrough.io">Usman Mahmood</a></h1><br/>
+      <p class="lead">
+       Algorithms &#43; Data Structures = Programs 
+      </p>
+    </div>
+
+    <ul class="sidebar-nav">
+      <li><a href="https://fallthrough.io/blog">Posts</a></li>
+      
+        <li><a href="/about/">About </a></li>
+      
+      <br/>
+      <li><a href="https://github.com/umahmood">Github</a></li>
+      <li><a href="https://twitter.com/make_slice">Twitter</a></li>
+      <li><a href="https://keybase.io/usman">Keybase</a></li>
+
+    <br/>
+    &copy; 2016 Usman Mahmood. All rights reserved.</p>
+    
+  </div>
+</div>
+
+
+  <div class="content container">
+    <div class="post">
+    <h1 class="post-title">Runtime and User Level Panics in Go</h1>
+    <span class="post-date">Dec 8, 2016</span>
+    
+    <p>How can our application code detect the difference between a runtime panic and a user level panic? Before answering this question. Let&rsquo;s take a look at the difference between a runtime panic, and user level panic.</p>
+
+<p>A runtime panic is one thrown by the Go runtime, there are many things that can trigger a runtime panic. An example of the the most common runtime panic would be attempting to index an array out of bounds. The Go runtime would detect the illegal access and call the built-in panic function.</p>
+
+<p>A user level panic would be were code outside the runtime i.e. your code, 3rd partly library, etc&hellip; makes a call to the built-in panic function:</p>
+
+<pre><code>panic(&quot;he's dead jim&quot;)
+</code></pre>
+
+<p>In Go 1.7 a change was made to the panic values thrown by the runtime. From the <a href="https://golang.org/doc/go1.7#runtime">1.7 release notes </a> it states:</p>
+
+<p><em>All panics started by the runtime now use panic values that implement both the builtin error, and runtime.Error, as required by the language specification.</em></p>
+
+<p>When the runtime throws a panic it will call the built-in panic function. With a value which implements the <em>runtime.Error</em> interface. When user level code calls the built-in panic function. It will provide a value which does not implement the <em>runtime.Error</em> interface.</p>
+
+<p>Lets look at a code example:</p>
+
+<pre><code>package main
+
+import (
+	&quot;errors&quot;
+	&quot;fmt&quot;
+	&quot;runtime&quot;
+)
+
+func runtimePanic() {
+	var a []int
+	// index out of range, will trigger a runtime panic
+	b := a[99]
+	_ = b
+}
+
+func nonRuntimePanic() {
+	panic(errors.New(&quot;:(&quot;))
+}
+
+func main() {
+	defer func() {
+		if x := recover(); x != nil {
+			if _, ok := x.(runtime.Error); ok {
+				fmt.Println(&quot;this is a runtime panic error&quot;)
+			} else {
+				fmt.Println(&quot;this is a non-runtime panic error&quot;)
+			}
+		}
+	}()
+	// nonRuntimePanic()
+	runtimePanic()
+}
+
+</code></pre>
+
+<p>In our defer closure we call the built-in recover function. And then use the return value, to see if the type satisfies the <em>runtime.Error</em> interface.</p>
+
+<p>If we run this code, we will get the output:</p>
+
+<pre><code>this is a runtime panic error
+</code></pre>
+
+<p>If we uncomment the call to <em>nonRuntimePanic</em>, and then run the code again, we will get the output:</p>
+
+<pre><code>this is a non-runtime panic error
+</code></pre>
+
+<p>Now we can distinguish between runtime and user level panics. This information may be useful if your are determining whether to rescue your application from a panic, or to let it crash.</p>
+
+<p>Useful links:</p>
+
+<p><a href="https://golang.org/pkg/runtime/#Error">runtime.Error Documentation</a></p>
+
+<p><a href="https://golang.org/ref/spec#Run_time_panics">Run-time panics</a></p>
+
+<p><a href="https://golang.org/doc/go1.7#runtime">Go 1.7 Release Notes</a></p>
+
+<p>Fin.</p>
+
+    
+
+     
+	
+</div>
+</div> 
+
+</body>
+</html>
