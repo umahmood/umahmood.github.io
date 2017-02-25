@@ -61,7 +61,7 @@
       <li><a href="https://keybase.io/usman">Keybase</a></li>
 
     <br/>
-    &copy; 2016 Usman Mahmood. All rights reserved.</p>
+    &copy; 2017 Usman Mahmood. All rights reserved.</p>
     
   </div>
 </div>
@@ -71,6 +71,48 @@
 <div class="posts">
 
       
+  
+  <div class="post">
+    <h1 class="post-title">
+      <a href="https://fallthrough.io/2017/02/pi-slow-ssh-fix/">
+        Raspberry Pi Slow SSH Fix
+      </a>
+    </h1>
+
+    <span class="post-date">Feb 20, 2017</span>
+
+    
+
+
+    <p>If you SSH into your Raspberry Pi and have noticed a lag when typing characters into the terminal. Then the following fix may get rid of the lag (it worked for me!).</p>
+
+<p>Log into your Raspberry Pi and type:</p>
+
+<pre><code>$ sudo nano /etc/ssh/sshd_config
+</code></pre>
+
+<p>At the bottom of the config file add:</p>
+
+<pre><code>UseDns no
+</code></pre>
+
+<p>Save the file, then restart sshd:</p>
+
+<pre><code>$ service ssh restart
+</code></pre>
+
+<p>Or better, reboot your Raspberry Pi:</p>
+
+<pre><code>$ sudo reboot
+</code></pre>
+
+<p>SSH&rsquo;ing into your Raspberry Pi should no longer be slow after these steps. 🤞</p>
+
+<p>Fin.</p>
+
+  </div>
+  
+  
   
   <div class="post">
     <h1 class="post-title">

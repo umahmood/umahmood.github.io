@@ -9,7 +9,7 @@
 
   
 
-  <title> Series-Desc  &middot; Usman Mahmood </title>
+  <title> Raspberry Pi Slow SSH Fix  &middot; Usman Mahmood </title>
 
   
   <link rel="stylesheet" href="https://fallthrough.io/css/poole.css">
@@ -22,7 +22,7 @@
   <link rel="shortcut icon" href="/favicon.ico">
 
   
-  <link href="https://fallthrough.io/series-desc/index.xml" rel="alternate" type="application/rss+xml" title="Usman Mahmood" />
+  <link href="" rel="alternate" type="application/rss+xml" title="Usman Mahmood" />
 
   <link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
 
@@ -41,7 +41,7 @@
 
 <body>
 
-<div class="sidebar">
+  <div class="sidebar">
   <div class="container sidebar-sticky">
     <div class="sidebar-about">
       <h1 style="font-size: 60px" class="brand"><a href="https://fallthrough.io">Usman Mahmood</a></h1><br/>
@@ -66,21 +66,44 @@
   </div>
 </div>
 
-   <div class="content container">
-   <h1 class="title">Series-Desc</h1>
 
-    <ul>
+  <div class="content container">
+    <div class="post">
+    <h1 class="post-title">Raspberry Pi Slow SSH Fix</h1>
+    <span class="post-date">Feb 20, 2017</span>
     
-    
+    <p>If you SSH into your Raspberry Pi and have noticed a lag when typing characters into the terminal. Then the following fix may get rid of the lag (it worked for me!).</p>
+
+<p>Log into your Raspberry Pi and type:</p>
+
+<pre><code>$ sudo nano /etc/ssh/sshd_config
+</code></pre>
+
+<p>At the bottom of the config file add:</p>
+
+<pre><code>UseDns no
+</code></pre>
+
+<p>Save the file, then restart sshd:</p>
+
+<pre><code>$ service ssh restart
+</code></pre>
+
+<p>Or better, reboot your Raspberry Pi:</p>
+
+<pre><code>$ sudo reboot
+</code></pre>
+
+<p>SSH&rsquo;ing into your Raspberry Pi should no longer be slow after these steps. 🤞</p>
+
+<p>Fin.</p>
 
     
 
-    
-    
+     
+	
+</div>
+</div> 
 
-
-    
-   </ul>
-  </div>
-  </body>
+</body>
 </html>
