@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en-us">
+<head>
+  <link href="http://gmpg.org/xfn/11" rel="profile">
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+
+  
+
+  <title> Access Raspberry Pi Externally using ngrok  &middot; Usman Mahmood </title>
+
+  
+  <link rel="stylesheet" href="https://fallthrough.io/css/poole.css">
+  <link rel="stylesheet" href="https://fallthrough.io/css/syntax.css">
+  <link rel="stylesheet" href="https://fallthrough.io/css/hyde.css">
+  <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=PT+Sans:400,400italic,700|Abril+Fatface">
+
+  
+  <link rel="apple-touch-icon-precomposed" sizes="144x144" href="/apple-touch-icon-144-precomposed.png">
+  <link rel="shortcut icon" href="/favicon.ico">
+
+  
+  <link href="" rel="alternate" type="application/rss+xml" title="Usman Mahmood" />
+
+  <link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
+
+  <link href='http://fonts.googleapis.com/css?family=Raleway:400,300' rel='stylesheet' type='text/css'>
+
+  <script src="//ajax.googleapis.com/ajax/libs/webfont/1.4.7/webfont.js"></script>
+  <script>
+    WebFont.load({
+      google: {
+        families: ['Raleway']
+      }
+    });
+  </script>
+
+</head>
+
+<body>
+
+  <div class="sidebar">
+  <div class="container sidebar-sticky">
+    <div class="sidebar-about">
+      <h1 style="font-size: 60px" class="brand"><a href="https://fallthrough.io">Usman Mahmood</a></h1><br/>
+      <p class="lead">
+       Algorithms &#43; Data Structures = Programs 
+      </p>
+    </div>
+
+    <ul class="sidebar-nav">
+      <li><a href="https://fallthrough.io/blog">Posts</a></li>
+      
+        <li><a href="/about/">About </a></li>
+      
+      <br/>
+      <li><a href="https://github.com/umahmood">Github</a></li>
+      <li><a href="https://twitter.com/make_slice">Twitter</a></li>
+      <li><a href="https://keybase.io/usman">Keybase</a></li>
+
+    <br/>
+    &copy; 2017 Usman Mahmood. All rights reserved.</p>
+    
+  </div>
+</div>
+
+
+  <div class="content container">
+    <div class="post">
+    <h1 class="post-title">Access Raspberry Pi Externally using ngrok</h1>
+    <span class="post-date">Feb 26, 2017</span>
+    
+    
+
+<p>In this blog post we will set up our Raspberry Pi so it will accessed using SSH from outside our home network. Below is a diagram of the architecture:</p>
+
+<p>[ Home Network : Raspberry Pi ] &lt;&ndash; [ ngrok ] &ndash;&gt; [ External Network ]</p>
+
+<p>From our home network we will create a secure tunnel, through ngrok. Which we will then connect to from our external network. This will allow us to SSH into our Raspberry Pi, and manage it.</p>
+
+<h5 id="what-is-ngrok:badb4f5b22028ec1b44a78365cf64846">What is ngrok?</h5>
+
+<p>ngrok is a fantastic tool which allows you to create secure tunnels to localhost. So you can do things like expose a local server behind a NAT or firewall to the internet. See the <a href="https://ngrok.com/">ngrok</a> homepage for more information.</p>
+
+<p>Lets get started!</p>
+
+<h4 id="step-1-enable-passwordless-ssh-access:badb4f5b22028ec1b44a78365cf64846">Step 1: Enable Passwordless SSH Access</h4>
+
+<p>You need to configure your Pi for SSH access. Follow the steps described in the following link (very carefully):</p>
+
+<ul>
+<li><a href="https://www.raspberrypi.org/documentation/remote-access/ssh/passwordless.md">Passwordless SSH Access - raspberrypi.org</a></li>
+</ul>
+
+<p>By the end, you should be able to type:</p>
+
+<pre><code>$ ssh USER@Pi-IP-ADDRESS
+</code></pre>
+
+<p>And connect to your Raspberry Pi without a password prompt. For example:</p>
+
+<pre><code>$ ssh pi@192.168.0.42
+
+The programs included with the Debian GNU/Linux system are free software;
+the exact distribution terms for each program are described in the
+individual files in /usr/share/doc/*/copyright.
+
+Debian GNU/Linux comes with ABSOLUTELY NO WARRANTY, to the extent
+permitted by applicable law.
+Last login: Sat Feb 25 20:24:30 2017 from 192.168.0.42
+
+pi@raspberrypi ~ $ 
+</code></pre>
+
+<p>No prompt for a password.</p>
+
+<p><strong>Note</strong>: the computer you generated the SSH keys on (and copied to the Pi). Is the computer you will be using to connect to your Pi, from the external network.</p>
+
+<h4 id="step-2-install-ngrok-on-your-raspberry-pi:badb4f5b22028ec1b44a78365cf64846">Step 2: Install ngrok on your Raspberry Pi</h4>
+
+<p>Go <a href="https://ngrok.com/download">here</a> and follow the instructions to install ngrok on your Pi.</p>
+
+<h4 id="step-3-run-ngrok-on-your-raspberry-pi:badb4f5b22028ec1b44a78365cf64846">Step 3: Run ngrok on your Raspberry Pi</h4>
+
+<p>Run ngrok with the following options:</p>
+
+<pre><code>pi@raspberrypi ~ $ ngrok tcp 22
+</code></pre>
+
+<h4 id="step-4-copy-ngrok-host-and-port:badb4f5b22028ec1b44a78365cf64846">Step 4: Copy ngrok Host and Port</h4>
+
+<p>Once ngrok starts, it will display a <em>tcp://</em> address on the forwarding line, for example:</p>
+
+<blockquote>
+<p>Forwarding tcp://123xyz0.tcp.ngrok.io:17684 -&gt; localhost:22</p>
+</blockquote>
+
+<p>Copy the host name <em>123xyz0.tcp.ngrok.io</em> and the port <em>17684</em>.</p>
+
+<p><strong>Note</strong>: the host name and port will be different for you.</p>
+
+<h4 id="step-5-edit-ssh-config-file:badb4f5b22028ec1b44a78365cf64846">Step 5: Edit SSH config file</h4>
+
+<p>In step one you generated some ssh keys on your computer, and then copied them to the raspberry Pi. On the computer you generated the SSH keys on, add the following details to <em>~/.ssh/config</em>:</p>
+
+<pre><code>Host ngrok
+        HostName 123xyz.tcp.ngrok.io
+        IdentityFile ~/.ssh/id_rsa
+</code></pre>
+
+<p>Again, the host name will be different for you.</p>
+
+<p><strong>Note</strong>: we are using the same key we copied over to the Pi in step one, you can generate new SSH keys if you like.</p>
+
+<h4 id="step-6-access-the-raspberry-pi-from-outside-your-network:badb4f5b22028ec1b44a78365cf64846">Step 6: Access the Raspberry Pi from outside your network</h4>
+
+<p>Now with your computer <strong>not</strong> connected to your home network, type the command:</p>
+
+<pre><code>$ ssh pi@ngrok -p 17684
+</code></pre>
+
+<p>Change the username and port to match yours.</p>
+
+<p>You should now be connected to your Raspberry Pi using SSH through ngrok.</p>
+
+<p>Fin.</p>
+
+    
+
+     
+	
+</div>
+</div> 
+
+</body>
+</html>

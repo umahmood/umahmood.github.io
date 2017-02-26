@@ -7,7 +7,112 @@
     <language>en-us</language>
     <author>Usman Mahmood</author>
     <copyright>2017 Usman Mahmood</copyright>
-    <updated>Mon, 20 Feb 2017 21:42:26 UTC</updated>
+    <updated>Sun, 26 Feb 2017 00:15:59 UTC</updated>
+    
+    
+    <item>
+      <title>Access Raspberry Pi Externally using ngrok</title>
+      <link>https://fallthrough.io/2017/02/external-access-pi-ngrok/</link>
+      <pubDate>Sun, 26 Feb 2017 00:15:59 UTC</pubDate>
+      <author>Usman Mahmood</author>
+      <guid>https://fallthrough.io/2017/02/external-access-pi-ngrok/</guid>
+      <description>
+
+&lt;p&gt;In this blog post we will set up our Raspberry Pi so it will accessed using SSH from outside our home network. Below is a diagram of the architecture:&lt;/p&gt;
+
+&lt;p&gt;[ Home Network : Raspberry Pi ] &amp;lt;&amp;ndash; [ ngrok ] &amp;ndash;&amp;gt; [ External Network ]&lt;/p&gt;
+
+&lt;p&gt;From our home network we will create a secure tunnel, through ngrok. Which we will then connect to from our external network. This will allow us to SSH into our Raspberry Pi, and manage it.&lt;/p&gt;
+
+&lt;h5 id=&#34;what-is-ngrok:badb4f5b22028ec1b44a78365cf64846&#34;&gt;What is ngrok?&lt;/h5&gt;
+
+&lt;p&gt;ngrok is a fantastic tool which allows you to create secure tunnels to localhost. So you can do things like expose a local server behind a NAT or firewall to the internet. See the &lt;a href=&#34;https://ngrok.com/&#34;&gt;ngrok&lt;/a&gt; homepage for more information.&lt;/p&gt;
+
+&lt;p&gt;Lets get started!&lt;/p&gt;
+
+&lt;h4 id=&#34;step-1-enable-passwordless-ssh-access:badb4f5b22028ec1b44a78365cf64846&#34;&gt;Step 1: Enable Passwordless SSH Access&lt;/h4&gt;
+
+&lt;p&gt;You need to configure your Pi for SSH access. Follow the steps described in the following link (very carefully):&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;https://www.raspberrypi.org/documentation/remote-access/ssh/passwordless.md&#34;&gt;Passwordless SSH Access - raspberrypi.org&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;By the end, you should be able to type:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;$ ssh USER@Pi-IP-ADDRESS
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;And connect to your Raspberry Pi without a password prompt. For example:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;$ ssh pi@192.168.0.42
+
+The programs included with the Debian GNU/Linux system are free software;
+the exact distribution terms for each program are described in the
+individual files in /usr/share/doc/*/copyright.
+
+Debian GNU/Linux comes with ABSOLUTELY NO WARRANTY, to the extent
+permitted by applicable law.
+Last login: Sat Feb 25 20:24:30 2017 from 192.168.0.42
+
+pi@raspberrypi ~ $ 
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;No prompt for a password.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Note&lt;/strong&gt;: the computer you generated the SSH keys on (and copied to the Pi). Is the computer you will be using to connect to your Pi, from the external network.&lt;/p&gt;
+
+&lt;h4 id=&#34;step-2-install-ngrok-on-your-raspberry-pi:badb4f5b22028ec1b44a78365cf64846&#34;&gt;Step 2: Install ngrok on your Raspberry Pi&lt;/h4&gt;
+
+&lt;p&gt;Go &lt;a href=&#34;https://ngrok.com/download&#34;&gt;here&lt;/a&gt; and follow the instructions to install ngrok on your Pi.&lt;/p&gt;
+
+&lt;h4 id=&#34;step-3-run-ngrok-on-your-raspberry-pi:badb4f5b22028ec1b44a78365cf64846&#34;&gt;Step 3: Run ngrok on your Raspberry Pi&lt;/h4&gt;
+
+&lt;p&gt;Run ngrok with the following options:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;pi@raspberrypi ~ $ ngrok tcp 22
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h4 id=&#34;step-4-copy-ngrok-host-and-port:badb4f5b22028ec1b44a78365cf64846&#34;&gt;Step 4: Copy ngrok Host and Port&lt;/h4&gt;
+
+&lt;p&gt;Once ngrok starts, it will display a &lt;em&gt;tcp://&lt;/em&gt; address on the forwarding line, for example:&lt;/p&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;Forwarding tcp://123xyz0.tcp.ngrok.io:17684 -&amp;gt; localhost:22&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;Copy the host name &lt;em&gt;123xyz0.tcp.ngrok.io&lt;/em&gt; and the port &lt;em&gt;17684&lt;/em&gt;.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Note&lt;/strong&gt;: the host name and port will be different for you.&lt;/p&gt;
+
+&lt;h4 id=&#34;step-5-edit-ssh-config-file:badb4f5b22028ec1b44a78365cf64846&#34;&gt;Step 5: Edit SSH config file&lt;/h4&gt;
+
+&lt;p&gt;In step one you generated some ssh keys on your computer, and then copied them to the raspberry Pi. On the computer you generated the SSH keys on, add the following details to &lt;em&gt;~/.ssh/config&lt;/em&gt;:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;Host ngrok
+        HostName 123xyz.tcp.ngrok.io
+        IdentityFile ~/.ssh/id_rsa
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Again, the host name will be different for you.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Note&lt;/strong&gt;: we are using the same key we copied over to the Pi in step one, you can generate new SSH keys if you like.&lt;/p&gt;
+
+&lt;h4 id=&#34;step-6-access-the-raspberry-pi-from-outside-your-network:badb4f5b22028ec1b44a78365cf64846&#34;&gt;Step 6: Access the Raspberry Pi from outside your network&lt;/h4&gt;
+
+&lt;p&gt;Now with your computer &lt;strong&gt;not&lt;/strong&gt; connected to your home network, type the command:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;$ ssh pi@ngrok -p 17684
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Change the username and port to match yours.&lt;/p&gt;
+
+&lt;p&gt;You should now be connected to your Raspberry Pi using SSH through ngrok.&lt;/p&gt;
+
+&lt;p&gt;Fin.&lt;/p&gt;
+</description>
+    </item>
+    
     
     
     <item>
@@ -1097,164 +1202,6 @@ went to:&lt;/p&gt;
 said that it was best food of any conference they had been to.&lt;/p&gt;
 
 &lt;p&gt;Fin.&lt;/p&gt;
-</description>
-    </item>
-    
-    
-    
-    <item>
-      <title>Gofmt and Rewrite Rules</title>
-      <link>https://fallthrough.io/2015/08/gofmt-rewrite-rules/</link>
-      <pubDate>Tue, 04 Aug 2015 23:26:39 BST</pubDate>
-      <author>Usman Mahmood</author>
-      <guid>https://fallthrough.io/2015/08/gofmt-rewrite-rules/</guid>
-      <description>&lt;p&gt;One thing I absolutely love about Go is its tooling support. Whenever I use the
-numerous tools I always discover something new. In this short post I will be
-showing off gofmt&amp;rsquo;s -r flag, this flag allows you to apply a rewrite rule to your
-source before formatting.&lt;/p&gt;
-
-&lt;p&gt;A rewrite rule is a string in the following format:&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;pattern -&amp;gt; replacement
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;Both pattern and replacement must be valid Go expressions (more on this later), lets
-apply a simple rewrite to the following code:&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;// test1.go
-package main
-
-import (
-    &amp;quot;fmt&amp;quot;
-)
-
-func main() {
-    foo := &amp;quot;Hello World&amp;quot;
-
-    fmt.Println(foo)
-}
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;The following rewrite rule changes the variable name from &amp;lsquo;foo&amp;rsquo; to &amp;lsquo;bar&amp;rsquo;:&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;$ gofmt -r=&#39;foo -&amp;gt; bar&#39; test1.go
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;Output:&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;// test1.go
-package main
-
-import (
-    &amp;quot;fmt&amp;quot;
-)
-
-func main() {
-    bar := &amp;quot;Hello World&amp;quot;
-
-    fmt.Println(bar)
-}
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;We will now apply a more powerful rule to the below code:&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;// test2.go
-package main
-
-func main() {
-    vals := make([]int, 0)
-
-    vals = append(vals, 15)
-    vals = append(vals, 17)
-    vals = append(vals, 23)
-
-    slice := vals[1:len(vals)]
-
-    _ = slice
-}
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;The line:&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;slice := vals[1:len(vals)]
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;Is not very idiomatic Go so lets change this:&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;$ gofmt -r=&#39;a[b:len(a)] -&amp;gt; a[b:]&#39; test2.go
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;Output:&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;// test2.go
-package main
-
-func main() {
-    vals := make([]int, 0)
-
-    vals = append(vals, 15)
-    vals = append(vals, 17)
-    vals = append(vals, 23)
-
-    slice := vals[1:]
-
-    _ = slice
-}
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;As you can see the code was correctly transformed. Notice how the rule used the
-characters &amp;lsquo;a&amp;rsquo; and &amp;lsquo;b&amp;rsquo;. If your rule uses single-character lowercase identifiers,
-then these will serve as wild-cards matching arbitrary sub-expressions; these
-expressions will be substituted for the same identifiers in the replacement. So
-the rule:&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;-r=&#39;a[b:len(a)] -&amp;gt; a[b:]&#39;
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;Would match:&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;x := vals[1:len(vals)] // vals[1:]
-y := nums[5:len(nums)] // nums[5:]
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;Were on the first match:&lt;/p&gt;
-
-&lt;p&gt;&amp;lsquo;a&amp;rsquo; would be substituted for &amp;lsquo;val&amp;rsquo; &lt;br/&gt;
-&amp;lsquo;b&amp;rsquo; would be substituted for &amp;lsquo;1&amp;rsquo; &lt;br/&gt;&lt;/p&gt;
-
-&lt;p&gt;And on the second match:&lt;/p&gt;
-
-&lt;p&gt;&amp;lsquo;a&amp;rsquo; would be substituted for &amp;lsquo;nums&amp;rsquo; &lt;br/&gt;
-&amp;lsquo;b&amp;rsquo; would be substituted for &amp;lsquo;5&amp;rsquo; &lt;br/&gt;&lt;/p&gt;
-
-&lt;p&gt;An important thing to remember when using the -r flag is that the resulting
-transformation must be a syntactically valid declaration list, statement list,
-or expression. So the following rule:&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;-r=&#39;a[b:len(a)] -&amp;gt; a[const]&#39;
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;Would be syntactically incorrect (const is a reserved keyword), and you would get
-the error:&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;parsing replacement a[const] at 1:4: expected operand, found &#39;const&#39; 
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;If you would like to learn more about rewrite rules then run:&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;$ godoc gofmt
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;&lt;strong&gt;Note&lt;/strong&gt;: godoc gofmt reports the following at the end:&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;BUGS
-
-The implementation of -r is a bit slow.
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;:)&lt;/p&gt;
-
-&lt;p&gt;&lt;strong&gt;Note&lt;/strong&gt;: I am using Go version 1.4.2&lt;/p&gt;
 </description>
     </item>
     
