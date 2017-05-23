@@ -74,6 +74,90 @@
   
   <div class="post">
     <h1 class="post-title">
+      <a href="https://fallthrough.io/2017/05/sync-pool-gc/">
+        Sync.Pool is Drained During Garbage Collection
+      </a>
+    </h1>
+
+    <span class="post-date">May 23, 2017</span>
+
+    
+
+
+    <p>The Go sync.Pool type stores temporary objects, and provides get and put methods. Allowing you to cache allocated but unused items for later reuse. And relieving pressure on the garbage collector.</p>
+
+<p>The purpose of the sync.Pool type is to reuse memory between garbage collections. Which is why sync.Pool is drained during garbage collection (GC).</p>
+
+<p>Here is an example of how to use the sync pool:</p>
+
+<pre><code>package main
+
+import (
+	&quot;bytes&quot;
+	&quot;fmt&quot;
+	&quot;sync&quot;
+)
+
+var bufPool = sync.Pool{
+	New: func() interface{} {
+		return new(bytes.Buffer)
+	},
+}
+
+func main() {
+	b := bufPool.Get().(*bytes.Buffer)
+	b.WriteString(&quot;What is past is prologue.&quot;)
+	bufPool.Put(b)
+	b = bufPool.Get().(*bytes.Buffer)
+	fmt.Println(b.String())
+}
+</code></pre>
+
+<p>Output:</p>
+
+<pre><code>What is past is prologue.
+</code></pre>
+
+<p><strong>Note</strong>: When calling &lsquo;bufpool.Get&rsquo; it is not guaranteed that we will get a specific buffer from the pool. The &lsquo;Get&rsquo; method selects a random buffer from the pool, removes it from the pool and then returns it to the caller.</p>
+
+<p>As stated before, the interesting thing to note when using sync.Pool, is that it is drained <strong>during</strong> GC. That is, all the objects within the pool are removed. Lets look at an example of this in action:</p>
+
+<pre><code>func main() {
+    b := bufPool.Get().(*bytes.Buffer)
+	b.WriteString(&quot;What is past is prologue.&quot;)
+	bufPool.Put(b)
+	
+	// never actually call runtime.GC() in your program :)
+	runtime.GC() 
+	
+	b = bufPool.Get().(*bytes.Buffer)
+	fmt.Println(b.String())
+}
+</code></pre>
+
+<p>The program will no longer output &ldquo;What is past is prologue.&rdquo; because the call to runtime.GC() drained &lsquo;bufpool&rsquo;. And when we make the call to &lsquo;bufPool.Get()&rsquo;, we get a brand new buffer and not a recycled one.</p>
+
+<p>If we look at the Go source code repository on Github. We see that within the file mgc.go, the <a href="https://github.com/golang/go/blob/3b5637ff2bd5c03479780995e7a35c48222157c1/src/runtime/mgc.go#L1190">gcStart</a> function makes a call to the function <a href="https://github.com/golang/go/blob/3b5637ff2bd5c03479780995e7a35c48222157c1/src/runtime/mgc.go#L2046">clearpools</a>. This function drains all the sync.Pool types.</p>
+
+<p>There are other techniques that can be used to drain the sync pool, such as:</p>
+
+<ul>
+<li>Sometime before a GC</li>
+<li>Sometime after a GC</li>
+<li>Clock based</li>
+<li>Using weak references/pointers</li>
+</ul>
+
+<p>Each of these techniques have their advantages and disadvantages. However, Draining the pool during a GC is a good technique as it is simple and does not circumvent the garbage collector.</p>
+
+<p>Fin.</p>
+
+  </div>
+  
+  
+  
+  <div class="post">
+    <h1 class="post-title">
       <a href="https://fallthrough.io/2017/02/external-access-pi-ngrok/">
         Access Raspberry Pi Externally using ngrok
       </a>

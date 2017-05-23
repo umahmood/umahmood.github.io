@@ -7,7 +7,85 @@
     <language>en-us</language>
     <author>Usman Mahmood</author>
     <copyright>2017 Usman Mahmood</copyright>
-    <updated>Sun, 26 Feb 2017 00:15:59 UTC</updated>
+    <updated>Tue, 23 May 2017 21:31:37 BST</updated>
+    
+    
+    <item>
+      <title>Sync.Pool is Drained During Garbage Collection</title>
+      <link>https://fallthrough.io/2017/05/sync-pool-gc/</link>
+      <pubDate>Tue, 23 May 2017 21:31:37 BST</pubDate>
+      <author>Usman Mahmood</author>
+      <guid>https://fallthrough.io/2017/05/sync-pool-gc/</guid>
+      <description>&lt;p&gt;The Go sync.Pool type stores temporary objects, and provides get and put methods. Allowing you to cache allocated but unused items for later reuse. And relieving pressure on the garbage collector.&lt;/p&gt;
+
+&lt;p&gt;The purpose of the sync.Pool type is to reuse memory between garbage collections. Which is why sync.Pool is drained during garbage collection (GC).&lt;/p&gt;
+
+&lt;p&gt;Here is an example of how to use the sync pool:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;package main
+
+import (
+	&amp;quot;bytes&amp;quot;
+	&amp;quot;fmt&amp;quot;
+	&amp;quot;sync&amp;quot;
+)
+
+var bufPool = sync.Pool{
+	New: func() interface{} {
+		return new(bytes.Buffer)
+	},
+}
+
+func main() {
+	b := bufPool.Get().(*bytes.Buffer)
+	b.WriteString(&amp;quot;What is past is prologue.&amp;quot;)
+	bufPool.Put(b)
+	b = bufPool.Get().(*bytes.Buffer)
+	fmt.Println(b.String())
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Output:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;What is past is prologue.
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;strong&gt;Note&lt;/strong&gt;: When calling &amp;lsquo;bufpool.Get&amp;rsquo; it is not guaranteed that we will get a specific buffer from the pool. The &amp;lsquo;Get&amp;rsquo; method selects a random buffer from the pool, removes it from the pool and then returns it to the caller.&lt;/p&gt;
+
+&lt;p&gt;As stated before, the interesting thing to note when using sync.Pool, is that it is drained &lt;strong&gt;during&lt;/strong&gt; GC. That is, all the objects within the pool are removed. Lets look at an example of this in action:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;func main() {
+    b := bufPool.Get().(*bytes.Buffer)
+	b.WriteString(&amp;quot;What is past is prologue.&amp;quot;)
+	bufPool.Put(b)
+	
+	// never actually call runtime.GC() in your program :)
+	runtime.GC() 
+	
+	b = bufPool.Get().(*bytes.Buffer)
+	fmt.Println(b.String())
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;The program will no longer output &amp;ldquo;What is past is prologue.&amp;rdquo; because the call to runtime.GC() drained &amp;lsquo;bufpool&amp;rsquo;. And when we make the call to &amp;lsquo;bufPool.Get()&amp;rsquo;, we get a brand new buffer and not a recycled one.&lt;/p&gt;
+
+&lt;p&gt;If we look at the Go source code repository on Github. We see that within the file mgc.go, the &lt;a href=&#34;https://github.com/golang/go/blob/3b5637ff2bd5c03479780995e7a35c48222157c1/src/runtime/mgc.go#L1190&#34;&gt;gcStart&lt;/a&gt; function makes a call to the function &lt;a href=&#34;https://github.com/golang/go/blob/3b5637ff2bd5c03479780995e7a35c48222157c1/src/runtime/mgc.go#L2046&#34;&gt;clearpools&lt;/a&gt;. This function drains all the sync.Pool types.&lt;/p&gt;
+
+&lt;p&gt;There are other techniques that can be used to drain the sync pool, such as:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Sometime before a GC&lt;/li&gt;
+&lt;li&gt;Sometime after a GC&lt;/li&gt;
+&lt;li&gt;Clock based&lt;/li&gt;
+&lt;li&gt;Using weak references/pointers&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;Each of these techniques have their advantages and disadvantages. However, Draining the pool during a GC is a good technique as it is simple and does not circumvent the garbage collector.&lt;/p&gt;
+
+&lt;p&gt;Fin.&lt;/p&gt;
+</description>
+    </item>
+    
     
     
     <item>
@@ -1145,63 +1223,6 @@ $ go install -race mypkg // install the package
 &lt;p&gt;I have no real experience with the above tools but instead use the go 1.5 vendor experiment feature to capture dependencies.&lt;/p&gt;
 
 &lt;p&gt;I hope this lists helps you in some way in managing your Go projects. Remember, this is just a basic list, Go has numerous tools that you probably run which are essential to you or your project. The ones listed above are ones which I believe are the basics.&lt;/p&gt;
-</description>
-    </item>
-    
-    
-    
-    <item>
-      <title>Golang UK Conference 2015</title>
-      <link>https://fallthrough.io/2015/08/golang-uk-conf-2015/</link>
-      <pubDate>Tue, 25 Aug 2015 22:09:24 BST</pubDate>
-      <author>Usman Mahmood</author>
-      <guid>https://fallthrough.io/2015/08/golang-uk-conf-2015/</guid>
-      <description>
-
-&lt;p&gt;&lt;img src=&#34;https://i.imgur.com/LJfFYSS.png&#34; alt=&#34;British Gopher&#34; /&gt;&lt;/p&gt;
-
-&lt;p&gt;On Friday the 21st of August I attended the &lt;a href=&#34;http://www.golanguk.com/&#34;&gt;Golang UK conference 2015&lt;/a&gt; held at
-the amazing Brewery in London. This post is a short write up of my time at the
-conference.&lt;/p&gt;
-
-&lt;p&gt;This was my first ever conference so apart from the talks, I did not know what
-else to expect. Overall though, I found the conference was excellent and I met
-a wide range of interesting people.&lt;/p&gt;
-
-&lt;h5 id=&#34;turnout:95f078b9982a0bb9d2c4f8afc300946a&#34;&gt;Turnout&lt;/h5&gt;
-
-&lt;p&gt;The turnout was quite big with over 250 delegates from all over the world.&lt;/p&gt;
-
-&lt;h5 id=&#34;go-usage:95f078b9982a0bb9d2c4f8afc300946a&#34;&gt;Go usage&lt;/h5&gt;
-
-&lt;p&gt;From the people I met no one was really using Go in a big way, but had an
-API or a small server component written in Go. However, everyone was expecting
-to increase there Go usage through out the coming year.&lt;/p&gt;
-
-&lt;h5 id=&#34;talks:95f078b9982a0bb9d2c4f8afc300946a&#34;&gt;Talks&lt;/h5&gt;
-
-&lt;p&gt;The conference consisted of 2 tracks, a main track and a side track. The talks I
-went to:&lt;/p&gt;
-
-&lt;ul&gt;
-&lt;li&gt;Opening Keynote&lt;/li&gt;
-&lt;li&gt;Crossing the Language Chasm&lt;/li&gt;
-&lt;li&gt;Building API&amp;rsquo;s&lt;/li&gt;
-&lt;li&gt;Complex Concurrency Patterns in Go&lt;/li&gt;
-&lt;li&gt;Code Analysis&lt;/li&gt;
-&lt;li&gt;Understanding Memory Allocation&lt;/li&gt;
-&lt;li&gt;Whispered Secrets&lt;/li&gt;
-&lt;li&gt;The Go Community&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;Out of all the talks, the best one was Code Analysis presented by Francesc Campoy.&lt;/p&gt;
-
-&lt;h5 id=&#34;food:95f078b9982a0bb9d2c4f8afc300946a&#34;&gt;Food :)&lt;/h5&gt;
-
-&lt;p&gt;The food served at the conference was absoutetly amazing. Many of the delgates
-said that it was best food of any conference they had been to.&lt;/p&gt;
-
-&lt;p&gt;Fin.&lt;/p&gt;
 </description>
     </item>
     

@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en-us">
+<head>
+  <link href="http://gmpg.org/xfn/11" rel="profile">
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+
+  
+
+  <title> Sync.Pool is Drained During Garbage Collection  &middot; Usman Mahmood </title>
+
+  
+  <link rel="stylesheet" href="https://fallthrough.io/css/poole.css">
+  <link rel="stylesheet" href="https://fallthrough.io/css/syntax.css">
+  <link rel="stylesheet" href="https://fallthrough.io/css/hyde.css">
+  <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=PT+Sans:400,400italic,700|Abril+Fatface">
+
+  
+  <link rel="apple-touch-icon-precomposed" sizes="144x144" href="/apple-touch-icon-144-precomposed.png">
+  <link rel="shortcut icon" href="/favicon.ico">
+
+  
+  <link href="" rel="alternate" type="application/rss+xml" title="Usman Mahmood" />
+
+  <link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
+
+  <link href='http://fonts.googleapis.com/css?family=Raleway:400,300' rel='stylesheet' type='text/css'>
+
+  <script src="//ajax.googleapis.com/ajax/libs/webfont/1.4.7/webfont.js"></script>
+  <script>
+    WebFont.load({
+      google: {
+        families: ['Raleway']
+      }
+    });
+  </script>
+
+</head>
+
+<body>
+
+  <div class="sidebar">
+  <div class="container sidebar-sticky">
+    <div class="sidebar-about">
+      <h1 style="font-size: 60px" class="brand"><a href="https://fallthrough.io">Usman Mahmood</a></h1><br/>
+      <p class="lead">
+       Algorithms &#43; Data Structures = Programs 
+      </p>
+    </div>
+
+    <ul class="sidebar-nav">
+      <li><a href="https://fallthrough.io/blog">Posts</a></li>
+      
+        <li><a href="/about/">About </a></li>
+      
+      <br/>
+      <li><a href="https://github.com/umahmood">Github</a></li>
+      <li><a href="https://twitter.com/make_slice">Twitter</a></li>
+      <li><a href="https://keybase.io/usman">Keybase</a></li>
+
+    <br/>
+    &copy; 2017 Usman Mahmood. All rights reserved.</p>
+    
+  </div>
+</div>
+
+
+  <div class="content container">
+    <div class="post">
+    <h1 class="post-title">Sync.Pool is Drained During Garbage Collection</h1>
+    <span class="post-date">May 23, 2017</span>
+    
+    <p>The Go sync.Pool type stores temporary objects, and provides get and put methods. Allowing you to cache allocated but unused items for later reuse. And relieving pressure on the garbage collector.</p>
+
+<p>The purpose of the sync.Pool type is to reuse memory between garbage collections. Which is why sync.Pool is drained during garbage collection (GC).</p>
+
+<p>Here is an example of how to use the sync pool:</p>
+
+<pre><code>package main
+
+import (
+	&quot;bytes&quot;
+	&quot;fmt&quot;
+	&quot;sync&quot;
+)
+
+var bufPool = sync.Pool{
+	New: func() interface{} {
+		return new(bytes.Buffer)
+	},
+}
+
+func main() {
+	b := bufPool.Get().(*bytes.Buffer)
+	b.WriteString(&quot;What is past is prologue.&quot;)
+	bufPool.Put(b)
+	b = bufPool.Get().(*bytes.Buffer)
+	fmt.Println(b.String())
+}
+</code></pre>
+
+<p>Output:</p>
+
+<pre><code>What is past is prologue.
+</code></pre>
+
+<p><strong>Note</strong>: When calling &lsquo;bufpool.Get&rsquo; it is not guaranteed that we will get a specific buffer from the pool. The &lsquo;Get&rsquo; method selects a random buffer from the pool, removes it from the pool and then returns it to the caller.</p>
+
+<p>As stated before, the interesting thing to note when using sync.Pool, is that it is drained <strong>during</strong> GC. That is, all the objects within the pool are removed. Lets look at an example of this in action:</p>
+
+<pre><code>func main() {
+    b := bufPool.Get().(*bytes.Buffer)
+	b.WriteString(&quot;What is past is prologue.&quot;)
+	bufPool.Put(b)
+	
+	// never actually call runtime.GC() in your program :)
+	runtime.GC() 
+	
+	b = bufPool.Get().(*bytes.Buffer)
+	fmt.Println(b.String())
+}
+</code></pre>
+
+<p>The program will no longer output &ldquo;What is past is prologue.&rdquo; because the call to runtime.GC() drained &lsquo;bufpool&rsquo;. And when we make the call to &lsquo;bufPool.Get()&rsquo;, we get a brand new buffer and not a recycled one.</p>
+
+<p>If we look at the Go source code repository on Github. We see that within the file mgc.go, the <a href="https://github.com/golang/go/blob/3b5637ff2bd5c03479780995e7a35c48222157c1/src/runtime/mgc.go#L1190">gcStart</a> function makes a call to the function <a href="https://github.com/golang/go/blob/3b5637ff2bd5c03479780995e7a35c48222157c1/src/runtime/mgc.go#L2046">clearpools</a>. This function drains all the sync.Pool types.</p>
+
+<p>There are other techniques that can be used to drain the sync pool, such as:</p>
+
+<ul>
+<li>Sometime before a GC</li>
+<li>Sometime after a GC</li>
+<li>Clock based</li>
+<li>Using weak references/pointers</li>
+</ul>
+
+<p>Each of these techniques have their advantages and disadvantages. However, Draining the pool during a GC is a good technique as it is simple and does not circumvent the garbage collector.</p>
+
+<p>Fin.</p>
+
+    
+
+     
+	
+</div>
+</div> 
+
+</body>
+</html>
