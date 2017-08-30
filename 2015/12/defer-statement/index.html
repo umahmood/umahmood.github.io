@@ -22,7 +22,6 @@
   <link rel="shortcut icon" href="/favicon.ico">
 
   
-  <link href="" rel="alternate" type="application/rss+xml" title="Usman Mahmood" />
 
   <link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
 
@@ -88,7 +87,7 @@
 
 <p>The function call in the defer statement (CleanUp), happens just before the function &lsquo;DoWork&rsquo; exits. Below I have listed some properties of the defer statement:</p>
 
-<h3 id="defer-d-functions-are-executed-in-lifo:c0ee3214aa0f030d3b7e9ff843504550">Defer&rsquo;d functions are executed in LIFO</h3>
+<h3 id="defer-d-functions-are-executed-in-lifo">Defer&rsquo;d functions are executed in LIFO</h3>
 
 <p>Given the following program:</p>
 
@@ -129,7 +128,7 @@ a1
 a0
 </code></pre>
 
-<h3 id="defer-d-functions-execute-even-if-the-function-panics:c0ee3214aa0f030d3b7e9ff843504550">Defer&rsquo;d functions execute even if the function panics</h3>
+<h3 id="defer-d-functions-execute-even-if-the-function-panics">Defer&rsquo;d functions execute even if the function panics</h3>
 
 <p>In the following program the method &lsquo;Space&rsquo; panics, but the defer&rsquo;d function queued up still executes.</p>
 
@@ -153,7 +152,7 @@ main.main()
 
 <p>When a panic function executes, it begins to unwind the stack executing any defer statements as it goes.</p>
 
-<h3 id="arguments-are-evaluated-when-the-defer-statement-is-encountered:c0ee3214aa0f030d3b7e9ff843504550">Arguments are evaluated when the defer statement is encountered</h3>
+<h3 id="arguments-are-evaluated-when-the-defer-statement-is-encountered">Arguments are evaluated when the defer statement is encountered</h3>
 
 <p>Take the following example:</p>
 
@@ -199,7 +198,7 @@ value of x = 0  // defer'd function call output
 value of x = 1
 </code></pre>
 
-<h3 id="defer-d-functions-can-access-named-parameters:c0ee3214aa0f030d3b7e9ff843504550">Defer&rsquo;d functions can access named parameters</h3>
+<h3 id="defer-d-functions-can-access-named-parameters">Defer&rsquo;d functions can access named parameters</h3>
 
 <p>In the following example (taken from the defer section of the language specification):</p>
 

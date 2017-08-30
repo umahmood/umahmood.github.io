@@ -22,7 +22,6 @@
   <link rel="shortcut icon" href="/favicon.ico">
 
   
-  <link href="" rel="alternate" type="application/rss+xml" title="Usman Mahmood" />
 
   <link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
 
@@ -80,13 +79,13 @@
 
 <p>From our home network we will create a secure tunnel, through ngrok. Which we will then connect to from our external network. This will allow us to SSH into our Raspberry Pi, and manage it.</p>
 
-<h5 id="what-is-ngrok:badb4f5b22028ec1b44a78365cf64846">What is ngrok?</h5>
+<h5 id="what-is-ngrok">What is ngrok?</h5>
 
 <p>ngrok is a fantastic tool which allows you to create secure tunnels to localhost. So you can do things like expose a local server behind a NAT or firewall to the internet. See the <a href="https://ngrok.com/">ngrok</a> homepage for more information.</p>
 
 <p>Lets get started!</p>
 
-<h4 id="step-1-enable-passwordless-ssh-access:badb4f5b22028ec1b44a78365cf64846">Step 1: Enable Passwordless SSH Access</h4>
+<h4 id="step-1-enable-passwordless-ssh-access">Step 1: Enable Passwordless SSH Access</h4>
 
 <p>You need to configure your Pi for SSH access. Follow the steps described in the following link (very carefully):</p>
 
@@ -118,18 +117,18 @@ pi@raspberrypi ~ $
 
 <p><strong>Note</strong>: the computer you generated the SSH keys on (and copied to the Pi). Is the computer you will be using to connect to your Pi, from the external network.</p>
 
-<h4 id="step-2-install-ngrok-on-your-raspberry-pi:badb4f5b22028ec1b44a78365cf64846">Step 2: Install ngrok on your Raspberry Pi</h4>
+<h4 id="step-2-install-ngrok-on-your-raspberry-pi">Step 2: Install ngrok on your Raspberry Pi</h4>
 
 <p>Go <a href="https://ngrok.com/download">here</a> and follow the instructions to install ngrok on your Pi.</p>
 
-<h4 id="step-3-run-ngrok-on-your-raspberry-pi:badb4f5b22028ec1b44a78365cf64846">Step 3: Run ngrok on your Raspberry Pi</h4>
+<h4 id="step-3-run-ngrok-on-your-raspberry-pi">Step 3: Run ngrok on your Raspberry Pi</h4>
 
 <p>Run ngrok with the following options:</p>
 
 <pre><code>pi@raspberrypi ~ $ ngrok tcp 22
 </code></pre>
 
-<h4 id="step-4-copy-ngrok-host-and-port:badb4f5b22028ec1b44a78365cf64846">Step 4: Copy ngrok Host and Port</h4>
+<h4 id="step-4-copy-ngrok-host-and-port">Step 4: Copy ngrok Host and Port</h4>
 
 <p>Once ngrok starts, it will display a <em>tcp://</em> address on the forwarding line, for example:</p>
 
@@ -141,7 +140,7 @@ pi@raspberrypi ~ $
 
 <p><strong>Note</strong>: the host name and port will be different for you.</p>
 
-<h4 id="step-5-edit-ssh-config-file:badb4f5b22028ec1b44a78365cf64846">Step 5: Edit SSH config file</h4>
+<h4 id="step-5-edit-ssh-config-file">Step 5: Edit SSH config file</h4>
 
 <p>In step one you generated some ssh keys on your computer, and then copied them to the raspberry Pi. On the computer you generated the SSH keys on, add the following details to <em>~/.ssh/config</em>:</p>
 
@@ -154,7 +153,7 @@ pi@raspberrypi ~ $
 
 <p><strong>Note</strong>: we are using the same key we copied over to the Pi in step one, you can generate new SSH keys if you like.</p>
 
-<h4 id="step-6-access-the-raspberry-pi-from-outside-your-network:badb4f5b22028ec1b44a78365cf64846">Step 6: Access the Raspberry Pi from outside your network</h4>
+<h4 id="step-6-access-the-raspberry-pi-from-outside-your-network">Step 6: Access the Raspberry Pi from outside your network</h4>
 
 <p>Now with your computer <strong>not</strong> connected to your home network, type the command:</p>
 

@@ -7,7 +7,89 @@
     <language>en-us</language>
     <author>Usman Mahmood</author>
     <copyright>2017 Usman Mahmood</copyright>
-    <updated>Tue, 23 May 2017 21:31:37 BST</updated>
+    <updated>Sun, 27 Aug 2017 18:31:37 BST</updated>
+    
+    
+    <item>
+      <title>Piping Commands into Go Binaries</title>
+      <link>https://fallthrough.io/2017/08/pipe-cmds-go/</link>
+      <pubDate>Sun, 27 Aug 2017 18:31:37 BST</pubDate>
+      <author>Usman Mahmood</author>
+      <guid>https://fallthrough.io/2017/08/pipe-cmds-go/</guid>
+      <description>&lt;p&gt;In this post we will see how we can pipe commands into our Go applications. We will write a basic command line program which demonstrates the functionality. Before we get started, it&amp;rsquo;s worth going over the basics of piping commands.&lt;/p&gt;
+
+&lt;p&gt;The modular nature of the UNIX operating system. Allows the user to use basic commands to build up new commands. By allowing the output of one command to be used as the input for the next command. The general form of the pipe command is:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;command1 | command2 | command3
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Here, &lt;em&gt;command1&lt;/em&gt; is piping its output into &lt;em&gt;command2&lt;/em&gt;, which transforms the incoming data, and then pipes it into &lt;em&gt;command3&lt;/em&gt;.&lt;/p&gt;
+
+&lt;p&gt;Some examples:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;ls -l | grep &amp;quot;ninja&amp;quot; | less
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;pre&gt;&lt;code&gt;who | sort
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;pre&gt;&lt;code&gt;file * | grep text
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Piping commands into your Go applications is quite easy. Thanks to the excellent standard library. We will write a very basic command line program &lt;em&gt;&amp;lsquo;change&amp;rsquo;&lt;/em&gt;. Which takes input, and replaces any occurrence of word A with  word B. Here is an example of the the command in action:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;$ echo &amp;quot;I hate Brussel sprouts!&amp;quot; | change &amp;quot;hate&amp;quot; &amp;quot;love&amp;quot;
+I love Brussel sprouts!
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Below is the code for the full program:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;// change.go
+package main
+
+import (
+	&amp;quot;bytes&amp;quot;
+	&amp;quot;fmt&amp;quot;
+	&amp;quot;io&amp;quot;
+	&amp;quot;log&amp;quot;
+	&amp;quot;os&amp;quot;
+)
+
+func main() {
+	buf := &amp;amp;bytes.Buffer{}
+	n, err := io.Copy(buf, os.Stdin)
+	if err != nil {
+		log.Fatalln(err)
+	} else if n &amp;lt;= 1 { // buffer always contains &#39;\n&#39;
+		log.Fatalln(&amp;quot;no input provided&amp;quot;)
+	}
+	if len(os.Args) != 3 {
+		log.Fatalln(&amp;quot;usage: echo \&amp;quot;hello world\&amp;quot; | change hello bye&amp;quot;)
+	}
+	oldWord := os.Args[1]
+	newWord := os.Args[2]
+	r := bytes.Replace(buf.Bytes(), []byte(oldWord), []byte(newWord), -1)
+	fmt.Println(string(r))
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;pre&gt;&lt;code&gt;$ go build change.go
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Note: this code needs more work to make it more robust, if it were to be used in production. But it is okay for demonstration purposes.&lt;/p&gt;
+
+&lt;p&gt;And that is how you pipe commands into your Go applications. Another command could pipe in the output of our command, as follows:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;$ echo &amp;quot;I hate hate Brussel sprouts!&amp;quot; | change &amp;quot;hate&amp;quot; &amp;quot;love&amp;quot; | grep -o love | wc -l
+2
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;I hope you enjoyed this blog post.&lt;/p&gt;
+
+&lt;p&gt;Fin.&lt;/p&gt;
+</description>
+    </item>
+    
     
     
     <item>
@@ -102,13 +184,13 @@ func main() {
 
 &lt;p&gt;From our home network we will create a secure tunnel, through ngrok. Which we will then connect to from our external network. This will allow us to SSH into our Raspberry Pi, and manage it.&lt;/p&gt;
 
-&lt;h5 id=&#34;what-is-ngrok:badb4f5b22028ec1b44a78365cf64846&#34;&gt;What is ngrok?&lt;/h5&gt;
+&lt;h5 id=&#34;what-is-ngrok&#34;&gt;What is ngrok?&lt;/h5&gt;
 
 &lt;p&gt;ngrok is a fantastic tool which allows you to create secure tunnels to localhost. So you can do things like expose a local server behind a NAT or firewall to the internet. See the &lt;a href=&#34;https://ngrok.com/&#34;&gt;ngrok&lt;/a&gt; homepage for more information.&lt;/p&gt;
 
 &lt;p&gt;Lets get started!&lt;/p&gt;
 
-&lt;h4 id=&#34;step-1-enable-passwordless-ssh-access:badb4f5b22028ec1b44a78365cf64846&#34;&gt;Step 1: Enable Passwordless SSH Access&lt;/h4&gt;
+&lt;h4 id=&#34;step-1-enable-passwordless-ssh-access&#34;&gt;Step 1: Enable Passwordless SSH Access&lt;/h4&gt;
 
 &lt;p&gt;You need to configure your Pi for SSH access. Follow the steps described in the following link (very carefully):&lt;/p&gt;
 
@@ -140,18 +222,18 @@ pi@raspberrypi ~ $
 
 &lt;p&gt;&lt;strong&gt;Note&lt;/strong&gt;: the computer you generated the SSH keys on (and copied to the Pi). Is the computer you will be using to connect to your Pi, from the external network.&lt;/p&gt;
 
-&lt;h4 id=&#34;step-2-install-ngrok-on-your-raspberry-pi:badb4f5b22028ec1b44a78365cf64846&#34;&gt;Step 2: Install ngrok on your Raspberry Pi&lt;/h4&gt;
+&lt;h4 id=&#34;step-2-install-ngrok-on-your-raspberry-pi&#34;&gt;Step 2: Install ngrok on your Raspberry Pi&lt;/h4&gt;
 
 &lt;p&gt;Go &lt;a href=&#34;https://ngrok.com/download&#34;&gt;here&lt;/a&gt; and follow the instructions to install ngrok on your Pi.&lt;/p&gt;
 
-&lt;h4 id=&#34;step-3-run-ngrok-on-your-raspberry-pi:badb4f5b22028ec1b44a78365cf64846&#34;&gt;Step 3: Run ngrok on your Raspberry Pi&lt;/h4&gt;
+&lt;h4 id=&#34;step-3-run-ngrok-on-your-raspberry-pi&#34;&gt;Step 3: Run ngrok on your Raspberry Pi&lt;/h4&gt;
 
 &lt;p&gt;Run ngrok with the following options:&lt;/p&gt;
 
 &lt;pre&gt;&lt;code&gt;pi@raspberrypi ~ $ ngrok tcp 22
 &lt;/code&gt;&lt;/pre&gt;
 
-&lt;h4 id=&#34;step-4-copy-ngrok-host-and-port:badb4f5b22028ec1b44a78365cf64846&#34;&gt;Step 4: Copy ngrok Host and Port&lt;/h4&gt;
+&lt;h4 id=&#34;step-4-copy-ngrok-host-and-port&#34;&gt;Step 4: Copy ngrok Host and Port&lt;/h4&gt;
 
 &lt;p&gt;Once ngrok starts, it will display a &lt;em&gt;tcp://&lt;/em&gt; address on the forwarding line, for example:&lt;/p&gt;
 
@@ -163,7 +245,7 @@ pi@raspberrypi ~ $
 
 &lt;p&gt;&lt;strong&gt;Note&lt;/strong&gt;: the host name and port will be different for you.&lt;/p&gt;
 
-&lt;h4 id=&#34;step-5-edit-ssh-config-file:badb4f5b22028ec1b44a78365cf64846&#34;&gt;Step 5: Edit SSH config file&lt;/h4&gt;
+&lt;h4 id=&#34;step-5-edit-ssh-config-file&#34;&gt;Step 5: Edit SSH config file&lt;/h4&gt;
 
 &lt;p&gt;In step one you generated some ssh keys on your computer, and then copied them to the raspberry Pi. On the computer you generated the SSH keys on, add the following details to &lt;em&gt;~/.ssh/config&lt;/em&gt;:&lt;/p&gt;
 
@@ -176,7 +258,7 @@ pi@raspberrypi ~ $
 
 &lt;p&gt;&lt;strong&gt;Note&lt;/strong&gt;: we are using the same key we copied over to the Pi in step one, you can generate new SSH keys if you like.&lt;/p&gt;
 
-&lt;h4 id=&#34;step-6-access-the-raspberry-pi-from-outside-your-network:badb4f5b22028ec1b44a78365cf64846&#34;&gt;Step 6: Access the Raspberry Pi from outside your network&lt;/h4&gt;
+&lt;h4 id=&#34;step-6-access-the-raspberry-pi-from-outside-your-network&#34;&gt;Step 6: Access the Raspberry Pi from outside your network&lt;/h4&gt;
 
 &lt;p&gt;Now with your computer &lt;strong&gt;not&lt;/strong&gt; connected to your home network, type the command:&lt;/p&gt;
 
@@ -333,7 +415,7 @@ nothing to commit, working tree clean
 
 &lt;p&gt;Why would you want to create an empty commit? You may want to communicate changes, which have nothing to do with code. But you have updated something that you want the rest of the team to know about. And you feel that communicating this via the git log make sense.&lt;/p&gt;
 
-&lt;h4 id=&#34;creating-an-empty-commit:80d2821c8306d8d07d9c8b746d39fb7b&#34;&gt;Creating an empty commit&lt;/h4&gt;
+&lt;h4 id=&#34;creating-an-empty-commit&#34;&gt;Creating an empty commit&lt;/h4&gt;
 
 &lt;p&gt;Start by creating a repo:&lt;/p&gt;
 
@@ -471,7 +553,7 @@ Date:   Wed Jan 10 14:00:00 2099 +0100
 
 &lt;p&gt;In this post we will walk through an example of how to use the new subtests and sub-benchmarks functionality introduced in Go 1.7.&lt;/p&gt;
 
-&lt;h4 id=&#34;subtests:ab65b34deed84f4e72ae56b7904d376a&#34;&gt;Subtests&lt;/h4&gt;
+&lt;h4 id=&#34;subtests&#34;&gt;Subtests&lt;/h4&gt;
 
 &lt;p&gt;One of the nifty features in Go is the ability to write table driven tests. For example, if we wanted to test the function:&lt;/p&gt;
 
@@ -584,7 +666,7 @@ ok      example    0.006s
 
 &lt;p&gt;Here &lt;em&gt;&amp;ldquo;input[1-3]&amp;rdquo;&lt;/em&gt; matched _&amp;ldquo;input&lt;em&gt;2&amp;rdquo;&lt;/em&gt; and _&amp;ldquo;input&lt;em&gt;3&amp;rdquo;&lt;/em&gt; but not _&amp;ldquo;input&lt;em&gt;4&amp;rdquo;&lt;/em&gt;.&lt;/p&gt;
 
-&lt;h4 id=&#34;sub-benchmarks:ab65b34deed84f4e72ae56b7904d376a&#34;&gt;Sub-benchmarks&lt;/h4&gt;
+&lt;h4 id=&#34;sub-benchmarks&#34;&gt;Sub-benchmarks&lt;/h4&gt;
 
 &lt;p&gt;Unlike table driven testing there was no equal approach for benchmarking. But now in Go 1.7, we have the ability to create table driven benchmarks. Imagine we need to benchmark the following function:&lt;/p&gt;
 
@@ -820,7 +902,7 @@ sort.Stable [one two ball hell joke fool moon]
 
 &lt;p&gt;The function call in the defer statement (CleanUp), happens just before the function &amp;lsquo;DoWork&amp;rsquo; exits. Below I have listed some properties of the defer statement:&lt;/p&gt;
 
-&lt;h3 id=&#34;defer-d-functions-are-executed-in-lifo:c0ee3214aa0f030d3b7e9ff843504550&#34;&gt;Defer&amp;rsquo;d functions are executed in LIFO&lt;/h3&gt;
+&lt;h3 id=&#34;defer-d-functions-are-executed-in-lifo&#34;&gt;Defer&amp;rsquo;d functions are executed in LIFO&lt;/h3&gt;
 
 &lt;p&gt;Given the following program:&lt;/p&gt;
 
@@ -861,7 +943,7 @@ a1
 a0
 &lt;/code&gt;&lt;/pre&gt;
 
-&lt;h3 id=&#34;defer-d-functions-execute-even-if-the-function-panics:c0ee3214aa0f030d3b7e9ff843504550&#34;&gt;Defer&amp;rsquo;d functions execute even if the function panics&lt;/h3&gt;
+&lt;h3 id=&#34;defer-d-functions-execute-even-if-the-function-panics&#34;&gt;Defer&amp;rsquo;d functions execute even if the function panics&lt;/h3&gt;
 
 &lt;p&gt;In the following program the method &amp;lsquo;Space&amp;rsquo; panics, but the defer&amp;rsquo;d function queued up still executes.&lt;/p&gt;
 
@@ -885,7 +967,7 @@ main.main()
 
 &lt;p&gt;When a panic function executes, it begins to unwind the stack executing any defer statements as it goes.&lt;/p&gt;
 
-&lt;h3 id=&#34;arguments-are-evaluated-when-the-defer-statement-is-encountered:c0ee3214aa0f030d3b7e9ff843504550&#34;&gt;Arguments are evaluated when the defer statement is encountered&lt;/h3&gt;
+&lt;h3 id=&#34;arguments-are-evaluated-when-the-defer-statement-is-encountered&#34;&gt;Arguments are evaluated when the defer statement is encountered&lt;/h3&gt;
 
 &lt;p&gt;Take the following example:&lt;/p&gt;
 
@@ -931,7 +1013,7 @@ value of x = 0  // defer&#39;d function call output
 value of x = 1
 &lt;/code&gt;&lt;/pre&gt;
 
-&lt;h3 id=&#34;defer-d-functions-can-access-named-parameters:c0ee3214aa0f030d3b7e9ff843504550&#34;&gt;Defer&amp;rsquo;d functions can access named parameters&lt;/h3&gt;
+&lt;h3 id=&#34;defer-d-functions-can-access-named-parameters&#34;&gt;Defer&amp;rsquo;d functions can access named parameters&lt;/h3&gt;
 
 &lt;p&gt;In the following example (taken from the defer section of the language specification):&lt;/p&gt;
 
@@ -962,7 +1044,7 @@ func f() (result int) {
 
 &lt;p&gt;A while ago I was watching a tech talk by Blake Caldwell on &lt;a href=&#34;https://www.youtube.com/watch?v=PyBJQA4clfc&#34;&gt;Building Resilient Services with Go&lt;/a&gt;. In his presentation he had a slide which listed go channel axioms. I have listed his channel axioms here and provided some short code snippets to hopefully clarify them.&lt;/p&gt;
 
-&lt;h3 id=&#34;a-send-to-a-nil-channel-blocks-forever:3c6d760ac1dd0a5b6f008ac700644390&#34;&gt;A send to a nil channel blocks forever&lt;/h3&gt;
+&lt;h3 id=&#34;a-send-to-a-nil-channel-blocks-forever&#34;&gt;A send to a nil channel blocks forever&lt;/h3&gt;
 
 &lt;pre&gt;&lt;code class=&#34;language-go&#34;&gt;var ch chan bool
 ch &amp;lt;- true // will always block
@@ -970,7 +1052,7 @@ ch &amp;lt;- true // will always block
 
 &lt;p&gt;We declare a channel &amp;lsquo;ch&amp;rsquo; but do not initialize it (with make), so it is a nil channel. We then attempt to &lt;strong&gt;send&lt;/strong&gt; a value down the channel, this causes a blocking operation.&lt;/p&gt;
 
-&lt;h3 id=&#34;a-receive-from-a-nil-channel-blocks-forever:3c6d760ac1dd0a5b6f008ac700644390&#34;&gt;A receive from a nil channel blocks forever&lt;/h3&gt;
+&lt;h3 id=&#34;a-receive-from-a-nil-channel-blocks-forever&#34;&gt;A receive from a nil channel blocks forever&lt;/h3&gt;
 
 &lt;pre&gt;&lt;code class=&#34;language-go&#34;&gt;var ch chan bool
 v := &amp;lt;-ch // will always block
@@ -978,7 +1060,7 @@ v := &amp;lt;-ch // will always block
 
 &lt;p&gt;We declare a channel &amp;lsquo;ch&amp;rsquo; but do not initialize it (with make), so it is a nil channel, We then attempt to &lt;strong&gt;receive&lt;/strong&gt; a value from the channel, this causes a blocking operation.&lt;/p&gt;
 
-&lt;h3 id=&#34;a-send-to-a-closed-channel-panics:3c6d760ac1dd0a5b6f008ac700644390&#34;&gt;A send to a closed channel panics&lt;/h3&gt;
+&lt;h3 id=&#34;a-send-to-a-closed-channel-panics&#34;&gt;A send to a closed channel panics&lt;/h3&gt;
 
 &lt;pre&gt;&lt;code class=&#34;language-go&#34;&gt;ch := make(chan bool)
 ...
@@ -994,7 +1076,7 @@ ch &amp;lt;- true // panics!
 }
 &lt;/code&gt;&lt;/pre&gt;
 
-&lt;h3 id=&#34;a-receive-from-a-closed-channel-returns-the-zero-value-immediately:3c6d760ac1dd0a5b6f008ac700644390&#34;&gt;A receive from a closed channel returns the zero value immediately&lt;/h3&gt;
+&lt;h3 id=&#34;a-receive-from-a-closed-channel-returns-the-zero-value-immediately&#34;&gt;A receive from a closed channel returns the zero value immediately&lt;/h3&gt;
 
 &lt;pre&gt;&lt;code class=&#34;language-go&#34;&gt;ch := make(chan int)
 ...
@@ -1021,57 +1103,57 @@ v := &amp;lt;-ch // v = 0
 
 &lt;p&gt;On Monday the 9th of November I was in Paris attending dotGo, the European Go conference. This blog post is a summary of my time there.&lt;/p&gt;
 
-&lt;h3 id=&#34;pre-conference:184802dcbae007fe12d15202c45527c5&#34;&gt;Pre-Conference&lt;/h3&gt;
+&lt;h3 id=&#34;pre-conference&#34;&gt;Pre-Conference&lt;/h3&gt;
 
 &lt;p&gt;The day before the conference, the Paris tech talks group organized a pre-conference meetup/party. There were a large number of delegates who turned up and the meet up consisted of about six or seven talks. The talks were about how individuals at there respective companies were using Go. All the projects demoed and talked about were network related i.e. using Go to write a load balancer which solved a particular problem. After the talks, there was a chance to socialize and eat pizza with other gophers :).&lt;/p&gt;
 
-&lt;h3 id=&#34;venue:184802dcbae007fe12d15202c45527c5&#34;&gt;Venue&lt;/h3&gt;
+&lt;h3 id=&#34;venue&#34;&gt;Venue&lt;/h3&gt;
 
 &lt;p&gt;On the day of the conference I made my way down to the venue Théâtre de Paris. This venue was absolutely beautiful, the high ceilings, the seating, the theatre boxes and stage. Made this venue truly great, and I was very grateful that the building owners allowed the conference to take place there.&lt;/p&gt;
 
-&lt;h3 id=&#34;talks:184802dcbae007fe12d15202c45527c5&#34;&gt;Talks&lt;/h3&gt;
+&lt;h3 id=&#34;talks&#34;&gt;Talks&lt;/h3&gt;
 
 &lt;p&gt;dotGo is a single track conference which I prefer, as I always have a hard time making my mind up about which talks to attend. Here is a summary of the talks:&lt;/p&gt;
 
-&lt;h4 id=&#34;microservices:184802dcbae007fe12d15202c45527c5&#34;&gt;Microservices&lt;/h4&gt;
+&lt;h4 id=&#34;microservices&#34;&gt;Microservices&lt;/h4&gt;
 
 &lt;p&gt;This talk was given by Peter Bourgon the creator of Gokit. The talk centered around his thoughts, opinions and efforts of getting people to adopt microservices in organizations.&lt;/p&gt;
 
 &lt;p&gt;&lt;a href=&#34;https://github.com/go-kit/kit&#34;&gt;gokit on github&lt;/a&gt;&lt;/p&gt;
 
-&lt;h4 id=&#34;tools-for-working-with-go-code:184802dcbae007fe12d15202c45527c5&#34;&gt;Tools for working with Go code&lt;/h4&gt;
+&lt;h4 id=&#34;tools-for-working-with-go-code&#34;&gt;Tools for working with Go code&lt;/h4&gt;
 
 &lt;p&gt;This talk was given by Fatih Arslan the creator of Vim-go. This was a great talk were you were introduced to a wide range of tools that exist in the Go ecosystem. Tools such as &lt;em&gt;gorename&lt;/em&gt;, &lt;em&gt;generate&lt;/em&gt; and &lt;em&gt;oracle&lt;/em&gt; were presented along with examples on how to use them.&lt;/p&gt;
 
-&lt;h4 id=&#34;the-docker-trail:184802dcbae007fe12d15202c45527c5&#34;&gt;The Docker Trail&lt;/h4&gt;
+&lt;h4 id=&#34;the-docker-trail&#34;&gt;The Docker Trail&lt;/h4&gt;
 
 &lt;p&gt;This talk was given by Jessica Frazelle who is a core team member at Docker. She talked about three odd things the team at Docker noticed and how they went about debugging and fixing them.&lt;/p&gt;
 
-&lt;h4 id=&#34;applied-concurrency-in-go:184802dcbae007fe12d15202c45527c5&#34;&gt;Applied Concurrency in Go&lt;/h4&gt;
+&lt;h4 id=&#34;applied-concurrency-in-go&#34;&gt;Applied Concurrency in Go&lt;/h4&gt;
 
 &lt;p&gt;A talk given by Matt Aimonetti who is the co-founder and CTO of Splice. Matt was running Go code (which used concurrency) on an Arduino which made some LED&amp;rsquo;s blink according to some rules. He ran various versions of the code all of which contained concurrency related bugs, he fixed the bugs as he went along. Showing all the the mistakes we usually make when writing concurrent code.&lt;/p&gt;
 
-&lt;h4 id=&#34;functional-go:184802dcbae007fe12d15202c45527c5&#34;&gt;Functional Go?&lt;/h4&gt;
+&lt;h4 id=&#34;functional-go&#34;&gt;Functional Go?&lt;/h4&gt;
 
 &lt;p&gt;A talk given by the excellent Francesc Campoy Flores a member of the Google Go team. This talk concentrated on his efforts to use Go in a functional manner, after his experiences with Haskell. The functional code he wrote for the problem he was trying solve was scary, he really was actively working against the language (something he admitted). It was a fun talk though.&lt;/p&gt;
 
-&lt;h4 id=&#34;the-other-side-of-go-programming-pictures:184802dcbae007fe12d15202c45527c5&#34;&gt;The Other Side of Go: Programming Pictures&lt;/h4&gt;
+&lt;h4 id=&#34;the-other-side-of-go-programming-pictures&#34;&gt;The Other Side of Go: Programming Pictures&lt;/h4&gt;
 
 &lt;p&gt;This talk was given by Anthony Starks the creator of SVGo. It was great to see what people were doing with Go outside the network related projects we always see. Anthony&amp;rsquo;s talk was great, he was using Go to generate SVG for all sorts of things. One important point that stayed with me about his talk, was about dissecting a complex image into just lines and arcs, this allowed you to then build up a replica image (using SVGo) using just these primitives. He also spoke about his project with great passion.&lt;/p&gt;
 
-&lt;h4 id=&#34;gomobile:184802dcbae007fe12d15202c45527c5&#34;&gt;Gomobile&lt;/h4&gt;
+&lt;h4 id=&#34;gomobile&#34;&gt;Gomobile&lt;/h4&gt;
 
 &lt;p&gt;David Crawshaw the creator of gomobile spoke about the challenges of getting Go up and running on mobile platforms. Some of the topics he discussed were Go&amp;rsquo;s calling convention and threading (goroutines, OS threads and CPUs).&lt;/p&gt;
 
 &lt;p&gt;&lt;a href=&#34;https://github.com/golang/mobile&#34;&gt;gombile on github&lt;/a&gt;&lt;/p&gt;
 
-&lt;h4 id=&#34;a-tour-of-the-bleve:184802dcbae007fe12d15202c45527c5&#34;&gt;A Tour of the Bleve&lt;/h4&gt;
+&lt;h4 id=&#34;a-tour-of-the-bleve&#34;&gt;A Tour of the Bleve&lt;/h4&gt;
 
 &lt;p&gt;Marty Schoch the creator of Bleve gave an excellent talk on the open-source full-text search library for Go. Marty presented great code examples along side his talk, which really helped clarify the points he was trying to get across. He also spoke about how members of the community have contributed to the project. This was probably my favorite talk, and I also learned how to pronounce Bleve :)&lt;/p&gt;
 
 &lt;p&gt;&lt;a href=&#34;http://www.blevesearch.com/&#34;&gt;bleve homepage&lt;/a&gt;&lt;/p&gt;
 
-&lt;h4 id=&#34;simplicity-is-complicated:184802dcbae007fe12d15202c45527c5&#34;&gt;Simplicity is Complicated&lt;/h4&gt;
+&lt;h4 id=&#34;simplicity-is-complicated&#34;&gt;Simplicity is Complicated&lt;/h4&gt;
 
 &lt;p&gt;A talk given by the excellent Rob Pike co-creator of Go. He stated that even though Go is a very simple language, a lot of the complexity is hidden behind the scenes. He talked about how simplicity and complexity are part of the design and finding the right balance is a challenging task. This was good talk, and when listening I thought about the &lt;em&gt;go&lt;/em&gt; keyword.&lt;/p&gt;
 
@@ -1113,116 +1195,6 @@ v := &amp;lt;-ch // v = 0
 &lt;p&gt;Basically, when tmux reads in it&amp;rsquo;s configuration, if the OS is &amp;lsquo;Darwin&amp;rsquo; (OS X) then it will read &lt;em&gt;.tmux-osx.conf&lt;/em&gt; else it will read in &lt;em&gt;.tmux-linux.conf&lt;/em&gt;.&lt;/p&gt;
 
 &lt;p&gt;Note: the above code snippet assumes that the three *.conf files are placed in your home directory, if they are not change the paths.&lt;/p&gt;
-</description>
-    </item>
-    
-    
-    
-    <item>
-      <title>Things to do before committing Go code</title>
-      <link>https://fallthrough.io/2015/09/go-todo/</link>
-      <pubDate>Wed, 02 Sep 2015 18:22:06 &#43;0700</pubDate>
-      <author>Usman Mahmood</author>
-      <guid>https://fallthrough.io/2015/09/go-todo/</guid>
-      <description>&lt;p&gt;This blog post will list some of the basic things you should really do before committing Go code into your repository.&lt;/p&gt;
-
-&lt;p&gt;&lt;strong&gt;1)&lt;/strong&gt; Run gofmt/goimports&lt;/p&gt;
-
-&lt;p&gt;&lt;em&gt;gofmt&lt;/em&gt; is probably the most popular Go tool amongst gophers. The job of &lt;em&gt;gofmt&lt;/em&gt; is to
-format Go packages, your code will be formatted to be consistent across your code base. For example if we have the following &lt;em&gt;if&lt;/em&gt; statement:&lt;/p&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-go&#34;&gt;if x == 42 { fmt.Println(&amp;quot;The answer to everything&amp;quot;) }
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;Then running &lt;em&gt;gofmt&lt;/em&gt; on this will format the code to:&lt;/p&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-go&#34;&gt;if x == 42 { 
-    fmt.Println(&amp;quot;The answer to everything&amp;quot;) 
-}
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;&lt;em&gt;goimports&lt;/em&gt; is a tool that does exactly what &lt;em&gt;gofmt&lt;/em&gt; does, but takes it a step further and adds/removes packages. For example if you had the following code:&lt;/p&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-go&#34;&gt;package main
-
-import (
-    &amp;quot;log&amp;quot;
-)
-
-func main() {
-    fmt.Println(&amp;quot;Hello&amp;quot;)
-}
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;As you can see from this code, package &amp;lsquo;log&amp;rsquo; is not used anywhere and package &amp;lsquo;fmt&amp;rsquo; has not been imported. Running &lt;em&gt;goimports&lt;/em&gt; on this code transforms it to:&lt;/p&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-go&#34;&gt;package main
-
-import (
-    &amp;quot;fmt&amp;quot;
-)
-
-func main() {
-    fmt.Println(&amp;quot;Hello&amp;quot;)
-}
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;Running either of these tools on your code is a must, its great to see a code base using common idioms and a consistent format/style. And to me, it&amp;rsquo;s one of main things that makes Go code bases so more approachable than code bases in other languages.&lt;/p&gt;
-
-&lt;p&gt;&lt;strong&gt;2)&lt;/strong&gt; Run golint&lt;/p&gt;
-
-&lt;p&gt;&lt;em&gt;golint&lt;/em&gt; will lint your source code and make suggestions concerning coding style.&lt;/p&gt;
-
-&lt;p&gt;see &lt;a href=&#34;https://github.com/golang/lint&#34;&gt;golint on github&lt;/a&gt;.&lt;/p&gt;
-
-&lt;p&gt;&lt;strong&gt;3)&lt;/strong&gt; Run go vet&lt;/p&gt;
-
-&lt;p&gt;Go &lt;em&gt;vet&lt;/em&gt; is another important tool, it&amp;rsquo;s perfectly summed up by it&amp;rsquo;s documentation:&lt;/p&gt;
-
-&lt;p&gt;&lt;em&gt;&amp;ldquo;Vet examines Go source code and reports suspicious constructs, such as Printf calls whose arguments do not align with the format string. Vet uses heuristics that do not guarantee all reports are genuine problems, but it can find errors not caught by the compilers.&amp;rdquo;&lt;/em&gt;&lt;/p&gt;
-
-&lt;p&gt;If we run go &lt;em&gt;vet&lt;/em&gt; on the following code:&lt;/p&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-go&#34;&gt;fmt.Printf(&amp;quot;%s&amp;quot;, 42)
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;We would get the following error:&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;test.go:6: arg 42 for printf verb %s of wrong type: int
-exit status 1
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;Go &lt;em&gt;vet&lt;/em&gt; differs from &lt;em&gt;golint&lt;/em&gt;, go &lt;em&gt;vet&lt;/em&gt; is concerned with correctness and &lt;em&gt;golint&lt;/em&gt; is concerned with coding style.&lt;/p&gt;
-
-&lt;p&gt;see &lt;a href=&#34;https://godoc.org/golang.org/x/tools/cmd/vet&#34;&gt;here&lt;/a&gt; for more information on &lt;em&gt;vet&lt;/em&gt;.&lt;/p&gt;
-
-&lt;p&gt;&lt;strong&gt;4)&lt;/strong&gt; Run build/install/run with -race flag:&lt;/p&gt;
-
-&lt;p&gt;There is a fully integrated race detector in the go tool chain. The race detector contains complex race detection and deadlock algorithms, to help you hunt down those hard to find concurrency related bugs.&lt;/p&gt;
-
-&lt;p&gt;To enable the race detector in your code, add the -race flag on the command line:&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;$ go test -race mypkg    // test the package
-$ go run -race mysrc.go  // compile and run the program
-$ go build -race mycmd   // build the command
-$ go install -race mypkg // install the package
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;Note: Your code will run slower when you enable this flag, as the race detector is busy doing its thing :)&lt;/p&gt;
-
-&lt;p&gt;&lt;strong&gt;5)&lt;/strong&gt; Run a dependency management tool&lt;/p&gt;
-
-&lt;p&gt;It&amp;rsquo;s very likely that your project will make use of 3rd party libraries. If you need to capture there versions, run a dependency management tool. Below is a list of some popular ones:&lt;/p&gt;
-
-&lt;ul&gt;
-&lt;li&gt;&lt;a href=&#34;https://github.com/constabulary/gb&#34;&gt;gb on github&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;https://github.com/tools/godep&#34;&gt;godeps on github&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;https://github.com/Masterminds/glide&#34;&gt;glide on github&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;I have no real experience with the above tools but instead use the go 1.5 vendor experiment feature to capture dependencies.&lt;/p&gt;
-
-&lt;p&gt;I hope this lists helps you in some way in managing your Go projects. Remember, this is just a basic list, Go has numerous tools that you probably run which are essential to you or your project. The ones listed above are ones which I believe are the basics.&lt;/p&gt;
 </description>
     </item>
     

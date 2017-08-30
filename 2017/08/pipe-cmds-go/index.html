@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en-us">
+<head>
+  <link href="http://gmpg.org/xfn/11" rel="profile">
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+
+  
+
+  <title> Piping Commands into Go Binaries  &middot; Usman Mahmood </title>
+
+  
+  <link rel="stylesheet" href="https://fallthrough.io/css/poole.css">
+  <link rel="stylesheet" href="https://fallthrough.io/css/syntax.css">
+  <link rel="stylesheet" href="https://fallthrough.io/css/hyde.css">
+  <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=PT+Sans:400,400italic,700|Abril+Fatface">
+
+  
+  <link rel="apple-touch-icon-precomposed" sizes="144x144" href="/apple-touch-icon-144-precomposed.png">
+  <link rel="shortcut icon" href="/favicon.ico">
+
+  
+
+  <link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
+
+  <link href='http://fonts.googleapis.com/css?family=Raleway:400,300' rel='stylesheet' type='text/css'>
+
+  <script src="//ajax.googleapis.com/ajax/libs/webfont/1.4.7/webfont.js"></script>
+  <script>
+    WebFont.load({
+      google: {
+        families: ['Raleway']
+      }
+    });
+  </script>
+
+</head>
+
+<body>
+
+  <div class="sidebar">
+  <div class="container sidebar-sticky">
+    <div class="sidebar-about">
+      <h1 style="font-size: 60px" class="brand"><a href="https://fallthrough.io">Usman Mahmood</a></h1><br/>
+      <p class="lead">
+       Algorithms &#43; Data Structures = Programs 
+      </p>
+    </div>
+
+    <ul class="sidebar-nav">
+      <li><a href="https://fallthrough.io/blog">Posts</a></li>
+      
+        <li><a href="/about/">About </a></li>
+      
+      <br/>
+      <li><a href="https://github.com/umahmood">Github</a></li>
+      <li><a href="https://twitter.com/make_slice">Twitter</a></li>
+      <li><a href="https://keybase.io/usman">Keybase</a></li>
+
+    <br/>
+    &copy; 2017 Usman Mahmood. All rights reserved.</p>
+    
+  </div>
+</div>
+
+
+  <div class="content container">
+    <div class="post">
+    <h1 class="post-title">Piping Commands into Go Binaries</h1>
+    <span class="post-date">Aug 27, 2017</span>
+    
+    <p>In this post we will see how we can pipe commands into our Go applications. We will write a basic command line program which demonstrates the functionality. Before we get started, it&rsquo;s worth going over the basics of piping commands.</p>
+
+<p>The modular nature of the UNIX operating system. Allows the user to use basic commands to build up new commands. By allowing the output of one command to be used as the input for the next command. The general form of the pipe command is:</p>
+
+<pre><code>command1 | command2 | command3
+</code></pre>
+
+<p>Here, <em>command1</em> is piping its output into <em>command2</em>, which transforms the incoming data, and then pipes it into <em>command3</em>.</p>
+
+<p>Some examples:</p>
+
+<pre><code>ls -l | grep &quot;ninja&quot; | less
+</code></pre>
+
+<pre><code>who | sort
+</code></pre>
+
+<pre><code>file * | grep text
+</code></pre>
+
+<p>Piping commands into your Go applications is quite easy. Thanks to the excellent standard library. We will write a very basic command line program <em>&lsquo;change&rsquo;</em>. Which takes input, and replaces any occurrence of word A with  word B. Here is an example of the the command in action:</p>
+
+<pre><code>$ echo &quot;I hate Brussel sprouts!&quot; | change &quot;hate&quot; &quot;love&quot;
+I love Brussel sprouts!
+</code></pre>
+
+<p>Below is the code for the full program:</p>
+
+<pre><code>// change.go
+package main
+
+import (
+	&quot;bytes&quot;
+	&quot;fmt&quot;
+	&quot;io&quot;
+	&quot;log&quot;
+	&quot;os&quot;
+)
+
+func main() {
+	buf := &amp;bytes.Buffer{}
+	n, err := io.Copy(buf, os.Stdin)
+	if err != nil {
+		log.Fatalln(err)
+	} else if n &lt;= 1 { // buffer always contains '\n'
+		log.Fatalln(&quot;no input provided&quot;)
+	}
+	if len(os.Args) != 3 {
+		log.Fatalln(&quot;usage: echo \&quot;hello world\&quot; | change hello bye&quot;)
+	}
+	oldWord := os.Args[1]
+	newWord := os.Args[2]
+	r := bytes.Replace(buf.Bytes(), []byte(oldWord), []byte(newWord), -1)
+	fmt.Println(string(r))
+}
+</code></pre>
+
+<pre><code>$ go build change.go
+</code></pre>
+
+<p>Note: this code needs more work to make it more robust, if it were to be used in production. But it is okay for demonstration purposes.</p>
+
+<p>And that is how you pipe commands into your Go applications. Another command could pipe in the output of our command, as follows:</p>
+
+<pre><code>$ echo &quot;I hate hate Brussel sprouts!&quot; | change &quot;hate&quot; &quot;love&quot; | grep -o love | wc -l
+2
+</code></pre>
+
+<p>I hope you enjoyed this blog post.</p>
+
+<p>Fin.</p>
+
+    
+
+     
+	
+</div>
+</div> 
+
+</body>
+</html>

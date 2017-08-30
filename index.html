@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en-us">
 <head>
+	<meta name="generator" content="Hugo 0.26" />
   <link href="http://gmpg.org/xfn/11" rel="profile">
   <meta http-equiv="content-type" content="text/html; charset=utf-8">
 
@@ -22,7 +23,6 @@
   <link rel="shortcut icon" href="/favicon.ico">
 
   
-  <link href="https://fallthrough.io/index.xml" rel="alternate" type="application/rss+xml" title="Usman Mahmood" />
 
   <link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
 
@@ -71,6 +71,94 @@
 <div class="posts">
 
       
+  
+  <div class="post">
+    <h1 class="post-title">
+      <a href="https://fallthrough.io/2017/08/pipe-cmds-go/">
+        Piping Commands into Go Binaries
+      </a>
+    </h1>
+
+    <span class="post-date">Aug 27, 2017</span>
+
+    
+
+
+    <p>In this post we will see how we can pipe commands into our Go applications. We will write a basic command line program which demonstrates the functionality. Before we get started, it&rsquo;s worth going over the basics of piping commands.</p>
+
+<p>The modular nature of the UNIX operating system. Allows the user to use basic commands to build up new commands. By allowing the output of one command to be used as the input for the next command. The general form of the pipe command is:</p>
+
+<pre><code>command1 | command2 | command3
+</code></pre>
+
+<p>Here, <em>command1</em> is piping its output into <em>command2</em>, which transforms the incoming data, and then pipes it into <em>command3</em>.</p>
+
+<p>Some examples:</p>
+
+<pre><code>ls -l | grep &quot;ninja&quot; | less
+</code></pre>
+
+<pre><code>who | sort
+</code></pre>
+
+<pre><code>file * | grep text
+</code></pre>
+
+<p>Piping commands into your Go applications is quite easy. Thanks to the excellent standard library. We will write a very basic command line program <em>&lsquo;change&rsquo;</em>. Which takes input, and replaces any occurrence of word A with  word B. Here is an example of the the command in action:</p>
+
+<pre><code>$ echo &quot;I hate Brussel sprouts!&quot; | change &quot;hate&quot; &quot;love&quot;
+I love Brussel sprouts!
+</code></pre>
+
+<p>Below is the code for the full program:</p>
+
+<pre><code>// change.go
+package main
+
+import (
+	&quot;bytes&quot;
+	&quot;fmt&quot;
+	&quot;io&quot;
+	&quot;log&quot;
+	&quot;os&quot;
+)
+
+func main() {
+	buf := &amp;bytes.Buffer{}
+	n, err := io.Copy(buf, os.Stdin)
+	if err != nil {
+		log.Fatalln(err)
+	} else if n &lt;= 1 { // buffer always contains '\n'
+		log.Fatalln(&quot;no input provided&quot;)
+	}
+	if len(os.Args) != 3 {
+		log.Fatalln(&quot;usage: echo \&quot;hello world\&quot; | change hello bye&quot;)
+	}
+	oldWord := os.Args[1]
+	newWord := os.Args[2]
+	r := bytes.Replace(buf.Bytes(), []byte(oldWord), []byte(newWord), -1)
+	fmt.Println(string(r))
+}
+</code></pre>
+
+<pre><code>$ go build change.go
+</code></pre>
+
+<p>Note: this code needs more work to make it more robust, if it were to be used in production. But it is okay for demonstration purposes.</p>
+
+<p>And that is how you pipe commands into your Go applications. Another command could pipe in the output of our command, as follows:</p>
+
+<pre><code>$ echo &quot;I hate hate Brussel sprouts!&quot; | change &quot;hate&quot; &quot;love&quot; | grep -o love | wc -l
+2
+</code></pre>
+
+<p>I hope you enjoyed this blog post.</p>
+
+<p>Fin.</p>
+
+  </div>
+  
+  
   
   <div class="post">
     <h1 class="post-title">
@@ -176,13 +264,13 @@ func main() {
 
 <p>From our home network we will create a secure tunnel, through ngrok. Which we will then connect to from our external network. This will allow us to SSH into our Raspberry Pi, and manage it.</p>
 
-<h5 id="what-is-ngrok:badb4f5b22028ec1b44a78365cf64846">What is ngrok?</h5>
+<h5 id="what-is-ngrok">What is ngrok?</h5>
 
 <p>ngrok is a fantastic tool which allows you to create secure tunnels to localhost. So you can do things like expose a local server behind a NAT or firewall to the internet. See the <a href="https://ngrok.com/">ngrok</a> homepage for more information.</p>
 
 <p>Lets get started!</p>
 
-<h4 id="step-1-enable-passwordless-ssh-access:badb4f5b22028ec1b44a78365cf64846">Step 1: Enable Passwordless SSH Access</h4>
+<h4 id="step-1-enable-passwordless-ssh-access">Step 1: Enable Passwordless SSH Access</h4>
 
 <p>You need to configure your Pi for SSH access. Follow the steps described in the following link (very carefully):</p>
 
@@ -214,18 +302,18 @@ pi@raspberrypi ~ $
 
 <p><strong>Note</strong>: the computer you generated the SSH keys on (and copied to the Pi). Is the computer you will be using to connect to your Pi, from the external network.</p>
 
-<h4 id="step-2-install-ngrok-on-your-raspberry-pi:badb4f5b22028ec1b44a78365cf64846">Step 2: Install ngrok on your Raspberry Pi</h4>
+<h4 id="step-2-install-ngrok-on-your-raspberry-pi">Step 2: Install ngrok on your Raspberry Pi</h4>
 
 <p>Go <a href="https://ngrok.com/download">here</a> and follow the instructions to install ngrok on your Pi.</p>
 
-<h4 id="step-3-run-ngrok-on-your-raspberry-pi:badb4f5b22028ec1b44a78365cf64846">Step 3: Run ngrok on your Raspberry Pi</h4>
+<h4 id="step-3-run-ngrok-on-your-raspberry-pi">Step 3: Run ngrok on your Raspberry Pi</h4>
 
 <p>Run ngrok with the following options:</p>
 
 <pre><code>pi@raspberrypi ~ $ ngrok tcp 22
 </code></pre>
 
-<h4 id="step-4-copy-ngrok-host-and-port:badb4f5b22028ec1b44a78365cf64846">Step 4: Copy ngrok Host and Port</h4>
+<h4 id="step-4-copy-ngrok-host-and-port">Step 4: Copy ngrok Host and Port</h4>
 
 <p>Once ngrok starts, it will display a <em>tcp://</em> address on the forwarding line, for example:</p>
 
@@ -237,7 +325,7 @@ pi@raspberrypi ~ $
 
 <p><strong>Note</strong>: the host name and port will be different for you.</p>
 
-<h4 id="step-5-edit-ssh-config-file:badb4f5b22028ec1b44a78365cf64846">Step 5: Edit SSH config file</h4>
+<h4 id="step-5-edit-ssh-config-file">Step 5: Edit SSH config file</h4>
 
 <p>In step one you generated some ssh keys on your computer, and then copied them to the raspberry Pi. On the computer you generated the SSH keys on, add the following details to <em>~/.ssh/config</em>:</p>
 
@@ -250,7 +338,7 @@ pi@raspberrypi ~ $
 
 <p><strong>Note</strong>: we are using the same key we copied over to the Pi in step one, you can generate new SSH keys if you like.</p>
 
-<h4 id="step-6-access-the-raspberry-pi-from-outside-your-network:badb4f5b22028ec1b44a78365cf64846">Step 6: Access the Raspberry Pi from outside your network</h4>
+<h4 id="step-6-access-the-raspberry-pi-from-outside-your-network">Step 6: Access the Raspberry Pi from outside your network</h4>
 
 <p>Now with your computer <strong>not</strong> connected to your home network, type the command:</p>
 
@@ -425,7 +513,7 @@ nothing to commit, working tree clean
 
 <p>Why would you want to create an empty commit? You may want to communicate changes, which have nothing to do with code. But you have updated something that you want the rest of the team to know about. And you feel that communicating this via the git log make sense.</p>
 
-<h4 id="creating-an-empty-commit:80d2821c8306d8d07d9c8b746d39fb7b">Creating an empty commit</h4>
+<h4 id="creating-an-empty-commit">Creating an empty commit</h4>
 
 <p>Start by creating a repo:</p>
 
@@ -575,7 +663,7 @@ Date:   Wed Jan 10 14:00:00 2099 +0100
 
 <p>In this post we will walk through an example of how to use the new subtests and sub-benchmarks functionality introduced in Go 1.7.</p>
 
-<h4 id="subtests:ab65b34deed84f4e72ae56b7904d376a">Subtests</h4>
+<h4 id="subtests">Subtests</h4>
 
 <p>One of the nifty features in Go is the ability to write table driven tests. For example, if we wanted to test the function:</p>
 
@@ -688,7 +776,7 @@ ok      example    0.006s
 
 <p>Here <em>&ldquo;input[1-3]&rdquo;</em> matched _&ldquo;input<em>2&rdquo;</em> and _&ldquo;input<em>3&rdquo;</em> but not _&ldquo;input<em>4&rdquo;</em>.</p>
 
-<h4 id="sub-benchmarks:ab65b34deed84f4e72ae56b7904d376a">Sub-benchmarks</h4>
+<h4 id="sub-benchmarks">Sub-benchmarks</h4>
 
 <p>Unlike table driven testing there was no equal approach for benchmarking. But now in Go 1.7, we have the ability to create table driven benchmarks. Imagine we need to benchmark the following function:</p>
 
@@ -948,7 +1036,7 @@ sort.Stable [one two ball hell joke fool moon]
 
 <p>The function call in the defer statement (CleanUp), happens just before the function &lsquo;DoWork&rsquo; exits. Below I have listed some properties of the defer statement:</p>
 
-<h3 id="defer-d-functions-are-executed-in-lifo:c0ee3214aa0f030d3b7e9ff843504550">Defer&rsquo;d functions are executed in LIFO</h3>
+<h3 id="defer-d-functions-are-executed-in-lifo">Defer&rsquo;d functions are executed in LIFO</h3>
 
 <p>Given the following program:</p>
 
@@ -989,7 +1077,7 @@ a1
 a0
 </code></pre>
 
-<h3 id="defer-d-functions-execute-even-if-the-function-panics:c0ee3214aa0f030d3b7e9ff843504550">Defer&rsquo;d functions execute even if the function panics</h3>
+<h3 id="defer-d-functions-execute-even-if-the-function-panics">Defer&rsquo;d functions execute even if the function panics</h3>
 
 <p>In the following program the method &lsquo;Space&rsquo; panics, but the defer&rsquo;d function queued up still executes.</p>
 
@@ -1013,7 +1101,7 @@ main.main()
 
 <p>When a panic function executes, it begins to unwind the stack executing any defer statements as it goes.</p>
 
-<h3 id="arguments-are-evaluated-when-the-defer-statement-is-encountered:c0ee3214aa0f030d3b7e9ff843504550">Arguments are evaluated when the defer statement is encountered</h3>
+<h3 id="arguments-are-evaluated-when-the-defer-statement-is-encountered">Arguments are evaluated when the defer statement is encountered</h3>
 
 <p>Take the following example:</p>
 
@@ -1059,7 +1147,7 @@ value of x = 0  // defer'd function call output
 value of x = 1
 </code></pre>
 
-<h3 id="defer-d-functions-can-access-named-parameters:c0ee3214aa0f030d3b7e9ff843504550">Defer&rsquo;d functions can access named parameters</h3>
+<h3 id="defer-d-functions-can-access-named-parameters">Defer&rsquo;d functions can access named parameters</h3>
 
 <p>In the following example (taken from the defer section of the language specification):</p>
 
@@ -1096,7 +1184,7 @@ func f() (result int) {
 
 <p>A while ago I was watching a tech talk by Blake Caldwell on <a href="https://www.youtube.com/watch?v=PyBJQA4clfc">Building Resilient Services with Go</a>. In his presentation he had a slide which listed go channel axioms. I have listed his channel axioms here and provided some short code snippets to hopefully clarify them.</p>
 
-<h3 id="a-send-to-a-nil-channel-blocks-forever:3c6d760ac1dd0a5b6f008ac700644390">A send to a nil channel blocks forever</h3>
+<h3 id="a-send-to-a-nil-channel-blocks-forever">A send to a nil channel blocks forever</h3>
 
 <pre><code class="language-go">var ch chan bool
 ch &lt;- true // will always block
@@ -1104,7 +1192,7 @@ ch &lt;- true // will always block
 
 <p>We declare a channel &lsquo;ch&rsquo; but do not initialize it (with make), so it is a nil channel. We then attempt to <strong>send</strong> a value down the channel, this causes a blocking operation.</p>
 
-<h3 id="a-receive-from-a-nil-channel-blocks-forever:3c6d760ac1dd0a5b6f008ac700644390">A receive from a nil channel blocks forever</h3>
+<h3 id="a-receive-from-a-nil-channel-blocks-forever">A receive from a nil channel blocks forever</h3>
 
 <pre><code class="language-go">var ch chan bool
 v := &lt;-ch // will always block
@@ -1112,7 +1200,7 @@ v := &lt;-ch // will always block
 
 <p>We declare a channel &lsquo;ch&rsquo; but do not initialize it (with make), so it is a nil channel, We then attempt to <strong>receive</strong> a value from the channel, this causes a blocking operation.</p>
 
-<h3 id="a-send-to-a-closed-channel-panics:3c6d760ac1dd0a5b6f008ac700644390">A send to a closed channel panics</h3>
+<h3 id="a-send-to-a-closed-channel-panics">A send to a closed channel panics</h3>
 
 <pre><code class="language-go">ch := make(chan bool)
 ...
@@ -1128,7 +1216,7 @@ ch &lt;- true // panics!
 }
 </code></pre>
 
-<h3 id="a-receive-from-a-closed-channel-returns-the-zero-value-immediately:3c6d760ac1dd0a5b6f008ac700644390">A receive from a closed channel returns the zero value immediately</h3>
+<h3 id="a-receive-from-a-closed-channel-returns-the-zero-value-immediately">A receive from a closed channel returns the zero value immediately</h3>
 
 <pre><code class="language-go">ch := make(chan int)
 ...
@@ -1161,57 +1249,57 @@ v := &lt;-ch // v = 0
 
 <p>On Monday the 9th of November I was in Paris attending dotGo, the European Go conference. This blog post is a summary of my time there.</p>
 
-<h3 id="pre-conference:184802dcbae007fe12d15202c45527c5">Pre-Conference</h3>
+<h3 id="pre-conference">Pre-Conference</h3>
 
 <p>The day before the conference, the Paris tech talks group organized a pre-conference meetup/party. There were a large number of delegates who turned up and the meet up consisted of about six or seven talks. The talks were about how individuals at there respective companies were using Go. All the projects demoed and talked about were network related i.e. using Go to write a load balancer which solved a particular problem. After the talks, there was a chance to socialize and eat pizza with other gophers :).</p>
 
-<h3 id="venue:184802dcbae007fe12d15202c45527c5">Venue</h3>
+<h3 id="venue">Venue</h3>
 
 <p>On the day of the conference I made my way down to the venue Théâtre de Paris. This venue was absolutely beautiful, the high ceilings, the seating, the theatre boxes and stage. Made this venue truly great, and I was very grateful that the building owners allowed the conference to take place there.</p>
 
-<h3 id="talks:184802dcbae007fe12d15202c45527c5">Talks</h3>
+<h3 id="talks">Talks</h3>
 
 <p>dotGo is a single track conference which I prefer, as I always have a hard time making my mind up about which talks to attend. Here is a summary of the talks:</p>
 
-<h4 id="microservices:184802dcbae007fe12d15202c45527c5">Microservices</h4>
+<h4 id="microservices">Microservices</h4>
 
 <p>This talk was given by Peter Bourgon the creator of Gokit. The talk centered around his thoughts, opinions and efforts of getting people to adopt microservices in organizations.</p>
 
 <p><a href="https://github.com/go-kit/kit">gokit on github</a></p>
 
-<h4 id="tools-for-working-with-go-code:184802dcbae007fe12d15202c45527c5">Tools for working with Go code</h4>
+<h4 id="tools-for-working-with-go-code">Tools for working with Go code</h4>
 
 <p>This talk was given by Fatih Arslan the creator of Vim-go. This was a great talk were you were introduced to a wide range of tools that exist in the Go ecosystem. Tools such as <em>gorename</em>, <em>generate</em> and <em>oracle</em> were presented along with examples on how to use them.</p>
 
-<h4 id="the-docker-trail:184802dcbae007fe12d15202c45527c5">The Docker Trail</h4>
+<h4 id="the-docker-trail">The Docker Trail</h4>
 
 <p>This talk was given by Jessica Frazelle who is a core team member at Docker. She talked about three odd things the team at Docker noticed and how they went about debugging and fixing them.</p>
 
-<h4 id="applied-concurrency-in-go:184802dcbae007fe12d15202c45527c5">Applied Concurrency in Go</h4>
+<h4 id="applied-concurrency-in-go">Applied Concurrency in Go</h4>
 
 <p>A talk given by Matt Aimonetti who is the co-founder and CTO of Splice. Matt was running Go code (which used concurrency) on an Arduino which made some LED&rsquo;s blink according to some rules. He ran various versions of the code all of which contained concurrency related bugs, he fixed the bugs as he went along. Showing all the the mistakes we usually make when writing concurrent code.</p>
 
-<h4 id="functional-go:184802dcbae007fe12d15202c45527c5">Functional Go?</h4>
+<h4 id="functional-go">Functional Go?</h4>
 
 <p>A talk given by the excellent Francesc Campoy Flores a member of the Google Go team. This talk concentrated on his efforts to use Go in a functional manner, after his experiences with Haskell. The functional code he wrote for the problem he was trying solve was scary, he really was actively working against the language (something he admitted). It was a fun talk though.</p>
 
-<h4 id="the-other-side-of-go-programming-pictures:184802dcbae007fe12d15202c45527c5">The Other Side of Go: Programming Pictures</h4>
+<h4 id="the-other-side-of-go-programming-pictures">The Other Side of Go: Programming Pictures</h4>
 
 <p>This talk was given by Anthony Starks the creator of SVGo. It was great to see what people were doing with Go outside the network related projects we always see. Anthony&rsquo;s talk was great, he was using Go to generate SVG for all sorts of things. One important point that stayed with me about his talk, was about dissecting a complex image into just lines and arcs, this allowed you to then build up a replica image (using SVGo) using just these primitives. He also spoke about his project with great passion.</p>
 
-<h4 id="gomobile:184802dcbae007fe12d15202c45527c5">Gomobile</h4>
+<h4 id="gomobile">Gomobile</h4>
 
 <p>David Crawshaw the creator of gomobile spoke about the challenges of getting Go up and running on mobile platforms. Some of the topics he discussed were Go&rsquo;s calling convention and threading (goroutines, OS threads and CPUs).</p>
 
 <p><a href="https://github.com/golang/mobile">gombile on github</a></p>
 
-<h4 id="a-tour-of-the-bleve:184802dcbae007fe12d15202c45527c5">A Tour of the Bleve</h4>
+<h4 id="a-tour-of-the-bleve">A Tour of the Bleve</h4>
 
 <p>Marty Schoch the creator of Bleve gave an excellent talk on the open-source full-text search library for Go. Marty presented great code examples along side his talk, which really helped clarify the points he was trying to get across. He also spoke about how members of the community have contributed to the project. This was probably my favorite talk, and I also learned how to pronounce Bleve :)</p>
 
 <p><a href="http://www.blevesearch.com/">bleve homepage</a></p>
 
-<h4 id="simplicity-is-complicated:184802dcbae007fe12d15202c45527c5">Simplicity is Complicated</h4>
+<h4 id="simplicity-is-complicated">Simplicity is Complicated</h4>
 
 <p>A talk given by the excellent Rob Pike co-creator of Go. He stated that even though Go is a very simple language, a lot of the complexity is hidden behind the scenes. He talked about how simplicity and complexity are part of the design and finding the right balance is a challenging task. This was good talk, and when listening I thought about the <em>go</em> keyword.</p>
 
@@ -1404,17 +1492,17 @@ conference.</p>
 else to expect. Overall though, I found the conference was excellent and I met
 a wide range of interesting people.</p>
 
-<h5 id="turnout:95f078b9982a0bb9d2c4f8afc300946a">Turnout</h5>
+<h5 id="turnout">Turnout</h5>
 
 <p>The turnout was quite big with over 250 delegates from all over the world.</p>
 
-<h5 id="go-usage:95f078b9982a0bb9d2c4f8afc300946a">Go usage</h5>
+<h5 id="go-usage">Go usage</h5>
 
 <p>From the people I met no one was really using Go in a big way, but had an
 API or a small server component written in Go. However, everyone was expecting
 to increase there Go usage through out the coming year.</p>
 
-<h5 id="talks:95f078b9982a0bb9d2c4f8afc300946a">Talks</h5>
+<h5 id="talks">Talks</h5>
 
 <p>The conference consisted of 2 tracks, a main track and a side track. The talks I
 went to:</p>
@@ -1432,7 +1520,7 @@ went to:</p>
 
 <p>Out of all the talks, the best one was Code Analysis presented by Francesc Campoy.</p>
 
-<h5 id="food:95f078b9982a0bb9d2c4f8afc300946a">Food :)</h5>
+<h5 id="food">Food :)</h5>
 
 <p>The food served at the conference was absoutetly amazing. Many of the delgates
 said that it was best food of any conference they had been to.</p>
@@ -1658,12 +1746,12 @@ town ----&gt; &quot;742 Evergreen Terrace Springfield&quot;
 
 <p>There are two ways to concatenate string more efficiently:</p>
 
-<h5 id="1-strings-join:09d97f42a93e7b11514ce16c8075547b">1. strings.Join()</h5>
+<h5 id="1-strings-join">1. strings.Join()</h5>
 
 <pre><code>town := strings.Join([]string{&quot;Spring&quot;, &quot;field&quot;}, &quot;&quot;))
 </code></pre>
 
-<h5 id="2-bytes-buffer:09d97f42a93e7b11514ce16c8075547b">2. bytes.Buffer</h5>
+<h5 id="2-bytes-buffer">2. bytes.Buffer</h5>
 
 <pre><code>func concat(vals ...string) string {
     var buffer bytes.Buffer
@@ -1764,7 +1852,7 @@ import &quot;C&quot;
 
 <p>The header files stdio.h and errno.h are included as part of the compilation process, math.h is <strong>not</strong>.</p>
 
-<h2 id="inline-c:f1759daed9e47388fe7eae5373f5e76d">Inline C</h2>
+<h2 id="inline-c">Inline C</h2>
 
 <p>You can also write C code directly in the comments, here is an example:</p>
 
@@ -1796,7 +1884,7 @@ $ ./inline
 42
 </code></pre>
 
-<h2 id="accessing-c-structs:f1759daed9e47388fe7eae5373f5e76d">Accessing C structs</h2>
+<h2 id="accessing-c-structs">Accessing C structs</h2>
 
 <p>Assume we have the below C struct defined in a .h or .c file:</p>
 
@@ -1825,7 +1913,7 @@ type:   main._Ctype_struct_point
 struct: {x:99 y:42}
 </code></pre>
 
-<h2 id="controlling-the-behaviour-of-the-c-compiler:f1759daed9e47388fe7eae5373f5e76d">Controlling the behaviour of the C compiler</h2>
+<h2 id="controlling-the-behaviour-of-the-c-compiler">Controlling the behaviour of the C compiler</h2>
 
 <p>You can pass flags to the C compiler to control its behaviour. This is done by defining a CFLAGS with a pseudo #cgo directive in the comments. In the example below, the -H flag will be passed to the C compiler (clang in my case) when it&rsquo;s invoked. The -H flag tells clang to show the header includes and nesting depth.</p>
 
@@ -1862,7 +1950,7 @@ $ ./main
 result = 42
 </code></pre>
 
-<h2 id="peeking-behind-the-scenes:f1759daed9e47388fe7eae5373f5e76d">Peeking behind the scenes</h2>
+<h2 id="peeking-behind-the-scenes">Peeking behind the scenes</h2>
 
 <p>What is happening when we build a Go package that includes an import &ldquo;C&rdquo; statement.</p>
 

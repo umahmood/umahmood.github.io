@@ -22,7 +22,6 @@
   <link rel="shortcut icon" href="/favicon.ico">
 
   
-  <link href="" rel="alternate" type="application/rss+xml" title="Usman Mahmood" />
 
   <link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
 
@@ -111,12 +110,12 @@ town ----&gt; &quot;742 Evergreen Terrace Springfield&quot;
 
 <p>There are two ways to concatenate string more efficiently:</p>
 
-<h5 id="1-strings-join:09d97f42a93e7b11514ce16c8075547b">1. strings.Join()</h5>
+<h5 id="1-strings-join">1. strings.Join()</h5>
 
 <pre><code>town := strings.Join([]string{&quot;Spring&quot;, &quot;field&quot;}, &quot;&quot;))
 </code></pre>
 
-<h5 id="2-bytes-buffer:09d97f42a93e7b11514ce16c8075547b">2. bytes.Buffer</h5>
+<h5 id="2-bytes-buffer">2. bytes.Buffer</h5>
 
 <pre><code>func concat(vals ...string) string {
     var buffer bytes.Buffer

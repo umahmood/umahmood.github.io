@@ -22,7 +22,6 @@
   <link rel="shortcut icon" href="/favicon.ico">
 
   
-  <link href="" rel="alternate" type="application/rss+xml" title="Usman Mahmood" />
 
   <link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
 
@@ -133,7 +132,7 @@ import &quot;C&quot;
 
 <p>The header files stdio.h and errno.h are included as part of the compilation process, math.h is <strong>not</strong>.</p>
 
-<h2 id="inline-c:f1759daed9e47388fe7eae5373f5e76d">Inline C</h2>
+<h2 id="inline-c">Inline C</h2>
 
 <p>You can also write C code directly in the comments, here is an example:</p>
 
@@ -165,7 +164,7 @@ $ ./inline
 42
 </code></pre>
 
-<h2 id="accessing-c-structs:f1759daed9e47388fe7eae5373f5e76d">Accessing C structs</h2>
+<h2 id="accessing-c-structs">Accessing C structs</h2>
 
 <p>Assume we have the below C struct defined in a .h or .c file:</p>
 
@@ -194,7 +193,7 @@ type:   main._Ctype_struct_point
 struct: {x:99 y:42}
 </code></pre>
 
-<h2 id="controlling-the-behaviour-of-the-c-compiler:f1759daed9e47388fe7eae5373f5e76d">Controlling the behaviour of the C compiler</h2>
+<h2 id="controlling-the-behaviour-of-the-c-compiler">Controlling the behaviour of the C compiler</h2>
 
 <p>You can pass flags to the C compiler to control its behaviour. This is done by defining a CFLAGS with a pseudo #cgo directive in the comments. In the example below, the -H flag will be passed to the C compiler (clang in my case) when it&rsquo;s invoked. The -H flag tells clang to show the header includes and nesting depth.</p>
 
@@ -231,7 +230,7 @@ $ ./main
 result = 42
 </code></pre>
 
-<h2 id="peeking-behind-the-scenes:f1759daed9e47388fe7eae5373f5e76d">Peeking behind the scenes</h2>
+<h2 id="peeking-behind-the-scenes">Peeking behind the scenes</h2>
 
 <p>What is happening when we build a Go package that includes an import &ldquo;C&rdquo; statement.</p>
 

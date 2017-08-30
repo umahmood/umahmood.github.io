@@ -22,7 +22,6 @@
   <link rel="shortcut icon" href="/favicon.ico">
 
   
-  <link href="" rel="alternate" type="application/rss+xml" title="Usman Mahmood" />
 
   <link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
 
@@ -76,7 +75,7 @@
 
 <p>A while ago I was watching a tech talk by Blake Caldwell on <a href="https://www.youtube.com/watch?v=PyBJQA4clfc">Building Resilient Services with Go</a>. In his presentation he had a slide which listed go channel axioms. I have listed his channel axioms here and provided some short code snippets to hopefully clarify them.</p>
 
-<h3 id="a-send-to-a-nil-channel-blocks-forever:3c6d760ac1dd0a5b6f008ac700644390">A send to a nil channel blocks forever</h3>
+<h3 id="a-send-to-a-nil-channel-blocks-forever">A send to a nil channel blocks forever</h3>
 
 <pre><code class="language-go">var ch chan bool
 ch &lt;- true // will always block
@@ -84,7 +83,7 @@ ch &lt;- true // will always block
 
 <p>We declare a channel &lsquo;ch&rsquo; but do not initialize it (with make), so it is a nil channel. We then attempt to <strong>send</strong> a value down the channel, this causes a blocking operation.</p>
 
-<h3 id="a-receive-from-a-nil-channel-blocks-forever:3c6d760ac1dd0a5b6f008ac700644390">A receive from a nil channel blocks forever</h3>
+<h3 id="a-receive-from-a-nil-channel-blocks-forever">A receive from a nil channel blocks forever</h3>
 
 <pre><code class="language-go">var ch chan bool
 v := &lt;-ch // will always block
@@ -92,7 +91,7 @@ v := &lt;-ch // will always block
 
 <p>We declare a channel &lsquo;ch&rsquo; but do not initialize it (with make), so it is a nil channel, We then attempt to <strong>receive</strong> a value from the channel, this causes a blocking operation.</p>
 
-<h3 id="a-send-to-a-closed-channel-panics:3c6d760ac1dd0a5b6f008ac700644390">A send to a closed channel panics</h3>
+<h3 id="a-send-to-a-closed-channel-panics">A send to a closed channel panics</h3>
 
 <pre><code class="language-go">ch := make(chan bool)
 ...
@@ -108,7 +107,7 @@ ch &lt;- true // panics!
 }
 </code></pre>
 
-<h3 id="a-receive-from-a-closed-channel-returns-the-zero-value-immediately:3c6d760ac1dd0a5b6f008ac700644390">A receive from a closed channel returns the zero value immediately</h3>
+<h3 id="a-receive-from-a-closed-channel-returns-the-zero-value-immediately">A receive from a closed channel returns the zero value immediately</h3>
 
 <pre><code class="language-go">ch := make(chan int)
 ...
