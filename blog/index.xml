@@ -7,7 +7,71 @@
     <language>en-us</language>
     <author>Usman Mahmood</author>
     <copyright>2017 Usman Mahmood</copyright>
-    <updated>Sun, 27 Aug 2017 18:31:37 BST</updated>
+    <updated>Sat, 18 Nov 2017 14:34:22 &#43;0100</updated>
+    
+    
+    <item>
+      <title>Make &#39;echo %PATH&#39; More Readable</title>
+      <link>https://fallthrough.io/2017/11/print-path-env-var/</link>
+      <pubDate>Sat, 18 Nov 2017 14:34:22 &#43;0100</pubDate>
+      <author>Usman Mahmood</author>
+      <guid>https://fallthrough.io/2017/11/print-path-env-var/</guid>
+      <description>&lt;p&gt;When you want to check the contents of your &lt;em&gt;$PATH&lt;/em&gt; variable. To see which directories are in your session, you run the command:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;$ echo $PATH
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Output:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;/usr/local/opt/coreutils/libexec/gnubin:/usr/local/bin:/usr/local/sbin:/opt:/usr/local/go/bin:/usr/local/texlive/2015basic/bin/x86_64-darwin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/opt/coreutils/libexec/gnubin:/usr/local/sbin:/opt:/usr/local/go/bin:/usr/local/texlive/2015basic/bin/x86_64-darwin
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;This is all well and good, but the output of the command can be hard to read if you have many directories in your path. What you want is a command that outputs the &lt;em&gt;$PATH&lt;/em&gt; variable in an easier to read format. Luckily, this can accomplished with a little bit of bash code:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;path()
+{
+    p=$PATH;
+    OIFS=&amp;quot;$IFS&amp;quot;;
+    IFS=&#39;:&#39;;
+    read -a paths &amp;lt;&amp;lt;&amp;lt; &amp;quot;${p}&amp;quot;;
+    IFS=&amp;quot;$OIFS&amp;quot;;
+    for i in &amp;quot;${paths[@]}&amp;quot;;
+    do
+        echo &amp;quot;- $i&amp;quot;;
+    done
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Now if we run:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;$ path
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Output:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;- /usr/local/opt/coreutils/libexec/gnubin
+- /usr/local/bin
+- /usr/local/sbin
+- /usr/local/go/bin
+- /usr/local/texlive/2015basic/bin/x86_64-darwin
+- /usr/local/bin
+- /usr/bin
+- /bin
+- /usr/sbin
+- /sbin
+- /usr/local/opt/coreutils/libexec/gnubin
+- /usr/local/sbin
+- /opt
+- /usr/local/go/bin
+- /usr/local/texlive/2015basic/bin/x86_64-darwin
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;This is much easier to read. And better, it still displays the original search order of the directories.&lt;/p&gt;
+
+&lt;p&gt;Fin.&lt;/p&gt;
+</description>
+    </item>
+    
     
     
     <item>
@@ -1169,32 +1233,6 @@ v := &amp;lt;-ch // v = 0
 &lt;p&gt;Overall I really enjoyed my time at dotGo, and Paris is an amazing and buzzing city. I will never forget standing on my Hotel balcony and listening to a trumpeter playing for tips, with the noise of the city in the background.&lt;/p&gt;
 
 &lt;p&gt;Fin.&lt;/p&gt;
-</description>
-    </item>
-    
-    
-    
-    <item>
-      <title>tmux Cross Platform Config.</title>
-      <link>https://fallthrough.io/2015/10/tmux-cross-platform/</link>
-      <pubDate>Tue, 20 Oct 2015 17:15:08 BST</pubDate>
-      <author>Usman Mahmood</author>
-      <guid>https://fallthrough.io/2015/10/tmux-cross-platform/</guid>
-      <description>&lt;p&gt;If like me you use tmux on both Linux and OS X, then managing your tmux configuration can be a pain. The problem is there is configuration that is specific to either OS, such as copy and paste behavior. This blog post will show you how to manage your tmux configuration across platforms in a better way.&lt;/p&gt;
-
-&lt;p&gt;The first thing you want to do is create a dot file for each platform, so for Linux create &lt;em&gt;.tmux-linux.conf&lt;/em&gt; and for OS X create &lt;em&gt;.tmux-osx.conf&lt;/em&gt;. Create and place these files in the same location as your &lt;em&gt;.tmux.conf&lt;/em&gt; file (most likely your home directory).&lt;/p&gt;
-
-&lt;p&gt;Now move any OS specific settings out of &lt;em&gt;.tmux.conf&lt;/em&gt; into &lt;em&gt;.tmux-osx.conf&lt;/em&gt; and &lt;em&gt;.tmux-linux.conf&lt;/em&gt; respectively.&lt;/p&gt;
-
-&lt;p&gt;In your &lt;em&gt;.tmux.conf&lt;/em&gt; file add the line:&lt;/p&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-bash&#34;&gt;if-shell &amp;quot;uname | grep -q Darwin&amp;quot; &#39;source-file ~/.tmux-osx.conf&#39; \
-&#39;source-file ~/.tmux-linux.conf&#39;
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;Basically, when tmux reads in it&amp;rsquo;s configuration, if the OS is &amp;lsquo;Darwin&amp;rsquo; (OS X) then it will read &lt;em&gt;.tmux-osx.conf&lt;/em&gt; else it will read in &lt;em&gt;.tmux-linux.conf&lt;/em&gt;.&lt;/p&gt;
-
-&lt;p&gt;Note: the above code snippet assumes that the three *.conf files are placed in your home directory, if they are not change the paths.&lt;/p&gt;
 </description>
     </item>
     

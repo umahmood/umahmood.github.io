@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en-us">
 <head>
-	<meta name="generator" content="Hugo 0.26" />
+	<meta name="generator" content="Hugo 0.31.1" />
   <link href="http://gmpg.org/xfn/11" rel="profile">
   <meta http-equiv="content-type" content="text/html; charset=utf-8">
 
@@ -71,6 +71,76 @@
 <div class="posts">
 
       
+  
+  <div class="post">
+    <h1 class="post-title">
+      <a href="https://fallthrough.io/2017/11/print-path-env-var/">
+        Make &#39;echo %PATH&#39; More Readable
+      </a>
+    </h1>
+
+    <span class="post-date">Nov 18, 2017</span>
+
+    
+
+
+    <p>When you want to check the contents of your <em>$PATH</em> variable. To see which directories are in your session, you run the command:</p>
+
+<pre><code>$ echo $PATH
+</code></pre>
+
+<p>Output:</p>
+
+<pre><code>/usr/local/opt/coreutils/libexec/gnubin:/usr/local/bin:/usr/local/sbin:/opt:/usr/local/go/bin:/usr/local/texlive/2015basic/bin/x86_64-darwin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/opt/coreutils/libexec/gnubin:/usr/local/sbin:/opt:/usr/local/go/bin:/usr/local/texlive/2015basic/bin/x86_64-darwin
+</code></pre>
+
+<p>This is all well and good, but the output of the command can be hard to read if you have many directories in your path. What you want is a command that outputs the <em>$PATH</em> variable in an easier to read format. Luckily, this can accomplished with a little bit of bash code:</p>
+
+<pre><code>path()
+{
+    p=$PATH;
+    OIFS=&quot;$IFS&quot;;
+    IFS=':';
+    read -a paths &lt;&lt;&lt; &quot;${p}&quot;;
+    IFS=&quot;$OIFS&quot;;
+    for i in &quot;${paths[@]}&quot;;
+    do
+        echo &quot;- $i&quot;;
+    done
+}
+</code></pre>
+
+<p>Now if we run:</p>
+
+<pre><code>$ path
+</code></pre>
+
+<p>Output:</p>
+
+<pre><code>- /usr/local/opt/coreutils/libexec/gnubin
+- /usr/local/bin
+- /usr/local/sbin
+- /usr/local/go/bin
+- /usr/local/texlive/2015basic/bin/x86_64-darwin
+- /usr/local/bin
+- /usr/bin
+- /bin
+- /usr/sbin
+- /sbin
+- /usr/local/opt/coreutils/libexec/gnubin
+- /usr/local/sbin
+- /opt
+- /usr/local/go/bin
+- /usr/local/texlive/2015basic/bin/x86_64-darwin
+</code></pre>
+
+<p>This is much easier to read. And better, it still displays the original search order of the directories.</p>
+
+<p>Fin.</p>
+
+  </div>
+  
+  
   
   <div class="post">
     <h1 class="post-title">
