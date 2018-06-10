@@ -1,13 +1,15 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-      <title>Usman Mahmood</title>
-      <generator uri="https://hugo.spf13.com">Hugo</generator>
+    <title>Series-Desc on Usman Mahmood</title>
     <link>https://fallthrough.io/series-desc/</link>
+    <description>Recent content in Series-Desc on Usman Mahmood</description>
+    <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <author>Usman Mahmood</author>
-    <copyright>0001 Usman Mahmood</copyright>
-    <updated>Mon, 01 Jan 0001 00:00:00 UTC</updated>
+    <copyright>Usman Mahmood</copyright>
+    
+	<atom:link href="https://fallthrough.io/series-desc/index.xml" rel="self" type="application/rss+xml" />
+    
     
   </channel>
 </rss>

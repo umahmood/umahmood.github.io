@@ -9,7 +9,7 @@
 
   
 
-  <title> First Post  &middot; Usman Mahmood </title>
+  <title> Tar Archiving Using Relative Paths  &middot; Usman Mahmood </title>
 
   
   <link rel="stylesheet" href="https://fallthrough.io/css/poole.css">
@@ -68,10 +68,27 @@
 
   <div class="content container">
     <div class="post">
-    <h1 class="post-title">First Post</h1>
-    <span class="post-date">Jul 25, 2015</span>
+    <h1 class="post-title">Tar Archiving Using Relative Paths</h1>
+    <span class="post-date">Mar 10, 2018</span>
     
-    <p>This is my blog. There are many like it, but this one is mine.</p>
+    <p>If you want to archive a directory (using the tar command), but not include the absolute path to the directory. You can use the <strong>-C</strong> option to the tar command, which essentially cd&rsquo;s into the directory and then archives it. Here is an example:</p>
+
+<pre><code>$ tar czf /tmp/my_backup.tar.gz -C ~/home/coorp/my_files
+</code></pre>
+
+<p>When un-archived, the directory structure will be:</p>
+
+<ul>
+<li><em>/some_path/my_files</em></li>
+</ul>
+
+<p>And not:</p>
+
+<ul>
+<li><em>/some_path/home/coorp/my_files</em>.</li>
+</ul>
+
+<p>Fin.</p>
 
     
 

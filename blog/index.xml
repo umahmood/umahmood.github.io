@@ -1,1241 +1,269 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-      <title>Usman Mahmood</title>
-      <generator uri="https://hugo.spf13.com">Hugo</generator>
+    <title>Blogs on Usman Mahmood</title>
     <link>https://fallthrough.io/blog/</link>
+    <description>Recent content in Blogs on Usman Mahmood</description>
+    <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <author>Usman Mahmood</author>
-    <copyright>2017 Usman Mahmood</copyright>
-    <updated>Sat, 18 Nov 2017 14:34:22 &#43;0100</updated>
+    <copyright>Usman Mahmood</copyright>
+    <lastBuildDate>Sat, 10 Mar 2018 15:40:39 +0100</lastBuildDate>
     
+	<atom:link href="https://fallthrough.io/blog/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Tar Archiving Using Relative Paths</title>
+      <link>https://fallthrough.io/2018/03/tar_relative_path/</link>
+      <pubDate>Sat, 10 Mar 2018 15:40:39 +0100</pubDate>
+      
+      <guid>https://fallthrough.io/2018/03/tar_relative_path/</guid>
+      <description>If you want to archive a directory (using the tar command), but not include the absolute path to the directory. You can use the -C option to the tar command, which essentially cd&amp;rsquo;s into the directory and then archives it. Here is an example:
+$ tar czf /tmp/my_backup.tar.gz -C ~/home/coorp/my_files  When un-archived, the directory structure will be:
+ /some_path/my_files  And not:
+ /some_path/home/coorp/my_files.  Fin.</description>
+    </item>
     
     <item>
       <title>Make &#39;echo %PATH&#39; More Readable</title>
       <link>https://fallthrough.io/2017/11/print-path-env-var/</link>
-      <pubDate>Sat, 18 Nov 2017 14:34:22 &#43;0100</pubDate>
-      <author>Usman Mahmood</author>
+      <pubDate>Sat, 18 Nov 2017 14:34:22 +0100</pubDate>
+      
       <guid>https://fallthrough.io/2017/11/print-path-env-var/</guid>
-      <description>&lt;p&gt;When you want to check the contents of your &lt;em&gt;$PATH&lt;/em&gt; variable. To see which directories are in your session, you run the command:&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;$ echo $PATH
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;Output:&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;/usr/local/opt/coreutils/libexec/gnubin:/usr/local/bin:/usr/local/sbin:/opt:/usr/local/go/bin:/usr/local/texlive/2015basic/bin/x86_64-darwin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/opt/coreutils/libexec/gnubin:/usr/local/sbin:/opt:/usr/local/go/bin:/usr/local/texlive/2015basic/bin/x86_64-darwin
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;This is all well and good, but the output of the command can be hard to read if you have many directories in your path. What you want is a command that outputs the &lt;em&gt;$PATH&lt;/em&gt; variable in an easier to read format. Luckily, this can accomplished with a little bit of bash code:&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;path()
-{
-    p=$PATH;
-    OIFS=&amp;quot;$IFS&amp;quot;;
-    IFS=&#39;:&#39;;
-    read -a paths &amp;lt;&amp;lt;&amp;lt; &amp;quot;${p}&amp;quot;;
-    IFS=&amp;quot;$OIFS&amp;quot;;
-    for i in &amp;quot;${paths[@]}&amp;quot;;
-    do
-        echo &amp;quot;- $i&amp;quot;;
-    done
-}
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;Now if we run:&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;$ path
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;Output:&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;- /usr/local/opt/coreutils/libexec/gnubin
-- /usr/local/bin
-- /usr/local/sbin
-- /usr/local/go/bin
-- /usr/local/texlive/2015basic/bin/x86_64-darwin
-- /usr/local/bin
-- /usr/bin
-- /bin
-- /usr/sbin
-- /sbin
-- /usr/local/opt/coreutils/libexec/gnubin
-- /usr/local/sbin
-- /opt
-- /usr/local/go/bin
-- /usr/local/texlive/2015basic/bin/x86_64-darwin
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;This is much easier to read. And better, it still displays the original search order of the directories.&lt;/p&gt;
-
-&lt;p&gt;Fin.&lt;/p&gt;
-</description>
+      <description>When you want to check the contents of your $PATH variable. To see which directories are in your session, you run the command:
+$ echo $PATH  Output:
+/usr/local/opt/coreutils/libexec/gnubin:/usr/local/bin:/usr/local/sbin:/opt:/usr/local/go/bin:/usr/local/texlive/2015basic/bin/x86_64-darwin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/opt/coreutils/libexec/gnubin:/usr/local/sbin:/opt:/usr/local/go/bin:/usr/local/texlive/2015basic/bin/x86_64-darwin  This is all well and good, but the output of the command can be hard to read if you have many directories in your path. What you want is a command that outputs the $PATH variable in an easier to read format.</description>
     </item>
-    
-    
     
     <item>
       <title>Piping Commands into Go Binaries</title>
       <link>https://fallthrough.io/2017/08/pipe-cmds-go/</link>
-      <pubDate>Sun, 27 Aug 2017 18:31:37 BST</pubDate>
-      <author>Usman Mahmood</author>
+      <pubDate>Sun, 27 Aug 2017 18:31:37 +0100</pubDate>
+      
       <guid>https://fallthrough.io/2017/08/pipe-cmds-go/</guid>
-      <description>&lt;p&gt;In this post we will see how we can pipe commands into our Go applications. We will write a basic command line program which demonstrates the functionality. Before we get started, it&amp;rsquo;s worth going over the basics of piping commands.&lt;/p&gt;
-
-&lt;p&gt;The modular nature of the UNIX operating system. Allows the user to use basic commands to build up new commands. By allowing the output of one command to be used as the input for the next command. The general form of the pipe command is:&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;command1 | command2 | command3
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;Here, &lt;em&gt;command1&lt;/em&gt; is piping its output into &lt;em&gt;command2&lt;/em&gt;, which transforms the incoming data, and then pipes it into &lt;em&gt;command3&lt;/em&gt;.&lt;/p&gt;
-
-&lt;p&gt;Some examples:&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;ls -l | grep &amp;quot;ninja&amp;quot; | less
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;pre&gt;&lt;code&gt;who | sort
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;pre&gt;&lt;code&gt;file * | grep text
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;Piping commands into your Go applications is quite easy. Thanks to the excellent standard library. We will write a very basic command line program &lt;em&gt;&amp;lsquo;change&amp;rsquo;&lt;/em&gt;. Which takes input, and replaces any occurrence of word A with  word B. Here is an example of the the command in action:&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;$ echo &amp;quot;I hate Brussel sprouts!&amp;quot; | change &amp;quot;hate&amp;quot; &amp;quot;love&amp;quot;
-I love Brussel sprouts!
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;Below is the code for the full program:&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;// change.go
-package main
-
-import (
-	&amp;quot;bytes&amp;quot;
-	&amp;quot;fmt&amp;quot;
-	&amp;quot;io&amp;quot;
-	&amp;quot;log&amp;quot;
-	&amp;quot;os&amp;quot;
-)
-
-func main() {
-	buf := &amp;amp;bytes.Buffer{}
-	n, err := io.Copy(buf, os.Stdin)
-	if err != nil {
-		log.Fatalln(err)
-	} else if n &amp;lt;= 1 { // buffer always contains &#39;\n&#39;
-		log.Fatalln(&amp;quot;no input provided&amp;quot;)
-	}
-	if len(os.Args) != 3 {
-		log.Fatalln(&amp;quot;usage: echo \&amp;quot;hello world\&amp;quot; | change hello bye&amp;quot;)
-	}
-	oldWord := os.Args[1]
-	newWord := os.Args[2]
-	r := bytes.Replace(buf.Bytes(), []byte(oldWord), []byte(newWord), -1)
-	fmt.Println(string(r))
-}
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;pre&gt;&lt;code&gt;$ go build change.go
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;Note: this code needs more work to make it more robust, if it were to be used in production. But it is okay for demonstration purposes.&lt;/p&gt;
-
-&lt;p&gt;And that is how you pipe commands into your Go applications. Another command could pipe in the output of our command, as follows:&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;$ echo &amp;quot;I hate hate Brussel sprouts!&amp;quot; | change &amp;quot;hate&amp;quot; &amp;quot;love&amp;quot; | grep -o love | wc -l
-2
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;I hope you enjoyed this blog post.&lt;/p&gt;
-
-&lt;p&gt;Fin.&lt;/p&gt;
-</description>
+      <description>In this post we will see how we can pipe commands into our Go applications. We will write a basic command line program which demonstrates the functionality. Before we get started, it&amp;rsquo;s worth going over the basics of piping commands.
+The modular nature of the UNIX operating system. Allows the user to use basic commands to build up new commands. By allowing the output of one command to be used as the input for the next command.</description>
     </item>
-    
-    
     
     <item>
       <title>Sync.Pool is Drained During Garbage Collection</title>
       <link>https://fallthrough.io/2017/05/sync-pool-gc/</link>
-      <pubDate>Tue, 23 May 2017 21:31:37 BST</pubDate>
-      <author>Usman Mahmood</author>
+      <pubDate>Tue, 23 May 2017 21:31:37 +0100</pubDate>
+      
       <guid>https://fallthrough.io/2017/05/sync-pool-gc/</guid>
-      <description>&lt;p&gt;The Go sync.Pool type stores temporary objects, and provides get and put methods. Allowing you to cache allocated but unused items for later reuse. And relieving pressure on the garbage collector.&lt;/p&gt;
-
-&lt;p&gt;The purpose of the sync.Pool type is to reuse memory between garbage collections. Which is why sync.Pool is drained during garbage collection (GC).&lt;/p&gt;
-
-&lt;p&gt;Here is an example of how to use the sync pool:&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;package main
-
-import (
-	&amp;quot;bytes&amp;quot;
-	&amp;quot;fmt&amp;quot;
-	&amp;quot;sync&amp;quot;
-)
-
-var bufPool = sync.Pool{
-	New: func() interface{} {
-		return new(bytes.Buffer)
-	},
-}
-
-func main() {
-	b := bufPool.Get().(*bytes.Buffer)
-	b.WriteString(&amp;quot;What is past is prologue.&amp;quot;)
-	bufPool.Put(b)
-	b = bufPool.Get().(*bytes.Buffer)
-	fmt.Println(b.String())
-}
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;Output:&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;What is past is prologue.
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;&lt;strong&gt;Note&lt;/strong&gt;: When calling &amp;lsquo;bufpool.Get&amp;rsquo; it is not guaranteed that we will get a specific buffer from the pool. The &amp;lsquo;Get&amp;rsquo; method selects a random buffer from the pool, removes it from the pool and then returns it to the caller.&lt;/p&gt;
-
-&lt;p&gt;As stated before, the interesting thing to note when using sync.Pool, is that it is drained &lt;strong&gt;during&lt;/strong&gt; GC. That is, all the objects within the pool are removed. Lets look at an example of this in action:&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;func main() {
-    b := bufPool.Get().(*bytes.Buffer)
-	b.WriteString(&amp;quot;What is past is prologue.&amp;quot;)
-	bufPool.Put(b)
-	
-	// never actually call runtime.GC() in your program :)
-	runtime.GC() 
-	
-	b = bufPool.Get().(*bytes.Buffer)
-	fmt.Println(b.String())
-}
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;The program will no longer output &amp;ldquo;What is past is prologue.&amp;rdquo; because the call to runtime.GC() drained &amp;lsquo;bufpool&amp;rsquo;. And when we make the call to &amp;lsquo;bufPool.Get()&amp;rsquo;, we get a brand new buffer and not a recycled one.&lt;/p&gt;
-
-&lt;p&gt;If we look at the Go source code repository on Github. We see that within the file mgc.go, the &lt;a href=&#34;https://github.com/golang/go/blob/3b5637ff2bd5c03479780995e7a35c48222157c1/src/runtime/mgc.go#L1190&#34;&gt;gcStart&lt;/a&gt; function makes a call to the function &lt;a href=&#34;https://github.com/golang/go/blob/3b5637ff2bd5c03479780995e7a35c48222157c1/src/runtime/mgc.go#L2046&#34;&gt;clearpools&lt;/a&gt;. This function drains all the sync.Pool types.&lt;/p&gt;
-
-&lt;p&gt;There are other techniques that can be used to drain the sync pool, such as:&lt;/p&gt;
-
-&lt;ul&gt;
-&lt;li&gt;Sometime before a GC&lt;/li&gt;
-&lt;li&gt;Sometime after a GC&lt;/li&gt;
-&lt;li&gt;Clock based&lt;/li&gt;
-&lt;li&gt;Using weak references/pointers&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;Each of these techniques have their advantages and disadvantages. However, Draining the pool during a GC is a good technique as it is simple and does not circumvent the garbage collector.&lt;/p&gt;
-
-&lt;p&gt;Fin.&lt;/p&gt;
-</description>
+      <description>The Go sync.Pool type stores temporary objects, and provides get and put methods. Allowing you to cache allocated but unused items for later reuse. And relieving pressure on the garbage collector.
+The purpose of the sync.Pool type is to reuse memory between garbage collections. Which is why sync.Pool is drained during garbage collection (GC).
+Here is an example of how to use the sync pool:
+package main import ( &amp;quot;bytes&amp;quot; &amp;quot;fmt&amp;quot; &amp;quot;sync&amp;quot; ) var bufPool = sync.</description>
     </item>
-    
-    
     
     <item>
       <title>Access Raspberry Pi Externally using ngrok</title>
       <link>https://fallthrough.io/2017/02/external-access-pi-ngrok/</link>
-      <pubDate>Sun, 26 Feb 2017 00:15:59 UTC</pubDate>
-      <author>Usman Mahmood</author>
+      <pubDate>Sun, 26 Feb 2017 00:15:59 +0000</pubDate>
+      
       <guid>https://fallthrough.io/2017/02/external-access-pi-ngrok/</guid>
-      <description>
-
-&lt;p&gt;In this blog post we will set up our Raspberry Pi so it will accessed using SSH from outside our home network. Below is a diagram of the architecture:&lt;/p&gt;
-
-&lt;p&gt;[ Home Network : Raspberry Pi ] &amp;lt;&amp;ndash; [ ngrok ] &amp;ndash;&amp;gt; [ External Network ]&lt;/p&gt;
-
-&lt;p&gt;From our home network we will create a secure tunnel, through ngrok. Which we will then connect to from our external network. This will allow us to SSH into our Raspberry Pi, and manage it.&lt;/p&gt;
-
-&lt;h5 id=&#34;what-is-ngrok&#34;&gt;What is ngrok?&lt;/h5&gt;
-
-&lt;p&gt;ngrok is a fantastic tool which allows you to create secure tunnels to localhost. So you can do things like expose a local server behind a NAT or firewall to the internet. See the &lt;a href=&#34;https://ngrok.com/&#34;&gt;ngrok&lt;/a&gt; homepage for more information.&lt;/p&gt;
-
-&lt;p&gt;Lets get started!&lt;/p&gt;
-
-&lt;h4 id=&#34;step-1-enable-passwordless-ssh-access&#34;&gt;Step 1: Enable Passwordless SSH Access&lt;/h4&gt;
-
-&lt;p&gt;You need to configure your Pi for SSH access. Follow the steps described in the following link (very carefully):&lt;/p&gt;
-
-&lt;ul&gt;
-&lt;li&gt;&lt;a href=&#34;https://www.raspberrypi.org/documentation/remote-access/ssh/passwordless.md&#34;&gt;Passwordless SSH Access - raspberrypi.org&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;By the end, you should be able to type:&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;$ ssh USER@Pi-IP-ADDRESS
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;And connect to your Raspberry Pi without a password prompt. For example:&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;$ ssh pi@192.168.0.42
-
-The programs included with the Debian GNU/Linux system are free software;
-the exact distribution terms for each program are described in the
-individual files in /usr/share/doc/*/copyright.
-
-Debian GNU/Linux comes with ABSOLUTELY NO WARRANTY, to the extent
-permitted by applicable law.
-Last login: Sat Feb 25 20:24:30 2017 from 192.168.0.42
-
-pi@raspberrypi ~ $ 
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;No prompt for a password.&lt;/p&gt;
-
-&lt;p&gt;&lt;strong&gt;Note&lt;/strong&gt;: the computer you generated the SSH keys on (and copied to the Pi). Is the computer you will be using to connect to your Pi, from the external network.&lt;/p&gt;
-
-&lt;h4 id=&#34;step-2-install-ngrok-on-your-raspberry-pi&#34;&gt;Step 2: Install ngrok on your Raspberry Pi&lt;/h4&gt;
-
-&lt;p&gt;Go &lt;a href=&#34;https://ngrok.com/download&#34;&gt;here&lt;/a&gt; and follow the instructions to install ngrok on your Pi.&lt;/p&gt;
-
-&lt;h4 id=&#34;step-3-run-ngrok-on-your-raspberry-pi&#34;&gt;Step 3: Run ngrok on your Raspberry Pi&lt;/h4&gt;
-
-&lt;p&gt;Run ngrok with the following options:&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;pi@raspberrypi ~ $ ngrok tcp 22
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;h4 id=&#34;step-4-copy-ngrok-host-and-port&#34;&gt;Step 4: Copy ngrok Host and Port&lt;/h4&gt;
-
-&lt;p&gt;Once ngrok starts, it will display a &lt;em&gt;tcp://&lt;/em&gt; address on the forwarding line, for example:&lt;/p&gt;
-
-&lt;blockquote&gt;
-&lt;p&gt;Forwarding tcp://123xyz0.tcp.ngrok.io:17684 -&amp;gt; localhost:22&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;p&gt;Copy the host name &lt;em&gt;123xyz0.tcp.ngrok.io&lt;/em&gt; and the port &lt;em&gt;17684&lt;/em&gt;.&lt;/p&gt;
-
-&lt;p&gt;&lt;strong&gt;Note&lt;/strong&gt;: the host name and port will be different for you.&lt;/p&gt;
-
-&lt;h4 id=&#34;step-5-edit-ssh-config-file&#34;&gt;Step 5: Edit SSH config file&lt;/h4&gt;
-
-&lt;p&gt;In step one you generated some ssh keys on your computer, and then copied them to the raspberry Pi. On the computer you generated the SSH keys on, add the following details to &lt;em&gt;~/.ssh/config&lt;/em&gt;:&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;Host ngrok
-        HostName 123xyz.tcp.ngrok.io
-        IdentityFile ~/.ssh/id_rsa
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;Again, the host name will be different for you.&lt;/p&gt;
-
-&lt;p&gt;&lt;strong&gt;Note&lt;/strong&gt;: we are using the same key we copied over to the Pi in step one, you can generate new SSH keys if you like.&lt;/p&gt;
-
-&lt;h4 id=&#34;step-6-access-the-raspberry-pi-from-outside-your-network&#34;&gt;Step 6: Access the Raspberry Pi from outside your network&lt;/h4&gt;
-
-&lt;p&gt;Now with your computer &lt;strong&gt;not&lt;/strong&gt; connected to your home network, type the command:&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;$ ssh pi@ngrok -p 17684
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;Change the username and port to match yours.&lt;/p&gt;
-
-&lt;p&gt;You should now be connected to your Raspberry Pi using SSH through ngrok.&lt;/p&gt;
-
-&lt;p&gt;Fin.&lt;/p&gt;
-</description>
+      <description>In this blog post we will set up our Raspberry Pi so it will accessed using SSH from outside our home network. Below is a diagram of the architecture:
+[ Home Network : Raspberry Pi ] &amp;lt;&amp;ndash; [ ngrok ] &amp;ndash;&amp;gt; [ External Network ]
+From our home network we will create a secure tunnel, through ngrok. Which we will then connect to from our external network. This will allow us to SSH into our Raspberry Pi, and manage it.</description>
     </item>
-    
-    
     
     <item>
       <title>Raspberry Pi Slow SSH Fix</title>
       <link>https://fallthrough.io/2017/02/pi-slow-ssh-fix/</link>
-      <pubDate>Mon, 20 Feb 2017 21:42:26 UTC</pubDate>
-      <author>Usman Mahmood</author>
+      <pubDate>Mon, 20 Feb 2017 21:42:26 +0000</pubDate>
+      
       <guid>https://fallthrough.io/2017/02/pi-slow-ssh-fix/</guid>
-      <description>&lt;p&gt;If you SSH into your Raspberry Pi and have noticed a lag when typing characters into the terminal. Then the following fix may get rid of the lag (it worked for me!).&lt;/p&gt;
-
-&lt;p&gt;Log into your Raspberry Pi and type:&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;$ sudo nano /etc/ssh/sshd_config
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;At the bottom of the config file add:&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;UseDns no
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;Save the file, then restart sshd:&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;$ service ssh restart
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;Or better, reboot your Raspberry Pi:&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;$ sudo reboot
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;SSH&amp;rsquo;ing into your Raspberry Pi should no longer be slow after these steps. 🤞&lt;/p&gt;
-
-&lt;p&gt;Fin.&lt;/p&gt;
-</description>
+      <description>If you SSH into your Raspberry Pi and have noticed a lag when typing characters into the terminal. Then the following fix may get rid of the lag (it worked for me!).
+Log into your Raspberry Pi and type:
+$ sudo nano /etc/ssh/sshd_config  At the bottom of the config file add:
+UseDns no  Save the file, then restart sshd:
+$ service ssh restart  Or better, reboot your Raspberry Pi:</description>
     </item>
-    
-    
     
     <item>
       <title>Runtime and User Level Panics in Go</title>
       <link>https://fallthrough.io/2016/12/runtime-user-panics/</link>
-      <pubDate>Thu, 08 Dec 2016 17:12:39 UTC</pubDate>
-      <author>Usman Mahmood</author>
+      <pubDate>Thu, 08 Dec 2016 17:12:39 +0000</pubDate>
+      
       <guid>https://fallthrough.io/2016/12/runtime-user-panics/</guid>
-      <description>&lt;p&gt;How can our application code detect the difference between a runtime panic and a user level panic? Before answering this question. Let&amp;rsquo;s take a look at the difference between a runtime panic, and user level panic.&lt;/p&gt;
-
-&lt;p&gt;A runtime panic is one thrown by the Go runtime, there are many things that can trigger a runtime panic. An example of the the most common runtime panic would be attempting to index an array out of bounds. The Go runtime would detect the illegal access and call the built-in panic function.&lt;/p&gt;
-
-&lt;p&gt;A user level panic would be were code outside the runtime i.e. your code, 3rd partly library, etc&amp;hellip; makes a call to the built-in panic function:&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;panic(&amp;quot;he&#39;s dead jim&amp;quot;)
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;In Go 1.7 a change was made to the panic values thrown by the runtime. From the &lt;a href=&#34;https://golang.org/doc/go1.7#runtime&#34;&gt;1.7 release notes &lt;/a&gt; it states:&lt;/p&gt;
-
-&lt;p&gt;&lt;em&gt;All panics started by the runtime now use panic values that implement both the builtin error, and runtime.Error, as required by the language specification.&lt;/em&gt;&lt;/p&gt;
-
-&lt;p&gt;When the runtime throws a panic it will call the built-in panic function. With a value which implements the &lt;em&gt;runtime.Error&lt;/em&gt; interface. When user level code calls the built-in panic function. It will provide a value which does not implement the &lt;em&gt;runtime.Error&lt;/em&gt; interface.&lt;/p&gt;
-
-&lt;p&gt;Lets look at a code example:&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;package main
-
-import (
-	&amp;quot;errors&amp;quot;
-	&amp;quot;fmt&amp;quot;
-	&amp;quot;runtime&amp;quot;
-)
-
-func runtimePanic() {
-	var a []int
-	// index out of range, will trigger a runtime panic
-	b := a[99]
-	_ = b
-}
-
-func nonRuntimePanic() {
-	panic(errors.New(&amp;quot;:(&amp;quot;))
-}
-
-func main() {
-	defer func() {
-		if x := recover(); x != nil {
-			if _, ok := x.(runtime.Error); ok {
-				fmt.Println(&amp;quot;this is a runtime panic error&amp;quot;)
-			} else {
-				fmt.Println(&amp;quot;this is a non-runtime panic error&amp;quot;)
-			}
-		}
-	}()
-	// nonRuntimePanic()
-	runtimePanic()
-}
-
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;In our defer closure we call the built-in recover function. And then use the return value, to see if the type satisfies the &lt;em&gt;runtime.Error&lt;/em&gt; interface.&lt;/p&gt;
-
-&lt;p&gt;If we run this code, we will get the output:&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;this is a runtime panic error
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;If we uncomment the call to &lt;em&gt;nonRuntimePanic&lt;/em&gt;, and then run the code again, we will get the output:&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;this is a non-runtime panic error
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;Now we can distinguish between runtime and user level panics. This information may be useful if your are determining whether to rescue your application from a panic, or to let it crash.&lt;/p&gt;
-
-&lt;p&gt;Useful links:&lt;/p&gt;
-
-&lt;p&gt;&lt;a href=&#34;https://golang.org/pkg/runtime/#Error&#34;&gt;runtime.Error Documentation&lt;/a&gt;&lt;/p&gt;
-
-&lt;p&gt;&lt;a href=&#34;https://golang.org/ref/spec#Run_time_panics&#34;&gt;Run-time panics&lt;/a&gt;&lt;/p&gt;
-
-&lt;p&gt;&lt;a href=&#34;https://golang.org/doc/go1.7#runtime&#34;&gt;Go 1.7 Release Notes&lt;/a&gt;&lt;/p&gt;
-
-&lt;p&gt;Fin.&lt;/p&gt;
-</description>
+      <description>How can our application code detect the difference between a runtime panic and a user level panic? Before answering this question. Let&amp;rsquo;s take a look at the difference between a runtime panic, and user level panic.
+A runtime panic is one thrown by the Go runtime, there are many things that can trigger a runtime panic. An example of the the most common runtime panic would be attempting to index an array out of bounds.</description>
     </item>
-    
-    
     
     <item>
       <title>Creating Empty Git Commits</title>
       <link>https://fallthrough.io/2016/11/git-empty-commit/</link>
-      <pubDate>Tue, 29 Nov 2016 00:43:13 UTC</pubDate>
-      <author>Usman Mahmood</author>
+      <pubDate>Tue, 29 Nov 2016 00:43:13 +0000</pubDate>
+      
       <guid>https://fallthrough.io/2016/11/git-empty-commit/</guid>
-      <description>
-
-&lt;p&gt;You may not know it, but Git allows you to create an empty commit in to your repo. It doesn&amp;rsquo;t like it, but you can do it any way.&lt;/p&gt;
-
-&lt;p&gt;An empty commit is one where you don&amp;rsquo;t actually commit any code changes i.e. if you &lt;em&gt;git status&lt;/em&gt; your repo, you get the message:&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;On branch master
-nothing to commit, working tree clean
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;Why would you want to create an empty commit? You may want to communicate changes, which have nothing to do with code. But you have updated something that you want the rest of the team to know about. And you feel that communicating this via the git log make sense.&lt;/p&gt;
-
-&lt;h4 id=&#34;creating-an-empty-commit&#34;&gt;Creating an empty commit&lt;/h4&gt;
-
-&lt;p&gt;Start by creating a repo:&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;$ mkdir test 
-$ cd test 
-$ git init 
-$ echo &amp;quot;hello world&amp;quot; &amp;gt;&amp;gt; hello.txt 
-$ git add hello.txt 
-$ git commit -m &amp;quot;initial commit&amp;quot; 
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;Now we have a repo with one commit and nothing else to commit:&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;$ git status
-On branch master
-nothing to commit, working tree clean
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;We can now use the &lt;em&gt;&amp;ndash;allow-empty&lt;/em&gt; flag to insert an empty commit:&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;$ git commit -m &amp;quot;this is an empty commit&amp;quot; --allow-empty
-[master 02cdd7f] this is an empty commit
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;Lets see what the git log looks like:&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;$ git log
-commit 02cdd7f74c0fe4219a061e94066251dbf1137475
-Author: Philip J. Fry &amp;lt;fry@planet-express.com&amp;gt; 
-Date:   Thu Dec 01 21:24:28 2016 +0000
-
-    this is an empty commit
-
-commit f503c2ccf476b144f69108a842782464dd3ca61e
-Author: Philip J. Fry &amp;lt;fry@planet-express.com&amp;gt; 
-Date:   Thu Dec 01 21:15:40 2016 +0000
-
-    initial commit
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;We can also create an empty commit with an empty commit message. Using the &lt;em&gt;&amp;ndash;allow-empty-message&lt;/em&gt; flag:&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;$ git commit --allow-empty-message --allow-empty
-[master 8546295]
-
-$ git log
-commit 85462959fedf63fd4a59c578caccef4df8cceff8
-Author: Philip J. Fry &amp;lt;fry@planet-express.com&amp;gt; 
-Date:   Thu Dec 01 21:57:47 2016 +0000
-
-commit 02cdd7f74c0fe4219a061e94066251dbf1137475
-Author: Philip J. Fry &amp;lt;fry@planet-express.com&amp;gt; 
-Date:   Thu Dec 01 21:24:28 2016 +0000
-
-    this is an empty commit
-
-commit f503c2ccf476b144f69108a842782464dd3ca61e
-Author: Philip J. Fry &amp;lt;fry@planet-express.com&amp;gt; 
-Date:   Thu Dec 01 21:15:40 2016 +0000
-
-    initial commit
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;Thats it! if you want to read more about the flags discussed go &lt;a href=&#34;https://git-scm.com/docs/git-commit#git-commit---allow-empty&#34;&gt;here&lt;/a&gt;.&lt;/p&gt;
-
-&lt;p&gt;Fin.&lt;/p&gt;
-</description>
+      <description>You may not know it, but Git allows you to create an empty commit in to your repo. It doesn&amp;rsquo;t like it, but you can do it any way.
+An empty commit is one where you don&amp;rsquo;t actually commit any code changes i.e. if you git status your repo, you get the message:
+On branch master nothing to commit, working tree clean  Why would you want to create an empty commit?</description>
     </item>
-    
-    
     
     <item>
       <title>Changing the Date of Git Commits</title>
       <link>https://fallthrough.io/2016/11/git-commit-change-date/</link>
-      <pubDate>Tue, 15 Nov 2016 19:29:07 UTC</pubDate>
-      <author>Usman Mahmood</author>
+      <pubDate>Tue, 15 Nov 2016 19:29:07 +0000</pubDate>
+      
       <guid>https://fallthrough.io/2016/11/git-commit-change-date/</guid>
-      <description>&lt;p&gt;Have you ever looked at peoples Github contribution timelines and seen a word or some ASCII art. This is done by creating a repo, then manipulating the dates of commits, to create the desired design.&lt;/p&gt;
-
-&lt;p&gt;This blog post is not about creating funky pieces of art in your Github commit history timeline. But instead, shows you how to change the date of a commit using Git.&lt;/p&gt;
-
-&lt;p&gt;When you make a git commit you can actually set the date of the commit to anything you want. Lets get started.&lt;/p&gt;
-
-&lt;p&gt;First, you have to set two environment variables - &lt;em&gt;GIT_AUTHOR_DATE&lt;/em&gt; and &lt;em&gt;GIT_COMMITTER_DATE&lt;/em&gt;, like so:&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;$ export GIT_AUTHOR_DATE=&amp;quot;Wed Jan 10 14:00 2099 +0100&amp;quot;
-$ export GIT_COMMITTER_DATE=&amp;quot;Wed Jan 10 14:00 2099 +0100&amp;quot;
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;Create a git repo:&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;$ mkdir test
-$ cd test
-$ git init
-$ echo &amp;quot;hello world&amp;quot; &amp;gt;&amp;gt; hello.txt
-$ git add hello.txt
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;Now lets commit our changes:&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;$ git commit -m &amp;quot;initial commit&amp;quot;
-$ git log
-commit 80b2d1f499d6ae455a4f87f68e107b275abfefe8
-Author: Philip J. Fry &amp;lt;fry@planet-express.com&amp;gt;
-Date:   Wed Jan 10 14:00:00 2099 +0100
-
-    initial commit
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;You can see the date of our commit has changed, rather the being the current date/time, it is set to day in the year 2099.&lt;/p&gt;
-
-&lt;p&gt;If you want to change the date of a commit in the past, I recommend reading this &lt;a href=&#34;http://eddmann.com/posts/changing-the-timestamp-of-a-previous-git-commit/&#34;&gt;blog post&lt;/a&gt;.&lt;/p&gt;
-
-&lt;p&gt;Useful links:&lt;/p&gt;
-
-&lt;p&gt;&lt;a href=&#34;https://git-scm.com/docs/git-commit#_date_formats&#34;&gt;Git commit date formats&lt;/a&gt;&lt;/p&gt;
-
-&lt;p&gt;&lt;a href=&#34;http://eddmann.com/posts/changing-the-timestamp-of-a-previous-git-commit/&#34;&gt;Changing the timestamp of a previous Git commit&lt;/a&gt;&lt;/p&gt;
-
-&lt;p&gt;&lt;a href=&#34;https://github.com/gelstudios/gitfiti&#34;&gt;gitfiti - abusing github commit history for the lulz&lt;/a&gt;&lt;/p&gt;
-
-&lt;p&gt;Fin.&lt;/p&gt;
-</description>
+      <description>Have you ever looked at peoples Github contribution timelines and seen a word or some ASCII art. This is done by creating a repo, then manipulating the dates of commits, to create the desired design.
+This blog post is not about creating funky pieces of art in your Github commit history timeline. But instead, shows you how to change the date of a commit using Git.
+When you make a git commit you can actually set the date of the commit to anything you want.</description>
     </item>
-    
-    
     
     <item>
       <title>Using Subtests and Sub-benchmarks in Go</title>
       <link>https://fallthrough.io/2016/10/using-sub-tests-benchmarks/</link>
-      <pubDate>Sat, 22 Oct 2016 21:45:22 BST</pubDate>
-      <author>Usman Mahmood</author>
+      <pubDate>Sat, 22 Oct 2016 21:45:22 +0100</pubDate>
+      
       <guid>https://fallthrough.io/2016/10/using-sub-tests-benchmarks/</guid>
-      <description>
-
-&lt;p&gt;In this post we will walk through an example of how to use the new subtests and sub-benchmarks functionality introduced in Go 1.7.&lt;/p&gt;
-
-&lt;h4 id=&#34;subtests&#34;&gt;Subtests&lt;/h4&gt;
-
-&lt;p&gt;One of the nifty features in Go is the ability to write table driven tests. For example, if we wanted to test the function:&lt;/p&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-go&#34;&gt;func Double(n int) int {
-    return n * 2
-}
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;Then we could write a table driven test as follows:&lt;/p&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-go&#34;&gt;func TestDouble(t *testing.T) {
-	testCases := []struct {
-		n    int
-		want int
-	}{
-		{2, 4},
-		{4, 10},
-		{3, 6},
-	}
-	for _, tc := range testCases {
-		got := Double(tc.n)
-		if got != tc.want {
-			t.Errorf(&amp;quot;fail got %v want %v&amp;quot;, got, tc.want)
-		}
-	}
-}
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;&lt;strong&gt;Note:&lt;/strong&gt; The test case {4, 10} is present to make the test fail, 4 * 2 != 10 😃.&lt;/p&gt;
-
-&lt;p&gt;If we run this test, we get the following output:&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;$ go test -v
-=== RUN   TestDouble
---- FAIL: TestDouble (0.00s)
-        example_test.go:25: fail got 8 want 10
-FAIL
-exit status 1
-FAIL    example    0.005s
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;The problem here is that we don&amp;rsquo;t know which table test case failed. It would be better, if we could identify a table test case, and display its name in the output if it fails.&lt;/p&gt;
-
-&lt;p&gt;This is what subtests in GO 1.7 allow us to do. The &lt;em&gt;testing.T&lt;/em&gt; type now has a &lt;em&gt;Run&lt;/em&gt; method, were the first argument is a string (the name of the test). And the second argument is a function. Below we re-implement the above test, using the &lt;em&gt;Run&lt;/em&gt; method:&lt;/p&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-go&#34;&gt;func TestDouble(t *testing.T) {
-	testCases := []struct {
-		n    int
-		want int
-	}{
-		{2, 4},
-		{4, 10},
-		{3, 6},
-	}
-	for _, tc := range testCases {
-		t.Run(fmt.Sprintf(&amp;quot;input_%d&amp;quot;, tc.n), func(t *testing.T) {
-			got := Double(tc.n)
-			if got != tc.want {
-				t.Errorf(&amp;quot;fail got %v want %v&amp;quot;, got, tc.want)
-			}
-		})
-	}
-}
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;A few things to note here are that one, we are setting the name of the test to the &amp;lsquo;n&amp;rsquo; value of the test case. So our tests are named &amp;ldquo;input_2&amp;rdquo;, &amp;ldquo;input_3&amp;rdquo; and &amp;ldquo;input_4&amp;rdquo;. And two, for the second parameter we are passing in a closure which has the same method signature as a normal test.&lt;/p&gt;
-
-&lt;p&gt;If we run this test, we get the following output:&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;$ go test -v
-=== RUN   TestDouble
-=== RUN   TestDouble/input_2
-=== RUN   TestDouble/input_3
-=== RUN   TestDouble/input_4
---- FAIL: TestDouble (0.00s)
-    --- PASS: TestDouble/input_2 (0.00s)
-    --- PASS: TestDouble/input_3 (0.00s)
-    --- FAIL: TestDouble/input_4 (0.00s)
-        example_test.go:43: fail got 8 want 10
-FAIL
-exit status 1
-FAIL    example    0.006s
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;This time we get a more detailed output, we can see that &amp;ldquo;input_4&amp;rdquo; was the failing test case from the table. And the pass/fail status of each individual table test case.&lt;/p&gt;
-
-&lt;p&gt;We can run a subset of our table tests, by matching the unique names set for them (the first parameter to the Run method), as follows:&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;$ go test -v -run=&amp;quot;TestZap/input_2&amp;quot;
-=== RUN   TestZap
-=== RUN   TestZap/input_2
---- PASS: TestZap (0.00s)
-    --- PASS: TestZap/input_2 (0.00s)
-PASS
-ok      example    0.008s
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;Running many tests, by matching the test names:&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;$ go test -v -run=&amp;quot;TestZap/input_[1-3]&amp;quot;
-=== RUN   TestZap
-=== RUN   TestZap/input_2
-=== RUN   TestZap/input_3
---- PASS: TestZap (0.00s)
-    --- PASS: TestZap/input_2 (0.00s)
-    --- PASS: TestZap/input_3 (0.00s)
-PASS
-ok      example    0.006s
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;Here &lt;em&gt;&amp;ldquo;input[1-3]&amp;rdquo;&lt;/em&gt; matched _&amp;ldquo;input&lt;em&gt;2&amp;rdquo;&lt;/em&gt; and _&amp;ldquo;input&lt;em&gt;3&amp;rdquo;&lt;/em&gt; but not _&amp;ldquo;input&lt;em&gt;4&amp;rdquo;&lt;/em&gt;.&lt;/p&gt;
-
-&lt;h4 id=&#34;sub-benchmarks&#34;&gt;Sub-benchmarks&lt;/h4&gt;
-
-&lt;p&gt;Unlike table driven testing there was no equal approach for benchmarking. But now in Go 1.7, we have the ability to create table driven benchmarks. Imagine we need to benchmark the following function:&lt;/p&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-go&#34;&gt;func AppendStringN(s string, n int) {
-	a := make([]string, 0)
-	for i := 0; i &amp;lt; n; i++ {
-		a = append(a, s)
-	}
-}  
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;We can define a top-level benchmark function like this:&lt;/p&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-go&#34;&gt;func BenchmarkAppendStringN(b *testing.B) {
-	benchmarks := []struct {
-		fruit string
-		n     int
-	}{
-		{fruit: &amp;quot;apple&amp;quot;, n: 10},
-		{fruit: &amp;quot;pear&amp;quot;, n: 20},
-		{fruit: &amp;quot;mango&amp;quot;, n: 40},
-		{fruit: &amp;quot;berry&amp;quot;, n: 60},
-		{fruit: &amp;quot;banana&amp;quot;, n: 80},
-		{fruit: &amp;quot;orange&amp;quot;, n: 100},
-	}
-	for _, bm := range benchmarks {
-		b.Run(bm.fruit, func(b *testing.B) {
-			for i := 0; i &amp;lt; b.N; i++ {
-				AppendStringN(bm.fruit, bm.n)
-			}
-		})
-	}
-}
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;The &lt;em&gt;Run&lt;/em&gt; methods signature is the same as described above. But for the &lt;em&gt;testing.B&lt;/em&gt; type, rather than the &lt;em&gt;testing.T&lt;/em&gt; type. Our benchmark names are set to &amp;ldquo;apple&amp;rdquo;, &amp;ldquo;pear&amp;rdquo;, &amp;ldquo;mango&amp;rdquo;, etc&amp;hellip;&lt;/p&gt;
-
-&lt;p&gt;If we run this benchmark, we get the following output:&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;$ go test -v -run=&amp;quot;xxx&amp;quot; -bench=.
-BenchmarkAppendStringN/apple-8           3000000               495 ns/op
-BenchmarkAppendStringN/pear-8            2000000               713 ns/op
-BenchmarkAppendStringN/mango-8           1000000              1101 ns/op
-BenchmarkAppendStringN/berry-8           1000000              1156 ns/op
-BenchmarkAppendStringN/banana-8          1000000              1803 ns/op
-BenchmarkAppendStringN/orange-8          1000000              1153 ns/op
-PASS
-ok      example_test    9.428s
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;An important thing to note is that, each time &lt;em&gt;b.Run&lt;/em&gt; is invoked it creates a separate benchmark. The outer benchmark function (BenchmarkAppendStringN) is only run once and it is not measured.&lt;/p&gt;
-
-&lt;p&gt;One last thing to mention is that, like subtests. You can run individual benchmarks by there set unique names. Below, we run just the &amp;ldquo;berry&amp;rdquo; benchmark:&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;$ go test -v -run=&amp;quot;xxx&amp;quot; -bench=&amp;quot;/berry&amp;quot;
-BenchmarkAppendStringN/berry-8           1000000              1143 ns/op
-PASS
-ok      subtestbench    1.165s
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;I hope you have found this blog post helpful.&lt;/p&gt;
-
-&lt;p&gt;Fin.&lt;/p&gt;
-</description>
+      <description>In this post we will walk through an example of how to use the new subtests and sub-benchmarks functionality introduced in Go 1.7.
+Subtests One of the nifty features in Go is the ability to write table driven tests. For example, if we wanted to test the function:
+func Double(n int) int { return n * 2 }  Then we could write a table driven test as follows:</description>
     </item>
-    
-    
     
     <item>
       <title>SVG Sprites</title>
       <link>https://fallthrough.io/2016/08/svg-sprites/</link>
-      <pubDate>Tue, 16 Aug 2016 19:54:44 BST</pubDate>
-      <author>Usman Mahmood</author>
+      <pubDate>Tue, 16 Aug 2016 19:54:44 +0100</pubDate>
+      
       <guid>https://fallthrough.io/2016/08/svg-sprites/</guid>
-      <description>&lt;p&gt;Within an single SVG file we can define many sprites. This consists of merging all your SVG sprites into a single .svg image file. Every sprite is wrapped in a &amp;lsquo;symbol&amp;rsquo; tag, like this:&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;&amp;lt;svg class=&amp;quot;character&amp;quot; width=&amp;quot;100pt&amp;quot; height=&amp;quot;100pt&amp;quot; version=&amp;quot;1.1&amp;quot; xmlns=&amp;quot;http://www.w3.org/2000/svg&amp;quot;&amp;gt;
-    &amp;lt;symbol id=&amp;quot;circle-red&amp;quot; viewBox=&amp;quot;0 0 100 100&amp;quot;&amp;gt;    
-      &amp;lt;circle cx=&amp;quot;50&amp;quot; cy=&amp;quot;50&amp;quot; r=&amp;quot;40&amp;quot; stroke=&amp;quot;black&amp;quot; stroke-width=&amp;quot;3&amp;quot; fill=&amp;quot;red&amp;quot; /&amp;gt;
-    &amp;lt;/symbol&amp;gt;
-    &amp;lt;symbol id=&amp;quot;circle-black&amp;quot; viewBox=&amp;quot;0 0 100 100&amp;quot;&amp;gt;    
-      &amp;lt;circle cx=&amp;quot;50&amp;quot; cy=&amp;quot;50&amp;quot; r=&amp;quot;40&amp;quot; stroke=&amp;quot;black&amp;quot; stroke-width=&amp;quot;3&amp;quot; /&amp;gt;
-    &amp;lt;/symbol&amp;gt;
-&amp;lt;/svg&amp;gt;
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;We can then use HTML or CSS to pick out each part of the image:&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;&amp;lt;hmtl&amp;gt;
-  &amp;lt;body&amp;gt;
-     &amp;lt;svg class=&amp;quot;c-red&amp;quot; &amp;gt;
-            &amp;lt;use xlink:href=&amp;quot;test.svg#circle-red&amp;quot;&amp;gt;&amp;lt;/use&amp;gt;
-        &amp;lt;/svg&amp;gt;
-        &amp;lt;svg class=&amp;quot;c-black&amp;quot; &amp;gt;
-            &amp;lt;use xlink:href=&amp;quot;test.svg#circle-black&amp;quot;&amp;gt;&amp;lt;/use&amp;gt;
-        &amp;lt;/svg&amp;gt;        
-  &amp;lt;/body&amp;gt;
-&amp;lt;/hmtl&amp;gt;
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;We can animate the sprite with CSS:&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;&amp;lt;style type=&amp;quot;text/css&amp;quot;&amp;gt;
-    .c-black:hover {
-        fill: #fe2fd0;
-    }
-&amp;lt;style&amp;gt;
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;If creating an SVG sprite file seems tedious or error prone. You can use a tool like &lt;a href=&#34;https://github.com/w0rm/gulp-svgstore&#34;&gt;gulp-svgstore&lt;/a&gt; to automate the process. And generate a single SVG file from your individual sprite files.&lt;/p&gt;
-
-&lt;p&gt;One of the advantages of using SVG sprites are the improved page load times. One of the disadvantages of using SVG sprites, is that when linking the &amp;lsquo;use&amp;rsquo; tag to the &amp;lsquo;symbol&amp;rsquo; tag, the image gets injected into the &lt;a href=&#34;https://developer.mozilla.org/en-US/docs/Web/Web_Components/Shadow_DOM&#34;&gt;Shadow DOM&lt;/a&gt;. Meaning we lose some CSS capabilities, and cannot apply some styling to the SVG image.&lt;/p&gt;
-
-&lt;p&gt;Fin.&lt;/p&gt;
-</description>
+      <description>Within an single SVG file we can define many sprites. This consists of merging all your SVG sprites into a single .svg image file. Every sprite is wrapped in a &amp;lsquo;symbol&amp;rsquo; tag, like this:
+&amp;lt;svg class=&amp;quot;character&amp;quot; width=&amp;quot;100pt&amp;quot; height=&amp;quot;100pt&amp;quot; version=&amp;quot;1.1&amp;quot; xmlns=&amp;quot;http://www.w3.org/2000/svg&amp;quot;&amp;gt; &amp;lt;symbol id=&amp;quot;circle-red&amp;quot; viewBox=&amp;quot;0 0 100 100&amp;quot;&amp;gt; &amp;lt;circle cx=&amp;quot;50&amp;quot; cy=&amp;quot;50&amp;quot; r=&amp;quot;40&amp;quot; stroke=&amp;quot;black&amp;quot; stroke-width=&amp;quot;3&amp;quot; fill=&amp;quot;red&amp;quot; /&amp;gt; &amp;lt;/symbol&amp;gt; &amp;lt;symbol id=&amp;quot;circle-black&amp;quot; viewBox=&amp;quot;0 0 100 100&amp;quot;&amp;gt; &amp;lt;circle cx=&amp;quot;50&amp;quot; cy=&amp;quot;50&amp;quot; r=&amp;quot;40&amp;quot; stroke=&amp;quot;black&amp;quot; stroke-width=&amp;quot;3&amp;quot; /&amp;gt; &amp;lt;/symbol&amp;gt; &amp;lt;/svg&amp;gt;  We can then use HTML or CSS to pick out each part of the image:</description>
     </item>
-    
-    
     
     <item>
       <title>Updating Third Party Packages in Go</title>
       <link>https://fallthrough.io/2016/06/update_packages/</link>
-      <pubDate>Sat, 11 Jun 2016 14:43:49 BST</pubDate>
-      <author>Usman Mahmood</author>
+      <pubDate>Sat, 11 Jun 2016 14:43:49 +0100</pubDate>
+      
       <guid>https://fallthrough.io/2016/06/update_packages/</guid>
-      <description>&lt;p&gt;Just a short post on how to update packages using &lt;em&gt;go get&lt;/em&gt;.&lt;/p&gt;
-
-&lt;p&gt;To update all third party packages in your &lt;em&gt;GOPATH&lt;/em&gt; use the following command:&lt;/p&gt;
-
-&lt;blockquote&gt;
-&lt;p&gt;go get -u all&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;p&gt;To update a specific package, just provide the full package name to &lt;em&gt;go get&lt;/em&gt;:&lt;/p&gt;
-
-&lt;blockquote&gt;
-&lt;p&gt;go get -u github.com/gorilla/mux&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;p&gt;What about vendor-ed packages? These are updated in exactly the same way as above:&lt;/p&gt;
-
-&lt;blockquote&gt;
-&lt;p&gt;go get -u my-project/vendor/megacorp/foo&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;p&gt;If you want more information about your &lt;em&gt;GOPATH&lt;/em&gt;, run the command:&lt;/p&gt;
-
-&lt;blockquote&gt;
-&lt;p&gt;go help gopath&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;p&gt;Fin.&lt;/p&gt;
-</description>
+      <description>Just a short post on how to update packages using go get.
+To update all third party packages in your GOPATH use the following command:
+ go get -u all
+ To update a specific package, just provide the full package name to go get:
+ go get -u github.com/gorilla/mux
+ What about vendor-ed packages? These are updated in exactly the same way as above:
+ go get -u my-project/vendor/megacorp/foo</description>
     </item>
-    
-    
     
     <item>
       <title>sort.Sort &amp; sort.Stable</title>
       <link>https://fallthrough.io/2016/03/sort-stable/</link>
-      <pubDate>Sun, 13 Mar 2016 19:34:13 UTC</pubDate>
-      <author>Usman Mahmood</author>
+      <pubDate>Sun, 13 Mar 2016 19:34:13 +0000</pubDate>
+      
       <guid>https://fallthrough.io/2016/03/sort-stable/</guid>
-      <description>&lt;p&gt;Go 1.6 made improvements to the Sort function in the sort package. It was improved to make fewer calls to the Less and Swap methods. Here are some benchmarks showing the performance of sort.Sort in Go 1.5 vs 1.6:&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;Sort []int with Go 1.5
-BenchmarkSort_1-4       20000000              67.2 ns/op
-BenchmarkSort_10-4      10000000               227 ns/op
-BenchmarkSort_100-4       500000              3863 ns/op
-BenchmarkSort_1000-4       30000             52189 ns/op
-
-Sort []int with Go 1.6
-BenchmarkSort_1-4       20000000              64.7 ns/op
-BenchmarkSort_10-4      10000000               137 ns/op
-BenchmarkSort_100-4       500000              2849 ns/op
-BenchmarkSort_1000-4       30000             46949 ns/op
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;&lt;em&gt;source: &lt;a href=&#34;https://talks.golang.org/2016/state-of-go.slide#24&#34;&gt;state of go&lt;/a&gt;&lt;/em&gt;&lt;/p&gt;
-
-&lt;p&gt;Sort does not use a stable sorting algorithm, it does not make any guarantees about the final order of equal values. A stable sort algorithm, is one in which items which have the same key stay in the same relative order during the sort. The sorting algorithms mergesort and radixsort are stable, were as quicksort, heapsort and shellsort are not stable. If this property is important to your application then you may want to use sort.Stable.&lt;/p&gt;
-
-&lt;p&gt;&lt;a href=&#34;https://golang.org/src/sort/sort.go?s=5443:5468#L211&#34;&gt;sort.Sort&lt;/a&gt; under the hood uses the quicksort algorithm, were as &lt;a href=&#34;https://golang.org/src/sort/sort.go?s=10143:10170#L336&#34;&gt;sort.Stable&lt;/a&gt; uses insertion sort. Below is an example of Sort and Stable in action:&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;type byLength []string
-
-func (b byLength) Len() int           { return len(b) }
-func (b byLength) Less(i, j int) bool { return len(b[i]) &amp;lt; len(b[j]) }
-func (b byLength) Swap(i, j int)      { b[i], b[j] = b[j], b[i] }
-
-func main() {
-    values1 := []string{&amp;quot;ball&amp;quot;, &amp;quot;hell&amp;quot;, &amp;quot;one&amp;quot;, &amp;quot;joke&amp;quot;, &amp;quot;fool&amp;quot;, &amp;quot;moon&amp;quot;, &amp;quot;two&amp;quot;}
-    sort.Sort(byLength(values1))
-    fmt.Println(&amp;quot;sort.Sort&amp;quot;, values1)
-    
-    values2 := []string{&amp;quot;ball&amp;quot;, &amp;quot;hell&amp;quot;, &amp;quot;one&amp;quot;, &amp;quot;joke&amp;quot;, &amp;quot;fool&amp;quot;, &amp;quot;moon&amp;quot;, &amp;quot;two&amp;quot;}
-    sort.Stable(byLength(values2))
-    fmt.Println(&amp;quot;sort.Stable&amp;quot;, values2)
-}
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;Output:&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;sort.Sort   [two one hell joke fool moon ball]
-sort.Stable [one two ball hell joke fool moon]
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;Fin.&lt;/p&gt;
-</description>
+      <description>Go 1.6 made improvements to the Sort function in the sort package. It was improved to make fewer calls to the Less and Swap methods. Here are some benchmarks showing the performance of sort.Sort in Go 1.5 vs 1.6:
+Sort []int with Go 1.5 BenchmarkSort_1-4 20000000 67.2 ns/op BenchmarkSort_10-4 10000000 227 ns/op BenchmarkSort_100-4 500000 3863 ns/op BenchmarkSort_1000-4 30000 52189 ns/op Sort []int with Go 1.6 BenchmarkSort_1-4 20000000 64.7 ns/op BenchmarkSort_10-4 10000000 137 ns/op BenchmarkSort_100-4 500000 2849 ns/op BenchmarkSort_1000-4 30000 46949 ns/op  source: state of go</description>
     </item>
-    
-    
     
     <item>
       <title>The Defer Statement</title>
       <link>https://fallthrough.io/2015/12/defer-statement/</link>
-      <pubDate>Mon, 14 Dec 2015 20:55:08 &#43;0100</pubDate>
-      <author>Usman Mahmood</author>
+      <pubDate>Mon, 14 Dec 2015 20:55:08 +0100</pubDate>
+      
       <guid>https://fallthrough.io/2015/12/defer-statement/</guid>
-      <description>
-
-&lt;p&gt;The Go programming language has a defer statement that allows for a function call to be run just before the currently running function returns. Here is how the defer statement is explained in the language specification:&lt;/p&gt;
-
-&lt;p&gt;&lt;em&gt;&amp;ldquo;A &amp;ldquo;defer&amp;rdquo; statement invokes a function whose execution is deferred to the moment the surrounding function returns, either because the surrounding function executed a return statement, reached the end of its function body, or because the corresponding goroutine is panicking.&amp;rdquo;&lt;/em&gt;&lt;/p&gt;
-
-&lt;p&gt;Here is example usage of the defer statement:&lt;/p&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-go&#34;&gt;func DoWork(f Foo) {
-    defer f.CleanUp()
-    f.DoTask()
-}
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;The function call in the defer statement (CleanUp), happens just before the function &amp;lsquo;DoWork&amp;rsquo; exits. Below I have listed some properties of the defer statement:&lt;/p&gt;
-
-&lt;h3 id=&#34;defer-d-functions-are-executed-in-lifo&#34;&gt;Defer&amp;rsquo;d functions are executed in LIFO&lt;/h3&gt;
-
-&lt;p&gt;Given the following program:&lt;/p&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-go&#34;&gt;package main
-
-import &amp;quot;fmt&amp;quot;
-
-func a() {
-	defer fmt.Println(&amp;quot;a0&amp;quot;)
-	defer fmt.Println(&amp;quot;a1&amp;quot;)
-	b()
-}	
-	
-func b() {
-	defer fmt.Println(&amp;quot;b&amp;quot;)
-	c()
-}
-
-
-func c() {
-	defer fmt.Println(&amp;quot;c&amp;quot;)
-}
-
-func main() {
-	a()
-}
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;Here is what the defer&amp;rsquo;d queue looks like:&lt;/p&gt;
-
-&lt;p&gt;Front : [ fmt.Println(&amp;ldquo;c&amp;rdquo;) ][ fmt.Println(&amp;ldquo;b&amp;rdquo;) ][ fmt.Println(&amp;ldquo;a1&amp;rdquo;) ][ fmt.Println(&amp;ldquo;a0&amp;rdquo;) ]&lt;/p&gt;
-
-&lt;p&gt;And the output:&lt;/p&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-text&#34;&gt;c
-b
-a1
-a0
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;h3 id=&#34;defer-d-functions-execute-even-if-the-function-panics&#34;&gt;Defer&amp;rsquo;d functions execute even if the function panics&lt;/h3&gt;
-
-&lt;p&gt;In the following program the method &amp;lsquo;Space&amp;rsquo; panics, but the defer&amp;rsquo;d function queued up still executes.&lt;/p&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-go&#34;&gt;func Space() {
-    defer fmt.Println(&amp;quot;I&#39;m a rocket ship on my way to Mars&amp;quot;)
-    panic(&amp;quot;On a collision course&amp;quot;)
-}
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;Output:&lt;/p&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-text&#34;&gt;I&#39;m a rocket ship on my way to Mars
-panic: On a collision course
-
-goroutine 1 [running]:
-main.Space()
-	/tmp/sandbox062698335/main.go:46 +0x160
-main.main()
-	/tmp/sandbox062698335/main.go:51 +0x20
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;When a panic function executes, it begins to unwind the stack executing any defer statements as it goes.&lt;/p&gt;
-
-&lt;h3 id=&#34;arguments-are-evaluated-when-the-defer-statement-is-encountered&#34;&gt;Arguments are evaluated when the defer statement is encountered&lt;/h3&gt;
-
-&lt;p&gt;Take the following example:&lt;/p&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-go&#34;&gt;func Foo() {
-    var x int
-    defer fmt.Println(&amp;quot;value of x =&amp;quot;, x)
-    x = x + 1
-    fmt.Println(&amp;quot;value of x =&amp;quot;, x)
-}
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;You may expect the program to output:&lt;/p&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-text&#34;&gt;value of x = 1
-value of x = 1
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;But instead the output is:&lt;/p&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-text&#34;&gt;value of x = 1
-value of x = 0  // defer&#39;d function call output
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;The reason for this is before the defer&amp;rsquo;d function was queued, it&amp;rsquo;s arguments were evaluated and saved (x = 0). When the defer&amp;rsquo;d function was executed, rather than seeing that x == 1, it instead output the value of x it saved previously. The defer section in the Go language specification states:&lt;/p&gt;
-
-&lt;p&gt;&lt;em&gt;&amp;ldquo;Each time a &amp;ldquo;defer&amp;rdquo; statement executes, the function value and parameters to the call are evaluated as usual and saved anew but the actual function is not invoked.&amp;rdquo;&lt;/em&gt;&lt;/p&gt;
-
-&lt;p&gt;If we would like to have the arguments evaluated when the defer executes, wrap the function in a closure:&lt;/p&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-go&#34;&gt;func Foo() {
-    var x int
-    defer func() {
-        fmt.Println(&amp;quot;value of x =&amp;quot;, x) 
-    }
-    x = x + 1
-    fmt.Println(&amp;quot;value of x =&amp;quot;, x)
-}
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;Output:&lt;/p&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-text&#34;&gt;value of x = 1
-value of x = 1
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;h3 id=&#34;defer-d-functions-can-access-named-parameters&#34;&gt;Defer&amp;rsquo;d functions can access named parameters&lt;/h3&gt;
-
-&lt;p&gt;In the following example (taken from the defer section of the language specification):&lt;/p&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-go&#34;&gt;// f returns 1
-func f() (result int) {
-	defer func() {
-		result++
-	}()
-	return 0
-}
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;You can see that defer&amp;rsquo;d functions can access and modify named parameters. Notice how the defer in function f is a closure, otherwise we could not capture the most up to date value of &amp;lsquo;result&amp;rsquo; or modify it.&lt;/p&gt;
-
-&lt;p&gt;Fin.&lt;/p&gt;
-</description>
+      <description>The Go programming language has a defer statement that allows for a function call to be run just before the currently running function returns. Here is how the defer statement is explained in the language specification:
+&amp;ldquo;A &amp;ldquo;defer&amp;rdquo; statement invokes a function whose execution is deferred to the moment the surrounding function returns, either because the surrounding function executed a return statement, reached the end of its function body, or because the corresponding goroutine is panicking.</description>
     </item>
-    
-    
     
     <item>
       <title>Go Channel Axioms</title>
       <link>https://fallthrough.io/2015/12/channel-axioms/</link>
-      <pubDate>Mon, 14 Dec 2015 01:40:39 UTC</pubDate>
-      <author>Usman Mahmood</author>
+      <pubDate>Mon, 14 Dec 2015 01:40:39 +0000</pubDate>
+      
       <guid>https://fallthrough.io/2015/12/channel-axioms/</guid>
-      <description>
-
-&lt;p&gt;A while ago I was watching a tech talk by Blake Caldwell on &lt;a href=&#34;https://www.youtube.com/watch?v=PyBJQA4clfc&#34;&gt;Building Resilient Services with Go&lt;/a&gt;. In his presentation he had a slide which listed go channel axioms. I have listed his channel axioms here and provided some short code snippets to hopefully clarify them.&lt;/p&gt;
-
-&lt;h3 id=&#34;a-send-to-a-nil-channel-blocks-forever&#34;&gt;A send to a nil channel blocks forever&lt;/h3&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-go&#34;&gt;var ch chan bool
-ch &amp;lt;- true // will always block
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;We declare a channel &amp;lsquo;ch&amp;rsquo; but do not initialize it (with make), so it is a nil channel. We then attempt to &lt;strong&gt;send&lt;/strong&gt; a value down the channel, this causes a blocking operation.&lt;/p&gt;
-
-&lt;h3 id=&#34;a-receive-from-a-nil-channel-blocks-forever&#34;&gt;A receive from a nil channel blocks forever&lt;/h3&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-go&#34;&gt;var ch chan bool
-v := &amp;lt;-ch // will always block
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;We declare a channel &amp;lsquo;ch&amp;rsquo; but do not initialize it (with make), so it is a nil channel, We then attempt to &lt;strong&gt;receive&lt;/strong&gt; a value from the channel, this causes a blocking operation.&lt;/p&gt;
-
-&lt;h3 id=&#34;a-send-to-a-closed-channel-panics&#34;&gt;A send to a closed channel panics&lt;/h3&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-go&#34;&gt;ch := make(chan bool)
-...
-close(ch)
-...
-ch &amp;lt;- true // panics!
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;We initialize a channel &amp;lsquo;ch&amp;rsquo; then later close the channel, and then later attempt to &lt;strong&gt;send&lt;/strong&gt; a value down the channel. This causes a panic, and we receive a stack trace. In this case, before we send a value down the channel, we may want check if the channel is open:&lt;/p&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-go&#34;&gt;if v, ok := &amp;lt;-ch; ok {
-    // ch is open
-}
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;h3 id=&#34;a-receive-from-a-closed-channel-returns-the-zero-value-immediately&#34;&gt;A receive from a closed channel returns the zero value immediately&lt;/h3&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-go&#34;&gt;ch := make(chan int)
-...
-close(ch)
-...
-v := &amp;lt;-ch // v = 0
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;We initialize a channel &amp;lsquo;ch&amp;rsquo; then later close the channel, and then later attempt to &lt;strong&gt;receive&lt;/strong&gt; a value from the channel. This causes the zero value to be returned immediately, this is a non-blocking operation.&lt;/p&gt;
-</description>
+      <description>A while ago I was watching a tech talk by Blake Caldwell on Building Resilient Services with Go. In his presentation he had a slide which listed go channel axioms. I have listed his channel axioms here and provided some short code snippets to hopefully clarify them.
+A send to a nil channel blocks forever var ch chan bool ch &amp;lt;- true // will always block  We declare a channel &amp;lsquo;ch&amp;rsquo; but do not initialize it (with make), so it is a nil channel.</description>
     </item>
-    
-    
     
     <item>
       <title>dotGo 2015</title>
       <link>https://fallthrough.io/2015/11/dotgo-eu-2015/</link>
-      <pubDate>Thu, 12 Nov 2015 13:15:12 &#43;0100</pubDate>
-      <author>Usman Mahmood</author>
+      <pubDate>Thu, 12 Nov 2015 13:15:12 +0100</pubDate>
+      
       <guid>https://fallthrough.io/2015/11/dotgo-eu-2015/</guid>
-      <description>
-
-&lt;p&gt;&lt;img src=&#34;https://i.imgur.com/uiLTeK2.png&#34; alt=&#34;Dot conf. logo&#34; /&gt;&lt;/p&gt;
-
-&lt;p&gt;On Monday the 9th of November I was in Paris attending dotGo, the European Go conference. This blog post is a summary of my time there.&lt;/p&gt;
-
-&lt;h3 id=&#34;pre-conference&#34;&gt;Pre-Conference&lt;/h3&gt;
-
-&lt;p&gt;The day before the conference, the Paris tech talks group organized a pre-conference meetup/party. There were a large number of delegates who turned up and the meet up consisted of about six or seven talks. The talks were about how individuals at there respective companies were using Go. All the projects demoed and talked about were network related i.e. using Go to write a load balancer which solved a particular problem. After the talks, there was a chance to socialize and eat pizza with other gophers :).&lt;/p&gt;
-
-&lt;h3 id=&#34;venue&#34;&gt;Venue&lt;/h3&gt;
-
-&lt;p&gt;On the day of the conference I made my way down to the venue Théâtre de Paris. This venue was absolutely beautiful, the high ceilings, the seating, the theatre boxes and stage. Made this venue truly great, and I was very grateful that the building owners allowed the conference to take place there.&lt;/p&gt;
-
-&lt;h3 id=&#34;talks&#34;&gt;Talks&lt;/h3&gt;
-
-&lt;p&gt;dotGo is a single track conference which I prefer, as I always have a hard time making my mind up about which talks to attend. Here is a summary of the talks:&lt;/p&gt;
-
-&lt;h4 id=&#34;microservices&#34;&gt;Microservices&lt;/h4&gt;
-
-&lt;p&gt;This talk was given by Peter Bourgon the creator of Gokit. The talk centered around his thoughts, opinions and efforts of getting people to adopt microservices in organizations.&lt;/p&gt;
-
-&lt;p&gt;&lt;a href=&#34;https://github.com/go-kit/kit&#34;&gt;gokit on github&lt;/a&gt;&lt;/p&gt;
-
-&lt;h4 id=&#34;tools-for-working-with-go-code&#34;&gt;Tools for working with Go code&lt;/h4&gt;
-
-&lt;p&gt;This talk was given by Fatih Arslan the creator of Vim-go. This was a great talk were you were introduced to a wide range of tools that exist in the Go ecosystem. Tools such as &lt;em&gt;gorename&lt;/em&gt;, &lt;em&gt;generate&lt;/em&gt; and &lt;em&gt;oracle&lt;/em&gt; were presented along with examples on how to use them.&lt;/p&gt;
-
-&lt;h4 id=&#34;the-docker-trail&#34;&gt;The Docker Trail&lt;/h4&gt;
-
-&lt;p&gt;This talk was given by Jessica Frazelle who is a core team member at Docker. She talked about three odd things the team at Docker noticed and how they went about debugging and fixing them.&lt;/p&gt;
-
-&lt;h4 id=&#34;applied-concurrency-in-go&#34;&gt;Applied Concurrency in Go&lt;/h4&gt;
-
-&lt;p&gt;A talk given by Matt Aimonetti who is the co-founder and CTO of Splice. Matt was running Go code (which used concurrency) on an Arduino which made some LED&amp;rsquo;s blink according to some rules. He ran various versions of the code all of which contained concurrency related bugs, he fixed the bugs as he went along. Showing all the the mistakes we usually make when writing concurrent code.&lt;/p&gt;
-
-&lt;h4 id=&#34;functional-go&#34;&gt;Functional Go?&lt;/h4&gt;
-
-&lt;p&gt;A talk given by the excellent Francesc Campoy Flores a member of the Google Go team. This talk concentrated on his efforts to use Go in a functional manner, after his experiences with Haskell. The functional code he wrote for the problem he was trying solve was scary, he really was actively working against the language (something he admitted). It was a fun talk though.&lt;/p&gt;
-
-&lt;h4 id=&#34;the-other-side-of-go-programming-pictures&#34;&gt;The Other Side of Go: Programming Pictures&lt;/h4&gt;
-
-&lt;p&gt;This talk was given by Anthony Starks the creator of SVGo. It was great to see what people were doing with Go outside the network related projects we always see. Anthony&amp;rsquo;s talk was great, he was using Go to generate SVG for all sorts of things. One important point that stayed with me about his talk, was about dissecting a complex image into just lines and arcs, this allowed you to then build up a replica image (using SVGo) using just these primitives. He also spoke about his project with great passion.&lt;/p&gt;
-
-&lt;h4 id=&#34;gomobile&#34;&gt;Gomobile&lt;/h4&gt;
-
-&lt;p&gt;David Crawshaw the creator of gomobile spoke about the challenges of getting Go up and running on mobile platforms. Some of the topics he discussed were Go&amp;rsquo;s calling convention and threading (goroutines, OS threads and CPUs).&lt;/p&gt;
-
-&lt;p&gt;&lt;a href=&#34;https://github.com/golang/mobile&#34;&gt;gombile on github&lt;/a&gt;&lt;/p&gt;
-
-&lt;h4 id=&#34;a-tour-of-the-bleve&#34;&gt;A Tour of the Bleve&lt;/h4&gt;
-
-&lt;p&gt;Marty Schoch the creator of Bleve gave an excellent talk on the open-source full-text search library for Go. Marty presented great code examples along side his talk, which really helped clarify the points he was trying to get across. He also spoke about how members of the community have contributed to the project. This was probably my favorite talk, and I also learned how to pronounce Bleve :)&lt;/p&gt;
-
-&lt;p&gt;&lt;a href=&#34;http://www.blevesearch.com/&#34;&gt;bleve homepage&lt;/a&gt;&lt;/p&gt;
-
-&lt;h4 id=&#34;simplicity-is-complicated&#34;&gt;Simplicity is Complicated&lt;/h4&gt;
-
-&lt;p&gt;A talk given by the excellent Rob Pike co-creator of Go. He stated that even though Go is a very simple language, a lot of the complexity is hidden behind the scenes. He talked about how simplicity and complexity are part of the design and finding the right balance is a challenging task. This was good talk, and when listening I thought about the &lt;em&gt;go&lt;/em&gt; keyword.&lt;/p&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-go&#34;&gt;go someFunction()
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;This in Go is a simple way to get concurrency into your program and all the complexity of scheduling is hidden behind the scenes.&lt;/p&gt;
-
-&lt;p&gt;There were also a series of ten minute lightning talks, one of these was given by Brad Fitz about http2 in Go. http2 will be available in go 1.6.&lt;/p&gt;
-
-&lt;p&gt;Full list of dotGo videos can be found &lt;a href=&#34;http://www.thedotpost.com/conference/dotgo-2015&#34;&gt;here&lt;/a&gt;.&lt;/p&gt;
-
-&lt;p&gt;Overall I really enjoyed my time at dotGo, and Paris is an amazing and buzzing city. I will never forget standing on my Hotel balcony and listening to a trumpeter playing for tips, with the noise of the city in the background.&lt;/p&gt;
-
-&lt;p&gt;Fin.&lt;/p&gt;
-</description>
+      <description>On Monday the 9th of November I was in Paris attending dotGo, the European Go conference. This blog post is a summary of my time there.
+Pre-Conference The day before the conference, the Paris tech talks group organized a pre-conference meetup/party. There were a large number of delegates who turned up and the meet up consisted of about six or seven talks. The talks were about how individuals at there respective companies were using Go.</description>
     </item>
     
+    <item>
+      <title>tmux Cross Platform Config.</title>
+      <link>https://fallthrough.io/2015/10/tmux-cross-platform/</link>
+      <pubDate>Tue, 20 Oct 2015 17:15:08 +0100</pubDate>
+      
+      <guid>https://fallthrough.io/2015/10/tmux-cross-platform/</guid>
+      <description>If like me you use tmux on both Linux and OS X, then managing your tmux configuration can be a pain. The problem is there is configuration that is specific to either OS, such as copy and paste behavior. This blog post will show you how to manage your tmux configuration across platforms in a better way.
+The first thing you want to do is create a dot file for each platform, so for Linux create .</description>
+    </item>
+    
+    <item>
+      <title>Things to do before committing Go code</title>
+      <link>https://fallthrough.io/2015/09/go-todo/</link>
+      <pubDate>Wed, 02 Sep 2015 18:22:06 +0700</pubDate>
+      
+      <guid>https://fallthrough.io/2015/09/go-todo/</guid>
+      <description>This blog post will list some of the basic things you should really do before committing Go code into your repository.
+1) Run gofmt/goimports
+gofmt is probably the most popular Go tool amongst gophers. The job of gofmt is to format Go packages, your code will be formatted to be consistent across your code base. For example if we have the following if statement:
+if x == 42 { fmt.Println(&amp;quot;The answer to everything&amp;quot;) }  Then running gofmt on this will format the code to:</description>
+    </item>
+    
+    <item>
+      <title>Golang UK Conference 2015</title>
+      <link>https://fallthrough.io/2015/08/golang-uk-conf-2015/</link>
+      <pubDate>Tue, 25 Aug 2015 22:09:24 +0100</pubDate>
+      
+      <guid>https://fallthrough.io/2015/08/golang-uk-conf-2015/</guid>
+      <description>On Friday the 21st of August I attended the Golang UK conference 2015 held at the amazing Brewery in London. This post is a short write up of my time at the conference.
+This was my first ever conference so apart from the talks, I did not know what else to expect. Overall though, I found the conference was excellent and I met a wide range of interesting people.</description>
+    </item>
+    
+    <item>
+      <title>Gofmt and Rewrite Rules</title>
+      <link>https://fallthrough.io/2015/08/gofmt-rewrite-rules/</link>
+      <pubDate>Tue, 04 Aug 2015 23:26:39 +0100</pubDate>
+      
+      <guid>https://fallthrough.io/2015/08/gofmt-rewrite-rules/</guid>
+      <description>One thing I absolutely love about Go is its tooling support. Whenever I use the numerous tools I always discover something new. In this short post I will be showing off gofmt&amp;rsquo;s -r flag, this flag allows you to apply a rewrite rule to your source before formatting.
+A rewrite rule is a string in the following format:
+pattern -&amp;gt; replacement  Both pattern and replacement must be valid Go expressions (more on this later), lets apply a simple rewrite to the following code:</description>
+    </item>
+    
+    <item>
+      <title>Go and String Concatenation</title>
+      <link>https://fallthrough.io/2015/07/go-string-concat/</link>
+      <pubDate>Sun, 26 Jul 2015 18:45:28 +0100</pubDate>
+      
+      <guid>https://fallthrough.io/2015/07/go-string-concat/</guid>
+      <description>When writing Go code you should try to stay away from concatenating strings using the &amp;lsquo;+&amp;rsquo; and &amp;lsquo;+=&amp;rdquo; operators.
+Strings in Go, like many other languages (Java, C#, etc&amp;hellip;) are immutable, this means after a string has been created it is impossible to change. Here is what the Go Programming Language Specification has to say about the string type:
+&amp;ldquo;A string type represents the set of string values. A string value is a (possibly empty) sequence of bytes.</description>
+    </item>
+    
+    <item>
+      <title>Calling C from Go</title>
+      <link>https://fallthrough.io/2015/07/calling-c-from-go/</link>
+      <pubDate>Sat, 25 Jul 2015 20:18:15 +0100</pubDate>
+      
+      <guid>https://fallthrough.io/2015/07/calling-c-from-go/</guid>
+      <description>This post will show you the basics of how to call C code from a Go package.
+Lets get started with an example:
+Create a header file &amp;ldquo;add.h&amp;rdquo; with a function prototype:
+#ifndef _ADD_H_ #define _ADD_H_ int add(int, int); #endif  Create the source file &amp;ldquo;add.c&amp;rdquo; containing the definition for add:
+#include &amp;quot;add.h&amp;quot; int add(int a, int b) { return a + b; }  Create a Go package &amp;ldquo;main.</description>
+    </item>
+    
+    <item>
+      <title>First Post</title>
+      <link>https://fallthrough.io/2015/07/first/</link>
+      <pubDate>Sat, 25 Jul 2015 17:15:08 +0100</pubDate>
+      
+      <guid>https://fallthrough.io/2015/07/first/</guid>
+      <description>This is my blog. There are many like it, but this one is mine.</description>
+    </item>
     
   </channel>
 </rss>
