@@ -7,10 +7,21 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>Usman Mahmood</copyright>
-    <lastBuildDate>Sat, 10 Mar 2018 15:40:39 +0100</lastBuildDate>
+    <lastBuildDate>Fri, 14 Sep 2018 20:36:32 +0000</lastBuildDate>
     
 	<atom:link href="https://fallthrough.io/blog/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Ignoring Directories When Backing up with Borg</title>
+      <link>https://fallthrough.io/2018/09/borg-ignore/</link>
+      <pubDate>Fri, 14 Sep 2018 20:36:32 +0000</pubDate>
+      
+      <guid>https://fallthrough.io/2018/09/borg-ignore/</guid>
+      <description>Borg backup has a --exclude-if-present flag, which allows you to ignore a directory from being backed up, If it contains a certain &amp;lsquo;tag&amp;rsquo; file.
+So given the following directory structure, which we want to back up:
++ MyFiles + dirA - file_one.pdf - file_two.pdf + dirB - spreadsheet.xsl - image.png  If we want to ignore dirB from being backed up by borg, we have to create a tag file in that directory:</description>
+    </item>
     
     <item>
       <title>Tar Archiving Using Relative Paths</title>

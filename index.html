@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en-us">
 <head>
-	<meta name="generator" content="Hugo 0.41" />
+	<meta name="generator" content="Hugo 0.51" />
   <link href="http://gmpg.org/xfn/11" rel="profile">
   <meta http-equiv="content-type" content="text/html; charset=utf-8">
 
@@ -71,6 +71,56 @@
 <div class="posts">
 
       
+  
+  <div class="post">
+    <h1 class="post-title">
+      <a href="https://fallthrough.io/2018/09/borg-ignore/">
+        Ignoring Directories When Backing up with Borg
+      </a>
+    </h1>
+
+    <span class="post-date">Sep 14, 2018</span>
+
+    
+
+
+    <p>Borg backup has a <code>--exclude-if-present</code> flag, which allows you to ignore a directory from being backed up, If it contains a certain &lsquo;tag&rsquo; file.</p>
+
+<p>So given the following directory structure, which we want to back up:</p>
+
+<pre><code>+ MyFiles
+	+ dirA
+		- file_one.pdf
+		- file_two.pdf
+	+ dirB
+		- spreadsheet.xsl
+		- image.png
+</code></pre>
+
+<p>If we want to ignore <code>dirB</code> from being backed up by borg, we have to create a tag file in that directory:</p>
+
+<pre><code>$ cd dirB
+$ touch borg-ignore-dir
+</code></pre>
+
+<p><strong>Note:</strong> the tag file does not have to be named <code>borg-ignore-dir</code>. You can name it however you like.</p>
+
+<p>Now we can run borg backup as follows:</p>
+
+<pre><code>$ borg create --exclude-if-present borg-ignore-dir ~/borgs/MyFiles::BackupName MyFiles/
+</code></pre>
+
+<p>Only <code>dirA</code> will be backed up.</p>
+
+<p>Useful Links:</p>
+
+<p><a href="https://www.borgbackup.org/">BorgBackup Homepage</a></p>
+
+<p>Fin.</p>
+
+  </div>
+  
+  
   
   <div class="post">
     <h1 class="post-title">
