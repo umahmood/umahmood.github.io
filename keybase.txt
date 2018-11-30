@@ -1,0 +1,56 @@
+==================================================================
+https://keybase.io/usman
+--------------------------------------------------------------------
+
+I hereby claim:
+
+  * I am an admin of https://www.usman.me.uk
+  * I am usman (https://keybase.io/usman) on keybase.
+  * I have a public key ASBXnGJqXXSTVwQOscRgCYE-56jqiQ-Nluq1UKArUNOPrwo
+
+To do so, I am signing this object:
+
+{
+  "body": {
+    "key": {
+      "eldest_kid": "0101b0de633702a09c32d8d4ee16290c6184d2b6f4f68c93f58f868e67f996f5338d0a",
+      "host": "keybase.io",
+      "kid": "0120579c626a5d749357040eb1c46009813ee7a8ea890f8d96eab550a02b50d38faf0a",
+      "uid": "c505f1576aea8f2f52b533a7cc4a4e00",
+      "username": "usman"
+    },
+    "merkle_root": {
+      "ctime": 1543611549,
+      "hash": "f7e4eb73d49e42cedcccf9334857d25aaf894e9e491b700f2f418c956ea97780a046853e8b2411353a17a36b688dc1d9d3a4295c5e48dfa37bcb5b8bb9a9a339",
+      "hash_meta": "07b7fd51fef0cb03b08c423e6f8ffe0c3189a39855de4de682e0ec0187ee1644",
+      "seqno": 4034180
+    },
+    "service": {
+      "entropy": "DUBjTK2A1kRHGcI+PSlXCuyM",
+      "hostname": "www.usman.me.uk",
+      "protocol": "https:"
+    },
+    "type": "web_service_binding",
+    "version": 2
+  },
+  "client": {
+    "name": "keybase.io go client",
+    "version": "2.10.1"
+  },
+  "ctime": 1543611673,
+  "expire_in": 504576000,
+  "prev": "0141c48d8deb736cc1ea9fe1081145f6972c71cbdc98e599dcf1b3035cc88d42",
+  "seqno": 21,
+  "tag": "signature"
+}
+
+which yields the signature:
+
+hKRib2R5hqhkZXRhY2hlZMOpaGFzaF90eXBlCqNrZXnEIwEgV5xial10k1cEDrHEYAmBPueo6okPjZbqtVCgK1DTj68Kp3BheWxvYWTESpcCFcQgAUHEjY3rc2zB6p/hCBFF9pcsccvcmOWZ3PGzA1zIjULEIFEW06HEiTwVjsN+Gdhg0BcT4vVWv2C1gx4ISd975aYnAgHCo3NpZ8RA24Jr/q9+MYapsbHX1SziMxs9MT5JOzx+oO0zsuYIn4pSLEb7wRObAKuyRoyjLX41dIcTSkTKNYQt9ueRt00lCqhzaWdfdHlwZSCkaGFzaIKkdHlwZQildmFsdWXEIJ5vKiGGRss603tZC4NT+HzGPRSDdshrieRVUyFiG0I3o3RhZ80CAqd2ZXJzaW9uAQ==
+
+And finally, I am proving ownership of this host by posting or
+appending to this document.
+
+View my publicly-auditable identity here: https://keybase.io/usman
+
+==================================================================
