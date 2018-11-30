@@ -3,7 +3,7 @@
   <channel>
       <title>Usman Mahmood</title>
       <generator uri="https://hugo.spf13.com">Hugo</generator>
-    <link>https://fallthrough.io/</link>
+    <link>https://www.usman.me.uk/</link>
     <language>en-us</language>
     <author>Usman Mahmood</author>
     <copyright>2018 Usman Mahmood</copyright>
@@ -12,10 +12,10 @@
     
     <item>
       <title>Ignoring Directories When Backing up with Borg</title>
-      <link>https://fallthrough.io/2018/09/borg-ignore/</link>
+      <link>https://www.usman.me.uk/2018/09/borg-ignore/</link>
       <pubDate>Fri, 14 Sep 2018 20:36:32 UTC</pubDate>
       <author>Usman Mahmood</author>
-      <guid>https://fallthrough.io/2018/09/borg-ignore/</guid>
+      <guid>https://www.usman.me.uk/2018/09/borg-ignore/</guid>
       <description>&lt;p&gt;Borg backup has a &lt;code&gt;--exclude-if-present&lt;/code&gt; flag, which allows you to ignore a directory from being backed up, If it contains a certain &amp;lsquo;tag&amp;rsquo; file.&lt;/p&gt;
 
 &lt;p&gt;So given the following directory structure, which we want to back up:&lt;/p&gt;
@@ -56,10 +56,10 @@ $ touch borg-ignore-dir
     
     <item>
       <title>Tar Archiving Using Relative Paths</title>
-      <link>https://fallthrough.io/2018/03/tar_relative_path/</link>
+      <link>https://www.usman.me.uk/2018/03/tar_relative_path/</link>
       <pubDate>Sat, 10 Mar 2018 15:40:39 &#43;0100</pubDate>
       <author>Usman Mahmood</author>
-      <guid>https://fallthrough.io/2018/03/tar_relative_path/</guid>
+      <guid>https://www.usman.me.uk/2018/03/tar_relative_path/</guid>
       <description>&lt;p&gt;If you want to archive a directory (using the tar command), but not include the absolute path to the directory. You can use the &lt;strong&gt;-C&lt;/strong&gt; option to the tar command, which essentially cd&amp;rsquo;s into the directory and then archives it. Here is an example:&lt;/p&gt;
 
 &lt;pre&gt;&lt;code&gt;$ tar czf /tmp/my_backup.tar.gz -C ~/home/coorp/my_files
@@ -85,10 +85,10 @@ $ touch borg-ignore-dir
     
     <item>
       <title>Make &#39;echo %PATH&#39; More Readable</title>
-      <link>https://fallthrough.io/2017/11/print-path-env-var/</link>
+      <link>https://www.usman.me.uk/2017/11/print-path-env-var/</link>
       <pubDate>Sat, 18 Nov 2017 14:34:22 &#43;0100</pubDate>
       <author>Usman Mahmood</author>
-      <guid>https://fallthrough.io/2017/11/print-path-env-var/</guid>
+      <guid>https://www.usman.me.uk/2017/11/print-path-env-var/</guid>
       <description>&lt;p&gt;When you want to check the contents of your &lt;em&gt;$PATH&lt;/em&gt; variable. To see which directories are in your session, you run the command:&lt;/p&gt;
 
 &lt;pre&gt;&lt;code&gt;$ echo $PATH
@@ -149,10 +149,10 @@ $ touch borg-ignore-dir
     
     <item>
       <title>Piping Commands into Go Binaries</title>
-      <link>https://fallthrough.io/2017/08/pipe-cmds-go/</link>
+      <link>https://www.usman.me.uk/2017/08/pipe-cmds-go/</link>
       <pubDate>Sun, 27 Aug 2017 18:31:37 BST</pubDate>
       <author>Usman Mahmood</author>
-      <guid>https://fallthrough.io/2017/08/pipe-cmds-go/</guid>
+      <guid>https://www.usman.me.uk/2017/08/pipe-cmds-go/</guid>
       <description>&lt;p&gt;In this post we will see how we can pipe commands into our Go applications. We will write a basic command line program which demonstrates the functionality. Before we get started, it&amp;rsquo;s worth going over the basics of piping commands.&lt;/p&gt;
 
 &lt;p&gt;The modular nature of the UNIX operating system. Allows the user to use basic commands to build up new commands. By allowing the output of one command to be used as the input for the next command. The general form of the pipe command is:&lt;/p&gt;
@@ -231,10 +231,10 @@ func main() {
     
     <item>
       <title>Sync.Pool is Drained During Garbage Collection</title>
-      <link>https://fallthrough.io/2017/05/sync-pool-gc/</link>
+      <link>https://www.usman.me.uk/2017/05/sync-pool-gc/</link>
       <pubDate>Tue, 23 May 2017 21:31:37 BST</pubDate>
       <author>Usman Mahmood</author>
-      <guid>https://fallthrough.io/2017/05/sync-pool-gc/</guid>
+      <guid>https://www.usman.me.uk/2017/05/sync-pool-gc/</guid>
       <description>&lt;p&gt;The Go sync.Pool type stores temporary objects, and provides get and put methods. Allowing you to cache allocated but unused items for later reuse. And relieving pressure on the garbage collector.&lt;/p&gt;
 
 &lt;p&gt;The purpose of the sync.Pool type is to reuse memory between garbage collections. Which is why sync.Pool is drained during garbage collection (GC).&lt;/p&gt;
@@ -309,10 +309,10 @@ func main() {
     
     <item>
       <title>Access Raspberry Pi Externally using ngrok</title>
-      <link>https://fallthrough.io/2017/02/external-access-pi-ngrok/</link>
+      <link>https://www.usman.me.uk/2017/02/external-access-pi-ngrok/</link>
       <pubDate>Sun, 26 Feb 2017 00:15:59 UTC</pubDate>
       <author>Usman Mahmood</author>
-      <guid>https://fallthrough.io/2017/02/external-access-pi-ngrok/</guid>
+      <guid>https://www.usman.me.uk/2017/02/external-access-pi-ngrok/</guid>
       <description>
 
 &lt;p&gt;In this blog post we will set up our Raspberry Pi so it will accessed using SSH from outside our home network. Below is a diagram of the architecture:&lt;/p&gt;
@@ -414,10 +414,10 @@ pi@raspberrypi ~ $
     
     <item>
       <title>Raspberry Pi Slow SSH Fix</title>
-      <link>https://fallthrough.io/2017/02/pi-slow-ssh-fix/</link>
+      <link>https://www.usman.me.uk/2017/02/pi-slow-ssh-fix/</link>
       <pubDate>Mon, 20 Feb 2017 21:42:26 UTC</pubDate>
       <author>Usman Mahmood</author>
-      <guid>https://fallthrough.io/2017/02/pi-slow-ssh-fix/</guid>
+      <guid>https://www.usman.me.uk/2017/02/pi-slow-ssh-fix/</guid>
       <description>&lt;p&gt;If you SSH into your Raspberry Pi and have noticed a lag when typing characters into the terminal. Then the following fix may get rid of the lag (it worked for me!).&lt;/p&gt;
 
 &lt;p&gt;Log into your Raspberry Pi and type:&lt;/p&gt;
@@ -450,10 +450,10 @@ pi@raspberrypi ~ $
     
     <item>
       <title>Runtime and User Level Panics in Go</title>
-      <link>https://fallthrough.io/2016/12/runtime-user-panics/</link>
+      <link>https://www.usman.me.uk/2016/12/runtime-user-panics/</link>
       <pubDate>Thu, 08 Dec 2016 17:12:39 UTC</pubDate>
       <author>Usman Mahmood</author>
-      <guid>https://fallthrough.io/2016/12/runtime-user-panics/</guid>
+      <guid>https://www.usman.me.uk/2016/12/runtime-user-panics/</guid>
       <description>&lt;p&gt;How can our application code detect the difference between a runtime panic and a user level panic? Before answering this question. Let&amp;rsquo;s take a look at the difference between a runtime panic, and user level panic.&lt;/p&gt;
 
 &lt;p&gt;A runtime panic is one thrown by the Go runtime, there are many things that can trigger a runtime panic. An example of the the most common runtime panic would be attempting to index an array out of bounds. The Go runtime would detect the illegal access and call the built-in panic function.&lt;/p&gt;
@@ -536,10 +536,10 @@ func main() {
     
     <item>
       <title>Creating Empty Git Commits</title>
-      <link>https://fallthrough.io/2016/11/git-empty-commit/</link>
+      <link>https://www.usman.me.uk/2016/11/git-empty-commit/</link>
       <pubDate>Tue, 29 Nov 2016 00:43:13 UTC</pubDate>
       <author>Usman Mahmood</author>
-      <guid>https://fallthrough.io/2016/11/git-empty-commit/</guid>
+      <guid>https://www.usman.me.uk/2016/11/git-empty-commit/</guid>
       <description>
 
 &lt;p&gt;You may not know it, but Git allows you to create an empty commit in to your repo. It doesn&amp;rsquo;t like it, but you can do it any way.&lt;/p&gt;
@@ -626,10 +626,10 @@ Date:   Thu Dec 01 21:15:40 2016 +0000
     
     <item>
       <title>Changing the Date of Git Commits</title>
-      <link>https://fallthrough.io/2016/11/git-commit-change-date/</link>
+      <link>https://www.usman.me.uk/2016/11/git-commit-change-date/</link>
       <pubDate>Tue, 15 Nov 2016 19:29:07 UTC</pubDate>
       <author>Usman Mahmood</author>
-      <guid>https://fallthrough.io/2016/11/git-commit-change-date/</guid>
+      <guid>https://www.usman.me.uk/2016/11/git-commit-change-date/</guid>
       <description>&lt;p&gt;Have you ever looked at peoples Github contribution timelines and seen a word or some ASCII art. This is done by creating a repo, then manipulating the dates of commits, to create the desired design.&lt;/p&gt;
 
 &lt;p&gt;This blog post is not about creating funky pieces of art in your Github commit history timeline. But instead, shows you how to change the date of a commit using Git.&lt;/p&gt;
@@ -682,10 +682,10 @@ Date:   Wed Jan 10 14:00:00 2099 +0100
     
     <item>
       <title>Using Subtests and Sub-benchmarks in Go</title>
-      <link>https://fallthrough.io/2016/10/using-sub-tests-benchmarks/</link>
+      <link>https://www.usman.me.uk/2016/10/using-sub-tests-benchmarks/</link>
       <pubDate>Sat, 22 Oct 2016 21:45:22 BST</pubDate>
       <author>Usman Mahmood</author>
-      <guid>https://fallthrough.io/2016/10/using-sub-tests-benchmarks/</guid>
+      <guid>https://www.usman.me.uk/2016/10/using-sub-tests-benchmarks/</guid>
       <description>
 
 &lt;p&gt;In this post we will walk through an example of how to use the new subtests and sub-benchmarks functionality introduced in Go 1.7.&lt;/p&gt;
@@ -874,10 +874,10 @@ ok      subtestbench    1.165s
     
     <item>
       <title>SVG Sprites</title>
-      <link>https://fallthrough.io/2016/08/svg-sprites/</link>
+      <link>https://www.usman.me.uk/2016/08/svg-sprites/</link>
       <pubDate>Tue, 16 Aug 2016 19:54:44 BST</pubDate>
       <author>Usman Mahmood</author>
-      <guid>https://fallthrough.io/2016/08/svg-sprites/</guid>
+      <guid>https://www.usman.me.uk/2016/08/svg-sprites/</guid>
       <description>&lt;p&gt;Within an single SVG file we can define many sprites. This consists of merging all your SVG sprites into a single .svg image file. Every sprite is wrapped in a &amp;lsquo;symbol&amp;rsquo; tag, like this:&lt;/p&gt;
 
 &lt;pre&gt;&lt;code&gt;&amp;lt;svg class=&amp;quot;character&amp;quot; width=&amp;quot;100pt&amp;quot; height=&amp;quot;100pt&amp;quot; version=&amp;quot;1.1&amp;quot; xmlns=&amp;quot;http://www.w3.org/2000/svg&amp;quot;&amp;gt;
@@ -925,10 +925,10 @@ ok      subtestbench    1.165s
     
     <item>
       <title>Updating Third Party Packages in Go</title>
-      <link>https://fallthrough.io/2016/06/update_packages/</link>
+      <link>https://www.usman.me.uk/2016/06/update_packages/</link>
       <pubDate>Sat, 11 Jun 2016 14:43:49 BST</pubDate>
       <author>Usman Mahmood</author>
-      <guid>https://fallthrough.io/2016/06/update_packages/</guid>
+      <guid>https://www.usman.me.uk/2016/06/update_packages/</guid>
       <description>&lt;p&gt;Just a short post on how to update packages using &lt;em&gt;go get&lt;/em&gt;.&lt;/p&gt;
 
 &lt;p&gt;To update all third party packages in your &lt;em&gt;GOPATH&lt;/em&gt; use the following command:&lt;/p&gt;
@@ -963,10 +963,10 @@ ok      subtestbench    1.165s
     
     <item>
       <title>sort.Sort &amp; sort.Stable</title>
-      <link>https://fallthrough.io/2016/03/sort-stable/</link>
+      <link>https://www.usman.me.uk/2016/03/sort-stable/</link>
       <pubDate>Sun, 13 Mar 2016 19:34:13 UTC</pubDate>
       <author>Usman Mahmood</author>
-      <guid>https://fallthrough.io/2016/03/sort-stable/</guid>
+      <guid>https://www.usman.me.uk/2016/03/sort-stable/</guid>
       <description>&lt;p&gt;Go 1.6 made improvements to the Sort function in the sort package. It was improved to make fewer calls to the Less and Swap methods. Here are some benchmarks showing the performance of sort.Sort in Go 1.5 vs 1.6:&lt;/p&gt;
 
 &lt;pre&gt;&lt;code&gt;Sort []int with Go 1.5
@@ -1019,10 +1019,10 @@ sort.Stable [one two ball hell joke fool moon]
     
     <item>
       <title>The Defer Statement</title>
-      <link>https://fallthrough.io/2015/12/defer-statement/</link>
+      <link>https://www.usman.me.uk/2015/12/defer-statement/</link>
       <pubDate>Mon, 14 Dec 2015 20:55:08 &#43;0100</pubDate>
       <author>Usman Mahmood</author>
-      <guid>https://fallthrough.io/2015/12/defer-statement/</guid>
+      <guid>https://www.usman.me.uk/2015/12/defer-statement/</guid>
       <description>
 
 &lt;p&gt;The Go programming language has a defer statement that allows for a function call to be run just before the currently running function returns. Here is how the defer statement is explained in the language specification:&lt;/p&gt;

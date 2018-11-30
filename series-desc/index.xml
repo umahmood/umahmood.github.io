@@ -2,13 +2,13 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Series-Desc on Usman Mahmood</title>
-    <link>https://fallthrough.io/series-desc/</link>
+    <link>https://www.usman.me.uk/series-desc/</link>
     <description>Recent content in Series-Desc on Usman Mahmood</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>Usman Mahmood</copyright>
     
-	<atom:link href="https://fallthrough.io/series-desc/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="https://www.usman.me.uk/series-desc/index.xml" rel="self" type="application/rss+xml" />
     
     
   </channel>
