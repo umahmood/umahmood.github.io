@@ -6,8 +6,106 @@
     <link>https://www.usman.me.uk/</link>
     <language>en-us</language>
     <author>Usman Mahmood</author>
-    <copyright>2018 Usman Mahmood</copyright>
-    <updated>Fri, 14 Sep 2018 20:36:32 UTC</updated>
+    <copyright>2019 Usman Mahmood</copyright>
+    <updated>Sat, 05 Oct 2019 16:12:46 BST</updated>
+    
+    
+    <item>
+      <title>Styling Markers on Mapbox Static Maps</title>
+      <link>https://www.usman.me.uk/2019/10/styling-markers-mapbox/</link>
+      <pubDate>Sat, 05 Oct 2019 16:12:46 BST</pubDate>
+      <author>Usman Mahmood</author>
+      <guid>https://www.usman.me.uk/2019/10/styling-markers-mapbox/</guid>
+      <description>&lt;p&gt;Recently I was using the python map-box api to generate static maps. I needed to
+style the markers which pin pointed locations on the map. I found it difficult to
+find the necessary documentation on how to do this. In the end it simply involved
+adding the following fields:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;maker-colour (hex value).&lt;/li&gt;
+&lt;li&gt;marker-symbol (&lt;a href=&#34;https://labs.mapbox.com/maki-icons/&#34;&gt;Maki icon name&lt;/a&gt;. an integer, or a lowercase letter).&lt;/li&gt;
+&lt;li&gt;marker-size (small, large).&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;To the JSON like so:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-python&#34;&gt;origin = {
+    &#39;type&#39;: &#39;Feature&#39;,
+    &#39;properties&#39;: {
+        &#39;name&#39;: &#39;Cambridge&#39;, 
+        &#39;marker-color&#39;: &#39;#f600f6&#39;, 
+        &#39;marker-symbol&#39;: &#39;c&#39;,
+        &#39;marker-size&#39;: &#39;large&#39;,
+        },
+    &#39;geometry&#39;: {
+        &#39;type&#39;: &#39;Point&#39;,
+        &#39;coordinates&#39;: [0.1218,52.2053]
+        },
+    }
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Here is the output:&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://i.imgur.com/S7y4KOX.png&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;Here is the full code sample:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-python&#34;&gt;from mapbox import StaticStyle
+
+location1 = {
+    &#39;type&#39;: &#39;Feature&#39;,
+    &#39;properties&#39;: {
+        &#39;name&#39;: &#39;Cambridge&#39;, 
+        &#39;marker-color&#39;: &#39;#f600f6&#39;, 
+        &#39;marker-symbol&#39;: &#39;c&#39;,
+        &#39;marker-size&#39;: &#39;large&#39;,
+        },
+    &#39;geometry&#39;: {
+        &#39;type&#39;: &#39;Point&#39;,
+        &#39;coordinates&#39;: [0.1218,52.2053]
+        },
+}
+    
+location2 = {
+    &#39;type&#39;: &#39;Feature&#39;,
+    &#39;properties&#39;: {
+        &#39;name&#39;: &#39;Kings Cross London&#39;,
+        &#39;marker-color&#39;: &#39;#26fae4&#39;,
+        &#39;marker-symbol&#39;: &#39;k&#39;,
+        &#39;marker-size&#39;: &#39;large&#39;,
+        },
+    &#39;geometry&#39;: {
+        &#39;type&#39;: &#39;Point&#39;,
+        &#39;coordinates&#39;: [-0.125250,51.544180]
+        }
+}
+
+features = [location1, location2]
+service  = StaticStyle()
+response = service.image(username=&#39;mapbox&#39;, 
+                         style_id=&#39;streets-v9&#39;, 
+                         retina=True,
+                         attribution=False, 
+                         logo=False,
+                         features=features)
+    
+with open(&#39;map.png&#39;, &#39;wb&#39;) as img:
+    img.write(response.content)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;strong&gt;Note:&lt;/strong&gt; Remember to the set the environment variable:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;MAPBOX_ACCESS_TOKEN=&amp;quot;MY_ACCESS_TOKEN&amp;quot;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Before you run your script, the environment variable is read by the mapbox library.&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&#34;https://docs.mapbox.com/api/maps/#static&#34;&gt;Mapbox static maps documentation&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;Fin.&lt;/p&gt;
+</description>
+    </item>
+    
     
     
     <item>
@@ -1010,160 +1108,6 @@ func main() {
 &lt;pre&gt;&lt;code&gt;sort.Sort   [two one hell joke fool moon ball]
 sort.Stable [one two ball hell joke fool moon]
 &lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;Fin.&lt;/p&gt;
-</description>
-    </item>
-    
-    
-    
-    <item>
-      <title>The Defer Statement</title>
-      <link>https://www.usman.me.uk/2015/12/defer-statement/</link>
-      <pubDate>Mon, 14 Dec 2015 20:55:08 &#43;0100</pubDate>
-      <author>Usman Mahmood</author>
-      <guid>https://www.usman.me.uk/2015/12/defer-statement/</guid>
-      <description>
-
-&lt;p&gt;The Go programming language has a defer statement that allows for a function call to be run just before the currently running function returns. Here is how the defer statement is explained in the language specification:&lt;/p&gt;
-
-&lt;p&gt;&lt;em&gt;&amp;ldquo;A &amp;ldquo;defer&amp;rdquo; statement invokes a function whose execution is deferred to the moment the surrounding function returns, either because the surrounding function executed a return statement, reached the end of its function body, or because the corresponding goroutine is panicking.&amp;rdquo;&lt;/em&gt;&lt;/p&gt;
-
-&lt;p&gt;Here is example usage of the defer statement:&lt;/p&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-go&#34;&gt;func DoWork(f Foo) {
-    defer f.CleanUp()
-    f.DoTask()
-}
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;The function call in the defer statement (CleanUp), happens just before the function &amp;lsquo;DoWork&amp;rsquo; exits. Below I have listed some properties of the defer statement:&lt;/p&gt;
-
-&lt;h3 id=&#34;defer-d-functions-are-executed-in-lifo&#34;&gt;Defer&amp;rsquo;d functions are executed in LIFO&lt;/h3&gt;
-
-&lt;p&gt;Given the following program:&lt;/p&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-go&#34;&gt;package main
-
-import &amp;quot;fmt&amp;quot;
-
-func a() {
-	defer fmt.Println(&amp;quot;a0&amp;quot;)
-	defer fmt.Println(&amp;quot;a1&amp;quot;)
-	b()
-}	
-	
-func b() {
-	defer fmt.Println(&amp;quot;b&amp;quot;)
-	c()
-}
-
-
-func c() {
-	defer fmt.Println(&amp;quot;c&amp;quot;)
-}
-
-func main() {
-	a()
-}
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;Here is what the defer&amp;rsquo;d queue looks like:&lt;/p&gt;
-
-&lt;p&gt;Front : [ fmt.Println(&amp;ldquo;c&amp;rdquo;) ][ fmt.Println(&amp;ldquo;b&amp;rdquo;) ][ fmt.Println(&amp;ldquo;a1&amp;rdquo;) ][ fmt.Println(&amp;ldquo;a0&amp;rdquo;) ]&lt;/p&gt;
-
-&lt;p&gt;And the output:&lt;/p&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-text&#34;&gt;c
-b
-a1
-a0
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;h3 id=&#34;defer-d-functions-execute-even-if-the-function-panics&#34;&gt;Defer&amp;rsquo;d functions execute even if the function panics&lt;/h3&gt;
-
-&lt;p&gt;In the following program the method &amp;lsquo;Space&amp;rsquo; panics, but the defer&amp;rsquo;d function queued up still executes.&lt;/p&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-go&#34;&gt;func Space() {
-    defer fmt.Println(&amp;quot;I&#39;m a rocket ship on my way to Mars&amp;quot;)
-    panic(&amp;quot;On a collision course&amp;quot;)
-}
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;Output:&lt;/p&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-text&#34;&gt;I&#39;m a rocket ship on my way to Mars
-panic: On a collision course
-
-goroutine 1 [running]:
-main.Space()
-	/tmp/sandbox062698335/main.go:46 +0x160
-main.main()
-	/tmp/sandbox062698335/main.go:51 +0x20
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;When a panic function executes, it begins to unwind the stack executing any defer statements as it goes.&lt;/p&gt;
-
-&lt;h3 id=&#34;arguments-are-evaluated-when-the-defer-statement-is-encountered&#34;&gt;Arguments are evaluated when the defer statement is encountered&lt;/h3&gt;
-
-&lt;p&gt;Take the following example:&lt;/p&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-go&#34;&gt;func Foo() {
-    var x int
-    defer fmt.Println(&amp;quot;value of x =&amp;quot;, x)
-    x = x + 1
-    fmt.Println(&amp;quot;value of x =&amp;quot;, x)
-}
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;You may expect the program to output:&lt;/p&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-text&#34;&gt;value of x = 1
-value of x = 1
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;But instead the output is:&lt;/p&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-text&#34;&gt;value of x = 1
-value of x = 0  // defer&#39;d function call output
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;The reason for this is before the defer&amp;rsquo;d function was queued, it&amp;rsquo;s arguments were evaluated and saved (x = 0). When the defer&amp;rsquo;d function was executed, rather than seeing that x == 1, it instead output the value of x it saved previously. The defer section in the Go language specification states:&lt;/p&gt;
-
-&lt;p&gt;&lt;em&gt;&amp;ldquo;Each time a &amp;ldquo;defer&amp;rdquo; statement executes, the function value and parameters to the call are evaluated as usual and saved anew but the actual function is not invoked.&amp;rdquo;&lt;/em&gt;&lt;/p&gt;
-
-&lt;p&gt;If we would like to have the arguments evaluated when the defer executes, wrap the function in a closure:&lt;/p&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-go&#34;&gt;func Foo() {
-    var x int
-    defer func() {
-        fmt.Println(&amp;quot;value of x =&amp;quot;, x) 
-    }
-    x = x + 1
-    fmt.Println(&amp;quot;value of x =&amp;quot;, x)
-}
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;Output:&lt;/p&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-text&#34;&gt;value of x = 1
-value of x = 1
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;h3 id=&#34;defer-d-functions-can-access-named-parameters&#34;&gt;Defer&amp;rsquo;d functions can access named parameters&lt;/h3&gt;
-
-&lt;p&gt;In the following example (taken from the defer section of the language specification):&lt;/p&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-go&#34;&gt;// f returns 1
-func f() (result int) {
-	defer func() {
-		result++
-	}()
-	return 0
-}
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;You can see that defer&amp;rsquo;d functions can access and modify named parameters. Notice how the defer in function f is a closure, otherwise we could not capture the most up to date value of &amp;lsquo;result&amp;rsquo; or modify it.&lt;/p&gt;
 
 &lt;p&gt;Fin.&lt;/p&gt;
 </description>

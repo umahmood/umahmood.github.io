@@ -61,7 +61,7 @@
       <li><a href="https://keybase.io/usman">Keybase</a></li>
 
     <br/>
-    &copy; 2018 Usman Mahmood. All rights reserved.</p>
+    &copy; 2019 Usman Mahmood. All rights reserved.</p>
     
   </div>
 </div>
@@ -71,6 +71,110 @@
 <div class="posts">
 
       
+  
+  <div class="post">
+    <h1 class="post-title">
+      <a href="https://www.usman.me.uk/2019/10/styling-markers-mapbox/">
+        Styling Markers on Mapbox Static Maps
+      </a>
+    </h1>
+
+    <span class="post-date">Oct 5, 2019</span>
+
+    
+
+
+    <p>Recently I was using the python map-box api to generate static maps. I needed to
+style the markers which pin pointed locations on the map. I found it difficult to
+find the necessary documentation on how to do this. In the end it simply involved
+adding the following fields:</p>
+
+<ul>
+<li>maker-colour (hex value).</li>
+<li>marker-symbol (<a href="https://labs.mapbox.com/maki-icons/">Maki icon name</a>. an integer, or a lowercase letter).</li>
+<li>marker-size (small, large).</li>
+</ul>
+
+<p>To the JSON like so:</p>
+
+<pre><code class="language-python">origin = {
+    'type': 'Feature',
+    'properties': {
+        'name': 'Cambridge', 
+        'marker-color': '#f600f6', 
+        'marker-symbol': 'c',
+        'marker-size': 'large',
+        },
+    'geometry': {
+        'type': 'Point',
+        'coordinates': [0.1218,52.2053]
+        },
+    }
+</code></pre>
+
+<p>Here is the output:</p>
+
+<p><img src="https://i.imgur.com/S7y4KOX.png" alt="" /></p>
+
+<p>Here is the full code sample:</p>
+
+<pre><code class="language-python">from mapbox import StaticStyle
+
+location1 = {
+    'type': 'Feature',
+    'properties': {
+        'name': 'Cambridge', 
+        'marker-color': '#f600f6', 
+        'marker-symbol': 'c',
+        'marker-size': 'large',
+        },
+    'geometry': {
+        'type': 'Point',
+        'coordinates': [0.1218,52.2053]
+        },
+}
+    
+location2 = {
+    'type': 'Feature',
+    'properties': {
+        'name': 'Kings Cross London',
+        'marker-color': '#26fae4',
+        'marker-symbol': 'k',
+        'marker-size': 'large',
+        },
+    'geometry': {
+        'type': 'Point',
+        'coordinates': [-0.125250,51.544180]
+        }
+}
+
+features = [location1, location2]
+service  = StaticStyle()
+response = service.image(username='mapbox', 
+                         style_id='streets-v9', 
+                         retina=True,
+                         attribution=False, 
+                         logo=False,
+                         features=features)
+    
+with open('map.png', 'wb') as img:
+    img.write(response.content)
+</code></pre>
+
+<p><strong>Note:</strong> Remember to the set the environment variable:</p>
+
+<pre><code>MAPBOX_ACCESS_TOKEN=&quot;MY_ACCESS_TOKEN&quot;
+</code></pre>
+
+<p>Before you run your script, the environment variable is read by the mapbox library.</p>
+
+<p><a href="https://docs.mapbox.com/api/maps/#static">Mapbox static maps documentation</a>.</p>
+
+<p>Fin.</p>
+
+  </div>
+  
+  
   
   <div class="post">
     <h1 class="post-title">

@@ -7,10 +7,20 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>Usman Mahmood</copyright>
-    <lastBuildDate>Fri, 14 Sep 2018 20:36:32 +0000</lastBuildDate>
+    <lastBuildDate>Sat, 05 Oct 2019 16:12:46 +0100</lastBuildDate>
     
 	<atom:link href="https://www.usman.me.uk/blog/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Styling Markers on Mapbox Static Maps</title>
+      <link>https://www.usman.me.uk/2019/10/styling-markers-mapbox/</link>
+      <pubDate>Sat, 05 Oct 2019 16:12:46 +0100</pubDate>
+      
+      <guid>https://www.usman.me.uk/2019/10/styling-markers-mapbox/</guid>
+      <description>Recently I was using the python map-box api to generate static maps. I needed to style the markers which pin pointed locations on the map. I found it difficult to find the necessary documentation on how to do this. In the end it simply involved adding the following fields:
+ maker-colour (hex value). marker-symbol (Maki icon name. an integer, or a lowercase letter). marker-size (small, large).  To the JSON like so:</description>
+    </item>
     
     <item>
       <title>Ignoring Directories When Backing up with Borg</title>
