@@ -7,10 +7,20 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>Usman Mahmood</copyright>
-    <lastBuildDate>Sat, 05 Oct 2019 16:12:46 +0100</lastBuildDate>
+    <lastBuildDate>Sun, 15 Dec 2019 14:41:12 +0100</lastBuildDate>
     
 	<atom:link href="https://www.usman.me.uk/blog/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Compiling OpenVPN on the Raspberry Pi 3</title>
+      <link>https://www.usman.me.uk/2019/12/compile-openvpn/</link>
+      <pubDate>Sun, 15 Dec 2019 14:41:12 +0100</pubDate>
+      
+      <guid>https://www.usman.me.uk/2019/12/compile-openvpn/</guid>
+      <description>Recently I needed to upgrade the version of OpenVPN on my Raspberry Pi 3 Model B. Below are the steps needed to do this, here we upgrade to OpenVPN version 2.4.8.
+$ cd /tmp $ wget https://swupdate.openvpn.org/community/releases/openvpn-2.4.8.tar.gz $ tar xf openvpn-2.4.8.tar.gz $ cd openvpn-2.4.8/ $ sudo apt-get install libssl-dev $ sudo apt-get install liblzo2-dev $ sudo apt-get install libpam0g-dev $ ./configure --prefix=/usr $ sudo make $ sudo make install  Verify that the new version installed:</description>
+    </item>
     
     <item>
       <title>Styling Markers on Mapbox Static Maps</title>

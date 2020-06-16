@@ -7,7 +7,46 @@
     <language>en-us</language>
     <author>Usman Mahmood</author>
     <copyright>2019 Usman Mahmood</copyright>
-    <updated>Sat, 05 Oct 2019 16:12:46 BST</updated>
+    <updated>Sun, 15 Dec 2019 14:41:12 &#43;0100</updated>
+    
+    
+    <item>
+      <title>Compiling OpenVPN on the Raspberry Pi 3</title>
+      <link>https://www.usman.me.uk/2019/12/compile-openvpn/</link>
+      <pubDate>Sun, 15 Dec 2019 14:41:12 &#43;0100</pubDate>
+      <author>Usman Mahmood</author>
+      <guid>https://www.usman.me.uk/2019/12/compile-openvpn/</guid>
+      <description>&lt;p&gt;Recently I needed to upgrade the version of OpenVPN on my Raspberry Pi 3 Model B. Below are the steps needed to do this, here we upgrade to OpenVPN version 2.4.8.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;$ cd /tmp
+$ wget https://swupdate.openvpn.org/community/releases/openvpn-2.4.8.tar.gz
+$ tar xf openvpn-2.4.8.tar.gz
+$ cd openvpn-2.4.8/
+$ sudo apt-get install libssl-dev
+$ sudo apt-get install liblzo2-dev
+$ sudo apt-get install libpam0g-dev
+$ ./configure --prefix=/usr
+$ sudo make
+$ sudo make install
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Verify that the new version installed:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;$ openvpn --version
+OpenVPN 2.4.8 armv7l-unknown-linux-gnueabihf 
+[SSL (OpenSSL)] [LZO] [LZ4] [EPOLL] [MH/PKTINFO] [AEAD] built on May 28 2020
+library versions: OpenSSL 1.1.1d  10 Sep 2019, LZO 2.10
+Originally developed by James Yonan
+Copyright (C) 2002-2018 OpenVPN Inc &amp;lt;sales@openvpn.net&amp;gt;
+...
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Hope this helps.&lt;/p&gt;
+
+&lt;p&gt;Fin.&lt;/p&gt;
+</description>
+    </item>
+    
     
     
     <item>
@@ -1052,62 +1091,6 @@ ok      subtestbench    1.165s
 &lt;blockquote&gt;
 &lt;p&gt;go help gopath&lt;/p&gt;
 &lt;/blockquote&gt;
-
-&lt;p&gt;Fin.&lt;/p&gt;
-</description>
-    </item>
-    
-    
-    
-    <item>
-      <title>sort.Sort &amp; sort.Stable</title>
-      <link>https://www.usman.me.uk/2016/03/sort-stable/</link>
-      <pubDate>Sun, 13 Mar 2016 19:34:13 UTC</pubDate>
-      <author>Usman Mahmood</author>
-      <guid>https://www.usman.me.uk/2016/03/sort-stable/</guid>
-      <description>&lt;p&gt;Go 1.6 made improvements to the Sort function in the sort package. It was improved to make fewer calls to the Less and Swap methods. Here are some benchmarks showing the performance of sort.Sort in Go 1.5 vs 1.6:&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;Sort []int with Go 1.5
-BenchmarkSort_1-4       20000000              67.2 ns/op
-BenchmarkSort_10-4      10000000               227 ns/op
-BenchmarkSort_100-4       500000              3863 ns/op
-BenchmarkSort_1000-4       30000             52189 ns/op
-
-Sort []int with Go 1.6
-BenchmarkSort_1-4       20000000              64.7 ns/op
-BenchmarkSort_10-4      10000000               137 ns/op
-BenchmarkSort_100-4       500000              2849 ns/op
-BenchmarkSort_1000-4       30000             46949 ns/op
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;&lt;em&gt;source: &lt;a href=&#34;https://talks.golang.org/2016/state-of-go.slide#24&#34;&gt;state of go&lt;/a&gt;&lt;/em&gt;&lt;/p&gt;
-
-&lt;p&gt;Sort does not use a stable sorting algorithm, it does not make any guarantees about the final order of equal values. A stable sort algorithm, is one in which items which have the same key stay in the same relative order during the sort. The sorting algorithms mergesort and radixsort are stable, were as quicksort, heapsort and shellsort are not stable. If this property is important to your application then you may want to use sort.Stable.&lt;/p&gt;
-
-&lt;p&gt;&lt;a href=&#34;https://golang.org/src/sort/sort.go?s=5443:5468#L211&#34;&gt;sort.Sort&lt;/a&gt; under the hood uses the quicksort algorithm, were as &lt;a href=&#34;https://golang.org/src/sort/sort.go?s=10143:10170#L336&#34;&gt;sort.Stable&lt;/a&gt; uses insertion sort. Below is an example of Sort and Stable in action:&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;type byLength []string
-
-func (b byLength) Len() int           { return len(b) }
-func (b byLength) Less(i, j int) bool { return len(b[i]) &amp;lt; len(b[j]) }
-func (b byLength) Swap(i, j int)      { b[i], b[j] = b[j], b[i] }
-
-func main() {
-    values1 := []string{&amp;quot;ball&amp;quot;, &amp;quot;hell&amp;quot;, &amp;quot;one&amp;quot;, &amp;quot;joke&amp;quot;, &amp;quot;fool&amp;quot;, &amp;quot;moon&amp;quot;, &amp;quot;two&amp;quot;}
-    sort.Sort(byLength(values1))
-    fmt.Println(&amp;quot;sort.Sort&amp;quot;, values1)
-    
-    values2 := []string{&amp;quot;ball&amp;quot;, &amp;quot;hell&amp;quot;, &amp;quot;one&amp;quot;, &amp;quot;joke&amp;quot;, &amp;quot;fool&amp;quot;, &amp;quot;moon&amp;quot;, &amp;quot;two&amp;quot;}
-    sort.Stable(byLength(values2))
-    fmt.Println(&amp;quot;sort.Stable&amp;quot;, values2)
-}
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;Output:&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;sort.Sort   [two one hell joke fool moon ball]
-sort.Stable [one two ball hell joke fool moon]
-&lt;/code&gt;&lt;/pre&gt;
 
 &lt;p&gt;Fin.&lt;/p&gt;
 </description>

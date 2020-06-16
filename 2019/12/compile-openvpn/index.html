@@ -9,7 +9,7 @@
 
   
 
-  <title> Tags  &middot; Usman Mahmood </title>
+  <title> Compiling OpenVPN on the Raspberry Pi 3  &middot; Usman Mahmood </title>
 
   
   <link rel="stylesheet" href="https://www.usman.me.uk/css/poole.css">
@@ -40,7 +40,7 @@
 
 <body>
 
-<div class="sidebar">
+  <div class="sidebar">
   <div class="container sidebar-sticky">
     <div class="sidebar-about">
       <h1 style="font-size: 60px" class="brand"><a href="https://www.usman.me.uk">Usman Mahmood</a></h1><br/>
@@ -65,21 +65,47 @@
   </div>
 </div>
 
-   <div class="content container">
-   <h1 class="title">Tags</h1>
 
-    <ul>
+  <div class="content container">
+    <div class="post">
+    <h1 class="post-title">Compiling OpenVPN on the Raspberry Pi 3</h1>
+    <span class="post-date">Dec 15, 2019</span>
     
-    
+    <p>Recently I needed to upgrade the version of OpenVPN on my Raspberry Pi 3 Model B. Below are the steps needed to do this, here we upgrade to OpenVPN version 2.4.8.</p>
+
+<pre><code>$ cd /tmp
+$ wget https://swupdate.openvpn.org/community/releases/openvpn-2.4.8.tar.gz
+$ tar xf openvpn-2.4.8.tar.gz
+$ cd openvpn-2.4.8/
+$ sudo apt-get install libssl-dev
+$ sudo apt-get install liblzo2-dev
+$ sudo apt-get install libpam0g-dev
+$ ./configure --prefix=/usr
+$ sudo make
+$ sudo make install
+</code></pre>
+
+<p>Verify that the new version installed:</p>
+
+<pre><code>$ openvpn --version
+OpenVPN 2.4.8 armv7l-unknown-linux-gnueabihf 
+[SSL (OpenSSL)] [LZO] [LZ4] [EPOLL] [MH/PKTINFO] [AEAD] built on May 28 2020
+library versions: OpenSSL 1.1.1d  10 Sep 2019, LZO 2.10
+Originally developed by James Yonan
+Copyright (C) 2002-2018 OpenVPN Inc &lt;sales@openvpn.net&gt;
+...
+</code></pre>
+
+<p>Hope this helps.</p>
+
+<p>Fin.</p>
 
     
 
-    
-    
+     
+	
+</div>
+</div> 
 
-
-    
-   </ul>
-  </div>
-  </body>
+</body>
 </html>

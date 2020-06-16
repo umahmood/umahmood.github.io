@@ -3,6 +3,11 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
+    <loc>https://www.usman.me.uk/2019/12/compile-openvpn/</loc>
+    <lastmod>2019-12-15T14:41:12+01:00</lastmod>
+  </url>
+  
+  <url>
     <loc>https://www.usman.me.uk/2019/10/styling-markers-mapbox/</loc>
     <lastmod>2019-10-05T16:12:46+01:00</lastmod>
   </url>
@@ -134,7 +139,7 @@
   
   <url>
     <loc>https://www.usman.me.uk/blog/</loc>
-    <lastmod>2019-10-05T16:12:46+01:00</lastmod>
+    <lastmod>2019-12-15T14:41:12+01:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -155,7 +160,7 @@
   
   <url>
     <loc>https://www.usman.me.uk/</loc>
-    <lastmod>2019-10-05T16:12:46+01:00</lastmod>
+    <lastmod>2019-12-15T14:41:12+01:00</lastmod>
     <priority>0</priority>
   </url>
   
