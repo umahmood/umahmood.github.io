@@ -6,8 +6,92 @@
     <link>https://www.usman.me.uk/</link>
     <language>en-us</language>
     <author>Usman Mahmood</author>
-    <copyright>2019 Usman Mahmood</copyright>
-    <updated>Sun, 15 Dec 2019 14:41:12 &#43;0100</updated>
+    <copyright>2020 Usman Mahmood</copyright>
+    <updated>Thu, 13 Feb 2020 19:15:15 &#43;0100</updated>
+    
+    
+    <item>
+      <title>Configuring Remote Connections with PostgreSQL</title>
+      <link>https://www.usman.me.uk/2020/02/conn-postgres/</link>
+      <pubDate>Thu, 13 Feb 2020 19:15:15 &#43;0100</pubDate>
+      <author>Usman Mahmood</author>
+      <guid>https://www.usman.me.uk/2020/02/conn-postgres/</guid>
+      <description>
+
+&lt;p&gt;If you need to access your PostgreSQL database from another machine, you need to edit the configuration, to make the database listen to incoming connections from other hosts. Below are the steps on how to do this.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Note&lt;/strong&gt;: Do not do this on your production database environment, It will open up a potential security flaw. This should be fine to do on your staging environment for testing purposes.&lt;/p&gt;
+
+&lt;p&gt;On the machine running PostgreSQL, locate configuration file &lt;em&gt;postgres.conf:&lt;/em&gt;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;$ su - postgres
+$ psql
+$ SHOW config_file;
+postgres=# SHOW config_file;
+                   config_file
+    ------------------------------------------
+     /etc/postgresql/9.6/main/postgresql.conf
+    (1 row)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Open the file:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;$ sudo nano /etc/postgresql/9.6/main/postgresql.conf
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Edit the line:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;listen_address = &amp;quot;localhost&amp;quot;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;And append the machines IP address. So it looks like:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;listen_address = &amp;quot;localhost, 192.168.0.40&amp;quot;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Note: you can get the machines IP address with &lt;em&gt;ifconfig -a&lt;/em&gt;.&lt;/p&gt;
+
+&lt;p&gt;Now we need to edit the configuration file pg_hba.conf, you can locate the file with:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;$ su - postgres
+$ psql
+$ SHOW hba_file;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Open the file:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;$ sudo nano /etc/postgresql/9.6/main/pg_hba.conf
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Add the line:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;host    example    postgres    192.168.0.40/32    md5
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Now restart PostgreSQL:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;$ sudo service postgresql restart
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h4 id=&#34;testing&#34;&gt;Testing:&lt;/h4&gt;
+
+&lt;p&gt;Let&amp;rsquo;s connect to our PostgreSQL database from another machine, using Python:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;import psycopg2
+
+# Connect to an existing database
+conn = psycopg2.connect(&amp;quot;host=&#39;192.168.0.40&#39; dbname=&#39;test&#39; user=&#39;postgres&#39; password=&#39;password&#39;&amp;quot;)
+cur  = conn.cursor()
+cur.execute(&amp;quot;SELECT * FROM test;&amp;quot;)
+...
+cur.close()
+conn.close()
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Fin&lt;/p&gt;
+</description>
+    </item>
+    
     
     
     <item>
@@ -1053,44 +1137,6 @@ ok      subtestbench    1.165s
 &lt;p&gt;If creating an SVG sprite file seems tedious or error prone. You can use a tool like &lt;a href=&#34;https://github.com/w0rm/gulp-svgstore&#34;&gt;gulp-svgstore&lt;/a&gt; to automate the process. And generate a single SVG file from your individual sprite files.&lt;/p&gt;
 
 &lt;p&gt;One of the advantages of using SVG sprites are the improved page load times. One of the disadvantages of using SVG sprites, is that when linking the &amp;lsquo;use&amp;rsquo; tag to the &amp;lsquo;symbol&amp;rsquo; tag, the image gets injected into the &lt;a href=&#34;https://developer.mozilla.org/en-US/docs/Web/Web_Components/Shadow_DOM&#34;&gt;Shadow DOM&lt;/a&gt;. Meaning we lose some CSS capabilities, and cannot apply some styling to the SVG image.&lt;/p&gt;
-
-&lt;p&gt;Fin.&lt;/p&gt;
-</description>
-    </item>
-    
-    
-    
-    <item>
-      <title>Updating Third Party Packages in Go</title>
-      <link>https://www.usman.me.uk/2016/06/update_packages/</link>
-      <pubDate>Sat, 11 Jun 2016 14:43:49 BST</pubDate>
-      <author>Usman Mahmood</author>
-      <guid>https://www.usman.me.uk/2016/06/update_packages/</guid>
-      <description>&lt;p&gt;Just a short post on how to update packages using &lt;em&gt;go get&lt;/em&gt;.&lt;/p&gt;
-
-&lt;p&gt;To update all third party packages in your &lt;em&gt;GOPATH&lt;/em&gt; use the following command:&lt;/p&gt;
-
-&lt;blockquote&gt;
-&lt;p&gt;go get -u all&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;p&gt;To update a specific package, just provide the full package name to &lt;em&gt;go get&lt;/em&gt;:&lt;/p&gt;
-
-&lt;blockquote&gt;
-&lt;p&gt;go get -u github.com/gorilla/mux&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;p&gt;What about vendor-ed packages? These are updated in exactly the same way as above:&lt;/p&gt;
-
-&lt;blockquote&gt;
-&lt;p&gt;go get -u my-project/vendor/megacorp/foo&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;p&gt;If you want more information about your &lt;em&gt;GOPATH&lt;/em&gt;, run the command:&lt;/p&gt;
-
-&lt;blockquote&gt;
-&lt;p&gt;go help gopath&lt;/p&gt;
-&lt;/blockquote&gt;
 
 &lt;p&gt;Fin.&lt;/p&gt;
 </description>

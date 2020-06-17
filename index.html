@@ -74,6 +74,96 @@
   
   <div class="post">
     <h1 class="post-title">
+      <a href="https://www.usman.me.uk/2020/02/conn-postgres/">
+        Configuring Remote Connections with PostgreSQL
+      </a>
+    </h1>
+
+    <span class="post-date">Feb 13, 2020</span>
+
+    
+
+
+    
+
+<p>If you need to access your PostgreSQL database from another machine, you need to edit the configuration, to make the database listen to incoming connections from other hosts. Below are the steps on how to do this.</p>
+
+<p><strong>Note</strong>: Do not do this on your production database environment, It will open up a potential security flaw. This should be fine to do on your staging environment for testing purposes.</p>
+
+<p>On the machine running PostgreSQL, locate configuration file <em>postgres.conf:</em></p>
+
+<pre><code>$ su - postgres
+$ psql
+$ SHOW config_file;
+postgres=# SHOW config_file;
+                   config_file
+    ------------------------------------------
+     /etc/postgresql/9.6/main/postgresql.conf
+    (1 row)
+</code></pre>
+
+<p>Open the file:</p>
+
+<pre><code>$ sudo nano /etc/postgresql/9.6/main/postgresql.conf
+</code></pre>
+
+<p>Edit the line:</p>
+
+<pre><code>listen_address = &quot;localhost&quot;
+</code></pre>
+
+<p>And append the machines IP address. So it looks like:</p>
+
+<pre><code>listen_address = &quot;localhost, 192.168.0.40&quot;
+</code></pre>
+
+<p>Note: you can get the machines IP address with <em>ifconfig -a</em>.</p>
+
+<p>Now we need to edit the configuration file pg_hba.conf, you can locate the file with:</p>
+
+<pre><code>$ su - postgres
+$ psql
+$ SHOW hba_file;
+</code></pre>
+
+<p>Open the file:</p>
+
+<pre><code>$ sudo nano /etc/postgresql/9.6/main/pg_hba.conf
+</code></pre>
+
+<p>Add the line:</p>
+
+<pre><code>host    example    postgres    192.168.0.40/32    md5
+</code></pre>
+
+<p>Now restart PostgreSQL:</p>
+
+<pre><code>$ sudo service postgresql restart
+</code></pre>
+
+<h4 id="testing">Testing:</h4>
+
+<p>Let&rsquo;s connect to our PostgreSQL database from another machine, using Python:</p>
+
+<pre><code>import psycopg2
+
+# Connect to an existing database
+conn = psycopg2.connect(&quot;host='192.168.0.40' dbname='test' user='postgres' password='password'&quot;)
+cur  = conn.cursor()
+cur.execute(&quot;SELECT * FROM test;&quot;)
+...
+cur.close()
+conn.close()
+</code></pre>
+
+<p>Fin</p>
+
+  </div>
+  
+  
+  
+  <div class="post">
+    <h1 class="post-title">
       <a href="https://www.usman.me.uk/2019/12/compile-openvpn/">
         Compiling OpenVPN on the Raspberry Pi 3
       </a>
