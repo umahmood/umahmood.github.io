@@ -74,6 +74,117 @@
   
   <div class="post">
     <h1 class="post-title">
+      <a href="https://www.usman.me.uk/2020/03/wireguard/">
+        Secure Tunnels with WireGuard
+      </a>
+    </h1>
+
+    <span class="post-date">Mar 23, 2020</span>
+
+    
+
+
+    <p>Wireguard is a secure networking tunnel, it can be used for VPNs, connecting data centers together over the Internet, or any place where you need to connect two or more networks together in a secure way.</p>
+
+<p>Wireguard is open source and it is designed to be much simpler to configure than other tools such as OpenVPN or IPSec.</p>
+
+<p>Below, we are going to connect two computers together:</p>
+
+<pre><code>Machine A IP address 192.168.0.40
+Machine B IP address 192.168.0.41
+</code></pre>
+
+<p>First, we need to install WireGuard on each machine:</p>
+
+<pre><code>$ sudo apt install wireguard
+</code></pre>
+
+<p>Or if you are on macOS:</p>
+
+<pre><code>$ brew install wireguard-tools
+</code></pre>
+
+<p>On machine A and machine B run the following commands:</p>
+
+<pre><code>$ wg genkey | tee privatekey | wg pubkey &gt; publickey
+</code></pre>
+
+<p>This will read privatekey from stdin and write the corresponding public key to publickey on stdout.</p>
+
+<p>On machine A create the configuration file:</p>
+
+<pre><code>$ nano wg0.conf
+</code></pre>
+
+<p>And enter the following configuration data:</p>
+
+<pre><code>[Interface]
+Address    = 10.0.0.40/24
+PrivateKey = &lt; copy &amp; paste machine A's private key &gt;
+ListenPort = 58891
+
+[Peer]
+PublicKey  = &lt; copy &amp; paste machine B's public key &gt;
+AllowedIPs = 10.0.0.41/32 
+EndPoint   = 192.168.0.41:56991
+
+# if behind firewall or NAT
+PersistentKeepalive = 25
+</code></pre>
+
+<p>On machine B create the configuration file:</p>
+
+<pre><code>$ nano wg0.conf
+</code></pre>
+
+<p>And enter the following configuration data:</p>
+
+<pre><code>[Interface]
+Address    = 10.0.0.41/24
+PrivateKey = &lt; copy &amp; paste machine B's private key &gt;
+ListenPort = 56991
+
+[Peer]
+PublicKey  = &lt; copy &amp; paste machine A's public key &gt;
+AllowedIPs = 10.0.0.40/32 
+EndPoint   = 192.168.0.40:58891
+
+# if behind firewall or NAT
+PersistentKeepalive = 25
+</code></pre>
+
+<p>To start WireGuard, on both machines run the command:</p>
+
+<pre><code>wg-quick up ./wg0.conf
+</code></pre>
+
+<p>On machine A run:</p>
+
+<pre><code>ping 10.0.0.41
+</code></pre>
+
+<p>On machine B run:</p>
+
+<pre><code>ping 10.0.0.40
+</code></pre>
+
+<p>If you see output from the ping commands, success! you now have two machines with a secure tunnel between them.</p>
+
+<p>To stop WireGuard, on both machines run the command:</p>
+
+<pre><code>wg-quick down ./wg0.conf
+</code></pre>
+
+<p>I hope this introduction to WireGuard helped you.</p>
+
+<p>Fin.</p>
+
+  </div>
+  
+  
+  
+  <div class="post">
+    <h1 class="post-title">
       <a href="https://www.usman.me.uk/2020/02/conn-postgres/">
         Configuring Remote Connections with PostgreSQL
       </a>
