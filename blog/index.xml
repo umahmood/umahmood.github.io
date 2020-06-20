@@ -7,10 +7,21 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>Usman Mahmood</copyright>
-    <lastBuildDate>Mon, 23 Mar 2020 22:11:03 +0100</lastBuildDate>
+    <lastBuildDate>Fri, 08 May 2020 13:13:23 +0100</lastBuildDate>
     
 	<atom:link href="https://www.usman.me.uk/blog/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Server-Sent Events (SSE) With Go</title>
+      <link>https://www.usman.me.uk/2020/05/sse-go/</link>
+      <pubDate>Fri, 08 May 2020 13:13:23 +0100</pubDate>
+      
+      <guid>https://www.usman.me.uk/2020/05/sse-go/</guid>
+      <description>Server-Sent Events (SSE) technology is best explained by this article on MDN:
+ The EventSource interface is used to receive Server-Sent Events. It connects to a server over HTTP and receives events in text/event-stream format without closing the connection.
+ The connection is persistent and communication is one-way, from the server to the client, the client cannot push data to the server. This is unlike WebSockets where communication is bi-directional.</description>
+    </item>
     
     <item>
       <title>Secure Tunnels with WireGuard</title>

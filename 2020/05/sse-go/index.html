@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en-us">
+<head>
+  <link href="http://gmpg.org/xfn/11" rel="profile">
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+
+  
+
+  <title> Server-Sent Events (SSE) With Go  &middot; Usman Mahmood </title>
+
+  
+  <link rel="stylesheet" href="https://www.usman.me.uk/css/poole.css">
+  <link rel="stylesheet" href="https://www.usman.me.uk/css/syntax.css">
+  <link rel="stylesheet" href="https://www.usman.me.uk/css/hyde.css">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=PT+Sans:400,400italic,700|Abril+Fatface">
+
+  
+  <link rel="apple-touch-icon-precomposed" sizes="144x144" href="/apple-touch-icon-144-precomposed.png">
+  <link rel="shortcut icon" href="/favicon.ico">
+
+  
+
+  <link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
+
+  <link href='https://fonts.googleapis.com/css?family=Raleway:400,300' rel='stylesheet' type='text/css'>
+
+  <script src="//ajax.googleapis.com/ajax/libs/webfont/1.4.7/webfont.js"></script>
+  <script>
+    WebFont.load({
+      google: {
+        families: ['Raleway']
+      }
+    });
+  </script>
+
+</head>
+
+<body>
+
+  <div class="sidebar">
+  <div class="container sidebar-sticky">
+    <div class="sidebar-about">
+      <h1 style="font-size: 60px" class="brand"><a href="https://www.usman.me.uk">Usman Mahmood</a></h1><br/>
+      <p class="lead">
+       Algorithms &#43; Data Structures = Programs 
+      </p>
+    </div>
+
+    <ul class="sidebar-nav">
+      <li><a href="https://www.usman.me.uk/blog">Posts</a></li>
+      
+        <li><a href="/about/">About </a></li>
+      
+      <br/>
+      <li><a href="https://github.com/umahmood">Github</a></li>
+      <li><a href="https://twitter.com/make_slice">Twitter</a></li>
+      <li><a href="https://keybase.io/usman">Keybase</a></li>
+
+    <br/>
+    &copy; 2020 Usman Mahmood. All rights reserved.</p>
+    
+  </div>
+</div>
+
+
+  <div class="content container">
+    <div class="post">
+    <h1 class="post-title">Server-Sent Events (SSE) With Go</h1>
+    <span class="post-date">May 8, 2020</span>
+    
+    
+
+<p>Server-Sent Events (SSE) technology is best explained by this article on <a href="https://developer.mozilla.org/en-US/docs/Web/API/Server-sent_events/Using_server-sent_events">MDN</a>:</p>
+
+<blockquote>
+<p>The EventSource interface is used to receive Server-Sent Events. It connects to a server over HTTP and receives events in text/event-stream format without closing the connection.</p>
+</blockquote>
+
+<p>The connection is persistent and communication is one-way, from the server to the client, the client cannot push data to the server. This is unlike WebSockets where communication is bi-directional.</p>
+
+<p>Some unique characteristics of SSE compared to WebSockets or long polling are:</p>
+
+<ul>
+<li>Communication is one-way from server to client and read-only.</li>
+<li>Requests are regular HTTP requests.</li>
+<li>The client will attempt auto-reconnect if the connection drops.</li>
+<li>Event messages can contain id&rsquo;s, so if a client connection drops. On reconnect, it can send the last id it saw, and the server can work out the number of messages the client has missed. And push those message to the client on reconnect.</li>
+</ul>
+
+<p>There is one important fact that you should understand about SSE when used over HTTP/1 and HTTP/2, from the MDN article above:</p>
+
+<blockquote>
+<p>When not used over HTTP/2, SSE suffers from a limitation to the maximum number of open connections, which can be specially painful when opening various tabs as the limit is per browser and set to a very low number (6). The issue has been marked as &ldquo;Won&rsquo;t fix&rdquo; in Chrome and Firefox. This limit is per browser + domain, so that means that you can open 6 SSE connections across all of the tabs to www.example1.com and another 6 SSE connections to www.example2.com. (from Stackoverflow). When using HTTP/2, the maximum number of simultaneous HTTP streams is negotiated between the server and the client (defaults to 100).</p>
+</blockquote>
+
+<h4 id="sse-server">SSE Server</h4>
+
+<p>Here is a basic example of an SSE server in Go using the <em>eventsource</em> package:</p>
+
+<pre><code>// sse_server.go
+package main
+
+import (
+    &quot;fmt&quot;
+    &quot;net/http&quot;
+    &quot;strconv&quot;
+    &quot;time&quot;
+
+    &quot;github.com/bernerdschaefer/eventsource&quot;
+)
+
+func main() {
+    es := eventsource.Handler(func(lastID string, e *eventsource.Encoder, stop &lt;-chan bool) {
+        var id int64
+        for {
+            select {
+            case &lt;-time.After(3 * time.Second):
+                fmt.Println(&quot;sending event...&quot;)
+                id += 1
+                e.Encode(eventsource.Event{ID: strconv.FormatInt(id, 10),
+                    Type: &quot;add&quot;,
+                    Data: []byte(&quot;some data&quot;)})
+            case &lt;-stop:
+                return
+            }
+        }
+    })
+    http.HandleFunc(&quot;/events&quot;, func(w http.ResponseWriter, r *http.Request) {
+        w.Header().Set(&quot;Content-Type&quot;, &quot;text/event-stream&quot;)
+        w.Header().Set(&quot;Cache-Control&quot;, &quot;no-cache&quot;)
+        w.Header().Set(&quot;Connection&quot;, &quot;keep-alive&quot;)
+        es.ServeHTTP(w, r)
+    })
+    if e := http.ListenAndServe(&quot;:9090&quot;, nil); e != nil {
+        fmt.Println(e)
+    }
+}
+</code></pre>
+
+<p>The above code sets up an endpoint <em>/events</em> and pushes events to clients every three seconds.</p>
+
+<p>Start the server:</p>
+
+<pre><code>$ go run sse_server.go
+</code></pre>
+
+<h4 id="sse-client">SSE Client</h4>
+
+<p>To view events pushed by the server, we will use the excellent <a href="https://httpie.org/">HTTPie</a> tool:</p>
+
+<pre><code>$ http --stream http://localhost:9090/events
+HTTP/1.1 200 OK
+Cache-Control: no-cache
+Connection: keep-alive
+Content-Type: text/event-stream
+Transfer-Encoding: chunked
+Vary: Accept
+
+id: 1
+event: add
+data: some data
+
+id: 2
+event: add
+data: some data
+
+id: 3
+event: add
+data: some data
+</code></pre>
+
+<p>An example using HTML/Javascript:</p>
+
+<pre><code>&lt;!DOCTYPE html lang=&quot;en&quot;&gt;
+&lt;html&gt;
+  &lt;body&gt;
+    &lt;h1&gt;Getting server updates&lt;/h1&gt;
+    &lt;div id=&quot;result&quot;&gt;&lt;/div&gt;
+    &lt;script&gt;
+      if(typeof(EventSource) !== &quot;undefined&quot;) {
+        var source = new EventSource(&quot;http://localhost:9090/events&quot;);
+        source.addEventListener(&quot;add&quot;, (message) =&gt; {
+                  console.log(message) 
+                  document.getElementById('result').innerHTML += message.data + &quot;&lt;br&gt;&quot;; 
+              }); 
+      } else {
+        document.getElementById(&quot;result&quot;).innerHTML = &quot;Sorry, your browser does not support server-sent events...&quot;;
+      }
+    &lt;/script&gt;
+  &lt;/body&gt;
+&lt;/html&gt;
+</code></pre>
+
+<p>Save the above code into file sse_client.html, and then open it in your web browser.</p>
+
+<p>you will see the event &ldquo;some data&rdquo; being output on the page, if you check the console you will see much more detailed information about the events:</p>
+
+<pre><code>add { target: EventSource, isTrusted: true, data: &quot;some data&quot;, origin: &quot;http://localhost:9090&quot;, lastEventId: &quot;1&quot;, ports: Restricted, srcElement: EventSource, currentTarget: EventSource, eventPhase: 2, bubbles: false, … }
+</code></pre>
+
+<p>I hope you found this post helpful.</p>
+
+<p>Fin</p>
+
+    
+
+     
+	
+</div>
+</div> 
+
+</body>
+</html>

@@ -7,7 +7,151 @@
     <language>en-us</language>
     <author>Usman Mahmood</author>
     <copyright>2020 Usman Mahmood</copyright>
-    <updated>Mon, 23 Mar 2020 22:11:03 &#43;0100</updated>
+    <updated>Fri, 08 May 2020 13:13:23 BST</updated>
+    
+    
+    <item>
+      <title>Server-Sent Events (SSE) With Go</title>
+      <link>https://www.usman.me.uk/2020/05/sse-go/</link>
+      <pubDate>Fri, 08 May 2020 13:13:23 BST</pubDate>
+      <author>Usman Mahmood</author>
+      <guid>https://www.usman.me.uk/2020/05/sse-go/</guid>
+      <description>
+
+&lt;p&gt;Server-Sent Events (SSE) technology is best explained by this article on &lt;a href=&#34;https://developer.mozilla.org/en-US/docs/Web/API/Server-sent_events/Using_server-sent_events&#34;&gt;MDN&lt;/a&gt;:&lt;/p&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;The EventSource interface is used to receive Server-Sent Events. It connects to a server over HTTP and receives events in text/event-stream format without closing the connection.&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;The connection is persistent and communication is one-way, from the server to the client, the client cannot push data to the server. This is unlike WebSockets where communication is bi-directional.&lt;/p&gt;
+
+&lt;p&gt;Some unique characteristics of SSE compared to WebSockets or long polling are:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Communication is one-way from server to client and read-only.&lt;/li&gt;
+&lt;li&gt;Requests are regular HTTP requests.&lt;/li&gt;
+&lt;li&gt;The client will attempt auto-reconnect if the connection drops.&lt;/li&gt;
+&lt;li&gt;Event messages can contain id&amp;rsquo;s, so if a client connection drops. On reconnect, it can send the last id it saw, and the server can work out the number of messages the client has missed. And push those message to the client on reconnect.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;There is one important fact that you should understand about SSE when used over HTTP/1 and HTTP/2, from the MDN article above:&lt;/p&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;When not used over HTTP/2, SSE suffers from a limitation to the maximum number of open connections, which can be specially painful when opening various tabs as the limit is per browser and set to a very low number (6). The issue has been marked as &amp;ldquo;Won&amp;rsquo;t fix&amp;rdquo; in Chrome and Firefox. This limit is per browser + domain, so that means that you can open 6 SSE connections across all of the tabs to www.example1.com and another 6 SSE connections to www.example2.com. (from Stackoverflow). When using HTTP/2, the maximum number of simultaneous HTTP streams is negotiated between the server and the client (defaults to 100).&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;h4 id=&#34;sse-server&#34;&gt;SSE Server&lt;/h4&gt;
+
+&lt;p&gt;Here is a basic example of an SSE server in Go using the &lt;em&gt;eventsource&lt;/em&gt; package:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;// sse_server.go
+package main
+
+import (
+    &amp;quot;fmt&amp;quot;
+    &amp;quot;net/http&amp;quot;
+    &amp;quot;strconv&amp;quot;
+    &amp;quot;time&amp;quot;
+
+    &amp;quot;github.com/bernerdschaefer/eventsource&amp;quot;
+)
+
+func main() {
+    es := eventsource.Handler(func(lastID string, e *eventsource.Encoder, stop &amp;lt;-chan bool) {
+        var id int64
+        for {
+            select {
+            case &amp;lt;-time.After(3 * time.Second):
+                fmt.Println(&amp;quot;sending event...&amp;quot;)
+                id += 1
+                e.Encode(eventsource.Event{ID: strconv.FormatInt(id, 10),
+                    Type: &amp;quot;add&amp;quot;,
+                    Data: []byte(&amp;quot;some data&amp;quot;)})
+            case &amp;lt;-stop:
+                return
+            }
+        }
+    })
+    http.HandleFunc(&amp;quot;/events&amp;quot;, func(w http.ResponseWriter, r *http.Request) {
+        w.Header().Set(&amp;quot;Content-Type&amp;quot;, &amp;quot;text/event-stream&amp;quot;)
+        w.Header().Set(&amp;quot;Cache-Control&amp;quot;, &amp;quot;no-cache&amp;quot;)
+        w.Header().Set(&amp;quot;Connection&amp;quot;, &amp;quot;keep-alive&amp;quot;)
+        es.ServeHTTP(w, r)
+    })
+    if e := http.ListenAndServe(&amp;quot;:9090&amp;quot;, nil); e != nil {
+        fmt.Println(e)
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;The above code sets up an endpoint &lt;em&gt;/events&lt;/em&gt; and pushes events to clients every three seconds.&lt;/p&gt;
+
+&lt;p&gt;Start the server:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;$ go run sse_server.go
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h4 id=&#34;sse-client&#34;&gt;SSE Client&lt;/h4&gt;
+
+&lt;p&gt;To view events pushed by the server, we will use the excellent &lt;a href=&#34;https://httpie.org/&#34;&gt;HTTPie&lt;/a&gt; tool:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;$ http --stream http://localhost:9090/events
+HTTP/1.1 200 OK
+Cache-Control: no-cache
+Connection: keep-alive
+Content-Type: text/event-stream
+Transfer-Encoding: chunked
+Vary: Accept
+
+id: 1
+event: add
+data: some data
+
+id: 2
+event: add
+data: some data
+
+id: 3
+event: add
+data: some data
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;An example using HTML/Javascript:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;&amp;lt;!DOCTYPE html lang=&amp;quot;en&amp;quot;&amp;gt;
+&amp;lt;html&amp;gt;
+  &amp;lt;body&amp;gt;
+    &amp;lt;h1&amp;gt;Getting server updates&amp;lt;/h1&amp;gt;
+    &amp;lt;div id=&amp;quot;result&amp;quot;&amp;gt;&amp;lt;/div&amp;gt;
+    &amp;lt;script&amp;gt;
+      if(typeof(EventSource) !== &amp;quot;undefined&amp;quot;) {
+        var source = new EventSource(&amp;quot;http://localhost:9090/events&amp;quot;);
+        source.addEventListener(&amp;quot;add&amp;quot;, (message) =&amp;gt; {
+                  console.log(message) 
+                  document.getElementById(&#39;result&#39;).innerHTML += message.data + &amp;quot;&amp;lt;br&amp;gt;&amp;quot;; 
+              }); 
+      } else {
+        document.getElementById(&amp;quot;result&amp;quot;).innerHTML = &amp;quot;Sorry, your browser does not support server-sent events...&amp;quot;;
+      }
+    &amp;lt;/script&amp;gt;
+  &amp;lt;/body&amp;gt;
+&amp;lt;/html&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Save the above code into file sse_client.html, and then open it in your web browser.&lt;/p&gt;
+
+&lt;p&gt;you will see the event &amp;ldquo;some data&amp;rdquo; being output on the page, if you check the console you will see much more detailed information about the events:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;add { target: EventSource, isTrusted: true, data: &amp;quot;some data&amp;quot;, origin: &amp;quot;http://localhost:9090&amp;quot;, lastEventId: &amp;quot;1&amp;quot;, ports: Restricted, srcElement: EventSource, currentTarget: EventSource, eventPhase: 2, bubbles: false, … }
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;I hope you found this post helpful.&lt;/p&gt;
+
+&lt;p&gt;Fin&lt;/p&gt;
+</description>
+    </item>
+    
     
     
     <item>
@@ -999,198 +1143,6 @@ Date:   Wed Jan 10 14:00:00 2099 +0100
 &lt;p&gt;&lt;a href=&#34;http://eddmann.com/posts/changing-the-timestamp-of-a-previous-git-commit/&#34;&gt;Changing the timestamp of a previous Git commit&lt;/a&gt;&lt;/p&gt;
 
 &lt;p&gt;&lt;a href=&#34;https://github.com/gelstudios/gitfiti&#34;&gt;gitfiti - abusing github commit history for the lulz&lt;/a&gt;&lt;/p&gt;
-
-&lt;p&gt;Fin.&lt;/p&gt;
-</description>
-    </item>
-    
-    
-    
-    <item>
-      <title>Using Subtests and Sub-benchmarks in Go</title>
-      <link>https://www.usman.me.uk/2016/10/using-sub-tests-benchmarks/</link>
-      <pubDate>Sat, 22 Oct 2016 21:45:22 BST</pubDate>
-      <author>Usman Mahmood</author>
-      <guid>https://www.usman.me.uk/2016/10/using-sub-tests-benchmarks/</guid>
-      <description>
-
-&lt;p&gt;In this post we will walk through an example of how to use the new subtests and sub-benchmarks functionality introduced in Go 1.7.&lt;/p&gt;
-
-&lt;h4 id=&#34;subtests&#34;&gt;Subtests&lt;/h4&gt;
-
-&lt;p&gt;One of the nifty features in Go is the ability to write table driven tests. For example, if we wanted to test the function:&lt;/p&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-go&#34;&gt;func Double(n int) int {
-    return n * 2
-}
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;Then we could write a table driven test as follows:&lt;/p&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-go&#34;&gt;func TestDouble(t *testing.T) {
-	testCases := []struct {
-		n    int
-		want int
-	}{
-		{2, 4},
-		{4, 10},
-		{3, 6},
-	}
-	for _, tc := range testCases {
-		got := Double(tc.n)
-		if got != tc.want {
-			t.Errorf(&amp;quot;fail got %v want %v&amp;quot;, got, tc.want)
-		}
-	}
-}
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;&lt;strong&gt;Note:&lt;/strong&gt; The test case {4, 10} is present to make the test fail, 4 * 2 != 10 😃.&lt;/p&gt;
-
-&lt;p&gt;If we run this test, we get the following output:&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;$ go test -v
-=== RUN   TestDouble
---- FAIL: TestDouble (0.00s)
-        example_test.go:25: fail got 8 want 10
-FAIL
-exit status 1
-FAIL    example    0.005s
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;The problem here is that we don&amp;rsquo;t know which table test case failed. It would be better, if we could identify a table test case, and display its name in the output if it fails.&lt;/p&gt;
-
-&lt;p&gt;This is what subtests in GO 1.7 allow us to do. The &lt;em&gt;testing.T&lt;/em&gt; type now has a &lt;em&gt;Run&lt;/em&gt; method, were the first argument is a string (the name of the test). And the second argument is a function. Below we re-implement the above test, using the &lt;em&gt;Run&lt;/em&gt; method:&lt;/p&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-go&#34;&gt;func TestDouble(t *testing.T) {
-	testCases := []struct {
-		n    int
-		want int
-	}{
-		{2, 4},
-		{4, 10},
-		{3, 6},
-	}
-	for _, tc := range testCases {
-		t.Run(fmt.Sprintf(&amp;quot;input_%d&amp;quot;, tc.n), func(t *testing.T) {
-			got := Double(tc.n)
-			if got != tc.want {
-				t.Errorf(&amp;quot;fail got %v want %v&amp;quot;, got, tc.want)
-			}
-		})
-	}
-}
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;A few things to note here are that one, we are setting the name of the test to the &amp;lsquo;n&amp;rsquo; value of the test case. So our tests are named &amp;ldquo;input_2&amp;rdquo;, &amp;ldquo;input_3&amp;rdquo; and &amp;ldquo;input_4&amp;rdquo;. And two, for the second parameter we are passing in a closure which has the same method signature as a normal test.&lt;/p&gt;
-
-&lt;p&gt;If we run this test, we get the following output:&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;$ go test -v
-=== RUN   TestDouble
-=== RUN   TestDouble/input_2
-=== RUN   TestDouble/input_3
-=== RUN   TestDouble/input_4
---- FAIL: TestDouble (0.00s)
-    --- PASS: TestDouble/input_2 (0.00s)
-    --- PASS: TestDouble/input_3 (0.00s)
-    --- FAIL: TestDouble/input_4 (0.00s)
-        example_test.go:43: fail got 8 want 10
-FAIL
-exit status 1
-FAIL    example    0.006s
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;This time we get a more detailed output, we can see that &amp;ldquo;input_4&amp;rdquo; was the failing test case from the table. And the pass/fail status of each individual table test case.&lt;/p&gt;
-
-&lt;p&gt;We can run a subset of our table tests, by matching the unique names set for them (the first parameter to the Run method), as follows:&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;$ go test -v -run=&amp;quot;TestZap/input_2&amp;quot;
-=== RUN   TestZap
-=== RUN   TestZap/input_2
---- PASS: TestZap (0.00s)
-    --- PASS: TestZap/input_2 (0.00s)
-PASS
-ok      example    0.008s
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;Running many tests, by matching the test names:&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;$ go test -v -run=&amp;quot;TestZap/input_[1-3]&amp;quot;
-=== RUN   TestZap
-=== RUN   TestZap/input_2
-=== RUN   TestZap/input_3
---- PASS: TestZap (0.00s)
-    --- PASS: TestZap/input_2 (0.00s)
-    --- PASS: TestZap/input_3 (0.00s)
-PASS
-ok      example    0.006s
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;Here &lt;em&gt;&amp;ldquo;input[1-3]&amp;rdquo;&lt;/em&gt; matched _&amp;ldquo;input&lt;em&gt;2&amp;rdquo;&lt;/em&gt; and _&amp;ldquo;input&lt;em&gt;3&amp;rdquo;&lt;/em&gt; but not _&amp;ldquo;input&lt;em&gt;4&amp;rdquo;&lt;/em&gt;.&lt;/p&gt;
-
-&lt;h4 id=&#34;sub-benchmarks&#34;&gt;Sub-benchmarks&lt;/h4&gt;
-
-&lt;p&gt;Unlike table driven testing there was no equal approach for benchmarking. But now in Go 1.7, we have the ability to create table driven benchmarks. Imagine we need to benchmark the following function:&lt;/p&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-go&#34;&gt;func AppendStringN(s string, n int) {
-	a := make([]string, 0)
-	for i := 0; i &amp;lt; n; i++ {
-		a = append(a, s)
-	}
-}  
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;We can define a top-level benchmark function like this:&lt;/p&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-go&#34;&gt;func BenchmarkAppendStringN(b *testing.B) {
-	benchmarks := []struct {
-		fruit string
-		n     int
-	}{
-		{fruit: &amp;quot;apple&amp;quot;, n: 10},
-		{fruit: &amp;quot;pear&amp;quot;, n: 20},
-		{fruit: &amp;quot;mango&amp;quot;, n: 40},
-		{fruit: &amp;quot;berry&amp;quot;, n: 60},
-		{fruit: &amp;quot;banana&amp;quot;, n: 80},
-		{fruit: &amp;quot;orange&amp;quot;, n: 100},
-	}
-	for _, bm := range benchmarks {
-		b.Run(bm.fruit, func(b *testing.B) {
-			for i := 0; i &amp;lt; b.N; i++ {
-				AppendStringN(bm.fruit, bm.n)
-			}
-		})
-	}
-}
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;The &lt;em&gt;Run&lt;/em&gt; methods signature is the same as described above. But for the &lt;em&gt;testing.B&lt;/em&gt; type, rather than the &lt;em&gt;testing.T&lt;/em&gt; type. Our benchmark names are set to &amp;ldquo;apple&amp;rdquo;, &amp;ldquo;pear&amp;rdquo;, &amp;ldquo;mango&amp;rdquo;, etc&amp;hellip;&lt;/p&gt;
-
-&lt;p&gt;If we run this benchmark, we get the following output:&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;$ go test -v -run=&amp;quot;xxx&amp;quot; -bench=.
-BenchmarkAppendStringN/apple-8           3000000               495 ns/op
-BenchmarkAppendStringN/pear-8            2000000               713 ns/op
-BenchmarkAppendStringN/mango-8           1000000              1101 ns/op
-BenchmarkAppendStringN/berry-8           1000000              1156 ns/op
-BenchmarkAppendStringN/banana-8          1000000              1803 ns/op
-BenchmarkAppendStringN/orange-8          1000000              1153 ns/op
-PASS
-ok      example_test    9.428s
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;An important thing to note is that, each time &lt;em&gt;b.Run&lt;/em&gt; is invoked it creates a separate benchmark. The outer benchmark function (BenchmarkAppendStringN) is only run once and it is not measured.&lt;/p&gt;
-
-&lt;p&gt;One last thing to mention is that, like subtests. You can run individual benchmarks by there set unique names. Below, we run just the &amp;ldquo;berry&amp;rdquo; benchmark:&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;$ go test -v -run=&amp;quot;xxx&amp;quot; -bench=&amp;quot;/berry&amp;quot;
-BenchmarkAppendStringN/berry-8           1000000              1143 ns/op
-PASS
-ok      subtestbench    1.165s
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;I hope you have found this blog post helpful.&lt;/p&gt;
 
 &lt;p&gt;Fin.&lt;/p&gt;
 </description>
