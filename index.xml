@@ -7,7 +7,87 @@
     <language>en-us</language>
     <author>Usman Mahmood</author>
     <copyright>2020 Usman Mahmood</copyright>
-    <updated>Fri, 08 May 2020 13:13:23 BST</updated>
+    <updated>Tue, 23 Jun 2020 19:01:24 BST</updated>
+    
+    
+    <item>
+      <title>Merkle Trees and Data Verification</title>
+      <link>https://www.usman.me.uk/2020/06/merkle-tree-verify/</link>
+      <pubDate>Tue, 23 Jun 2020 19:01:24 BST</pubDate>
+      <author>Usman Mahmood</author>
+      <guid>https://www.usman.me.uk/2020/06/merkle-tree-verify/</guid>
+      <description>
+
+&lt;p&gt;A Merkle tree is a binary tree where the nodes stores hashes of data, rather than the data itself. The leaf nodes store hashes of the data and the parent nodes are the results of concatenating the left and right children and then applying a hash function on the result.&lt;/p&gt;
+
+&lt;p&gt;To read more about Merkle trees go &lt;a href=&#34;https://en.wikipedia.org/wiki/Merkle_tree&#34;&gt;here&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;In this post, I will talk about how data verification is performed in Merkle trees.&lt;/p&gt;
+
+&lt;p&gt;Firstly, a client receives a root hash from a trusted server/source:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;root_hash = &amp;quot;1234&amp;quot;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;The client then asks peers on an untrusted peer-2-peer network, to send us the data chunks associated with the root hash, we receive the chunks:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;Data Chunks: [1] [2] [3] [4]
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;The data chunks came from random people on the network and we cannot trust them. So we build a Merkle tree from the received data chunks:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;   H(1234)
+  /       \
+ H12     H34
+ / \     / \
+H1 H2   H3 H4
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;We then compare the root hash of the tree we just built H(1234), to the root hash we received from our trusted server. And in this instance, they match which means that the data has not been corrupted or tampered with.&lt;/p&gt;
+
+&lt;h4 id=&#34;audit-proof&#34;&gt;Audit Proof&lt;/h4&gt;
+
+&lt;p&gt;In the example above we had to download all the chunks before we could verify the data. It would be better if we could verify chunks as they are downloaded from peers, and not wait for all the data to arrive. This is possible and it is known as partial verification or audit-proof.&lt;/p&gt;
+
+&lt;p&gt;Our trusted server has the following Merkle tree:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;   H(1234)
+  /       \
+ H12     H34
+ / \     / \
+H1 H2   H3 H4
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;The client downloads the following data chunk from the untrusted network:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;Data Chunks: [3]
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Whilst the client is downloading other chunks, we want to verify this chunk. So we perform the following steps:&lt;/p&gt;
+
+&lt;ol&gt;
+&lt;li&gt;The client sends data chunk 3 to the trusted server.&lt;/li&gt;
+&lt;li&gt;The server checks that Hash(3) is in the tree. it is.&lt;/li&gt;
+&lt;li&gt;The server sends back hashes &lt;strong&gt;H(4)&lt;/strong&gt; and &lt;strong&gt;H(12)&lt;/strong&gt;. We need these to compute the root hash.&lt;/li&gt;
+&lt;li&gt;The client then computes:&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;pre&gt;&lt;code&gt;H(34)   = H(3)  + H(4)
+H(1234) = H(12) + H(34)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;And we compare H(1234) to &lt;em&gt;root_hash&lt;/em&gt; and they  match. We did not need all the data chunks to get the answer.&lt;/p&gt;
+
+&lt;p&gt;What is also amazing about this process is that the trusted server had to only send a little information. If the number of data chunks were doubled, the server would only have to send two more hashes and the client would only have to perform two more hash calculations.&lt;/p&gt;
+
+&lt;p&gt;The Merkle tree is a really interesting data structure and is used in a wide range of applications, including Bitcoin, Git, and BitTorrent.&lt;/p&gt;
+
+&lt;p&gt;I hope you found this post helpful.&lt;/p&gt;
+
+&lt;p&gt;Fin.&lt;/p&gt;
+</description>
+    </item>
+    
     
     
     <item>
@@ -1087,62 +1167,6 @@ Date:   Thu Dec 01 21:15:40 2016 +0000
 &lt;/code&gt;&lt;/pre&gt;
 
 &lt;p&gt;Thats it! if you want to read more about the flags discussed go &lt;a href=&#34;https://git-scm.com/docs/git-commit#git-commit---allow-empty&#34;&gt;here&lt;/a&gt;.&lt;/p&gt;
-
-&lt;p&gt;Fin.&lt;/p&gt;
-</description>
-    </item>
-    
-    
-    
-    <item>
-      <title>Changing the Date of Git Commits</title>
-      <link>https://www.usman.me.uk/2016/11/git-commit-change-date/</link>
-      <pubDate>Tue, 15 Nov 2016 19:29:07 UTC</pubDate>
-      <author>Usman Mahmood</author>
-      <guid>https://www.usman.me.uk/2016/11/git-commit-change-date/</guid>
-      <description>&lt;p&gt;Have you ever looked at peoples Github contribution timelines and seen a word or some ASCII art. This is done by creating a repo, then manipulating the dates of commits, to create the desired design.&lt;/p&gt;
-
-&lt;p&gt;This blog post is not about creating funky pieces of art in your Github commit history timeline. But instead, shows you how to change the date of a commit using Git.&lt;/p&gt;
-
-&lt;p&gt;When you make a git commit you can actually set the date of the commit to anything you want. Lets get started.&lt;/p&gt;
-
-&lt;p&gt;First, you have to set two environment variables - &lt;em&gt;GIT_AUTHOR_DATE&lt;/em&gt; and &lt;em&gt;GIT_COMMITTER_DATE&lt;/em&gt;, like so:&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;$ export GIT_AUTHOR_DATE=&amp;quot;Wed Jan 10 14:00 2099 +0100&amp;quot;
-$ export GIT_COMMITTER_DATE=&amp;quot;Wed Jan 10 14:00 2099 +0100&amp;quot;
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;Create a git repo:&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;$ mkdir test
-$ cd test
-$ git init
-$ echo &amp;quot;hello world&amp;quot; &amp;gt;&amp;gt; hello.txt
-$ git add hello.txt
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;Now lets commit our changes:&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;$ git commit -m &amp;quot;initial commit&amp;quot;
-$ git log
-commit 80b2d1f499d6ae455a4f87f68e107b275abfefe8
-Author: Philip J. Fry &amp;lt;fry@planet-express.com&amp;gt;
-Date:   Wed Jan 10 14:00:00 2099 +0100
-
-    initial commit
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;You can see the date of our commit has changed, rather the being the current date/time, it is set to day in the year 2099.&lt;/p&gt;
-
-&lt;p&gt;If you want to change the date of a commit in the past, I recommend reading this &lt;a href=&#34;http://eddmann.com/posts/changing-the-timestamp-of-a-previous-git-commit/&#34;&gt;blog post&lt;/a&gt;.&lt;/p&gt;
-
-&lt;p&gt;Useful links:&lt;/p&gt;
-
-&lt;p&gt;&lt;a href=&#34;https://git-scm.com/docs/git-commit#_date_formats&#34;&gt;Git commit date formats&lt;/a&gt;&lt;/p&gt;
-
-&lt;p&gt;&lt;a href=&#34;http://eddmann.com/posts/changing-the-timestamp-of-a-previous-git-commit/&#34;&gt;Changing the timestamp of a previous Git commit&lt;/a&gt;&lt;/p&gt;
-
-&lt;p&gt;&lt;a href=&#34;https://github.com/gelstudios/gitfiti&#34;&gt;gitfiti - abusing github commit history for the lulz&lt;/a&gt;&lt;/p&gt;
 
 &lt;p&gt;Fin.&lt;/p&gt;
 </description>

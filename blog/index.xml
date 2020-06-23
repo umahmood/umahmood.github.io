@@ -7,10 +7,21 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>Usman Mahmood</copyright>
-    <lastBuildDate>Fri, 08 May 2020 13:13:23 +0100</lastBuildDate>
+    <lastBuildDate>Tue, 23 Jun 2020 19:01:24 +0100</lastBuildDate>
     
 	<atom:link href="https://www.usman.me.uk/blog/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Merkle Trees and Data Verification</title>
+      <link>https://www.usman.me.uk/2020/06/merkle-tree-verify/</link>
+      <pubDate>Tue, 23 Jun 2020 19:01:24 +0100</pubDate>
+      
+      <guid>https://www.usman.me.uk/2020/06/merkle-tree-verify/</guid>
+      <description>A Merkle tree is a binary tree where the nodes stores hashes of data, rather than the data itself. The leaf nodes store hashes of the data and the parent nodes are the results of concatenating the left and right children and then applying a hash function on the result.
+To read more about Merkle trees go here.
+In this post, I will talk about how data verification is performed in Merkle trees.</description>
+    </item>
     
     <item>
       <title>Server-Sent Events (SSE) With Go</title>
