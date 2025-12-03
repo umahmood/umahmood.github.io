@@ -1,0 +1,472 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en-gb" lang="en-gb">
+<head>
+    
+
+
+
+
+
+
+
+
+
+
+    
+
+
+
+
+
+
+
+<script defer language="javascript" type="text/javascript" src="/js/bundle.min.d451ff92e80abc2a828eb9bb262e4db374bd4e954642f9245c54eec84bf690f3.js"></script>
+
+
+
+
+
+
+    
+    <meta http-equiv="content-type" content="text/html; charset=utf-8">
+
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    
+    <link rel="icon" href=/favicon.png>
+
+    
+    
+
+
+
+
+
+  
+
+
+
+
+
+  
+  
+  
+
+
+<!-- Open Graph image and Twitter Card metadata -->
+
+<title itemprop="name">Usman Mahmood - Using Subtests and Sub-benchmarks in Go</title>
+<meta property="og:title" content=Usman&#32;Mahmood&#32;-&#32;Using&#32;Subtests&#32;and&#32;Sub-benchmarks&#32;in&#32;Go />
+<meta name="twitter:title" content=Usman&#32;Mahmood&#32;-&#32;Using&#32;Subtests&#32;and&#32;Sub-benchmarks&#32;in&#32;Go />
+<meta itemprop="name" content=Usman&#32;Mahmood&#32;-&#32;Using&#32;Subtests&#32;and&#32;Sub-benchmarks&#32;in&#32;Go />
+<meta name="application-name" content=Usman&#32;Mahmood&#32;-&#32;Using&#32;Subtests&#32;and&#32;Sub-benchmarks&#32;in&#32;Go />
+<meta property="og:site_name" content="Blog" />
+
+
+<meta name="description" content="" />
+<meta itemprop="description" content="" />
+<meta property="og:description" content="" />
+<meta name="twitter:description" content="" />
+
+
+<base href="https://www.usman.me.uk/posts/using-sub-tests-benchmarks/" />
+<link rel="canonical" href="https://www.usman.me.uk/posts/using-sub-tests-benchmarks/" itemprop="url" />
+<meta name="url" content="https://www.usman.me.uk/posts/using-sub-tests-benchmarks/" />
+<meta name="twitter:url" content="https://www.usman.me.uk/posts/using-sub-tests-benchmarks/" />
+<meta property="og:url" content="https://www.usman.me.uk/posts/using-sub-tests-benchmarks/" />
+
+
+<meta property="og:updated_time" content="2016-10-22T21:45:22&#43;01:00" />
+
+
+<link rel="sitemap" type="application/xml" title="Sitemap" href='https://www.usman.me.uk/sitemap.xml' />
+
+<meta name="robots" content="index,follow" />
+<meta name="googlebot" content="index,follow" />
+
+
+
+  
+    <meta name="twitter:site" content="@make_slice" />
+    <meta name="twitter:creator" content="@make_slice" />
+
+<meta property="fb:admins" content="" />
+
+
+<meta name="apple-mobile-web-app-title" content="Blog" />
+<meta name="apple-mobile-web-app-capable" content="yes" />
+<meta name="apple-mobile-web-app-status-bar-style" content="black" />
+
+
+
+
+
+
+<meta name="generator" content="Hugo 0.152.2">
+
+
+    
+    
+
+<link type="text/css" rel="stylesheet" href="/css/bundle.min.c1a1f3f468f1f8e5729d2e79b1812f536a2ba0be45fab2fde2a56f4614a55c86.css">
+
+
+    
+    <style>
+    body {
+        --sidebar-bg-color: #202020;
+        --sidebar-img-border-color: #515151;
+        --sidebar-p-color: #909090;
+        --sidebar-h1-color: #FFF;
+        --sidebar-a-color: #FFF;
+        --sidebar-socials-color: #FFF;
+        --text-color: #222;
+        --bkg-color: #FAF9F6;
+        --post-title-color: #303030;
+        --list-color: #5a5a5a;
+        --link-color: #268bd2;
+        --date-color: #515151;
+        --table-border-color: #E5E5E5;
+        --table-stripe-color: #F9F9F9;
+        --code-color: #000;
+        --code-background-color: #E5E5E5;
+        --code-block-color: #fff;
+        --code-block-background-color: #272822;
+        --moon-sun-color: #FFF;
+        --moon-sun-background-color: #515151;
+    }
+    body.dark-theme {
+        --text-color: #eee;
+        --bkg-color: #121212;
+        --post-title-color: #DBE2E9;
+        --list-color: #9d9d9d;
+        --link-color: #268bd2;
+        --date-color: #9a9a9a;
+        --table-border-color: #515151;
+        --table-stripe-color: #202020;
+        --code-color: #fff;
+        --code-background-color: #515151;
+        --code-block-color: #fff;
+        --code-block-background-color: #272822;
+    }
+    body {
+        background-color: var(--bkg-color);
+    }
+</style>
+
+</head>
+
+    <body class="dark-theme">
+        <div class="wrapper">
+            <aside class="sidebar">
+    <div class="container sidebar-sticky">
+        <div class="light-dark" align="right">
+    <button class="btn-light-dark" title="Toggle light/dark mode">
+        <svg class="moon" xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 16 16">
+            <path fill="currentColor" d="M6 .278a.768.768 0 0 1 .08.858a7.208 7.208 0 0 0-.878 3.46c0 4.021 3.278 7.277 7.318 7.277c.527 0 1.04-.055 1.533-.16a.787.787 0 0 1 .81.316a.733.733 0 0 1-.031.893A8.349 8.349 0 0 1 8.344 16C3.734 16 0 12.286 0 7.71C0 4.266 2.114 1.312 5.124.06A.752.752 0 0 1 6 .278z"/>
+        </svg>
+        <svg class="sun" xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 16 16">
+            <path fill="currentColor" d="M8 12a4 4 0 1 0 0-8a4 4 0 0 0 0 8zM8 0a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-1 0v-2A.5.5 0 0 1 8 0zm0 13a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-1 0v-2A.5.5 0 0 1 8 13zm8-5a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1 0-1h2a.5.5 0 0 1 .5.5zM3 8a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1 0-1h2A.5.5 0 0 1 3 8zm10.657-5.657a.5.5 0 0 1 0 .707l-1.414 1.415a.5.5 0 1 1-.707-.708l1.414-1.414a.5.5 0 0 1 .707 0zm-9.193 9.193a.5.5 0 0 1 0 .707L3.05 13.657a.5.5 0 0 1-.707-.707l1.414-1.414a.5.5 0 0 1 .707 0zm9.193 2.121a.5.5 0 0 1-.707 0l-1.414-1.414a.5.5 0 0 1 .707-.707l1.414 1.414a.5.5 0 0 1 0 .707zM4.464 4.465a.5.5 0 0 1-.707 0L2.343 3.05a.5.5 0 1 1 .707-.707l1.414 1.414a.5.5 0 0 1 0 .708z"/>
+        </svg>
+    </button>
+</div>
+
+        <div class="sidebar-about">
+    <h1 class="brand">
+        
+            <a href="https://www.usman.me.uk/">
+                <img src="/images/gopher.png" alt="brand image">
+            </a>
+        
+        
+            <a href="https://www.usman.me.uk/">
+                <h1>Usman Mahmood</h1>
+            </a>
+        
+    </h1>
+    <p class="lead">
+    Algorithms + Data Structures = Programs
+    </p>
+</div>
+
+        <nav>
+    <ul class="sidebar-nav">
+
+        
+        
+        
+        
+            
+
+            
+                
+                
+            
+            
+                
+                
+            
+                
+                
+            
+        
+        
+            
+
+            
+                
+                
+                    <li class="heading">
+                        <a href="/posts/">Posts</a>
+                    </li>
+                    
+                
+            
+            
+                
+                
+            
+                
+                
+            
+        
+
+    </ul>
+</nav>
+
+        
+    <a target="_blank" class="social" title="GitHub" href="https://github.com/umahmood">
+        <svg xmlns="http://www.w3.org/2000/svg" width="1.2em" height="1.2em" viewBox="-2 -2 24 24">
+            <path fill="currentColor" d="M18.88 1.099C18.147.366 17.265 0 16.233 0H3.746C2.714 0 1.832.366 1.099 1.099C.366 1.832 0 2.714 0 3.746v12.487c0 1.032.366 1.914 1.099 2.647c.733.733 1.615 1.099 2.647 1.099H6.66c.19 0 .333-.007.429-.02a.504.504 0 0 0 .286-.169c.095-.1.143-.245.143-.435l-.007-.885c-.004-.564-.006-1.01-.006-1.34l-.3.052c-.19.035-.43.05-.721.046a5.555 5.555 0 0 1-.904-.091a2.026 2.026 0 0 1-.872-.39a1.651 1.651 0 0 1-.572-.8l-.13-.3a3.25 3.25 0 0 0-.41-.663c-.186-.243-.375-.407-.566-.494l-.09-.065a.956.956 0 0 1-.17-.156a.723.723 0 0 1-.117-.182c-.026-.061-.004-.111.065-.15c.07-.04.195-.059.378-.059l.26.04c.173.034.388.138.643.311a2.1 2.1 0 0 1 .631.677c.2.355.44.626.722.813c.282.186.566.28.852.28c.286 0 .533-.022.742-.065a2.59 2.59 0 0 0 .585-.196c.078-.58.29-1.028.637-1.34a8.907 8.907 0 0 1-1.333-.234a5.314 5.314 0 0 1-1.223-.507a3.5 3.5 0 0 1-1.047-.872c-.277-.347-.505-.802-.683-1.365c-.177-.564-.266-1.215-.266-1.952c0-1.049.342-1.942 1.027-2.68c-.32-.788-.29-1.673.091-2.652c.252-.079.625-.02 1.119.175c.494.195.856.362 1.086.5c.23.14.414.257.553.352a9.233 9.233 0 0 1 2.497-.338c.859 0 1.691.113 2.498.338l.494-.312a6.997 6.997 0 0 1 1.197-.572c.46-.174.81-.221 1.054-.143c.39.98.424 1.864.103 2.653c.685.737 1.028 1.63 1.028 2.68c0 .737-.089 1.39-.267 1.957c-.177.568-.407 1.023-.689 1.366a3.65 3.65 0 0 1-1.053.865c-.42.234-.828.403-1.223.507a8.9 8.9 0 0 1-1.333.235c.45.39.676 1.005.676 1.846v3.11c0 .147.021.266.065.357a.36.36 0 0 0 .208.189c.096.034.18.056.254.064c.074.01.18.013.318.013h2.914c1.032 0 1.914-.366 2.647-1.099c.732-.732 1.099-1.615 1.099-2.647V3.746c0-1.032-.367-1.914-1.1-2.647z"/>
+        </svg>
+    </a>
+
+
+
+
+
+    <a target="_blank" class="social" title="X" href="https://x.com/make_slice">
+        <svg xmlns="http://www.w3.org/2000/svg" width="1.1em" height="1.1em" viewBox="0 0 512 472.799">
+            <path fill="currentColor" d="M403.229 0h78.506L310.219 196.04 512 462.799H354.002L230.261 301.007 88.669 462.799h-78.56l183.455-209.683L0 0h161.999l111.856 147.88L403.229 0zm-27.556 415.805h43.505L138.363 44.527h-46.68l283.99 371.278z"/>
+        </svg>
+    </a>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        <p class="footnote">
+    <br>
+    &copy; 2025 Usman Mahmood. All rights reserved.
+</p>
+
+  </div>
+</aside>
+
+            <main class="content container">
+                <div class="post">
+  <div class="info">
+  <h1 class="post-title">
+    <a href="https://www.usman.me.uk/posts/using-sub-tests-benchmarks/">Using Subtests and Sub-benchmarks in Go</a>
+  </h1>
+
+  <div class="headline">
+    <div>
+      
+      
+      <time datetime=" 2016-10-22T21:45:22&#43;0100" class="post-date">
+        October 22, 2016
+      </time>
+      
+      <span> - </span>
+      <span class="reading-time">
+        
+          
+        
+
+        <span>4 mins read</span>
+      </span>
+    </div>
+
+    
+  </div>
+
+  
+  
+
+  
+</div>
+
+  <p>In this post we will walk through an example of how to use the new subtests and sub-benchmarks functionality introduced in Go 1.7.</p>
+<h4 id="subtests">Subtests</h4>
+<p>One of the nifty features in Go is the ability to write table driven tests. For example, if we wanted to test the function:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">Double</span>(<span style="color:#a6e22e">n</span> <span style="color:#66d9ef">int</span>) <span style="color:#66d9ef">int</span> {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">n</span> <span style="color:#f92672">*</span> <span style="color:#ae81ff">2</span>
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>Then we could write a table driven test as follows:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">TestDouble</span>(<span style="color:#a6e22e">t</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">testing</span>.<span style="color:#a6e22e">T</span>) {
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">testCases</span> <span style="color:#f92672">:=</span> []<span style="color:#66d9ef">struct</span> {
+</span></span><span style="display:flex;"><span>		<span style="color:#a6e22e">n</span>    <span style="color:#66d9ef">int</span>
+</span></span><span style="display:flex;"><span>		<span style="color:#a6e22e">want</span> <span style="color:#66d9ef">int</span>
+</span></span><span style="display:flex;"><span>	}{
+</span></span><span style="display:flex;"><span>		{<span style="color:#ae81ff">2</span>, <span style="color:#ae81ff">4</span>},
+</span></span><span style="display:flex;"><span>		{<span style="color:#ae81ff">4</span>, <span style="color:#ae81ff">10</span>},
+</span></span><span style="display:flex;"><span>		{<span style="color:#ae81ff">3</span>, <span style="color:#ae81ff">6</span>},
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">for</span> <span style="color:#a6e22e">_</span>, <span style="color:#a6e22e">tc</span> <span style="color:#f92672">:=</span> <span style="color:#66d9ef">range</span> <span style="color:#a6e22e">testCases</span> {
+</span></span><span style="display:flex;"><span>		<span style="color:#a6e22e">got</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">Double</span>(<span style="color:#a6e22e">tc</span>.<span style="color:#a6e22e">n</span>)
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">got</span> <span style="color:#f92672">!=</span> <span style="color:#a6e22e">tc</span>.<span style="color:#a6e22e">want</span> {
+</span></span><span style="display:flex;"><span>			<span style="color:#a6e22e">t</span>.<span style="color:#a6e22e">Errorf</span>(<span style="color:#e6db74">&#34;fail got %v want %v&#34;</span>, <span style="color:#a6e22e">got</span>, <span style="color:#a6e22e">tc</span>.<span style="color:#a6e22e">want</span>)
+</span></span><span style="display:flex;"><span>		}
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p><strong>Note:</strong> The test case {4, 10} is present to make the test fail, 4 * 2 != 10 😃.</p>
+<p>If we run this test, we get the following output:</p>
+<pre tabindex="0"><code>$ go test -v
+=== RUN   TestDouble
+--- FAIL: TestDouble (0.00s)
+        example_test.go:25: fail got 8 want 10
+FAIL
+exit status 1
+FAIL    example    0.005s
+</code></pre><p>The problem here is that we don&rsquo;t know which table test case failed. It would be better, if we could identify a table test case, and display its name in the output if it fails.</p>
+<p>This is what subtests in GO 1.7 allow us to do. The <em>testing.T</em> type now has a <em>Run</em> method, were the first argument is a string (the name of the test). And the second argument is a function. Below we re-implement the above test, using the <em>Run</em> method:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">TestDouble</span>(<span style="color:#a6e22e">t</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">testing</span>.<span style="color:#a6e22e">T</span>) {
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">testCases</span> <span style="color:#f92672">:=</span> []<span style="color:#66d9ef">struct</span> {
+</span></span><span style="display:flex;"><span>		<span style="color:#a6e22e">n</span>    <span style="color:#66d9ef">int</span>
+</span></span><span style="display:flex;"><span>		<span style="color:#a6e22e">want</span> <span style="color:#66d9ef">int</span>
+</span></span><span style="display:flex;"><span>	}{
+</span></span><span style="display:flex;"><span>		{<span style="color:#ae81ff">2</span>, <span style="color:#ae81ff">4</span>},
+</span></span><span style="display:flex;"><span>		{<span style="color:#ae81ff">4</span>, <span style="color:#ae81ff">10</span>},
+</span></span><span style="display:flex;"><span>		{<span style="color:#ae81ff">3</span>, <span style="color:#ae81ff">6</span>},
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">for</span> <span style="color:#a6e22e">_</span>, <span style="color:#a6e22e">tc</span> <span style="color:#f92672">:=</span> <span style="color:#66d9ef">range</span> <span style="color:#a6e22e">testCases</span> {
+</span></span><span style="display:flex;"><span>		<span style="color:#a6e22e">t</span>.<span style="color:#a6e22e">Run</span>(<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Sprintf</span>(<span style="color:#e6db74">&#34;input_%d&#34;</span>, <span style="color:#a6e22e">tc</span>.<span style="color:#a6e22e">n</span>), <span style="color:#66d9ef">func</span>(<span style="color:#a6e22e">t</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">testing</span>.<span style="color:#a6e22e">T</span>) {
+</span></span><span style="display:flex;"><span>			<span style="color:#a6e22e">got</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">Double</span>(<span style="color:#a6e22e">tc</span>.<span style="color:#a6e22e">n</span>)
+</span></span><span style="display:flex;"><span>			<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">got</span> <span style="color:#f92672">!=</span> <span style="color:#a6e22e">tc</span>.<span style="color:#a6e22e">want</span> {
+</span></span><span style="display:flex;"><span>				<span style="color:#a6e22e">t</span>.<span style="color:#a6e22e">Errorf</span>(<span style="color:#e6db74">&#34;fail got %v want %v&#34;</span>, <span style="color:#a6e22e">got</span>, <span style="color:#a6e22e">tc</span>.<span style="color:#a6e22e">want</span>)
+</span></span><span style="display:flex;"><span>			}
+</span></span><span style="display:flex;"><span>		})
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>A few things to note here are that one, we are setting the name of the test to the &rsquo;n&rsquo; value of the test case. So our tests are named &ldquo;input_2&rdquo;, &ldquo;input_3&rdquo; and &ldquo;input_4&rdquo;. And two, for the second parameter we are passing in a closure which has the same method signature as a normal test.</p>
+<p>If we run this test, we get the following output:</p>
+<pre tabindex="0"><code>$ go test -v
+=== RUN   TestDouble
+=== RUN   TestDouble/input_2
+=== RUN   TestDouble/input_3
+=== RUN   TestDouble/input_4
+--- FAIL: TestDouble (0.00s)
+    --- PASS: TestDouble/input_2 (0.00s)
+    --- PASS: TestDouble/input_3 (0.00s)
+    --- FAIL: TestDouble/input_4 (0.00s)
+        example_test.go:43: fail got 8 want 10
+FAIL
+exit status 1
+FAIL    example    0.006s
+</code></pre><p>This time we get a more detailed output, we can see that &ldquo;input_4&rdquo; was the failing test case from the table. And the pass/fail status of each individual table test case.</p>
+<p>We can run a subset of our table tests, by matching the unique names set for them (the first parameter to the Run method), as follows:</p>
+<pre tabindex="0"><code>$ go test -v -run=&#34;TestZap/input_2&#34;
+=== RUN   TestZap
+=== RUN   TestZap/input_2
+--- PASS: TestZap (0.00s)
+    --- PASS: TestZap/input_2 (0.00s)
+PASS
+ok      example    0.008s
+</code></pre><p>Running many tests, by matching the test names:</p>
+<pre tabindex="0"><code>$ go test -v -run=&#34;TestZap/input_[1-3]&#34;
+=== RUN   TestZap
+=== RUN   TestZap/input_2
+=== RUN   TestZap/input_3
+--- PASS: TestZap (0.00s)
+    --- PASS: TestZap/input_2 (0.00s)
+    --- PASS: TestZap/input_3 (0.00s)
+PASS
+ok      example    0.006s
+</code></pre><p>Here <em>&ldquo;input[1-3]&rdquo;</em> matched <em>&ldquo;input_2&rdquo;</em> and <em>&ldquo;input_3&rdquo;</em> but not <em>&ldquo;input_4&rdquo;</em>.</p>
+<h4 id="sub-benchmarks">Sub-benchmarks</h4>
+<p>Unlike table driven testing there was no equal approach for benchmarking. But now in Go 1.7, we have the ability to create table driven benchmarks. Imagine we need to benchmark the following function:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">AppendStringN</span>(<span style="color:#a6e22e">s</span> <span style="color:#66d9ef">string</span>, <span style="color:#a6e22e">n</span> <span style="color:#66d9ef">int</span>) {
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">a</span> <span style="color:#f92672">:=</span> make([]<span style="color:#66d9ef">string</span>, <span style="color:#ae81ff">0</span>)
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">for</span> <span style="color:#a6e22e">i</span> <span style="color:#f92672">:=</span> <span style="color:#ae81ff">0</span>; <span style="color:#a6e22e">i</span> &lt; <span style="color:#a6e22e">n</span>; <span style="color:#a6e22e">i</span><span style="color:#f92672">++</span> {
+</span></span><span style="display:flex;"><span>		<span style="color:#a6e22e">a</span> = append(<span style="color:#a6e22e">a</span>, <span style="color:#a6e22e">s</span>)
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>We can define a top-level benchmark function like this:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">BenchmarkAppendStringN</span>(<span style="color:#a6e22e">b</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">testing</span>.<span style="color:#a6e22e">B</span>) {
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">benchmarks</span> <span style="color:#f92672">:=</span> []<span style="color:#66d9ef">struct</span> {
+</span></span><span style="display:flex;"><span>		<span style="color:#a6e22e">fruit</span> <span style="color:#66d9ef">string</span>
+</span></span><span style="display:flex;"><span>		<span style="color:#a6e22e">n</span>     <span style="color:#66d9ef">int</span>
+</span></span><span style="display:flex;"><span>	}{
+</span></span><span style="display:flex;"><span>		{<span style="color:#a6e22e">fruit</span>: <span style="color:#e6db74">&#34;apple&#34;</span>, <span style="color:#a6e22e">n</span>: <span style="color:#ae81ff">10</span>},
+</span></span><span style="display:flex;"><span>		{<span style="color:#a6e22e">fruit</span>: <span style="color:#e6db74">&#34;pear&#34;</span>, <span style="color:#a6e22e">n</span>: <span style="color:#ae81ff">20</span>},
+</span></span><span style="display:flex;"><span>		{<span style="color:#a6e22e">fruit</span>: <span style="color:#e6db74">&#34;mango&#34;</span>, <span style="color:#a6e22e">n</span>: <span style="color:#ae81ff">40</span>},
+</span></span><span style="display:flex;"><span>		{<span style="color:#a6e22e">fruit</span>: <span style="color:#e6db74">&#34;berry&#34;</span>, <span style="color:#a6e22e">n</span>: <span style="color:#ae81ff">60</span>},
+</span></span><span style="display:flex;"><span>		{<span style="color:#a6e22e">fruit</span>: <span style="color:#e6db74">&#34;banana&#34;</span>, <span style="color:#a6e22e">n</span>: <span style="color:#ae81ff">80</span>},
+</span></span><span style="display:flex;"><span>		{<span style="color:#a6e22e">fruit</span>: <span style="color:#e6db74">&#34;orange&#34;</span>, <span style="color:#a6e22e">n</span>: <span style="color:#ae81ff">100</span>},
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">for</span> <span style="color:#a6e22e">_</span>, <span style="color:#a6e22e">bm</span> <span style="color:#f92672">:=</span> <span style="color:#66d9ef">range</span> <span style="color:#a6e22e">benchmarks</span> {
+</span></span><span style="display:flex;"><span>		<span style="color:#a6e22e">b</span>.<span style="color:#a6e22e">Run</span>(<span style="color:#a6e22e">bm</span>.<span style="color:#a6e22e">fruit</span>, <span style="color:#66d9ef">func</span>(<span style="color:#a6e22e">b</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">testing</span>.<span style="color:#a6e22e">B</span>) {
+</span></span><span style="display:flex;"><span>			<span style="color:#66d9ef">for</span> <span style="color:#a6e22e">i</span> <span style="color:#f92672">:=</span> <span style="color:#ae81ff">0</span>; <span style="color:#a6e22e">i</span> &lt; <span style="color:#a6e22e">b</span>.<span style="color:#a6e22e">N</span>; <span style="color:#a6e22e">i</span><span style="color:#f92672">++</span> {
+</span></span><span style="display:flex;"><span>				<span style="color:#a6e22e">AppendStringN</span>(<span style="color:#a6e22e">bm</span>.<span style="color:#a6e22e">fruit</span>, <span style="color:#a6e22e">bm</span>.<span style="color:#a6e22e">n</span>)
+</span></span><span style="display:flex;"><span>			}
+</span></span><span style="display:flex;"><span>		})
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>The <em>Run</em> methods signature is the same as described above. But for the <em>testing.B</em> type, rather than the <em>testing.T</em> type. Our benchmark names are set to &ldquo;apple&rdquo;, &ldquo;pear&rdquo;, &ldquo;mango&rdquo;, etc&hellip;</p>
+<p>If we run this benchmark, we get the following output:</p>
+<pre tabindex="0"><code>$ go test -v -run=&#34;xxx&#34; -bench=.
+BenchmarkAppendStringN/apple-8           3000000               495 ns/op
+BenchmarkAppendStringN/pear-8            2000000               713 ns/op
+BenchmarkAppendStringN/mango-8           1000000              1101 ns/op
+BenchmarkAppendStringN/berry-8           1000000              1156 ns/op
+BenchmarkAppendStringN/banana-8          1000000              1803 ns/op
+BenchmarkAppendStringN/orange-8          1000000              1153 ns/op
+PASS
+ok      example_test    9.428s
+</code></pre><p>An important thing to note is that, each time <em>b.Run</em> is invoked it creates a separate benchmark. The outer benchmark function (BenchmarkAppendStringN) is only run once and it is not measured.</p>
+<p>One last thing to mention is that, like subtests. You can run individual benchmarks by there set unique names. Below, we run just the &ldquo;berry&rdquo; benchmark:</p>
+<pre tabindex="0"><code>$ go test -v -run=&#34;xxx&#34; -bench=&#34;/berry&#34;
+BenchmarkAppendStringN/berry-8           1000000              1143 ns/op
+PASS
+ok      subtestbench    1.165s
+</code></pre><p>I hope you have found this blog post helpful.</p>
+<p>Fin.</p>
+
+  
+  <hr>
+<div class="footer">
+    
+	    
+            <a class="previous-post" href="https://www.usman.me.uk/posts/svg-sprites/?ref=footer"><span style="font-weight:bold;">« Previous</span><br>SVG Sprites</a>
+        
+	    
+            <div class="next-post">
+                <a href="https://www.usman.me.uk/posts/git-commit-change-date/?ref=footer"><span style="font-weight:bold;">Next »</span><br>Changing the Date of Git Commits</a>
+            </div>
+        
+    
+</div>
+
+  
+</div>
+            </main>
+            
+  
+
+        </div>
+    </body>
+</html>

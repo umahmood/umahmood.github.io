@@ -1,0 +1,223 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Posts on Blog</title>
+    <link>https://www.usman.me.uk/posts/</link>
+    <description>Recent content in Posts on Blog</description>
+    <generator>Hugo</generator>
+    <language>en-gb</language>
+    <copyright>Usman Mahmood</copyright>
+    <lastBuildDate>Tue, 23 Jun 2020 19:01:24 +0100</lastBuildDate>
+    <atom:link href="https://www.usman.me.uk/posts/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Merkle Trees and Data Verification</title>
+      <link>https://www.usman.me.uk/posts/merkle-tree-verify/</link>
+      <pubDate>Tue, 23 Jun 2020 19:01:24 +0100</pubDate>
+      <guid>https://www.usman.me.uk/posts/merkle-tree-verify/</guid>
+      <description>&lt;p&gt;A Merkle tree is a binary tree where the nodes stores hashes of data, rather than the data itself. The leaf nodes store hashes of the data and the parent nodes are the results of concatenating the left and right children and then applying a hash function on the result.&lt;/p&gt;&#xA;&lt;p&gt;To read more about Merkle trees go &lt;a href=&#34;https://en.wikipedia.org/wiki/Merkle_tree&#34; target=&#34;_blank&#34;&gt;here&lt;/a&gt;.&lt;/p&gt;&#xA;&lt;p&gt;In this post, I will talk about how data verification is performed in Merkle trees.&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Server-Sent Events (SSE) With Go</title>
+      <link>https://www.usman.me.uk/posts/sse-go/</link>
+      <pubDate>Fri, 08 May 2020 13:13:23 +0100</pubDate>
+      <guid>https://www.usman.me.uk/posts/sse-go/</guid>
+      <description>&lt;p&gt;Server-Sent Events (SSE) technology is best explained by this article on &lt;a href=&#34;https://developer.mozilla.org/en-US/docs/Web/API/Server-sent_events/Using_server-sent_events&#34; target=&#34;_blank&#34;&gt;MDN&lt;/a&gt;:&lt;/p&gt;&#xA;&lt;blockquote&gt;&#xA;&lt;p&gt;The EventSource interface is used to receive Server-Sent Events. It connects to a server over HTTP and receives events in text/event-stream format without closing the connection.&lt;/p&gt;&#xA;&lt;/blockquote&gt;&#xA;&lt;p&gt;The connection is persistent and communication is one-way, from the server to the client, the client cannot push data to the server. This is unlike WebSockets where communication is bi-directional.&lt;/p&gt;&#xA;&lt;p&gt;Some unique characteristics of SSE compared to WebSockets or long polling are:&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Secure Tunnels with WireGuard</title>
+      <link>https://www.usman.me.uk/posts/wireguard/</link>
+      <pubDate>Mon, 23 Mar 2020 22:11:03 +0100</pubDate>
+      <guid>https://www.usman.me.uk/posts/wireguard/</guid>
+      <description>&lt;p&gt;Wireguard is a secure networking tunnel, it can be used for VPNs, connecting data centers together over the Internet, or any place where you need to connect two or more networks together in a secure way.&lt;/p&gt;&#xA;&lt;p&gt;Wireguard is open source and it is designed to be much simpler to configure than other tools such as OpenVPN or IPSec.&lt;/p&gt;&#xA;&lt;p&gt;Below, we are going to connect two computers together:&lt;/p&gt;&#xA;&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;Machine A IP address 192.168.0.40&#xA;Machine B IP address 192.168.0.41&#xA;&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;First, we need to install WireGuard on each machine:&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Configuring Remote Connections with PostgreSQL</title>
+      <link>https://www.usman.me.uk/posts/conn-postgres/</link>
+      <pubDate>Thu, 13 Feb 2020 19:15:15 +0100</pubDate>
+      <guid>https://www.usman.me.uk/posts/conn-postgres/</guid>
+      <description>&lt;p&gt;If you need to access your PostgreSQL database from another machine, you need to edit the configuration, to make the database listen to incoming connections from other hosts. Below are the steps on how to do this.&lt;/p&gt;&#xA;&lt;p&gt;&lt;strong&gt;Note&lt;/strong&gt;: Do not do this on your production database environment, It will open up a potential security flaw. This should be fine to do on your staging environment for testing purposes.&lt;/p&gt;&#xA;&lt;p&gt;On the machine running PostgreSQL, locate configuration file &lt;em&gt;postgres.conf:&lt;/em&gt;&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Compiling OpenVPN on the Raspberry Pi 3</title>
+      <link>https://www.usman.me.uk/posts/compile-openvpn/</link>
+      <pubDate>Sun, 15 Dec 2019 14:41:12 +0100</pubDate>
+      <guid>https://www.usman.me.uk/posts/compile-openvpn/</guid>
+      <description>&lt;p&gt;Recently I needed to upgrade the version of OpenVPN on my Raspberry Pi 3 Model B. Below are the steps needed to do this, here we upgrade to OpenVPN version 2.4.8.&lt;/p&gt;&#xA;&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;$ cd /tmp&#xA;$ wget https://swupdate.openvpn.org/community/releases/openvpn-2.4.8.tar.gz&#xA;$ tar xf openvpn-2.4.8.tar.gz&#xA;$ cd openvpn-2.4.8/&#xA;$ sudo apt-get install libssl-dev&#xA;$ sudo apt-get install liblzo2-dev&#xA;$ sudo apt-get install libpam0g-dev&#xA;$ ./configure --prefix=/usr&#xA;$ sudo make&#xA;$ sudo make install&#xA;&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Verify that the new version installed:&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Styling Markers on Mapbox Static Maps</title>
+      <link>https://www.usman.me.uk/posts/styling-markers-mapbox/</link>
+      <pubDate>Sat, 05 Oct 2019 16:12:46 +0100</pubDate>
+      <guid>https://www.usman.me.uk/posts/styling-markers-mapbox/</guid>
+      <description>&lt;p&gt;Recently I was using the python map-box api to generate static maps. I needed to&#xA;style the markers which pin pointed locations on the map. I found it difficult to&#xA;find the necessary documentation on how to do this. In the end it simply involved&#xA;adding the following fields:&lt;/p&gt;&#xA;&lt;ul&gt;&#xA;&lt;li&gt;maker-colour (hex value).&lt;/li&gt;&#xA;&lt;li&gt;marker-symbol (&lt;a href=&#34;https://labs.mapbox.com/maki-icons/&#34; target=&#34;_blank&#34;&gt;Maki icon name&lt;/a&gt;. an integer, or a lowercase letter).&lt;/li&gt;&#xA;&lt;li&gt;marker-size (small, large).&lt;/li&gt;&#xA;&lt;/ul&gt;&#xA;&lt;p&gt;To the JSON like so:&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Ignoring Directories When Backing up with Borg</title>
+      <link>https://www.usman.me.uk/posts/borg-ignore/</link>
+      <pubDate>Fri, 14 Sep 2018 20:36:32 +0000</pubDate>
+      <guid>https://www.usman.me.uk/posts/borg-ignore/</guid>
+      <description>&lt;p&gt;Borg backup has a &lt;code&gt;--exclude-if-present&lt;/code&gt; flag, which allows you to ignore a directory from being backed up, If it contains a certain &amp;rsquo;tag&amp;rsquo; file.&lt;/p&gt;&#xA;&lt;p&gt;So given the following directory structure, which we want to back up:&lt;/p&gt;&#xA;&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;+ MyFiles&#xA;&#x9;+ dirA&#xA;&#x9;&#x9;- file_one.pdf&#xA;&#x9;&#x9;- file_two.pdf&#xA;&#x9;+ dirB&#xA;&#x9;&#x9;- spreadsheet.xsl&#xA;&#x9;&#x9;- image.png&#xA;&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;If we want to ignore &lt;code&gt;dirB&lt;/code&gt; from being backed up by borg, we have to create a tag file in that directory:&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Tar Archiving Using Relative Paths</title>
+      <link>https://www.usman.me.uk/posts/tar_relative_path/</link>
+      <pubDate>Sat, 10 Mar 2018 15:40:39 +0100</pubDate>
+      <guid>https://www.usman.me.uk/posts/tar_relative_path/</guid>
+      <description>&lt;p&gt;If you want to archive a directory (using the tar command), but not include the absolute path to the directory. You can use the &lt;strong&gt;-C&lt;/strong&gt; option to the tar command, which essentially cd&amp;rsquo;s into the directory and then archives it. Here is an example:&lt;/p&gt;&#xA;&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;$ tar czf /tmp/my_backup.tar.gz -C ~/home/coorp/my_files&#xA;&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;When un-archived, the directory structure will be:&lt;/p&gt;&#xA;&lt;ul&gt;&#xA;&lt;li&gt;&lt;em&gt;/some_path/my_files&lt;/em&gt;&lt;/li&gt;&#xA;&lt;/ul&gt;&#xA;&lt;p&gt;And not:&lt;/p&gt;&#xA;&lt;ul&gt;&#xA;&lt;li&gt;&lt;em&gt;/some_path/home/coorp/my_files&lt;/em&gt;.&lt;/li&gt;&#xA;&lt;/ul&gt;&#xA;&lt;p&gt;Fin.&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Make &#39;echo %PATH&#39; More Readable</title>
+      <link>https://www.usman.me.uk/posts/print-path-env-var/</link>
+      <pubDate>Sat, 18 Nov 2017 14:34:22 +0100</pubDate>
+      <guid>https://www.usman.me.uk/posts/print-path-env-var/</guid>
+      <description>&lt;p&gt;When you want to check the contents of your &lt;em&gt;$PATH&lt;/em&gt; variable. To see which directories are in your session, you run the command:&lt;/p&gt;&#xA;&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;$ echo $PATH&#xA;&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Output:&lt;/p&gt;&#xA;&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;/usr/local/opt/coreutils/libexec/gnubin:/usr/local/bin:/usr/local/sbin:/opt:/usr/local/go/bin:/usr/local/texlive/2015basic/bin/x86_64-darwin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/opt/coreutils/libexec/gnubin:/usr/local/sbin:/opt:/usr/local/go/bin:/usr/local/texlive/2015basic/bin/x86_64-darwin&#xA;&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;This is all well and good, but the output of the command can be hard to read if you have many directories in your path. What you want is a command that outputs the &lt;em&gt;$PATH&lt;/em&gt; variable in an easier to read format. Luckily, this can accomplished with a little bit of bash code:&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Piping Commands into Go Binaries</title>
+      <link>https://www.usman.me.uk/posts/pipe-cmds-go/</link>
+      <pubDate>Sun, 27 Aug 2017 18:31:37 +0100</pubDate>
+      <guid>https://www.usman.me.uk/posts/pipe-cmds-go/</guid>
+      <description>&lt;p&gt;In this post we will see how we can pipe commands into our Go applications. We will write a basic command line program which demonstrates the functionality. Before we get started, it&amp;rsquo;s worth going over the basics of piping commands.&lt;/p&gt;&#xA;&lt;p&gt;The modular nature of the UNIX operating system. Allows the user to use basic commands to build up new commands. By allowing the output of one command to be used as the input for the next command. The general form of the pipe command is:&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Sync.Pool is Drained During Garbage Collection</title>
+      <link>https://www.usman.me.uk/posts/sync-pool-gc/</link>
+      <pubDate>Tue, 23 May 2017 21:31:37 +0100</pubDate>
+      <guid>https://www.usman.me.uk/posts/sync-pool-gc/</guid>
+      <description>&lt;p&gt;The Go sync.Pool type stores temporary objects, and provides get and put methods. Allowing you to cache allocated but unused items for later reuse. And relieving pressure on the garbage collector.&lt;/p&gt;&#xA;&lt;p&gt;The purpose of the sync.Pool type is to reuse memory between garbage collections. Which is why sync.Pool is drained during garbage collection (GC).&lt;/p&gt;&#xA;&lt;p&gt;Here is an example of how to use the sync pool:&lt;/p&gt;&#xA;&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;package main&#xA;&#xA;import (&#xA;&#x9;&amp;#34;bytes&amp;#34;&#xA;&#x9;&amp;#34;fmt&amp;#34;&#xA;&#x9;&amp;#34;sync&amp;#34;&#xA;)&#xA;&#xA;var bufPool = sync.Pool{&#xA;&#x9;New: func() interface{} {&#xA;&#x9;&#x9;return new(bytes.Buffer)&#xA;&#x9;},&#xA;}&#xA;&#xA;func main() {&#xA;&#x9;b := bufPool.Get().(*bytes.Buffer)&#xA;&#x9;b.WriteString(&amp;#34;What is past is prologue.&amp;#34;)&#xA;&#x9;bufPool.Put(b)&#xA;&#x9;b = bufPool.Get().(*bytes.Buffer)&#xA;&#x9;fmt.Println(b.String())&#xA;}&#xA;&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Output:&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Access Raspberry Pi Externally using ngrok</title>
+      <link>https://www.usman.me.uk/posts/external-access-pi-ngrok/</link>
+      <pubDate>Sun, 26 Feb 2017 00:15:59 +0000</pubDate>
+      <guid>https://www.usman.me.uk/posts/external-access-pi-ngrok/</guid>
+      <description>&lt;p&gt;In this blog post we will set up our Raspberry Pi so it will accessed using SSH from outside our home network. Below is a diagram of the architecture:&lt;/p&gt;&#xA;&lt;p&gt;[ Home Network : Raspberry Pi ] &amp;lt;&amp;ndash; [ ngrok ] &amp;ndash;&amp;gt; [ External Network ]&lt;/p&gt;&#xA;&lt;p&gt;From our home network we will create a secure tunnel, through ngrok. Which we will then connect to from our external network. This will allow us to SSH into our Raspberry Pi, and manage it.&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Raspberry Pi Slow SSH Fix</title>
+      <link>https://www.usman.me.uk/posts/pi-slow-ssh-fix/</link>
+      <pubDate>Mon, 20 Feb 2017 21:42:26 +0000</pubDate>
+      <guid>https://www.usman.me.uk/posts/pi-slow-ssh-fix/</guid>
+      <description>&lt;p&gt;If you SSH into your Raspberry Pi and have noticed a lag when typing characters into the terminal. Then the following fix may get rid of the lag (it worked for me!).&lt;/p&gt;&#xA;&lt;p&gt;Log into your Raspberry Pi and type:&lt;/p&gt;&#xA;&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;$ sudo nano /etc/ssh/sshd_config&#xA;&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;At the bottom of the config file add:&lt;/p&gt;&#xA;&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;UseDns no&#xA;&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Save the file, then restart sshd:&lt;/p&gt;&#xA;&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;$ service ssh restart&#xA;&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Or better, reboot your Raspberry Pi:&lt;/p&gt;&#xA;&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;$ sudo reboot&#xA;&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;SSH&amp;rsquo;ing into your Raspberry Pi should no longer be slow after these steps. 🤞&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Runtime and User Level Panics in Go</title>
+      <link>https://www.usman.me.uk/posts/runtime-user-panics/</link>
+      <pubDate>Thu, 08 Dec 2016 17:12:39 +0000</pubDate>
+      <guid>https://www.usman.me.uk/posts/runtime-user-panics/</guid>
+      <description>&lt;p&gt;How can our application code detect the difference between a runtime panic and a user level panic? Before answering this question. Let&amp;rsquo;s take a look at the difference between a runtime panic, and user level panic.&lt;/p&gt;&#xA;&lt;p&gt;A runtime panic is one thrown by the Go runtime, there are many things that can trigger a runtime panic. An example of the the most common runtime panic would be attempting to index an array out of bounds. The Go runtime would detect the illegal access and call the built-in panic function.&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Creating Empty Git Commits</title>
+      <link>https://www.usman.me.uk/posts/git-empty-commit/</link>
+      <pubDate>Tue, 29 Nov 2016 00:43:13 +0000</pubDate>
+      <guid>https://www.usman.me.uk/posts/git-empty-commit/</guid>
+      <description>&lt;p&gt;You may not know it, but Git allows you to create an empty commit in to your repo. It doesn&amp;rsquo;t like it, but you can do it any way.&lt;/p&gt;&#xA;&lt;p&gt;An empty commit is one where you don&amp;rsquo;t actually commit any code changes i.e. if you &lt;em&gt;git status&lt;/em&gt; your repo, you get the message:&lt;/p&gt;&#xA;&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;On branch master&#xA;nothing to commit, working tree clean&#xA;&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Why would you want to create an empty commit? You may want to communicate changes, which have nothing to do with code. But you have updated something that you want the rest of the team to know about. And you feel that communicating this via the git log make sense.&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Changing the Date of Git Commits</title>
+      <link>https://www.usman.me.uk/posts/git-commit-change-date/</link>
+      <pubDate>Tue, 15 Nov 2016 19:29:07 +0000</pubDate>
+      <guid>https://www.usman.me.uk/posts/git-commit-change-date/</guid>
+      <description>&lt;p&gt;Have you ever looked at peoples Github contribution timelines and seen a word or some ASCII art. This is done by creating a repo, then manipulating the dates of commits, to create the desired design.&lt;/p&gt;&#xA;&lt;p&gt;This blog post is not about creating funky pieces of art in your Github commit history timeline. But instead, shows you how to change the date of a commit using Git.&lt;/p&gt;&#xA;&lt;p&gt;When you make a git commit you can actually set the date of the commit to anything you want. Lets get started.&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Using Subtests and Sub-benchmarks in Go</title>
+      <link>https://www.usman.me.uk/posts/using-sub-tests-benchmarks/</link>
+      <pubDate>Sat, 22 Oct 2016 21:45:22 +0100</pubDate>
+      <guid>https://www.usman.me.uk/posts/using-sub-tests-benchmarks/</guid>
+      <description>&lt;p&gt;In this post we will walk through an example of how to use the new subtests and sub-benchmarks functionality introduced in Go 1.7.&lt;/p&gt;&#xA;&lt;h4 id=&#34;subtests&#34;&gt;Subtests&lt;/h4&gt;&#xA;&lt;p&gt;One of the nifty features in Go is the ability to write table driven tests. For example, if we wanted to test the function:&lt;/p&gt;&#xA;&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-go&#34; data-lang=&#34;go&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;func&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;Double&lt;/span&gt;(&lt;span style=&#34;color:#a6e22e&#34;&gt;n&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt;) &lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; {&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;n&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;*&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;2&lt;/span&gt;&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;}&#xA;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Then we could write a table driven test as follows:&lt;/p&gt;&#xA;&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-go&#34; data-lang=&#34;go&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;func&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;TestDouble&lt;/span&gt;(&lt;span style=&#34;color:#a6e22e&#34;&gt;t&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;*&lt;/span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;testing&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;T&lt;/span&gt;) {&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&#x9;&lt;span style=&#34;color:#a6e22e&#34;&gt;testCases&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;:=&lt;/span&gt; []&lt;span style=&#34;color:#66d9ef&#34;&gt;struct&lt;/span&gt; {&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&#x9;&#x9;&lt;span style=&#34;color:#a6e22e&#34;&gt;n&lt;/span&gt;    &lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt;&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&#x9;&#x9;&lt;span style=&#34;color:#a6e22e&#34;&gt;want&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt;&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&#x9;}{&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&#x9;&#x9;{&lt;span style=&#34;color:#ae81ff&#34;&gt;2&lt;/span&gt;, &lt;span style=&#34;color:#ae81ff&#34;&gt;4&lt;/span&gt;},&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&#x9;&#x9;{&lt;span style=&#34;color:#ae81ff&#34;&gt;4&lt;/span&gt;, &lt;span style=&#34;color:#ae81ff&#34;&gt;10&lt;/span&gt;},&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&#x9;&#x9;{&lt;span style=&#34;color:#ae81ff&#34;&gt;3&lt;/span&gt;, &lt;span style=&#34;color:#ae81ff&#34;&gt;6&lt;/span&gt;},&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&#x9;}&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&#x9;&lt;span style=&#34;color:#66d9ef&#34;&gt;for&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;_&lt;/span&gt;, &lt;span style=&#34;color:#a6e22e&#34;&gt;tc&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;:=&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;range&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;testCases&lt;/span&gt; {&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&#x9;&#x9;&lt;span style=&#34;color:#a6e22e&#34;&gt;got&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;:=&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;Double&lt;/span&gt;(&lt;span style=&#34;color:#a6e22e&#34;&gt;tc&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;n&lt;/span&gt;)&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&#x9;&#x9;&lt;span style=&#34;color:#66d9ef&#34;&gt;if&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;got&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;!=&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;tc&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;want&lt;/span&gt; {&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&#x9;&#x9;&#x9;&lt;span style=&#34;color:#a6e22e&#34;&gt;t&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;Errorf&lt;/span&gt;(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;fail got %v want %v&amp;#34;&lt;/span&gt;, &lt;span style=&#34;color:#a6e22e&#34;&gt;got&lt;/span&gt;, &lt;span style=&#34;color:#a6e22e&#34;&gt;tc&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;want&lt;/span&gt;)&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&#x9;&#x9;}&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&#x9;}&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;}&#xA;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;&lt;strong&gt;Note:&lt;/strong&gt; The test case {4, 10} is present to make the test fail, 4 * 2 != 10 😃.&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>SVG Sprites</title>
+      <link>https://www.usman.me.uk/posts/svg-sprites/</link>
+      <pubDate>Tue, 16 Aug 2016 19:54:44 +0100</pubDate>
+      <guid>https://www.usman.me.uk/posts/svg-sprites/</guid>
+      <description>&lt;p&gt;Within an single SVG file we can define many sprites. This consists of merging all your SVG sprites into a single .svg image file. Every sprite is wrapped in a &amp;lsquo;symbol&amp;rsquo; tag, like this:&lt;/p&gt;&#xA;&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;&amp;lt;svg class=&amp;#34;character&amp;#34; width=&amp;#34;100pt&amp;#34; height=&amp;#34;100pt&amp;#34; version=&amp;#34;1.1&amp;#34; xmlns=&amp;#34;http://www.w3.org/2000/svg&amp;#34;&amp;gt;&#xA;    &amp;lt;symbol id=&amp;#34;circle-red&amp;#34; viewBox=&amp;#34;0 0 100 100&amp;#34;&amp;gt;&#xA;      &amp;lt;circle cx=&amp;#34;50&amp;#34; cy=&amp;#34;50&amp;#34; r=&amp;#34;40&amp;#34; stroke=&amp;#34;black&amp;#34; stroke-width=&amp;#34;3&amp;#34; fill=&amp;#34;red&amp;#34; /&amp;gt;&#xA;    &amp;lt;/symbol&amp;gt;&#xA;    &amp;lt;symbol id=&amp;#34;circle-black&amp;#34; viewBox=&amp;#34;0 0 100 100&amp;#34;&amp;gt;&#xA;      &amp;lt;circle cx=&amp;#34;50&amp;#34; cy=&amp;#34;50&amp;#34; r=&amp;#34;40&amp;#34; stroke=&amp;#34;black&amp;#34; stroke-width=&amp;#34;3&amp;#34; /&amp;gt;&#xA;    &amp;lt;/symbol&amp;gt;&#xA;&amp;lt;/svg&amp;gt;&#xA;&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;We can then use HTML or CSS to pick out each part of the image:&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Updating Third Party Packages in Go</title>
+      <link>https://www.usman.me.uk/posts/update_packages/</link>
+      <pubDate>Sat, 11 Jun 2016 14:43:49 +0100</pubDate>
+      <guid>https://www.usman.me.uk/posts/update_packages/</guid>
+      <description>&lt;p&gt;Just a short post on how to update packages using &lt;em&gt;go get&lt;/em&gt;.&lt;/p&gt;&#xA;&lt;p&gt;To update all third party packages in your &lt;em&gt;GOPATH&lt;/em&gt; use the following command:&lt;/p&gt;&#xA;&lt;blockquote&gt;&#xA;&lt;p&gt;go get -u all&lt;/p&gt;&#xA;&lt;/blockquote&gt;&#xA;&lt;p&gt;To update a specific package, just provide the full package name to &lt;em&gt;go get&lt;/em&gt;:&lt;/p&gt;&#xA;&lt;blockquote&gt;&#xA;&lt;p&gt;go get -u github.com/gorilla/mux&lt;/p&gt;&#xA;&lt;/blockquote&gt;&#xA;&lt;p&gt;What about vendor-ed packages? These are updated in exactly the same way as above:&lt;/p&gt;&#xA;&lt;blockquote&gt;&#xA;&lt;p&gt;go get -u my-project/vendor/megacorp/foo&lt;/p&gt;&#xA;&lt;/blockquote&gt;&#xA;&lt;p&gt;If you want more information about your &lt;em&gt;GOPATH&lt;/em&gt;, run the command:&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>sort.Sort &amp; sort.Stable</title>
+      <link>https://www.usman.me.uk/posts/sort-stable/</link>
+      <pubDate>Sun, 13 Mar 2016 19:34:13 +0000</pubDate>
+      <guid>https://www.usman.me.uk/posts/sort-stable/</guid>
+      <description>&lt;p&gt;Go 1.6 made improvements to the Sort function in the sort package. It was improved to make fewer calls to the Less and Swap methods. Here are some benchmarks showing the performance of sort.Sort in Go 1.5 vs 1.6:&lt;/p&gt;&#xA;&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;Sort []int with Go 1.5&#xA;BenchmarkSort_1-4       20000000              67.2 ns/op&#xA;BenchmarkSort_10-4      10000000               227 ns/op&#xA;BenchmarkSort_100-4       500000              3863 ns/op&#xA;BenchmarkSort_1000-4       30000             52189 ns/op&#xA;&#xA;Sort []int with Go 1.6&#xA;BenchmarkSort_1-4       20000000              64.7 ns/op&#xA;BenchmarkSort_10-4      10000000               137 ns/op&#xA;BenchmarkSort_100-4       500000              2849 ns/op&#xA;BenchmarkSort_1000-4       30000             46949 ns/op&#xA;&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;&lt;em&gt;source: &lt;a href=&#34;https://talks.golang.org/2016/state-of-go.slide#24&#34; target=&#34;_blank&#34;&gt;state of go&lt;/a&gt;&lt;/em&gt;&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>The Defer Statement</title>
+      <link>https://www.usman.me.uk/posts/defer-statement/</link>
+      <pubDate>Mon, 14 Dec 2015 20:55:08 +0100</pubDate>
+      <guid>https://www.usman.me.uk/posts/defer-statement/</guid>
+      <description>&lt;p&gt;The Go programming language has a defer statement that allows for a function call to be run just before the currently running function returns. Here is how the defer statement is explained in the language specification:&lt;/p&gt;&#xA;&lt;p&gt;&lt;em&gt;&amp;ldquo;A &amp;ldquo;defer&amp;rdquo; statement invokes a function whose execution is deferred to the moment the surrounding function returns, either because the surrounding function executed a return statement, reached the end of its function body, or because the corresponding goroutine is panicking.&amp;rdquo;&lt;/em&gt;&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Go Channel Axioms</title>
+      <link>https://www.usman.me.uk/posts/channel-axioms/</link>
+      <pubDate>Mon, 14 Dec 2015 01:40:39 +0000</pubDate>
+      <guid>https://www.usman.me.uk/posts/channel-axioms/</guid>
+      <description>&lt;p&gt;A while ago I was watching a tech talk by Blake Caldwell on &lt;a href=&#34;https://www.youtube.com/watch?v=PyBJQA4clfc&#34; target=&#34;_blank&#34;&gt;Building Resilient Services with Go&lt;/a&gt;. In his presentation he had a slide which listed go channel axioms. I have listed his channel axioms here and provided some short code snippets to hopefully clarify them.&lt;/p&gt;&#xA;&lt;h3 id=&#34;a-send-to-a-nil-channel-blocks-forever&#34;&gt;A send to a nil channel blocks forever&lt;/h3&gt;&#xA;&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-go&#34; data-lang=&#34;go&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;var&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;ch&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;chan&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;bool&lt;/span&gt;&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;ch&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;-&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;true&lt;/span&gt; &lt;span style=&#34;color:#75715e&#34;&gt;// will always block&lt;/span&gt;&#xA;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;We declare a channel &amp;lsquo;ch&amp;rsquo; but do not initialize it (with make), so it is a nil channel. We then attempt to &lt;strong&gt;send&lt;/strong&gt; a value down the channel, this causes a blocking operation.&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>dotGo 2015</title>
+      <link>https://www.usman.me.uk/posts/dotgo-eu-2015/</link>
+      <pubDate>Thu, 12 Nov 2015 13:15:12 +0100</pubDate>
+      <guid>https://www.usman.me.uk/posts/dotgo-eu-2015/</guid>
+      <description>&lt;p&gt;&lt;img src=&#34;https://i.imgur.com/uiLTeK2.png&#34; alt=&#34;Dot conf. logo&#34;&gt;&lt;/p&gt;&#xA;&lt;p&gt;On Monday the 9th of November I was in Paris attending dotGo, the European Go conference. This blog post is a summary of my time there.&lt;/p&gt;&#xA;&lt;h3 id=&#34;pre-conference&#34;&gt;Pre-Conference&lt;/h3&gt;&#xA;&lt;p&gt;The day before the conference, the Paris tech talks group organized a pre-conference meetup/party. There were a large number of delegates who turned up and the meet up consisted of about six or seven talks. The talks were about how individuals at there respective companies were using Go. All the projects demoed and talked about were network related i.e. using Go to write a load balancer which solved a particular problem. After the talks, there was a chance to socialize and eat pizza with other gophers :).&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>tmux Cross Platform Config.</title>
+      <link>https://www.usman.me.uk/posts/tmux-cross-platform/</link>
+      <pubDate>Tue, 20 Oct 2015 17:15:08 +0100</pubDate>
+      <guid>https://www.usman.me.uk/posts/tmux-cross-platform/</guid>
+      <description>&lt;p&gt;If like me you use tmux on both Linux and OS X, then managing your tmux configuration can be a pain. The problem is there is configuration that is specific to either OS, such as copy and paste behavior. This blog post will show you how to manage your tmux configuration across platforms in a better way.&lt;/p&gt;&#xA;&lt;p&gt;The first thing you want to do is create a dot file for each platform, so for Linux create &lt;em&gt;.tmux-linux.conf&lt;/em&gt; and for OS X create &lt;em&gt;.tmux-osx.conf&lt;/em&gt;. Create and place these files in the same location as your &lt;em&gt;.tmux.conf&lt;/em&gt; file (most likely your home directory).&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Things to do before committing Go code</title>
+      <link>https://www.usman.me.uk/posts/go-todo/</link>
+      <pubDate>Wed, 02 Sep 2015 18:22:06 +0700</pubDate>
+      <guid>https://www.usman.me.uk/posts/go-todo/</guid>
+      <description>&lt;p&gt;This blog post will list some of the basic things you should really do before committing Go code into your repository.&lt;/p&gt;&#xA;&lt;p&gt;&lt;strong&gt;1)&lt;/strong&gt; Run gofmt/goimports&lt;/p&gt;&#xA;&lt;p&gt;&lt;em&gt;gofmt&lt;/em&gt; is probably the most popular Go tool amongst gophers. The job of &lt;em&gt;gofmt&lt;/em&gt; is to&#xA;format Go packages, your code will be formatted to be consistent across your code base. For example if we have the following &lt;em&gt;if&lt;/em&gt; statement:&lt;/p&gt;&#xA;&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-go&#34; data-lang=&#34;go&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;if&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;x&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;==&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;42&lt;/span&gt; { &lt;span style=&#34;color:#a6e22e&#34;&gt;fmt&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;Println&lt;/span&gt;(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;The answer to everything&amp;#34;&lt;/span&gt;) }&#xA;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Then running &lt;em&gt;gofmt&lt;/em&gt; on this will format the code to:&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Golang UK Conference 2015</title>
+      <link>https://www.usman.me.uk/posts/golang-uk-conf-2015/</link>
+      <pubDate>Tue, 25 Aug 2015 22:09:24 +0100</pubDate>
+      <guid>https://www.usman.me.uk/posts/golang-uk-conf-2015/</guid>
+      <description>&lt;p&gt;&lt;img src=&#34;https://i.imgur.com/LJfFYSS.png&#34; alt=&#34;British Gopher&#34;&gt;&lt;/p&gt;&#xA;&lt;p&gt;On Friday the 21st of August I attended the &lt;a href=&#34;http://www.golanguk.com/&#34; target=&#34;_blank&#34;&gt;Golang UK conference 2015&lt;/a&gt; held at&#xA;the amazing Brewery in London. This post is a short write up of my time at the&#xA;conference.&lt;/p&gt;&#xA;&lt;p&gt;This was my first ever conference so apart from the talks, I did not know what&#xA;else to expect. Overall though, I found the conference was excellent and I met&#xA;a wide range of interesting people.&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Gofmt and Rewrite Rules</title>
+      <link>https://www.usman.me.uk/posts/gofmt-rewrite-rules/</link>
+      <pubDate>Tue, 04 Aug 2015 23:26:39 +0100</pubDate>
+      <guid>https://www.usman.me.uk/posts/gofmt-rewrite-rules/</guid>
+      <description>&lt;p&gt;One thing I absolutely love about Go is its tooling support. Whenever I use the&#xA;numerous tools I always discover something new. In this short post I will be&#xA;showing off gofmt&amp;rsquo;s -r flag, this flag allows you to apply a rewrite rule to your&#xA;source before formatting.&lt;/p&gt;&#xA;&lt;p&gt;A rewrite rule is a string in the following format:&lt;/p&gt;&#xA;&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;pattern -&amp;gt; replacement&#xA;&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Both pattern and replacement must be valid Go expressions (more on this later), lets&#xA;apply a simple rewrite to the following code:&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Go and String Concatenation</title>
+      <link>https://www.usman.me.uk/posts/go-string-concat/</link>
+      <pubDate>Sun, 26 Jul 2015 18:45:28 +0100</pubDate>
+      <guid>https://www.usman.me.uk/posts/go-string-concat/</guid>
+      <description>&lt;p&gt;When writing Go code you should try to stay away from concatenating strings using the &amp;lsquo;+&amp;rsquo; and &amp;lsquo;+=&amp;rsquo;&amp;rsquo; operators.&lt;/p&gt;&#xA;&lt;p&gt;Strings in Go, like many other languages (Java, C#, etc&amp;hellip;) are immutable, this means after a string has been created it is impossible to change. Here is what the &lt;a href=&#34;https://golang.org/ref/spec#String_types&#34; target=&#34;_blank&#34;&gt;Go Programming Language Specification&lt;/a&gt; has to say about the string type:&lt;/p&gt;&#xA;&lt;p&gt;&lt;em&gt;&amp;ldquo;A string type represents the set of string values. A string value is a (possibly empty) sequence of bytes. Strings are immutable: once created, it is impossible to change the contents of a string. The predeclared string type is string.&amp;rdquo;&lt;/em&gt;&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Calling C from Go</title>
+      <link>https://www.usman.me.uk/posts/calling-c-from-go/</link>
+      <pubDate>Sat, 25 Jul 2015 20:18:15 +0100</pubDate>
+      <guid>https://www.usman.me.uk/posts/calling-c-from-go/</guid>
+      <description>&lt;p&gt;This post will show you the basics of how to call C code from a Go package.&lt;/p&gt;&#xA;&lt;p&gt;Lets get started with an example:&lt;/p&gt;&#xA;&lt;p&gt;Create a header file &amp;ldquo;add.h&amp;rdquo; with a function prototype:&lt;/p&gt;&#xA;&lt;pre&gt;&lt;code&gt;#ifndef _ADD_H_&#xA;#define _ADD_H_&#xA;int add(int, int);&#xA;#endif&#xA;&lt;/code&gt;&lt;/pre&gt;&#xA;&lt;p&gt;Create the source file &amp;ldquo;add.c&amp;rdquo; containing the definition for add:&lt;/p&gt;&#xA;&lt;pre&gt;&lt;code&gt;#include &amp;quot;add.h&amp;quot;&#xA;&#xA;int add(int a, int b)&#xA;{&#xA;   return a + b;&#xA;}&#xA;&lt;/code&gt;&lt;/pre&gt;&#xA;&lt;p&gt;Create a Go package &amp;ldquo;main.go&amp;rdquo;:&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>First Post</title>
+      <link>https://www.usman.me.uk/posts/first/</link>
+      <pubDate>Sat, 25 Jul 2015 17:15:08 +0100</pubDate>
+      <guid>https://www.usman.me.uk/posts/first/</guid>
+      <description>&lt;p&gt;This is my blog. There are many like it, but this one is mine.&lt;/p&gt;</description>
+    </item>
+  </channel>
+</rss>

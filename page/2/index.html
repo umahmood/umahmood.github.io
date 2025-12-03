@@ -1,0 +1,834 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en-gb" lang="en-gb">
+<head>
+    
+
+
+
+
+
+
+
+
+
+
+    
+
+
+
+
+
+
+
+<script defer language="javascript" type="text/javascript" src="/js/bundle.min.d451ff92e80abc2a828eb9bb262e4db374bd4e954642f9245c54eec84bf690f3.js"></script>
+
+
+
+
+
+
+    
+    <meta http-equiv="content-type" content="text/html; charset=utf-8">
+
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    
+    <link rel="icon" href=/favicon.png>
+
+    
+    
+
+
+
+
+
+  
+  
+
+
+
+
+
+
+<!-- Open Graph image and Twitter Card metadata -->
+
+<title itemprop="name">Usman Mahmood</title>
+<meta property="og:title" content=Usman&#32;Mahmood />
+<meta name="twitter:title" content=Usman&#32;Mahmood />
+<meta itemprop="name" content=Usman&#32;Mahmood />
+<meta name="application-name" content=Usman&#32;Mahmood />
+<meta property="og:site_name" content="Blog" />
+
+
+<meta name="description" content="Algorithms &#43; Data Structures = Programs" />
+<meta itemprop="description" content="Algorithms &#43; Data Structures = Programs" />
+<meta property="og:description" content="Algorithms &#43; Data Structures = Programs" />
+<meta name="twitter:description" content="Algorithms &#43; Data Structures = Programs" />
+
+
+<base href="https://www.usman.me.uk/" />
+<link rel="canonical" href="https://www.usman.me.uk/" itemprop="url" />
+<meta name="url" content="https://www.usman.me.uk/" />
+<meta name="twitter:url" content="https://www.usman.me.uk/" />
+<meta property="og:url" content="https://www.usman.me.uk/" />
+
+
+<meta property="og:updated_time" content="2020-06-23T19:01:24&#43;01:00" />
+
+
+<link rel="sitemap" type="application/xml" title="Sitemap" href='https://www.usman.me.uk/sitemap.xml' />
+<link href="https://www.usman.me.uk/index.xml" rel="alternate" type="application/rss+xml" title="Blog" />
+
+<meta name="robots" content="index,follow" />
+<meta name="googlebot" content="index,follow" />
+
+
+
+  
+    <meta name="twitter:site" content="@make_slice" />
+    <meta name="twitter:creator" content="@make_slice" />
+
+<meta property="fb:admins" content="" />
+
+
+<meta name="apple-mobile-web-app-title" content="Blog" />
+<meta name="apple-mobile-web-app-capable" content="yes" />
+<meta name="apple-mobile-web-app-status-bar-style" content="black" />
+
+
+
+
+
+
+<meta name="generator" content="Hugo 0.152.2">
+
+
+    
+    
+
+<link type="text/css" rel="stylesheet" href="/css/bundle.min.c1a1f3f468f1f8e5729d2e79b1812f536a2ba0be45fab2fde2a56f4614a55c86.css">
+
+
+    
+    <style>
+    body {
+        --sidebar-bg-color: #202020;
+        --sidebar-img-border-color: #515151;
+        --sidebar-p-color: #909090;
+        --sidebar-h1-color: #FFF;
+        --sidebar-a-color: #FFF;
+        --sidebar-socials-color: #FFF;
+        --text-color: #222;
+        --bkg-color: #FAF9F6;
+        --post-title-color: #303030;
+        --list-color: #5a5a5a;
+        --link-color: #268bd2;
+        --date-color: #515151;
+        --table-border-color: #E5E5E5;
+        --table-stripe-color: #F9F9F9;
+        --code-color: #000;
+        --code-background-color: #E5E5E5;
+        --code-block-color: #fff;
+        --code-block-background-color: #272822;
+        --moon-sun-color: #FFF;
+        --moon-sun-background-color: #515151;
+    }
+    body.dark-theme {
+        --text-color: #eee;
+        --bkg-color: #121212;
+        --post-title-color: #DBE2E9;
+        --list-color: #9d9d9d;
+        --link-color: #268bd2;
+        --date-color: #9a9a9a;
+        --table-border-color: #515151;
+        --table-stripe-color: #202020;
+        --code-color: #fff;
+        --code-background-color: #515151;
+        --code-block-color: #fff;
+        --code-block-background-color: #272822;
+    }
+    body {
+        background-color: var(--bkg-color);
+    }
+</style>
+
+</head>
+
+    <body class="dark-theme">
+        <div class="wrapper">
+            <aside class="sidebar">
+    <div class="container sidebar-sticky">
+        <div class="light-dark" align="right">
+    <button class="btn-light-dark" title="Toggle light/dark mode">
+        <svg class="moon" xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 16 16">
+            <path fill="currentColor" d="M6 .278a.768.768 0 0 1 .08.858a7.208 7.208 0 0 0-.878 3.46c0 4.021 3.278 7.277 7.318 7.277c.527 0 1.04-.055 1.533-.16a.787.787 0 0 1 .81.316a.733.733 0 0 1-.031.893A8.349 8.349 0 0 1 8.344 16C3.734 16 0 12.286 0 7.71C0 4.266 2.114 1.312 5.124.06A.752.752 0 0 1 6 .278z"/>
+        </svg>
+        <svg class="sun" xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 16 16">
+            <path fill="currentColor" d="M8 12a4 4 0 1 0 0-8a4 4 0 0 0 0 8zM8 0a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-1 0v-2A.5.5 0 0 1 8 0zm0 13a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-1 0v-2A.5.5 0 0 1 8 13zm8-5a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1 0-1h2a.5.5 0 0 1 .5.5zM3 8a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1 0-1h2A.5.5 0 0 1 3 8zm10.657-5.657a.5.5 0 0 1 0 .707l-1.414 1.415a.5.5 0 1 1-.707-.708l1.414-1.414a.5.5 0 0 1 .707 0zm-9.193 9.193a.5.5 0 0 1 0 .707L3.05 13.657a.5.5 0 0 1-.707-.707l1.414-1.414a.5.5 0 0 1 .707 0zm9.193 2.121a.5.5 0 0 1-.707 0l-1.414-1.414a.5.5 0 0 1 .707-.707l1.414 1.414a.5.5 0 0 1 0 .707zM4.464 4.465a.5.5 0 0 1-.707 0L2.343 3.05a.5.5 0 1 1 .707-.707l1.414 1.414a.5.5 0 0 1 0 .708z"/>
+        </svg>
+    </button>
+</div>
+
+        <div class="sidebar-about">
+    <h1 class="brand">
+        
+            <a href="https://www.usman.me.uk/">
+                <img src="/images/gopher.png" alt="brand image">
+            </a>
+        
+        
+            <a href="https://www.usman.me.uk/">
+                <h1>Usman Mahmood</h1>
+            </a>
+        
+    </h1>
+    <p class="lead">
+    Algorithms + Data Structures = Programs
+    </p>
+</div>
+
+        <nav>
+    <ul class="sidebar-nav">
+
+        
+        
+        
+        
+            
+
+            
+                
+                
+            
+            
+                
+                
+            
+                
+                
+            
+        
+        
+            
+
+            
+                
+                
+                    <li class="heading">
+                        <a href="/posts/">Posts</a>
+                    </li>
+                    
+                
+            
+            
+                
+                
+            
+                
+                
+            
+        
+
+    </ul>
+</nav>
+
+        
+    <a target="_blank" class="social" title="GitHub" href="https://github.com/umahmood">
+        <svg xmlns="http://www.w3.org/2000/svg" width="1.2em" height="1.2em" viewBox="-2 -2 24 24">
+            <path fill="currentColor" d="M18.88 1.099C18.147.366 17.265 0 16.233 0H3.746C2.714 0 1.832.366 1.099 1.099C.366 1.832 0 2.714 0 3.746v12.487c0 1.032.366 1.914 1.099 2.647c.733.733 1.615 1.099 2.647 1.099H6.66c.19 0 .333-.007.429-.02a.504.504 0 0 0 .286-.169c.095-.1.143-.245.143-.435l-.007-.885c-.004-.564-.006-1.01-.006-1.34l-.3.052c-.19.035-.43.05-.721.046a5.555 5.555 0 0 1-.904-.091a2.026 2.026 0 0 1-.872-.39a1.651 1.651 0 0 1-.572-.8l-.13-.3a3.25 3.25 0 0 0-.41-.663c-.186-.243-.375-.407-.566-.494l-.09-.065a.956.956 0 0 1-.17-.156a.723.723 0 0 1-.117-.182c-.026-.061-.004-.111.065-.15c.07-.04.195-.059.378-.059l.26.04c.173.034.388.138.643.311a2.1 2.1 0 0 1 .631.677c.2.355.44.626.722.813c.282.186.566.28.852.28c.286 0 .533-.022.742-.065a2.59 2.59 0 0 0 .585-.196c.078-.58.29-1.028.637-1.34a8.907 8.907 0 0 1-1.333-.234a5.314 5.314 0 0 1-1.223-.507a3.5 3.5 0 0 1-1.047-.872c-.277-.347-.505-.802-.683-1.365c-.177-.564-.266-1.215-.266-1.952c0-1.049.342-1.942 1.027-2.68c-.32-.788-.29-1.673.091-2.652c.252-.079.625-.02 1.119.175c.494.195.856.362 1.086.5c.23.14.414.257.553.352a9.233 9.233 0 0 1 2.497-.338c.859 0 1.691.113 2.498.338l.494-.312a6.997 6.997 0 0 1 1.197-.572c.46-.174.81-.221 1.054-.143c.39.98.424 1.864.103 2.653c.685.737 1.028 1.63 1.028 2.68c0 .737-.089 1.39-.267 1.957c-.177.568-.407 1.023-.689 1.366a3.65 3.65 0 0 1-1.053.865c-.42.234-.828.403-1.223.507a8.9 8.9 0 0 1-1.333.235c.45.39.676 1.005.676 1.846v3.11c0 .147.021.266.065.357a.36.36 0 0 0 .208.189c.096.034.18.056.254.064c.074.01.18.013.318.013h2.914c1.032 0 1.914-.366 2.647-1.099c.732-.732 1.099-1.615 1.099-2.647V3.746c0-1.032-.367-1.914-1.1-2.647z"/>
+        </svg>
+    </a>
+
+
+
+
+
+    <a target="_blank" class="social" title="X" href="https://x.com/make_slice">
+        <svg xmlns="http://www.w3.org/2000/svg" width="1.1em" height="1.1em" viewBox="0 0 512 472.799">
+            <path fill="currentColor" d="M403.229 0h78.506L310.219 196.04 512 462.799H354.002L230.261 301.007 88.669 462.799h-78.56l183.455-209.683L0 0h161.999l111.856 147.88L403.229 0zm-27.556 415.805h43.505L138.363 44.527h-46.68l283.99 371.278z"/>
+        </svg>
+    </a>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        <p class="footnote">
+    <br>
+    &copy; 2025 Usman Mahmood. All rights reserved.
+</p>
+
+  </div>
+</aside>
+
+            <main class="content container">
+                <div class="posts">
+    
+    
+    <article class="post">
+        <div class="info">
+  <h1 class="post-title">
+    <a href="https://www.usman.me.uk/posts/sync-pool-gc/">Sync.Pool is Drained During Garbage Collection</a>
+  </h1>
+
+  <div class="headline">
+    <div>
+      
+      
+      <time datetime=" 2017-05-23T21:31:37&#43;0100" class="post-date">
+        May 23, 2017
+      </time>
+      
+      <span> - </span>
+      <span class="reading-time">
+        
+          
+        
+
+        <span>2 mins read</span>
+      </span>
+    </div>
+
+    
+  </div>
+
+  
+  
+
+  
+</div>
+
+        
+        <p>The Go sync.Pool type stores temporary objects, and provides get and put methods. Allowing you to cache allocated but unused items for later reuse. And relieving pressure on the garbage collector.</p>
+<p>The purpose of the sync.Pool type is to reuse memory between garbage collections. Which is why sync.Pool is drained during garbage collection (GC).</p>
+<p>Here is an example of how to use the sync pool:</p>
+<pre tabindex="0"><code>package main
+
+import (
+	&#34;bytes&#34;
+	&#34;fmt&#34;
+	&#34;sync&#34;
+)
+
+var bufPool = sync.Pool{
+	New: func() interface{} {
+		return new(bytes.Buffer)
+	},
+}
+
+func main() {
+	b := bufPool.Get().(*bytes.Buffer)
+	b.WriteString(&#34;What is past is prologue.&#34;)
+	bufPool.Put(b)
+	b = bufPool.Get().(*bytes.Buffer)
+	fmt.Println(b.String())
+}
+</code></pre><p>Output:</p>
+        
+        <div class="read-more-link">
+            <a href="/posts/sync-pool-gc/">Read More…</a>
+        </div>
+        
+        
+    </article>
+    <article class="post">
+        <div class="info">
+  <h1 class="post-title">
+    <a href="https://www.usman.me.uk/posts/external-access-pi-ngrok/">Access Raspberry Pi Externally using ngrok</a>
+  </h1>
+
+  <div class="headline">
+    <div>
+      
+      
+      <time datetime=" 2017-02-26T00:15:59Z" class="post-date">
+        February 26, 2017
+      </time>
+      
+      <span> - </span>
+      <span class="reading-time">
+        
+          
+        
+
+        <span>3 mins read</span>
+      </span>
+    </div>
+
+    
+  </div>
+
+  
+  
+
+  
+</div>
+
+        
+        <p>In this blog post we will set up our Raspberry Pi so it will accessed using SSH from outside our home network. Below is a diagram of the architecture:</p>
+<p>[ Home Network : Raspberry Pi ] &lt;&ndash; [ ngrok ] &ndash;&gt; [ External Network ]</p>
+<p>From our home network we will create a secure tunnel, through ngrok. Which we will then connect to from our external network. This will allow us to SSH into our Raspberry Pi, and manage it.</p>
+        
+        <div class="read-more-link">
+            <a href="/posts/external-access-pi-ngrok/">Read More…</a>
+        </div>
+        
+        
+    </article>
+    <article class="post">
+        <div class="info">
+  <h1 class="post-title">
+    <a href="https://www.usman.me.uk/posts/pi-slow-ssh-fix/">Raspberry Pi Slow SSH Fix</a>
+  </h1>
+
+  <div class="headline">
+    <div>
+      
+      
+      <time datetime=" 2017-02-20T21:42:26Z" class="post-date">
+        February 20, 2017
+      </time>
+      
+      <span> - </span>
+      <span class="reading-time">
+        
+          
+        
+
+        <span>1 min read</span>
+      </span>
+    </div>
+
+    
+  </div>
+
+  
+  
+
+  
+</div>
+
+        
+        <p>If you SSH into your Raspberry Pi and have noticed a lag when typing characters into the terminal. Then the following fix may get rid of the lag (it worked for me!).</p>
+<p>Log into your Raspberry Pi and type:</p>
+<pre tabindex="0"><code>$ sudo nano /etc/ssh/sshd_config
+</code></pre><p>At the bottom of the config file add:</p>
+<pre tabindex="0"><code>UseDns no
+</code></pre><p>Save the file, then restart sshd:</p>
+<pre tabindex="0"><code>$ service ssh restart
+</code></pre><p>Or better, reboot your Raspberry Pi:</p>
+<pre tabindex="0"><code>$ sudo reboot
+</code></pre><p>SSH&rsquo;ing into your Raspberry Pi should no longer be slow after these steps. 🤞</p>
+        
+        <div class="read-more-link">
+            <a href="/posts/pi-slow-ssh-fix/">Read More…</a>
+        </div>
+        
+        
+    </article>
+    <article class="post">
+        <div class="info">
+  <h1 class="post-title">
+    <a href="https://www.usman.me.uk/posts/runtime-user-panics/">Runtime and User Level Panics in Go</a>
+  </h1>
+
+  <div class="headline">
+    <div>
+      
+      
+      <time datetime=" 2016-12-08T17:12:39Z" class="post-date">
+        December 8, 2016
+      </time>
+      
+      <span> - </span>
+      <span class="reading-time">
+        
+          
+        
+
+        <span>2 mins read</span>
+      </span>
+    </div>
+
+    
+  </div>
+
+  
+  
+
+  
+</div>
+
+        
+        <p>How can our application code detect the difference between a runtime panic and a user level panic? Before answering this question. Let&rsquo;s take a look at the difference between a runtime panic, and user level panic.</p>
+<p>A runtime panic is one thrown by the Go runtime, there are many things that can trigger a runtime panic. An example of the the most common runtime panic would be attempting to index an array out of bounds. The Go runtime would detect the illegal access and call the built-in panic function.</p>
+        
+        <div class="read-more-link">
+            <a href="/posts/runtime-user-panics/">Read More…</a>
+        </div>
+        
+        
+    </article>
+    <article class="post">
+        <div class="info">
+  <h1 class="post-title">
+    <a href="https://www.usman.me.uk/posts/git-empty-commit/">Creating Empty Git Commits</a>
+  </h1>
+
+  <div class="headline">
+    <div>
+      
+      
+      <time datetime=" 2016-11-29T00:43:13Z" class="post-date">
+        November 29, 2016
+      </time>
+      
+      <span> - </span>
+      <span class="reading-time">
+        
+          
+        
+
+        <span>2 mins read</span>
+      </span>
+    </div>
+
+    
+  </div>
+
+  
+  
+
+  
+</div>
+
+        
+        <p>You may not know it, but Git allows you to create an empty commit in to your repo. It doesn&rsquo;t like it, but you can do it any way.</p>
+<p>An empty commit is one where you don&rsquo;t actually commit any code changes i.e. if you <em>git status</em> your repo, you get the message:</p>
+<pre tabindex="0"><code>On branch master
+nothing to commit, working tree clean
+</code></pre><p>Why would you want to create an empty commit? You may want to communicate changes, which have nothing to do with code. But you have updated something that you want the rest of the team to know about. And you feel that communicating this via the git log make sense.</p>
+        
+        <div class="read-more-link">
+            <a href="/posts/git-empty-commit/">Read More…</a>
+        </div>
+        
+        
+    </article>
+    <article class="post">
+        <div class="info">
+  <h1 class="post-title">
+    <a href="https://www.usman.me.uk/posts/git-commit-change-date/">Changing the Date of Git Commits</a>
+  </h1>
+
+  <div class="headline">
+    <div>
+      
+      
+      <time datetime=" 2016-11-15T19:29:07Z" class="post-date">
+        November 15, 2016
+      </time>
+      
+      <span> - </span>
+      <span class="reading-time">
+        
+          
+        
+
+        <span>2 mins read</span>
+      </span>
+    </div>
+
+    
+  </div>
+
+  
+  
+
+  
+</div>
+
+        
+        <p>Have you ever looked at peoples Github contribution timelines and seen a word or some ASCII art. This is done by creating a repo, then manipulating the dates of commits, to create the desired design.</p>
+<p>This blog post is not about creating funky pieces of art in your Github commit history timeline. But instead, shows you how to change the date of a commit using Git.</p>
+<p>When you make a git commit you can actually set the date of the commit to anything you want. Lets get started.</p>
+        
+        <div class="read-more-link">
+            <a href="/posts/git-commit-change-date/">Read More…</a>
+        </div>
+        
+        
+    </article>
+    <article class="post">
+        <div class="info">
+  <h1 class="post-title">
+    <a href="https://www.usman.me.uk/posts/using-sub-tests-benchmarks/">Using Subtests and Sub-benchmarks in Go</a>
+  </h1>
+
+  <div class="headline">
+    <div>
+      
+      
+      <time datetime=" 2016-10-22T21:45:22&#43;0100" class="post-date">
+        October 22, 2016
+      </time>
+      
+      <span> - </span>
+      <span class="reading-time">
+        
+          
+        
+
+        <span>4 mins read</span>
+      </span>
+    </div>
+
+    
+  </div>
+
+  
+  
+
+  
+</div>
+
+        
+        <p>In this post we will walk through an example of how to use the new subtests and sub-benchmarks functionality introduced in Go 1.7.</p>
+<h4 id="subtests">Subtests</h4>
+<p>One of the nifty features in Go is the ability to write table driven tests. For example, if we wanted to test the function:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">Double</span>(<span style="color:#a6e22e">n</span> <span style="color:#66d9ef">int</span>) <span style="color:#66d9ef">int</span> {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">n</span> <span style="color:#f92672">*</span> <span style="color:#ae81ff">2</span>
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>Then we could write a table driven test as follows:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">TestDouble</span>(<span style="color:#a6e22e">t</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">testing</span>.<span style="color:#a6e22e">T</span>) {
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">testCases</span> <span style="color:#f92672">:=</span> []<span style="color:#66d9ef">struct</span> {
+</span></span><span style="display:flex;"><span>		<span style="color:#a6e22e">n</span>    <span style="color:#66d9ef">int</span>
+</span></span><span style="display:flex;"><span>		<span style="color:#a6e22e">want</span> <span style="color:#66d9ef">int</span>
+</span></span><span style="display:flex;"><span>	}{
+</span></span><span style="display:flex;"><span>		{<span style="color:#ae81ff">2</span>, <span style="color:#ae81ff">4</span>},
+</span></span><span style="display:flex;"><span>		{<span style="color:#ae81ff">4</span>, <span style="color:#ae81ff">10</span>},
+</span></span><span style="display:flex;"><span>		{<span style="color:#ae81ff">3</span>, <span style="color:#ae81ff">6</span>},
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">for</span> <span style="color:#a6e22e">_</span>, <span style="color:#a6e22e">tc</span> <span style="color:#f92672">:=</span> <span style="color:#66d9ef">range</span> <span style="color:#a6e22e">testCases</span> {
+</span></span><span style="display:flex;"><span>		<span style="color:#a6e22e">got</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">Double</span>(<span style="color:#a6e22e">tc</span>.<span style="color:#a6e22e">n</span>)
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">got</span> <span style="color:#f92672">!=</span> <span style="color:#a6e22e">tc</span>.<span style="color:#a6e22e">want</span> {
+</span></span><span style="display:flex;"><span>			<span style="color:#a6e22e">t</span>.<span style="color:#a6e22e">Errorf</span>(<span style="color:#e6db74">&#34;fail got %v want %v&#34;</span>, <span style="color:#a6e22e">got</span>, <span style="color:#a6e22e">tc</span>.<span style="color:#a6e22e">want</span>)
+</span></span><span style="display:flex;"><span>		}
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p><strong>Note:</strong> The test case {4, 10} is present to make the test fail, 4 * 2 != 10 😃.</p>
+        
+        <div class="read-more-link">
+            <a href="/posts/using-sub-tests-benchmarks/">Read More…</a>
+        </div>
+        
+        
+    </article>
+    <article class="post">
+        <div class="info">
+  <h1 class="post-title">
+    <a href="https://www.usman.me.uk/posts/svg-sprites/">SVG Sprites</a>
+  </h1>
+
+  <div class="headline">
+    <div>
+      
+      
+      <time datetime=" 2016-08-16T19:54:44&#43;0100" class="post-date">
+        August 16, 2016
+      </time>
+      
+      <span> - </span>
+      <span class="reading-time">
+        
+          
+        
+
+        <span>1 min read</span>
+      </span>
+    </div>
+
+    
+  </div>
+
+  
+  
+
+  
+</div>
+
+        
+        <p>Within an single SVG file we can define many sprites. This consists of merging all your SVG sprites into a single .svg image file. Every sprite is wrapped in a &lsquo;symbol&rsquo; tag, like this:</p>
+<pre tabindex="0"><code>&lt;svg class=&#34;character&#34; width=&#34;100pt&#34; height=&#34;100pt&#34; version=&#34;1.1&#34; xmlns=&#34;http://www.w3.org/2000/svg&#34;&gt;
+    &lt;symbol id=&#34;circle-red&#34; viewBox=&#34;0 0 100 100&#34;&gt;
+      &lt;circle cx=&#34;50&#34; cy=&#34;50&#34; r=&#34;40&#34; stroke=&#34;black&#34; stroke-width=&#34;3&#34; fill=&#34;red&#34; /&gt;
+    &lt;/symbol&gt;
+    &lt;symbol id=&#34;circle-black&#34; viewBox=&#34;0 0 100 100&#34;&gt;
+      &lt;circle cx=&#34;50&#34; cy=&#34;50&#34; r=&#34;40&#34; stroke=&#34;black&#34; stroke-width=&#34;3&#34; /&gt;
+    &lt;/symbol&gt;
+&lt;/svg&gt;
+</code></pre><p>We can then use HTML or CSS to pick out each part of the image:</p>
+        
+        <div class="read-more-link">
+            <a href="/posts/svg-sprites/">Read More…</a>
+        </div>
+        
+        
+    </article>
+    <article class="post">
+        <div class="info">
+  <h1 class="post-title">
+    <a href="https://www.usman.me.uk/posts/update_packages/">Updating Third Party Packages in Go</a>
+  </h1>
+
+  <div class="headline">
+    <div>
+      
+      
+      <time datetime=" 2016-06-11T14:43:49&#43;0100" class="post-date">
+        June 11, 2016
+      </time>
+      
+      <span> - </span>
+      <span class="reading-time">
+        
+          
+        
+
+        <span>1 min read</span>
+      </span>
+    </div>
+
+    
+  </div>
+
+  
+  
+
+  
+</div>
+
+        
+        <p>Just a short post on how to update packages using <em>go get</em>.</p>
+<p>To update all third party packages in your <em>GOPATH</em> use the following command:</p>
+<blockquote>
+<p>go get -u all</p>
+</blockquote>
+<p>To update a specific package, just provide the full package name to <em>go get</em>:</p>
+<blockquote>
+<p>go get -u github.com/gorilla/mux</p>
+</blockquote>
+<p>What about vendor-ed packages? These are updated in exactly the same way as above:</p>
+<blockquote>
+<p>go get -u my-project/vendor/megacorp/foo</p>
+</blockquote>
+<p>If you want more information about your <em>GOPATH</em>, run the command:</p>
+        
+        <div class="read-more-link">
+            <a href="/posts/update_packages/">Read More…</a>
+        </div>
+        
+        
+    </article>
+    <article class="post">
+        <div class="info">
+  <h1 class="post-title">
+    <a href="https://www.usman.me.uk/posts/sort-stable/">sort.Sort &amp; sort.Stable</a>
+  </h1>
+
+  <div class="headline">
+    <div>
+      
+      
+      <time datetime=" 2016-03-13T19:34:13Z" class="post-date">
+        March 13, 2016
+      </time>
+      
+      <span> - </span>
+      <span class="reading-time">
+        
+          
+        
+
+        <span>2 mins read</span>
+      </span>
+    </div>
+
+    
+  </div>
+
+  
+  
+
+  
+</div>
+
+        
+        <p>Go 1.6 made improvements to the Sort function in the sort package. It was improved to make fewer calls to the Less and Swap methods. Here are some benchmarks showing the performance of sort.Sort in Go 1.5 vs 1.6:</p>
+<pre tabindex="0"><code>Sort []int with Go 1.5
+BenchmarkSort_1-4       20000000              67.2 ns/op
+BenchmarkSort_10-4      10000000               227 ns/op
+BenchmarkSort_100-4       500000              3863 ns/op
+BenchmarkSort_1000-4       30000             52189 ns/op
+
+Sort []int with Go 1.6
+BenchmarkSort_1-4       20000000              64.7 ns/op
+BenchmarkSort_10-4      10000000               137 ns/op
+BenchmarkSort_100-4       500000              2849 ns/op
+BenchmarkSort_1000-4       30000             46949 ns/op
+</code></pre><p><em>source: <a href="https://talks.golang.org/2016/state-of-go.slide#24" target="_blank">state of go</a></em></p>
+        
+        <div class="read-more-link">
+            <a href="/posts/sort-stable/">Read More…</a>
+        </div>
+        
+        
+    </article>
+</div>
+
+
+<hr>
+<div class="footer">
+<nav id="page-nav">
+
+    
+    <a href="/" rel="prev" class="extend prev">&laquo; Previous</a>
+    
+    
+    
+    <a href="/">1</a>
+    
+    
+    
+    <span class="page-number current">2</span>
+    
+    
+    
+    <a href="/page/3/">3</a>
+    
+    
+
+    
+    <a href="/page/3/" rel="next" class="extend next"> Next &raquo;</a>
+    
+</div>
+
+
+            </main>
+            
+        </div>
+    </body>
+</html>
