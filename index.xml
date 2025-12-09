@@ -7,8 +7,15 @@
     <generator>Hugo</generator>
     <language>en-gb</language>
     <copyright>Usman Mahmood</copyright>
-    <lastBuildDate>Tue, 23 Jun 2020 19:01:24 +0100</lastBuildDate>
+    <lastBuildDate>Tue, 23 Sep 2025 15:17:50 +0000</lastBuildDate>
     <atom:link href="https://www.usman.me.uk/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Finding Performance Issues In Python Using Line Profiler</title>
+      <link>https://www.usman.me.uk/posts/line_profiler/</link>
+      <pubDate>Tue, 23 Sep 2025 15:17:50 +0000</pubDate>
+      <guid>https://www.usman.me.uk/posts/line_profiler/</guid>
+      <description>&lt;h2 id=&#34;overview&#34;&gt;Overview&lt;/h2&gt;&#xA;&lt;ul&gt;&#xA;&lt;li&gt;Line profiler is a 3rd party library available on &lt;a href=&#34;https://github.com/pyutils/line_profiler&#34; target=&#34;_blank&#34;&gt;GitHub&lt;/a&gt;.&lt;/li&gt;&#xA;&lt;li&gt;Line profiler package helps in identifying the cause of CPU-bound problems in Python code.&lt;/li&gt;&#xA;&lt;li&gt;Gives you a data driven approach on where to allocate your time in order to fix performance issues.&lt;/li&gt;&#xA;&lt;li&gt;Understand the output of line_profiler by working through a simple code example.&lt;/li&gt;&#xA;&lt;/ul&gt;&#xA;&lt;h2 id=&#34;introduction&#34;&gt;Introduction&lt;/h2&gt;&#xA;&lt;p&gt;Python has established itself as a top tier programming language. As of late 2025 according to the &lt;a href=&#34;https://www.tiobe.com/tiobe-index/&#34; target=&#34;_blank&#34;&gt;TIOBE&lt;/a&gt; index, the top 3 languages as a measure of programming language popularity, are consistently Python, C, and C++, often with Python in the lead. This popularity and increase in use of Python has been driven by fields such as machine learning, artificial intelligence and data engineering. As these fields continue to grow and so does their use of Python, the performance of code matters more than ever.&lt;/p&gt;</description>
+    </item>
     <item>
       <title>Merkle Trees and Data Verification</title>
       <link>https://www.usman.me.uk/posts/merkle-tree-verify/</link>

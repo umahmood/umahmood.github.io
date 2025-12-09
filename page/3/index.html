@@ -74,7 +74,7 @@
 <meta property="og:url" content="https://www.usman.me.uk/" />
 
 
-<meta property="og:updated_time" content="2020-06-23T19:01:24&#43;01:00" />
+<meta property="og:updated_time" content="2025-09-23T15:17:50Z" />
 
 
 <link rel="sitemap" type="application/xml" title="Sitemap" href='https://www.usman.me.uk/sitemap.xml' />
@@ -107,7 +107,7 @@
     
     
 
-<link type="text/css" rel="stylesheet" href="/css/bundle.min.c1a1f3f468f1f8e5729d2e79b1812f536a2ba0be45fab2fde2a56f4614a55c86.css">
+<link type="text/css" rel="stylesheet" href="/css/bundle.min.0d70d5aed9787dcd4309c157b56a11f2811027b0be28bc951ad207bf2efd221b.css">
 
 
     
@@ -278,6 +278,60 @@
                 <div class="posts">
     
     
+    <article class="post">
+        <div class="info">
+  <h1 class="post-title">
+    <a href="https://www.usman.me.uk/posts/sort-stable/">sort.Sort &amp; sort.Stable</a>
+  </h1>
+
+  <div class="headline">
+    <div>
+      
+      
+      <time datetime=" 2016-03-13T19:34:13Z" class="post-date">
+        March 13, 2016
+      </time>
+      
+      <span> - </span>
+      <span class="reading-time">
+        
+          
+        
+
+        <span>2 mins read</span>
+      </span>
+    </div>
+
+    
+  </div>
+
+  
+  
+
+  
+</div>
+
+        
+        <p>Go 1.6 made improvements to the Sort function in the sort package. It was improved to make fewer calls to the Less and Swap methods. Here are some benchmarks showing the performance of sort.Sort in Go 1.5 vs 1.6:</p>
+<pre tabindex="0"><code>Sort []int with Go 1.5
+BenchmarkSort_1-4       20000000              67.2 ns/op
+BenchmarkSort_10-4      10000000               227 ns/op
+BenchmarkSort_100-4       500000              3863 ns/op
+BenchmarkSort_1000-4       30000             52189 ns/op
+
+Sort []int with Go 1.6
+BenchmarkSort_1-4       20000000              64.7 ns/op
+BenchmarkSort_10-4      10000000               137 ns/op
+BenchmarkSort_100-4       500000              2849 ns/op
+BenchmarkSort_1000-4       30000             46949 ns/op
+</code></pre><p><em>source: <a href="https://talks.golang.org/2016/state-of-go.slide#24" target="_blank">state of go</a></em></p>
+        
+        <div class="read-more-link">
+            <a href="/posts/sort-stable/">Read More…</a>
+        </div>
+        
+        
+    </article>
     <article class="post">
         <div class="info">
   <h1 class="post-title">
@@ -701,44 +755,6 @@ int add(int a, int b)
         
         
     </article>
-    <article class="post">
-        <div class="info">
-  <h1 class="post-title">
-    <a href="https://www.usman.me.uk/posts/first/">First Post</a>
-  </h1>
-
-  <div class="headline">
-    <div>
-      
-      
-      <time datetime=" 2015-07-25T17:15:08&#43;0100" class="post-date">
-        July 25, 2015
-      </time>
-      
-      <span> - </span>
-      <span class="reading-time">
-        
-          
-        
-
-        <span>1 min read</span>
-      </span>
-    </div>
-
-    
-  </div>
-
-  
-  
-
-  
-</div>
-
-        
-        <p>This is my blog. There are many like it, but this one is mine.</p>
-        
-        
-    </article>
 </div>
 
 
@@ -762,7 +778,13 @@ int add(int a, int b)
     <span class="page-number current">3</span>
     
     
+    
+    <a href="/page/4/">4</a>
+    
+    
 
+    
+    <a href="/page/4/" rel="next" class="extend next"> Next &raquo;</a>
     
 </div>
 
