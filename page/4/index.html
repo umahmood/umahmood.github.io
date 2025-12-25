@@ -74,7 +74,7 @@
 <meta property="og:url" content="https://www.usman.me.uk/" />
 
 
-<meta property="og:updated_time" content="2025-09-23T15:17:50Z" />
+<meta property="og:updated_time" content="2025-11-13T13:45:31Z" />
 
 
 <link rel="sitemap" type="application/xml" title="Sitemap" href='https://www.usman.me.uk/sitemap.xml' />
@@ -101,7 +101,7 @@
 
 
 
-<meta name="generator" content="Hugo 0.152.2">
+<meta name="generator" content="Hugo 0.153.2">
 
 
     
@@ -278,6 +278,64 @@
                 <div class="posts">
     
     
+    <article class="post">
+        <div class="info">
+  <h1 class="post-title">
+    <a href="https://www.usman.me.uk/posts/calling-c-from-go/">Calling C from Go</a>
+  </h1>
+
+  <div class="headline">
+    <div>
+      
+      
+      <time datetime=" 2015-07-25T20:18:15&#43;0100" class="post-date">
+        July 25, 2015
+      </time>
+      
+      <span> - </span>
+      <span class="reading-time">
+        
+          
+        
+
+        <span>4 mins read</span>
+      </span>
+    </div>
+
+    
+  </div>
+
+  
+  
+
+  
+</div>
+
+        
+        <p>This post will show you the basics of how to call C code from a Go package.</p>
+<p>Lets get started with an example:</p>
+<p>Create a header file &ldquo;add.h&rdquo; with a function prototype:</p>
+<pre><code>#ifndef _ADD_H_
+#define _ADD_H_
+int add(int, int);
+#endif
+</code></pre>
+<p>Create the source file &ldquo;add.c&rdquo; containing the definition for add:</p>
+<pre><code>#include &quot;add.h&quot;
+
+int add(int a, int b)
+{
+   return a + b;
+}
+</code></pre>
+<p>Create a Go package &ldquo;main.go&rdquo;:</p>
+        
+        <div class="read-more-link">
+            <a href="/posts/calling-c-from-go/">Read More…</a>
+        </div>
+        
+        
+    </article>
     <article class="post">
         <div class="info">
   <h1 class="post-title">

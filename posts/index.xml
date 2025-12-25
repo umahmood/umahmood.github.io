@@ -7,8 +7,15 @@
     <generator>Hugo</generator>
     <language>en-gb</language>
     <copyright>Usman Mahmood</copyright>
-    <lastBuildDate>Tue, 23 Sep 2025 15:17:50 +0000</lastBuildDate>
+    <lastBuildDate>Thu, 13 Nov 2025 13:45:31 +0000</lastBuildDate>
     <atom:link href="https://www.usman.me.uk/posts/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Using Go&#39;s errgroup Package To Implement The Scatter Gather Pattern</title>
+      <link>https://www.usman.me.uk/posts/errgroup/</link>
+      <pubDate>Thu, 13 Nov 2025 13:45:31 +0000</pubDate>
+      <guid>https://www.usman.me.uk/posts/errgroup/</guid>
+      <description>&lt;h2 id=&#34;overview&#34;&gt;Overview&lt;/h2&gt;&#xA;&lt;ul&gt;&#xA;&lt;li&gt;Package &lt;em&gt;errgroup&lt;/em&gt; is a third party library available at &lt;a href=&#34;https://pkg.go.dev/golang.org/x/sync/errgroup&#34; target=&#34;_blank&#34;&gt;golang.org/x/sync/errgroup&lt;/a&gt;.&lt;/li&gt;&#xA;&lt;li&gt;See example usage of package &lt;em&gt;errgroup&lt;/em&gt; to manage a group of goroutines that are working on tasks.&lt;/li&gt;&#xA;&lt;li&gt;Use &lt;em&gt;errgroup&lt;/em&gt; to implement a design pattern called the Scatter Gather Pattern.&lt;/li&gt;&#xA;&lt;/ul&gt;&#xA;&lt;h2 id=&#34;introduction&#34;&gt;Introduction&lt;/h2&gt;&#xA;&lt;p&gt;In this post, we will talk about Go&amp;rsquo;s &lt;em&gt;errgroup&lt;/em&gt; package and use it to implement the Scatter Gather Pattern.&lt;/p&gt;&#xA;&lt;p&gt;The package &lt;em&gt;errgroup&lt;/em&gt; allows groups of goroutines working on subtasks of a common task to synchronize, propagate errors, and cancel context. This package is helpful because it takes care of the handling of tasks, managing, and returning errors. Without it, you may end up writing a lot of convoluted error handling code that makes your code harder to read and maintain.&lt;/p&gt;</description>
+    </item>
     <item>
       <title>Finding Performance Issues In Python Using Line Profiler</title>
       <link>https://www.usman.me.uk/posts/line_profiler/</link>

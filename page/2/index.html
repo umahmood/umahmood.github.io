@@ -74,7 +74,7 @@
 <meta property="og:url" content="https://www.usman.me.uk/" />
 
 
-<meta property="og:updated_time" content="2025-09-23T15:17:50Z" />
+<meta property="og:updated_time" content="2025-11-13T13:45:31Z" />
 
 
 <link rel="sitemap" type="application/xml" title="Sitemap" href='https://www.usman.me.uk/sitemap.xml' />
@@ -101,7 +101,7 @@
 
 
 
-<meta name="generator" content="Hugo 0.152.2">
+<meta name="generator" content="Hugo 0.153.2">
 
 
     
@@ -278,6 +278,52 @@
                 <div class="posts">
     
     
+    <article class="post">
+        <div class="info">
+  <h1 class="post-title">
+    <a href="https://www.usman.me.uk/posts/print-path-env-var/">Make &#39;echo %PATH&#39; More Readable</a>
+  </h1>
+
+  <div class="headline">
+    <div>
+      
+      
+      <time datetime=" 2017-11-18T14:34:22&#43;0100" class="post-date">
+        November 18, 2017
+      </time>
+      
+      <span> - </span>
+      <span class="reading-time">
+        
+          
+        
+
+        <span>1 min read</span>
+      </span>
+    </div>
+
+    
+  </div>
+
+  
+  
+
+  
+</div>
+
+        
+        <p>When you want to check the contents of your <em>$PATH</em> variable. To see which directories are in your session, you run the command:</p>
+<pre tabindex="0"><code>$ echo $PATH
+</code></pre><p>Output:</p>
+<pre tabindex="0"><code>/usr/local/opt/coreutils/libexec/gnubin:/usr/local/bin:/usr/local/sbin:/opt:/usr/local/go/bin:/usr/local/texlive/2015basic/bin/x86_64-darwin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/opt/coreutils/libexec/gnubin:/usr/local/sbin:/opt:/usr/local/go/bin:/usr/local/texlive/2015basic/bin/x86_64-darwin
+</code></pre><p>This is all well and good, but the output of the command can be hard to read if you have many directories in your path. What you want is a command that outputs the <em>$PATH</em> variable in an easier to read format. Luckily, this can accomplished with a little bit of bash code:</p>
+        
+        <div class="read-more-link">
+            <a href="/posts/print-path-env-var/">Read More…</a>
+        </div>
+        
+        
+    </article>
     <article class="post">
         <div class="info">
   <h1 class="post-title">
@@ -727,61 +773,6 @@ nothing to commit, working tree clean
         
         <div class="read-more-link">
             <a href="/posts/svg-sprites/">Read More…</a>
-        </div>
-        
-        
-    </article>
-    <article class="post">
-        <div class="info">
-  <h1 class="post-title">
-    <a href="https://www.usman.me.uk/posts/update_packages/">Updating Third Party Packages in Go</a>
-  </h1>
-
-  <div class="headline">
-    <div>
-      
-      
-      <time datetime=" 2016-06-11T14:43:49&#43;0100" class="post-date">
-        June 11, 2016
-      </time>
-      
-      <span> - </span>
-      <span class="reading-time">
-        
-          
-        
-
-        <span>1 min read</span>
-      </span>
-    </div>
-
-    
-  </div>
-
-  
-  
-
-  
-</div>
-
-        
-        <p>Just a short post on how to update packages using <em>go get</em>.</p>
-<p>To update all third party packages in your <em>GOPATH</em> use the following command:</p>
-<blockquote>
-<p>go get -u all</p>
-</blockquote>
-<p>To update a specific package, just provide the full package name to <em>go get</em>:</p>
-<blockquote>
-<p>go get -u github.com/gorilla/mux</p>
-</blockquote>
-<p>What about vendor-ed packages? These are updated in exactly the same way as above:</p>
-<blockquote>
-<p>go get -u my-project/vendor/megacorp/foo</p>
-</blockquote>
-<p>If you want more information about your <em>GOPATH</em>, run the command:</p>
-        
-        <div class="read-more-link">
-            <a href="/posts/update_packages/">Read More…</a>
         </div>
         
         

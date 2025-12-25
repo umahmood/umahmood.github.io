@@ -74,7 +74,7 @@
 <meta property="og:url" content="https://www.usman.me.uk/" />
 
 
-<meta property="og:updated_time" content="2025-09-23T15:17:50Z" />
+<meta property="og:updated_time" content="2025-11-13T13:45:31Z" />
 
 
 <link rel="sitemap" type="application/xml" title="Sitemap" href='https://www.usman.me.uk/sitemap.xml' />
@@ -101,7 +101,7 @@
 
 
 
-<meta name="generator" content="Hugo 0.152.2">
+<meta name="generator" content="Hugo 0.153.2">
 
 
     
@@ -278,6 +278,56 @@
                 <div class="posts">
     
     
+    <article class="post">
+        <div class="info">
+  <h1 class="post-title">
+    <a href="https://www.usman.me.uk/posts/errgroup/">Using Go&#39;s errgroup Package To Implement The Scatter Gather Pattern</a>
+  </h1>
+
+  <div class="headline">
+    <div>
+      
+      
+      <time datetime=" 2025-11-13T13:45:31Z" class="post-date">
+        November 13, 2025
+      </time>
+      
+      <span> - </span>
+      <span class="reading-time">
+        
+          
+        
+
+        <span>10 mins read</span>
+      </span>
+    </div>
+
+    
+  </div>
+
+  
+  
+
+  
+</div>
+
+        
+        <h2 id="overview">Overview</h2>
+<ul>
+<li>Package <em>errgroup</em> is a third party library available at <a href="https://pkg.go.dev/golang.org/x/sync/errgroup" target="_blank">golang.org/x/sync/errgroup</a>.</li>
+<li>See example usage of package <em>errgroup</em> to manage a group of goroutines that are working on tasks.</li>
+<li>Use <em>errgroup</em> to implement a design pattern called the Scatter Gather Pattern.</li>
+</ul>
+<h2 id="introduction">Introduction</h2>
+<p>In this post, we will talk about Go&rsquo;s <em>errgroup</em> package and use it to implement the Scatter Gather Pattern.</p>
+<p>The package <em>errgroup</em> allows groups of goroutines working on subtasks of a common task to synchronize, propagate errors, and cancel context. This package is helpful because it takes care of the handling of tasks, managing, and returning errors. Without it, you may end up writing a lot of convoluted error handling code that makes your code harder to read and maintain.</p>
+        
+        <div class="read-more-link">
+            <a href="/posts/errgroup/">Read More…</a>
+        </div>
+        
+        
+    </article>
     <article class="post">
         <div class="info">
   <h1 class="post-title">
@@ -710,52 +760,6 @@ adding the following fields:</p>
 <li><em>/some_path/home/coorp/my_files</em>.</li>
 </ul>
 <p>Fin.</p>
-        
-        
-    </article>
-    <article class="post">
-        <div class="info">
-  <h1 class="post-title">
-    <a href="https://www.usman.me.uk/posts/print-path-env-var/">Make &#39;echo %PATH&#39; More Readable</a>
-  </h1>
-
-  <div class="headline">
-    <div>
-      
-      
-      <time datetime=" 2017-11-18T14:34:22&#43;0100" class="post-date">
-        November 18, 2017
-      </time>
-      
-      <span> - </span>
-      <span class="reading-time">
-        
-          
-        
-
-        <span>1 min read</span>
-      </span>
-    </div>
-
-    
-  </div>
-
-  
-  
-
-  
-</div>
-
-        
-        <p>When you want to check the contents of your <em>$PATH</em> variable. To see which directories are in your session, you run the command:</p>
-<pre tabindex="0"><code>$ echo $PATH
-</code></pre><p>Output:</p>
-<pre tabindex="0"><code>/usr/local/opt/coreutils/libexec/gnubin:/usr/local/bin:/usr/local/sbin:/opt:/usr/local/go/bin:/usr/local/texlive/2015basic/bin/x86_64-darwin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/opt/coreutils/libexec/gnubin:/usr/local/sbin:/opt:/usr/local/go/bin:/usr/local/texlive/2015basic/bin/x86_64-darwin
-</code></pre><p>This is all well and good, but the output of the command can be hard to read if you have many directories in your path. What you want is a command that outputs the <em>$PATH</em> variable in an easier to read format. Luckily, this can accomplished with a little bit of bash code:</p>
-        
-        <div class="read-more-link">
-            <a href="/posts/print-path-env-var/">Read More…</a>
-        </div>
         
         
     </article>

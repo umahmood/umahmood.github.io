@@ -1,0 +1,743 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en-gb" lang="en-gb">
+<head>
+    
+
+
+
+
+
+
+
+
+
+
+    
+
+
+
+
+
+
+
+<script defer language="javascript" type="text/javascript" src="/js/bundle.min.d451ff92e80abc2a828eb9bb262e4db374bd4e954642f9245c54eec84bf690f3.js"></script>
+
+
+
+
+
+
+    
+    <meta http-equiv="content-type" content="text/html; charset=utf-8">
+
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    
+    <link rel="icon" href=/favicon.png>
+
+    
+    
+
+
+
+
+
+  
+
+
+
+
+
+  
+  
+  
+
+
+<!-- Open Graph image and Twitter Card metadata -->
+
+<title itemprop="name">Usman Mahmood - Using Go&#39;s errgroup Package To Implement The Scatter Gather Pattern</title>
+<meta property="og:title" content=Usman&#32;Mahmood&#32;-&#32;Using&#32;Go&#39;s&#32;errgroup&#32;Package&#32;To&#32;Implement&#32;The&#32;Scatter&#32;Gather&#32;Pattern />
+<meta name="twitter:title" content=Usman&#32;Mahmood&#32;-&#32;Using&#32;Go&#39;s&#32;errgroup&#32;Package&#32;To&#32;Implement&#32;The&#32;Scatter&#32;Gather&#32;Pattern />
+<meta itemprop="name" content=Usman&#32;Mahmood&#32;-&#32;Using&#32;Go&#39;s&#32;errgroup&#32;Package&#32;To&#32;Implement&#32;The&#32;Scatter&#32;Gather&#32;Pattern />
+<meta name="application-name" content=Usman&#32;Mahmood&#32;-&#32;Using&#32;Go&#39;s&#32;errgroup&#32;Package&#32;To&#32;Implement&#32;The&#32;Scatter&#32;Gather&#32;Pattern />
+<meta property="og:site_name" content="Blog" />
+
+
+<meta name="description" content="" />
+<meta itemprop="description" content="" />
+<meta property="og:description" content="" />
+<meta name="twitter:description" content="" />
+
+
+<base href="https://www.usman.me.uk/posts/errgroup/" />
+<link rel="canonical" href="https://www.usman.me.uk/posts/errgroup/" itemprop="url" />
+<meta name="url" content="https://www.usman.me.uk/posts/errgroup/" />
+<meta name="twitter:url" content="https://www.usman.me.uk/posts/errgroup/" />
+<meta property="og:url" content="https://www.usman.me.uk/posts/errgroup/" />
+
+
+<meta property="og:updated_time" content="2025-11-13T13:45:31Z" />
+
+
+<link rel="sitemap" type="application/xml" title="Sitemap" href='https://www.usman.me.uk/sitemap.xml' />
+
+<meta name="robots" content="index,follow" />
+<meta name="googlebot" content="index,follow" />
+
+
+
+  
+    <meta name="twitter:site" content="@make_slice" />
+    <meta name="twitter:creator" content="@make_slice" />
+
+<meta property="fb:admins" content="" />
+
+
+<meta name="apple-mobile-web-app-title" content="Blog" />
+<meta name="apple-mobile-web-app-capable" content="yes" />
+<meta name="apple-mobile-web-app-status-bar-style" content="black" />
+
+
+
+
+
+
+<meta name="generator" content="Hugo 0.153.2">
+
+
+    
+    
+
+<link type="text/css" rel="stylesheet" href="/css/bundle.min.0d70d5aed9787dcd4309c157b56a11f2811027b0be28bc951ad207bf2efd221b.css">
+
+
+    
+    <style>
+    body {
+        --sidebar-bg-color: #202020;
+        --sidebar-img-border-color: #515151;
+        --sidebar-p-color: #909090;
+        --sidebar-h1-color: #FFF;
+        --sidebar-a-color: #FFF;
+        --sidebar-socials-color: #FFF;
+        --text-color: #222;
+        --bkg-color: #FAF9F6;
+        --post-title-color: #303030;
+        --list-color: #5a5a5a;
+        --link-color: #268bd2;
+        --date-color: #515151;
+        --table-border-color: #E5E5E5;
+        --table-stripe-color: #F9F9F9;
+        --code-color: #000;
+        --code-background-color: #E5E5E5;
+        --code-block-color: #fff;
+        --code-block-background-color: #272822;
+        --moon-sun-color: #FFF;
+        --moon-sun-background-color: #515151;
+    }
+    body.dark-theme {
+        --text-color: #eee;
+        --bkg-color: #121212;
+        --post-title-color: #DBE2E9;
+        --list-color: #9d9d9d;
+        --link-color: #268bd2;
+        --date-color: #9a9a9a;
+        --table-border-color: #515151;
+        --table-stripe-color: #202020;
+        --code-color: #fff;
+        --code-background-color: #515151;
+        --code-block-color: #fff;
+        --code-block-background-color: #272822;
+    }
+    body {
+        background-color: var(--bkg-color);
+    }
+</style>
+
+</head>
+
+    <body class="dark-theme">
+        <div class="wrapper">
+            <aside class="sidebar">
+    <div class="container sidebar-sticky">
+        <div class="light-dark" align="right">
+    <button class="btn-light-dark" title="Toggle light/dark mode">
+        <svg class="moon" xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 16 16">
+            <path fill="currentColor" d="M6 .278a.768.768 0 0 1 .08.858a7.208 7.208 0 0 0-.878 3.46c0 4.021 3.278 7.277 7.318 7.277c.527 0 1.04-.055 1.533-.16a.787.787 0 0 1 .81.316a.733.733 0 0 1-.031.893A8.349 8.349 0 0 1 8.344 16C3.734 16 0 12.286 0 7.71C0 4.266 2.114 1.312 5.124.06A.752.752 0 0 1 6 .278z"/>
+        </svg>
+        <svg class="sun" xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 16 16">
+            <path fill="currentColor" d="M8 12a4 4 0 1 0 0-8a4 4 0 0 0 0 8zM8 0a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-1 0v-2A.5.5 0 0 1 8 0zm0 13a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-1 0v-2A.5.5 0 0 1 8 13zm8-5a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1 0-1h2a.5.5 0 0 1 .5.5zM3 8a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1 0-1h2A.5.5 0 0 1 3 8zm10.657-5.657a.5.5 0 0 1 0 .707l-1.414 1.415a.5.5 0 1 1-.707-.708l1.414-1.414a.5.5 0 0 1 .707 0zm-9.193 9.193a.5.5 0 0 1 0 .707L3.05 13.657a.5.5 0 0 1-.707-.707l1.414-1.414a.5.5 0 0 1 .707 0zm9.193 2.121a.5.5 0 0 1-.707 0l-1.414-1.414a.5.5 0 0 1 .707-.707l1.414 1.414a.5.5 0 0 1 0 .707zM4.464 4.465a.5.5 0 0 1-.707 0L2.343 3.05a.5.5 0 1 1 .707-.707l1.414 1.414a.5.5 0 0 1 0 .708z"/>
+        </svg>
+    </button>
+</div>
+
+        <div class="sidebar-about">
+    <h1 class="brand">
+        
+            <a href="https://www.usman.me.uk/">
+                <img src="/images/gopher.png" alt="brand image">
+            </a>
+        
+        
+            <a href="https://www.usman.me.uk/">
+                <h1>Usman Mahmood</h1>
+            </a>
+        
+    </h1>
+    <p class="lead">
+    Algorithms + Data Structures = Programs
+    </p>
+</div>
+
+        <nav>
+    <ul class="sidebar-nav">
+
+        
+        
+        
+        
+            
+
+            
+                
+                
+            
+            
+                
+                
+            
+                
+                
+            
+        
+        
+            
+
+            
+                
+                
+                    <li class="heading">
+                        <a href="/posts/">Posts</a>
+                    </li>
+                    
+                
+            
+            
+                
+                
+            
+                
+                
+            
+        
+
+    </ul>
+</nav>
+
+        
+    <a target="_blank" class="social" title="GitHub" href="https://github.com/umahmood">
+        <svg xmlns="http://www.w3.org/2000/svg" width="1.2em" height="1.2em" viewBox="-2 -2 24 24">
+            <path fill="currentColor" d="M18.88 1.099C18.147.366 17.265 0 16.233 0H3.746C2.714 0 1.832.366 1.099 1.099C.366 1.832 0 2.714 0 3.746v12.487c0 1.032.366 1.914 1.099 2.647c.733.733 1.615 1.099 2.647 1.099H6.66c.19 0 .333-.007.429-.02a.504.504 0 0 0 .286-.169c.095-.1.143-.245.143-.435l-.007-.885c-.004-.564-.006-1.01-.006-1.34l-.3.052c-.19.035-.43.05-.721.046a5.555 5.555 0 0 1-.904-.091a2.026 2.026 0 0 1-.872-.39a1.651 1.651 0 0 1-.572-.8l-.13-.3a3.25 3.25 0 0 0-.41-.663c-.186-.243-.375-.407-.566-.494l-.09-.065a.956.956 0 0 1-.17-.156a.723.723 0 0 1-.117-.182c-.026-.061-.004-.111.065-.15c.07-.04.195-.059.378-.059l.26.04c.173.034.388.138.643.311a2.1 2.1 0 0 1 .631.677c.2.355.44.626.722.813c.282.186.566.28.852.28c.286 0 .533-.022.742-.065a2.59 2.59 0 0 0 .585-.196c.078-.58.29-1.028.637-1.34a8.907 8.907 0 0 1-1.333-.234a5.314 5.314 0 0 1-1.223-.507a3.5 3.5 0 0 1-1.047-.872c-.277-.347-.505-.802-.683-1.365c-.177-.564-.266-1.215-.266-1.952c0-1.049.342-1.942 1.027-2.68c-.32-.788-.29-1.673.091-2.652c.252-.079.625-.02 1.119.175c.494.195.856.362 1.086.5c.23.14.414.257.553.352a9.233 9.233 0 0 1 2.497-.338c.859 0 1.691.113 2.498.338l.494-.312a6.997 6.997 0 0 1 1.197-.572c.46-.174.81-.221 1.054-.143c.39.98.424 1.864.103 2.653c.685.737 1.028 1.63 1.028 2.68c0 .737-.089 1.39-.267 1.957c-.177.568-.407 1.023-.689 1.366a3.65 3.65 0 0 1-1.053.865c-.42.234-.828.403-1.223.507a8.9 8.9 0 0 1-1.333.235c.45.39.676 1.005.676 1.846v3.11c0 .147.021.266.065.357a.36.36 0 0 0 .208.189c.096.034.18.056.254.064c.074.01.18.013.318.013h2.914c1.032 0 1.914-.366 2.647-1.099c.732-.732 1.099-1.615 1.099-2.647V3.746c0-1.032-.367-1.914-1.1-2.647z"/>
+        </svg>
+    </a>
+
+
+
+
+
+    <a target="_blank" class="social" title="X" href="https://x.com/make_slice">
+        <svg xmlns="http://www.w3.org/2000/svg" width="1.1em" height="1.1em" viewBox="0 0 512 472.799">
+            <path fill="currentColor" d="M403.229 0h78.506L310.219 196.04 512 462.799H354.002L230.261 301.007 88.669 462.799h-78.56l183.455-209.683L0 0h161.999l111.856 147.88L403.229 0zm-27.556 415.805h43.505L138.363 44.527h-46.68l283.99 371.278z"/>
+        </svg>
+    </a>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        <p class="footnote">
+    <br>
+    &copy; 2025 Usman Mahmood. All rights reserved.
+</p>
+
+  </div>
+</aside>
+
+            <main class="content container">
+                <div class="post">
+  <div class="info">
+  <h1 class="post-title">
+    <a href="https://www.usman.me.uk/posts/errgroup/">Using Go&#39;s errgroup Package To Implement The Scatter Gather Pattern</a>
+  </h1>
+
+  <div class="headline">
+    <div>
+      
+      
+      <time datetime=" 2025-11-13T13:45:31Z" class="post-date">
+        November 13, 2025
+      </time>
+      
+      <span> - </span>
+      <span class="reading-time">
+        
+          
+        
+
+        <span>10 mins read</span>
+      </span>
+    </div>
+
+    
+  </div>
+
+  
+  
+
+  
+</div>
+
+  <h2 id="overview">Overview</h2>
+<ul>
+<li>Package <em>errgroup</em> is a third party library available at <a href="https://pkg.go.dev/golang.org/x/sync/errgroup" target="_blank">golang.org/x/sync/errgroup</a>.</li>
+<li>See example usage of package <em>errgroup</em> to manage a group of goroutines that are working on tasks.</li>
+<li>Use <em>errgroup</em> to implement a design pattern called the Scatter Gather Pattern.</li>
+</ul>
+<h2 id="introduction">Introduction</h2>
+<p>In this post, we will talk about Go&rsquo;s <em>errgroup</em> package and use it to implement the Scatter Gather Pattern.</p>
+<p>The package <em>errgroup</em> allows groups of goroutines working on subtasks of a common task to synchronize, propagate errors, and cancel context. This package is helpful because it takes care of the handling of tasks, managing, and returning errors. Without it, you may end up writing a lot of convoluted error handling code that makes your code harder to read and maintain.</p>
+<h2 id="the-errgroup-package">The errgroup Package</h2>
+<p>Let&rsquo;s go through some simple examples of using <em>errgroup</em> for synchronization, propagation of errors, and context cancellation.</p>
+<p><strong>Synchronization and Error Propagation:</strong></p>
+<p>In this example, we use <em>errgroup</em> to launch some tasks, and we synchronize the tasks by waiting for all of them to finish by calling the <code>Wait()</code> method. We also handle any error propagation, in this case <code>Task 3</code> returns an error which is returned to the <code>Wait()</code> call.</p>
+<p>An important thing to take note of is that <code>Wait()</code> will return the first non-nil error returned by a task.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#f92672">package</span> <span style="color:#a6e22e">main</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> (
+</span></span><span style="display:flex;"><span>	<span style="color:#e6db74">&#34;fmt&#34;</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#e6db74">&#34;time&#34;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	<span style="color:#e6db74">&#34;golang.org/x/sync/errgroup&#34;</span>
+</span></span><span style="display:flex;"><span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">main</span>() {
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">eg</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">errgroup</span>.<span style="color:#a6e22e">Group</span>{}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">eg</span>.<span style="color:#a6e22e">Go</span>(<span style="color:#66d9ef">func</span>() <span style="color:#66d9ef">error</span> {
+</span></span><span style="display:flex;"><span>		<span style="color:#a6e22e">time</span>.<span style="color:#a6e22e">Sleep</span>(<span style="color:#ae81ff">500</span> <span style="color:#f92672">*</span> <span style="color:#a6e22e">time</span>.<span style="color:#a6e22e">Millisecond</span>)
+</span></span><span style="display:flex;"><span>		<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#e6db74">&#34;Task 1 completed successfully&#34;</span>)
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">return</span> <span style="color:#66d9ef">nil</span>
+</span></span><span style="display:flex;"><span>	})
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">eg</span>.<span style="color:#a6e22e">Go</span>(<span style="color:#66d9ef">func</span>() <span style="color:#66d9ef">error</span> {
+</span></span><span style="display:flex;"><span>		<span style="color:#a6e22e">time</span>.<span style="color:#a6e22e">Sleep</span>(<span style="color:#ae81ff">300</span> <span style="color:#f92672">*</span> <span style="color:#a6e22e">time</span>.<span style="color:#a6e22e">Millisecond</span>)
+</span></span><span style="display:flex;"><span>		<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#e6db74">&#34;Task 2 completed successfully&#34;</span>)
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">return</span> <span style="color:#66d9ef">nil</span>
+</span></span><span style="display:flex;"><span>	})
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">eg</span>.<span style="color:#a6e22e">Go</span>(<span style="color:#66d9ef">func</span>() <span style="color:#66d9ef">error</span> {
+</span></span><span style="display:flex;"><span>		<span style="color:#a6e22e">time</span>.<span style="color:#a6e22e">Sleep</span>(<span style="color:#ae81ff">700</span> <span style="color:#f92672">*</span> <span style="color:#a6e22e">time</span>.<span style="color:#a6e22e">Millisecond</span>)
+</span></span><span style="display:flex;"><span>		<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#e6db74">&#34;Task 3 encountered an error!&#34;</span>)
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">return</span> <span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Errorf</span>(<span style="color:#e6db74">&#34;task 3 failed&#34;</span>)
+</span></span><span style="display:flex;"><span>	})
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	<span style="color:#75715e">// Wait for all goroutines and collect the first error</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">err</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">eg</span>.<span style="color:#a6e22e">Wait</span>(); <span style="color:#a6e22e">err</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> {
+</span></span><span style="display:flex;"><span>		<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Printf</span>(<span style="color:#e6db74">&#34;Error occurred: %v\n&#34;</span>, <span style="color:#a6e22e">err</span>)
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>()
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>Output:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-plain" data-lang="plain"><span style="display:flex;"><span>Task 2 completed successfully
+</span></span><span style="display:flex;"><span>Task 1 completed successfully
+</span></span><span style="display:flex;"><span>Task 3 encountered an error!
+</span></span><span style="display:flex;"><span>Error occurred: task 3 failed
+</span></span></code></pre></div><p><strong>Context Cancellation:</strong></p>
+<p>This example demonstrates how context timeouts cancel all goroutines early, with each task respecting the context signal.</p>
+<p>Instead of using <code>Group{}</code> we use <code>WithContext</code> to wrap our time-out context.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#f92672">package</span> <span style="color:#a6e22e">main</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> (
+</span></span><span style="display:flex;"><span>	<span style="color:#e6db74">&#34;context&#34;</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#e6db74">&#34;fmt&#34;</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#e6db74">&#34;time&#34;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	<span style="color:#e6db74">&#34;golang.org/x/sync/errgroup&#34;</span>
+</span></span><span style="display:flex;"><span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">main</span>() {
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">ctx</span>, <span style="color:#a6e22e">cancel</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">context</span>.<span style="color:#a6e22e">WithTimeout</span>(<span style="color:#a6e22e">context</span>.<span style="color:#a6e22e">Background</span>(), <span style="color:#ae81ff">2</span><span style="color:#f92672">*</span><span style="color:#a6e22e">time</span>.<span style="color:#a6e22e">Second</span>)
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">defer</span> <span style="color:#a6e22e">cancel</span>()
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">eg</span>, <span style="color:#a6e22e">ctx</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">errgroup</span>.<span style="color:#a6e22e">WithContext</span>(<span style="color:#a6e22e">ctx</span>)
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">for</span> <span style="color:#a6e22e">t</span> <span style="color:#f92672">:=</span> <span style="color:#66d9ef">range</span> <span style="color:#ae81ff">5</span> {
+</span></span><span style="display:flex;"><span>		<span style="color:#a6e22e">taskID</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">t</span> <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>
+</span></span><span style="display:flex;"><span>		<span style="color:#a6e22e">eg</span>.<span style="color:#a6e22e">Go</span>(<span style="color:#66d9ef">func</span>() <span style="color:#66d9ef">error</span> {
+</span></span><span style="display:flex;"><span>			<span style="color:#66d9ef">for</span> <span style="color:#a6e22e">i</span> <span style="color:#f92672">:=</span> <span style="color:#66d9ef">range</span> <span style="color:#ae81ff">10</span> {
+</span></span><span style="display:flex;"><span>				<span style="color:#a6e22e">iter</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">i</span> <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>
+</span></span><span style="display:flex;"><span>				<span style="color:#66d9ef">select</span> {
+</span></span><span style="display:flex;"><span>				<span style="color:#66d9ef">case</span> <span style="color:#f92672">&lt;-</span><span style="color:#a6e22e">ctx</span>.<span style="color:#a6e22e">Done</span>():
+</span></span><span style="display:flex;"><span>					<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Printf</span>(<span style="color:#e6db74">&#34;Task %d cancelled at iteration %d\n&#34;</span>, <span style="color:#a6e22e">taskID</span>, <span style="color:#a6e22e">iter</span>)
+</span></span><span style="display:flex;"><span>					<span style="color:#66d9ef">return</span> <span style="color:#a6e22e">ctx</span>.<span style="color:#a6e22e">Err</span>()
+</span></span><span style="display:flex;"><span>				<span style="color:#66d9ef">default</span>:
+</span></span><span style="display:flex;"><span>					<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Printf</span>(<span style="color:#e6db74">&#34;Task %d - iteration %d\n&#34;</span>, <span style="color:#a6e22e">taskID</span>, <span style="color:#a6e22e">iter</span>)
+</span></span><span style="display:flex;"><span>					<span style="color:#a6e22e">time</span>.<span style="color:#a6e22e">Sleep</span>(<span style="color:#ae81ff">500</span> <span style="color:#f92672">*</span> <span style="color:#a6e22e">time</span>.<span style="color:#a6e22e">Millisecond</span>)
+</span></span><span style="display:flex;"><span>				}
+</span></span><span style="display:flex;"><span>			}
+</span></span><span style="display:flex;"><span>			<span style="color:#66d9ef">return</span> <span style="color:#66d9ef">nil</span>
+</span></span><span style="display:flex;"><span>		})
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">err</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">eg</span>.<span style="color:#a6e22e">Wait</span>(); <span style="color:#a6e22e">err</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> {
+</span></span><span style="display:flex;"><span>		<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Printf</span>(<span style="color:#e6db74">&#34;Execution stopped: %v\n&#34;</span>, <span style="color:#a6e22e">err</span>)
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>()
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>Output:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-plain" data-lang="plain"><span style="display:flex;"><span>...
+</span></span><span style="display:flex;"><span>Task 4 - iteration 4
+</span></span><span style="display:flex;"><span>Task 2 - iteration 4
+</span></span><span style="display:flex;"><span>Task 5 - iteration 4
+</span></span><span style="display:flex;"><span>Task 3 - iteration 5
+</span></span><span style="display:flex;"><span>Task 2 - iteration 5
+</span></span><span style="display:flex;"><span>Task 5 cancelled at iteration 5
+</span></span><span style="display:flex;"><span>Task 4 cancelled at iteration 5
+</span></span><span style="display:flex;"><span>Task 1 cancelled at iteration 5
+</span></span><span style="display:flex;"><span>Task 2 cancelled at iteration 6
+</span></span><span style="display:flex;"><span>Task 3 cancelled at iteration 6
+</span></span><span style="display:flex;"><span>Execution stopped: context deadline exceeded
+</span></span></code></pre></div><p><strong>Limiting Concurrent Tasks</strong></p>
+<p>In this example, we use <code>SetLimit</code> to control the amount of concurrency. <code>SetLimit</code> limits the number of active goroutines to a most <code>n</code>.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#f92672">package</span> <span style="color:#a6e22e">main</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> (
+</span></span><span style="display:flex;"><span>	<span style="color:#e6db74">&#34;fmt&#34;``</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#e6db74">&#34;time&#34;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	<span style="color:#e6db74">&#34;golang.org/x/sync/errgroup&#34;</span>
+</span></span><span style="display:flex;"><span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">main</span>() {
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">maxConcurrent</span> <span style="color:#f92672">:=</span> <span style="color:#ae81ff">2</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">taskCount</span> <span style="color:#f92672">:=</span> <span style="color:#ae81ff">4</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">eg</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">errgroup</span>.<span style="color:#a6e22e">Group</span>{}
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">eg</span>.<span style="color:#a6e22e">SetLimit</span>(<span style="color:#a6e22e">maxConcurrent</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">for</span> <span style="color:#a6e22e">i</span> <span style="color:#f92672">:=</span> <span style="color:#66d9ef">range</span> <span style="color:#a6e22e">taskCount</span> {
+</span></span><span style="display:flex;"><span>		<span style="color:#a6e22e">taskID</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">i</span> <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>
+</span></span><span style="display:flex;"><span>		<span style="color:#a6e22e">eg</span>.<span style="color:#a6e22e">Go</span>(<span style="color:#66d9ef">func</span>() <span style="color:#66d9ef">error</span> {
+</span></span><span style="display:flex;"><span>			<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Printf</span>(<span style="color:#e6db74">&#34;Task %d started\n&#34;</span>, <span style="color:#a6e22e">taskID</span>)
+</span></span><span style="display:flex;"><span>			<span style="color:#a6e22e">time</span>.<span style="color:#a6e22e">Sleep</span>(<span style="color:#ae81ff">1</span> <span style="color:#f92672">*</span> <span style="color:#a6e22e">time</span>.<span style="color:#a6e22e">Second</span>)
+</span></span><span style="display:flex;"><span>			<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Printf</span>(<span style="color:#e6db74">&#34;Task %d completed\n&#34;</span>, <span style="color:#a6e22e">taskID</span>)
+</span></span><span style="display:flex;"><span>			<span style="color:#66d9ef">return</span> <span style="color:#66d9ef">nil</span>
+</span></span><span style="display:flex;"><span>		})
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">start</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">time</span>.<span style="color:#a6e22e">Now</span>()
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">err</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">eg</span>.<span style="color:#a6e22e">Wait</span>(); <span style="color:#a6e22e">err</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> {
+</span></span><span style="display:flex;"><span>		<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Printf</span>(<span style="color:#e6db74">&#34;Error: %v\n&#34;</span>, <span style="color:#a6e22e">err</span>)
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>()
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>Output:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-plain" data-lang="plain"><span style="display:flex;"><span>Task 2 started
+</span></span><span style="display:flex;"><span>Task 1 started
+</span></span><span style="display:flex;"><span>Task 2 completed
+</span></span><span style="display:flex;"><span>Task 1 completed
+</span></span><span style="display:flex;"><span>Task 4 started
+</span></span><span style="display:flex;"><span>Task 3 started
+</span></span><span style="display:flex;"><span>Task 3 completed
+</span></span><span style="display:flex;"><span>Task 4 completed
+</span></span></code></pre></div><p>Notice how only two goroutines are running at any given time.</p>
+<h2 id="scatter-gather-pattern">Scatter Gather Pattern</h2>
+<p>Now that we have seen some examples of how to use the <em>errgroup</em> package, let&rsquo;s talk about how we can use this package to implement a very common and useful system design pattern called the Scatter Gather Pattern.</p>
+<p>The Scatter-Gather Pattern is a messaging and processing pattern that is frequently used in distributed systems to partition work into parallel tasks and then merge the results. It is a commonly used pattern in database queries across shards, microservice orchestration, distributed search and load-balancing API calls. The benefits of this pattern are reduced latency, better resource utilization and fault tolerance through redundancy.</p>
+<p>Here&rsquo;s how it works:</p>
+<p><img src="/images/scatter-gather-pattern.png" alt=""></p>
+<p>In the scatter phase:</p>
+<ol>
+<li>The dispatcher splits the request from the client into multiple sub-requests.</li>
+<li>The sub-requests are sent in parallel to multiple workers.</li>
+<li>Each worker processes the part it is assigned.</li>
+</ol>
+<p>For example, imagine you are building a search engine that queries multiple sources (e.g. MySQL, Remote API, NoSQL) the search query is sent to all of them at once.</p>
+<p>In the gather phase.</p>
+<ol>
+<li>The dispatcher collects results from all workers.</li>
+<li>The responses are combined into a single unified result. This step may include aggregation, filtering, sorting.</li>
+</ol>
+<p>For example, the search engine collects all partial results from the workers then merges, removes duplicates and ranks them.</p>
+<h3 id="code">Code</h3>
+<p>Let&rsquo;s now use <em>errgroup</em> package to implement the Scatter Gather Pattern.</p>
+<p>We will simulate a search engine scattering a user&rsquo;s query to multiple workers in parallel. Each worker will search its data store of products. Results will be merged, sorted and returned to the user much faster than querying sequentially.</p>
+<p>These are the steps we want to take:</p>
+<ol start="2">
+<li>Dispatcher will take a query request and break it into sub requests.</li>
+<li>Dispatcher will send each sub request to workers.</li>
+<li>Each worker will search its data store to process the request.</li>
+<li>Workers will return data to dispatcher for aggregation and sorting.</li>
+</ol>
+<p>We will want to handle worker time-outs and failures scenarios as well.</p>
+<p><strong>Note</strong>: The code here is not meant to be production quality but is supposed to be a simple self-contained example.</p>
+<h3 id="setup">Setup</h3>
+<p>We will be using Go 1.25 although <em>errgroup</em> is a very old package and earlier versions of Go should be completely fine.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-plain" data-lang="plain"><span style="display:flex;"><span>$ mkdir app
+</span></span><span style="display:flex;"><span>$ cd app
+</span></span><span style="display:flex;"><span>$ go mod init app
+</span></span><span style="display:flex;"><span>$ go version
+</span></span><span style="display:flex;"><span>go version go1.25.5 darwin/arm64
+</span></span><span style="display:flex;"><span>$ go get golang.org/x/sync/errgroup
+</span></span><span style="display:flex;"><span>$ touch main.go
+</span></span></code></pre></div><p>First, let&rsquo;s create some fake data stores that our workers will search:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#66d9ef">type</span> <span style="color:#a6e22e">Search</span> <span style="color:#66d9ef">func</span>(<span style="color:#a6e22e">context</span>.<span style="color:#a6e22e">Context</span>, <span style="color:#66d9ef">string</span>) ([]<span style="color:#a6e22e">Result</span>, <span style="color:#66d9ef">error</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">fakePostgres</span>(<span style="color:#a6e22e">_</span> <span style="color:#a6e22e">context</span>.<span style="color:#a6e22e">Context</span>, <span style="color:#a6e22e">query</span> <span style="color:#66d9ef">string</span>) ([]<span style="color:#a6e22e">Result</span>, <span style="color:#66d9ef">error</span>) {
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">time</span>.<span style="color:#a6e22e">Sleep</span>(<span style="color:#ae81ff">500</span> <span style="color:#f92672">*</span> <span style="color:#a6e22e">time</span>.<span style="color:#a6e22e">Millisecond</span>)
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">return</span> []<span style="color:#a6e22e">Result</span>{
+</span></span><span style="display:flex;"><span>		{
+</span></span><span style="display:flex;"><span>			<span style="color:#a6e22e">Type</span>:         <span style="color:#e6db74">&#34;phone&#34;</span>,
+</span></span><span style="display:flex;"><span>			<span style="color:#a6e22e">Manufacturer</span>: <span style="color:#e6db74">&#34;Apple&#34;</span>,
+</span></span><span style="display:flex;"><span>			<span style="color:#a6e22e">Model</span>:        <span style="color:#e6db74">&#34;iPhone 15&#34;</span>,
+</span></span><span style="display:flex;"><span>			<span style="color:#a6e22e">Source</span>:       <span style="color:#e6db74">&#34;postgres&#34;</span>,
+</span></span><span style="display:flex;"><span>			<span style="color:#a6e22e">Price</span>:        <span style="color:#ae81ff">799.99</span>,
+</span></span><span style="display:flex;"><span>		},
+</span></span><span style="display:flex;"><span>		{
+</span></span><span style="display:flex;"><span>			<span style="color:#a6e22e">Type</span>:         <span style="color:#e6db74">&#34;phone&#34;</span>,
+</span></span><span style="display:flex;"><span>			<span style="color:#a6e22e">Manufacturer</span>: <span style="color:#e6db74">&#34;Samsung&#34;</span>,
+</span></span><span style="display:flex;"><span>			<span style="color:#a6e22e">Model</span>:        <span style="color:#e6db74">&#34;Galaxy S24 Ultra&#34;</span>,
+</span></span><span style="display:flex;"><span>			<span style="color:#a6e22e">Source</span>:       <span style="color:#e6db74">&#34;postgres&#34;</span>,
+</span></span><span style="display:flex;"><span>			<span style="color:#a6e22e">Price</span>:        <span style="color:#ae81ff">1299.99</span>,
+</span></span><span style="display:flex;"><span>		},
+</span></span><span style="display:flex;"><span>		{
+</span></span><span style="display:flex;"><span>			<span style="color:#a6e22e">Type</span>:         <span style="color:#e6db74">&#34;phone&#34;</span>,
+</span></span><span style="display:flex;"><span>			<span style="color:#a6e22e">Manufacturer</span>: <span style="color:#e6db74">&#34;Google&#34;</span>,
+</span></span><span style="display:flex;"><span>			<span style="color:#a6e22e">Model</span>:        <span style="color:#e6db74">&#34;Pixel 8 Pro&#34;</span>,
+</span></span><span style="display:flex;"><span>			<span style="color:#a6e22e">Source</span>:       <span style="color:#e6db74">&#34;postgres&#34;</span>,
+</span></span><span style="display:flex;"><span>			<span style="color:#a6e22e">Price</span>:        <span style="color:#ae81ff">899.99</span>,
+</span></span><span style="display:flex;"><span>		},
+</span></span><span style="display:flex;"><span>	}, <span style="color:#66d9ef">nil</span>
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">fakeMongoDB</span>(<span style="color:#a6e22e">ctx</span> <span style="color:#a6e22e">context</span>.<span style="color:#a6e22e">Context</span>, <span style="color:#a6e22e">query</span> <span style="color:#66d9ef">string</span>) ([]<span style="color:#a6e22e">Result</span>, <span style="color:#66d9ef">error</span>) {
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">select</span> {
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">case</span> <span style="color:#f92672">&lt;-</span><span style="color:#a6e22e">time</span>.<span style="color:#a6e22e">After</span>(<span style="color:#ae81ff">30</span> <span style="color:#f92672">*</span> <span style="color:#a6e22e">time</span>.<span style="color:#a6e22e">Second</span>):
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">case</span> <span style="color:#f92672">&lt;-</span><span style="color:#a6e22e">ctx</span>.<span style="color:#a6e22e">Done</span>():
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">return</span> <span style="color:#66d9ef">nil</span>, <span style="color:#66d9ef">nil</span>
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">fakeMySQL</span>(<span style="color:#a6e22e">_</span> <span style="color:#a6e22e">context</span>.<span style="color:#a6e22e">Context</span>, <span style="color:#a6e22e">query</span> <span style="color:#66d9ef">string</span>) ([]<span style="color:#a6e22e">Result</span>, <span style="color:#66d9ef">error</span>) {
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">time</span>.<span style="color:#a6e22e">Sleep</span>(<span style="color:#ae81ff">700</span> <span style="color:#f92672">*</span> <span style="color:#a6e22e">time</span>.<span style="color:#a6e22e">Millisecond</span>)
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">return</span> []<span style="color:#a6e22e">Result</span>{
+</span></span><span style="display:flex;"><span>		{
+</span></span><span style="display:flex;"><span>			<span style="color:#a6e22e">Type</span>:         <span style="color:#e6db74">&#34;headphones&#34;</span>,
+</span></span><span style="display:flex;"><span>			<span style="color:#a6e22e">Manufacturer</span>: <span style="color:#e6db74">&#34;Sony&#34;</span>,
+</span></span><span style="display:flex;"><span>			<span style="color:#a6e22e">Model</span>:        <span style="color:#e6db74">&#34;WH-CH720N&#34;</span>,
+</span></span><span style="display:flex;"><span>			<span style="color:#a6e22e">Source</span>:       <span style="color:#e6db74">&#34;mysql&#34;</span>,
+</span></span><span style="display:flex;"><span>			<span style="color:#a6e22e">Price</span>:        <span style="color:#ae81ff">149.99</span>,
+</span></span><span style="display:flex;"><span>		},
+</span></span><span style="display:flex;"><span>		{
+</span></span><span style="display:flex;"><span>			<span style="color:#a6e22e">Type</span>:         <span style="color:#e6db74">&#34;phone&#34;</span>,
+</span></span><span style="display:flex;"><span>			<span style="color:#a6e22e">Manufacturer</span>: <span style="color:#e6db74">&#34;Samsung&#34;</span>,
+</span></span><span style="display:flex;"><span>			<span style="color:#a6e22e">Model</span>:        <span style="color:#e6db74">&#34;Galaxy Z Fold 5&#34;</span>,
+</span></span><span style="display:flex;"><span>			<span style="color:#a6e22e">Source</span>:       <span style="color:#e6db74">&#34;mysql&#34;</span>,
+</span></span><span style="display:flex;"><span>			<span style="color:#a6e22e">Price</span>:        <span style="color:#ae81ff">1799.99</span>,
+</span></span><span style="display:flex;"><span>		},
+</span></span><span style="display:flex;"><span>		{
+</span></span><span style="display:flex;"><span>			<span style="color:#a6e22e">Type</span>:         <span style="color:#e6db74">&#34;tablet&#34;</span>,
+</span></span><span style="display:flex;"><span>			<span style="color:#a6e22e">Manufacturer</span>: <span style="color:#e6db74">&#34;Samsung&#34;</span>,
+</span></span><span style="display:flex;"><span>			<span style="color:#a6e22e">Model</span>:        <span style="color:#e6db74">&#34;Galaxy Tab S9 Ultra&#34;</span>,
+</span></span><span style="display:flex;"><span>			<span style="color:#a6e22e">Source</span>:       <span style="color:#e6db74">&#34;mysql&#34;</span>,
+</span></span><span style="display:flex;"><span>			<span style="color:#a6e22e">Price</span>:        <span style="color:#ae81ff">849.99</span>,
+</span></span><span style="display:flex;"><span>		},
+</span></span><span style="display:flex;"><span>	}, <span style="color:#66d9ef">nil</span>
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">fakeRedis</span>(<span style="color:#a6e22e">_</span> <span style="color:#a6e22e">context</span>.<span style="color:#a6e22e">Context</span>, <span style="color:#a6e22e">query</span> <span style="color:#66d9ef">string</span>) ([]<span style="color:#a6e22e">Result</span>, <span style="color:#66d9ef">error</span>) {
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">return</span> <span style="color:#66d9ef">nil</span>, <span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Errorf</span>(<span style="color:#e6db74">&#34;error redis: key eviction due to memory pressure&#34;</span>)
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p><code>fakePostgres</code> and <code>fakeMySQL</code> returns some data after a small delay (to simulate workload). <code>fakeMongoDB</code> takes 30 seconds to respond, which in our example will cause this worker to time out. And <code>fakeRedis</code> returns no data but an error instead.</p>
+<p>Next, we will create our <code>Worker</code> type and a <code>Run</code> function:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#66d9ef">type</span> <span style="color:#a6e22e">Worker</span> <span style="color:#66d9ef">struct</span> {
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">ID</span>      <span style="color:#66d9ef">int</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">Query</span>   <span style="color:#66d9ef">string</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">Timeout</span> <span style="color:#a6e22e">time</span>.<span style="color:#a6e22e">Duration</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">Search</span>  <span style="color:#a6e22e">Search</span>
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">w</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">Worker</span>) <span style="color:#a6e22e">Run</span>() ([]<span style="color:#a6e22e">Result</span>, <span style="color:#66d9ef">error</span>) {
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">ctx</span>, <span style="color:#a6e22e">cancel</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">context</span>.<span style="color:#a6e22e">WithTimeout</span>(<span style="color:#a6e22e">context</span>.<span style="color:#a6e22e">Background</span>(), <span style="color:#a6e22e">w</span>.<span style="color:#a6e22e">Timeout</span>)
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">defer</span> <span style="color:#a6e22e">cancel</span>()
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">done</span> <span style="color:#f92672">:=</span> make(<span style="color:#66d9ef">chan</span> <span style="color:#66d9ef">struct</span>{})
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">var</span> <span style="color:#a6e22e">results</span> []<span style="color:#a6e22e">Result</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">var</span> <span style="color:#a6e22e">err</span> <span style="color:#66d9ef">error</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">go</span> <span style="color:#66d9ef">func</span>() {
+</span></span><span style="display:flex;"><span>		<span style="color:#a6e22e">results</span>, <span style="color:#a6e22e">err</span> = <span style="color:#a6e22e">w</span>.<span style="color:#a6e22e">Search</span>(<span style="color:#a6e22e">ctx</span>, <span style="color:#a6e22e">w</span>.<span style="color:#a6e22e">Query</span>)
+</span></span><span style="display:flex;"><span>		<span style="color:#a6e22e">done</span> <span style="color:#f92672">&lt;-</span> <span style="color:#66d9ef">struct</span>{}{}
+</span></span><span style="display:flex;"><span>	}()
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">select</span> {
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">case</span> <span style="color:#f92672">&lt;-</span><span style="color:#a6e22e">done</span>:
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">return</span> <span style="color:#a6e22e">results</span>, <span style="color:#a6e22e">err</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">case</span> <span style="color:#f92672">&lt;-</span><span style="color:#a6e22e">ctx</span>.<span style="color:#a6e22e">Done</span>():
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">return</span> <span style="color:#66d9ef">nil</span>, <span style="color:#a6e22e">ctx</span>.<span style="color:#a6e22e">Err</span>()
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>The <code>Run</code> function will actually run a search against what ever fake data store we have assigned (e.g. <code>fakeRedis</code>). We need to handle the case where searching a data store takes too long (in this case, <code>fakeMongoDB</code> which takes 30 seconds to run). So we run the search in a separate goroutine and send a message on the <code>done</code> channel, once the function completes. If the message does not arrive on the <code>done</code> channel, the timeout fires, <code>ctx.Done()</code> sends a signal and the search function checks it and exits cleanly.</p>
+<p>Next, we will create the <code>Dispatcher</code> type with a <code>Search</code> function:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#66d9ef">type</span> <span style="color:#a6e22e">Dispatcher</span> <span style="color:#66d9ef">struct</span> {
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">Timeout</span> <span style="color:#a6e22e">time</span>.<span style="color:#a6e22e">Duration</span>
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">d</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">Dispatcher</span>) <span style="color:#a6e22e">Search</span>(<span style="color:#a6e22e">query</span> <span style="color:#66d9ef">string</span>) <span style="color:#f92672">*</span><span style="color:#a6e22e">AggregatedResults</span> {
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">var</span> (
+</span></span><span style="display:flex;"><span>		<span style="color:#a6e22e">datastores</span> = []<span style="color:#a6e22e">Search</span>{
+</span></span><span style="display:flex;"><span>			<span style="color:#a6e22e">fakePostgres</span>,
+</span></span><span style="display:flex;"><span>			<span style="color:#a6e22e">fakeMongoDB</span>,
+</span></span><span style="display:flex;"><span>			<span style="color:#a6e22e">fakeMySQL</span>,
+</span></span><span style="display:flex;"><span>			<span style="color:#a6e22e">fakeRedis</span>,
+</span></span><span style="display:flex;"><span>		}
+</span></span><span style="display:flex;"><span>		<span style="color:#a6e22e">eg</span>          = <span style="color:#a6e22e">errgroup</span>.<span style="color:#a6e22e">Group</span>{}
+</span></span><span style="display:flex;"><span>		<span style="color:#a6e22e">agg</span>         = <span style="color:#f92672">&amp;</span><span style="color:#a6e22e">AggregatedResults</span>{}
+</span></span><span style="display:flex;"><span>		<span style="color:#a6e22e">resultsChan</span> = make(<span style="color:#66d9ef">chan</span> []<span style="color:#a6e22e">Result</span>, len(<span style="color:#a6e22e">datastores</span>))
+</span></span><span style="display:flex;"><span>	)
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">for</span> <span style="color:#a6e22e">idx</span>, <span style="color:#a6e22e">search</span> <span style="color:#f92672">:=</span> <span style="color:#66d9ef">range</span> <span style="color:#a6e22e">datastores</span> {
+</span></span><span style="display:flex;"><span>		<span style="color:#a6e22e">w</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">Worker</span>{
+</span></span><span style="display:flex;"><span>			<span style="color:#a6e22e">ID</span>:      <span style="color:#a6e22e">idx</span> <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>,
+</span></span><span style="display:flex;"><span>			<span style="color:#a6e22e">Query</span>:   <span style="color:#a6e22e">query</span>,
+</span></span><span style="display:flex;"><span>			<span style="color:#a6e22e">Timeout</span>: <span style="color:#a6e22e">d</span>.<span style="color:#a6e22e">Timeout</span>,
+</span></span><span style="display:flex;"><span>			<span style="color:#a6e22e">Search</span>:  <span style="color:#a6e22e">search</span>,
+</span></span><span style="display:flex;"><span>		}
+</span></span><span style="display:flex;"><span>		<span style="color:#a6e22e">eg</span>.<span style="color:#a6e22e">Go</span>(<span style="color:#66d9ef">func</span>() <span style="color:#66d9ef">error</span> {
+</span></span><span style="display:flex;"><span>			<span style="color:#a6e22e">results</span>, <span style="color:#a6e22e">err</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">w</span>.<span style="color:#a6e22e">Run</span>()
+</span></span><span style="display:flex;"><span>			<span style="color:#a6e22e">resultsChan</span> <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">results</span>
+</span></span><span style="display:flex;"><span>			<span style="color:#66d9ef">return</span> <span style="color:#a6e22e">err</span>
+</span></span><span style="display:flex;"><span>		})
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>	<span style="color:#75715e">// wait for all the workers to complete</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">go</span> <span style="color:#66d9ef">func</span>() {
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">err</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">eg</span>.<span style="color:#a6e22e">Wait</span>(); <span style="color:#a6e22e">err</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> {
+</span></span><span style="display:flex;"><span>			<span style="color:#a6e22e">agg</span>.<span style="color:#a6e22e">Errors</span> = append(<span style="color:#a6e22e">agg</span>.<span style="color:#a6e22e">Errors</span>, <span style="color:#a6e22e">err</span>.<span style="color:#a6e22e">Error</span>())
+</span></span><span style="display:flex;"><span>		}
+</span></span><span style="display:flex;"><span>		close(<span style="color:#a6e22e">resultsChan</span>)
+</span></span><span style="display:flex;"><span>	}()
+</span></span><span style="display:flex;"><span>	<span style="color:#75715e">// merge results</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">for</span> <span style="color:#a6e22e">result</span> <span style="color:#f92672">:=</span> <span style="color:#66d9ef">range</span> <span style="color:#a6e22e">resultsChan</span> {
+</span></span><span style="display:flex;"><span>		<span style="color:#a6e22e">agg</span>.<span style="color:#a6e22e">Total</span> <span style="color:#f92672">+=</span> len(<span style="color:#a6e22e">result</span>)
+</span></span><span style="display:flex;"><span>		<span style="color:#a6e22e">agg</span>.<span style="color:#a6e22e">Results</span> = append(<span style="color:#a6e22e">agg</span>.<span style="color:#a6e22e">Results</span>, <span style="color:#a6e22e">result</span><span style="color:#f92672">...</span>)
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>	<span style="color:#75715e">// sort by price</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">slices</span>.<span style="color:#a6e22e">SortFunc</span>(<span style="color:#a6e22e">agg</span>.<span style="color:#a6e22e">Results</span>, <span style="color:#66d9ef">func</span>(<span style="color:#a6e22e">a</span>, <span style="color:#a6e22e">b</span> <span style="color:#a6e22e">Result</span>) <span style="color:#66d9ef">int</span> {
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">return</span> <span style="color:#a6e22e">cmp</span>.<span style="color:#a6e22e">Compare</span>(<span style="color:#a6e22e">a</span>.<span style="color:#a6e22e">Price</span>, <span style="color:#a6e22e">b</span>.<span style="color:#a6e22e">Price</span>)
+</span></span><span style="display:flex;"><span>	})
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">return</span> <span style="color:#a6e22e">agg</span>
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>The dispatcher will create one worker for each data store that we want to search. We then use the <em>errgroup</em> package to start each worker and then wait for all workers to finish. After the workers finish, we merge the results and then sort the results by price.</p>
+<p>Let&rsquo;s tie this all together in the main function:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">main</span>() {
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">query</span> <span style="color:#f92672">:=</span> <span style="color:#e6db74">&#34;phoneANDtabletANDheadphones&#34;</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">dispatcher</span> <span style="color:#f92672">:=</span> <span style="color:#f92672">&amp;</span><span style="color:#a6e22e">Dispatcher</span>{
+</span></span><span style="display:flex;"><span>		<span style="color:#a6e22e">Timeout</span>: <span style="color:#ae81ff">3</span> <span style="color:#f92672">*</span> <span style="color:#a6e22e">time</span>.<span style="color:#a6e22e">Second</span>,
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">results</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">dispatcher</span>.<span style="color:#a6e22e">Search</span>(<span style="color:#a6e22e">query</span>)
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">var</span> <span style="color:#a6e22e">out</span> <span style="color:#a6e22e">bytes</span>.<span style="color:#a6e22e">Buffer</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">enc</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">json</span>.<span style="color:#a6e22e">NewEncoder</span>(<span style="color:#a6e22e">os</span>.<span style="color:#a6e22e">Stdout</span>)
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">enc</span>.<span style="color:#a6e22e">SetIndent</span>(<span style="color:#e6db74">&#34;&#34;</span>, <span style="color:#e6db74">&#34;  &#34;</span>) <span style="color:#75715e">// 2‑space indent</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">err</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">enc</span>.<span style="color:#a6e22e">Encode</span>(<span style="color:#a6e22e">results</span>); <span style="color:#a6e22e">err</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> {
+</span></span><span style="display:flex;"><span>		<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Fprintln</span>(<span style="color:#a6e22e">os</span>.<span style="color:#a6e22e">Stderr</span>, <span style="color:#e6db74">&#34;encode error:&#34;</span>, <span style="color:#a6e22e">err</span>)
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#a6e22e">out</span>.<span style="color:#a6e22e">String</span>())
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>In the main function we have our query <code>&quot;phoneANDtabletANDheadphones&quot;</code> which would be passed to us by some client (see diagram above).</p>
+<p>We instantiate our dispatcher passing in a timeout (take note of the three second timeout). We pass our query to the dispatchers <code>Search</code> function, which then kicks off the scatter gather process described earlier. Finally, the last thing to do is to take the aggregated results and then print them to the console in JSON format.</p>
+<p>Let&rsquo;s run the code and see the output:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-plain" data-lang="plain"><span style="display:flex;"><span>$ time go run main.go
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span> &#34;total&#34;: 6,
+</span></span><span style="display:flex;"><span> &#34;results&#34;: [
+</span></span><span style="display:flex;"><span>   {
+</span></span><span style="display:flex;"><span>     &#34;type&#34;: &#34;headphones&#34;,
+</span></span><span style="display:flex;"><span>     &#34;manafacturer&#34;: &#34;Sony&#34;,
+</span></span><span style="display:flex;"><span>     &#34;model&#34;: &#34;WH-CH720N&#34;,
+</span></span><span style="display:flex;"><span>     &#34;source&#34;: &#34;mysql&#34;,
+</span></span><span style="display:flex;"><span>     &#34;price&#34;: 149.99
+</span></span><span style="display:flex;"><span>   },
+</span></span><span style="display:flex;"><span>   {
+</span></span><span style="display:flex;"><span>     &#34;type&#34;: &#34;phone&#34;,
+</span></span><span style="display:flex;"><span>     &#34;manafacturer&#34;: &#34;Apple&#34;,
+</span></span><span style="display:flex;"><span>     &#34;model&#34;: &#34;iPhone 15&#34;,
+</span></span><span style="display:flex;"><span>     &#34;source&#34;: &#34;postgres&#34;,
+</span></span><span style="display:flex;"><span>     &#34;price&#34;: 799.99
+</span></span><span style="display:flex;"><span>   },
+</span></span><span style="display:flex;"><span>   {
+</span></span><span style="display:flex;"><span>     &#34;type&#34;: &#34;tablet&#34;,
+</span></span><span style="display:flex;"><span>     &#34;manafacturer&#34;: &#34;Samsung&#34;,
+</span></span><span style="display:flex;"><span>     &#34;model&#34;: &#34;Galaxy Tab S9 Ultra&#34;,
+</span></span><span style="display:flex;"><span>     &#34;source&#34;: &#34;mysql&#34;,
+</span></span><span style="display:flex;"><span>     &#34;price&#34;: 849.99
+</span></span><span style="display:flex;"><span>   },
+</span></span><span style="display:flex;"><span>   {
+</span></span><span style="display:flex;"><span>     &#34;type&#34;: &#34;phone&#34;,
+</span></span><span style="display:flex;"><span>     &#34;manafacturer&#34;: &#34;Google&#34;,
+</span></span><span style="display:flex;"><span>     &#34;model&#34;: &#34;Pixel 8 Pro&#34;,
+</span></span><span style="display:flex;"><span>     &#34;source&#34;: &#34;postgres&#34;,
+</span></span><span style="display:flex;"><span>     &#34;price&#34;: 899.99
+</span></span><span style="display:flex;"><span>   },
+</span></span><span style="display:flex;"><span>   {
+</span></span><span style="display:flex;"><span>     &#34;type&#34;: &#34;phone&#34;,
+</span></span><span style="display:flex;"><span>     &#34;manafacturer&#34;: &#34;Samsung&#34;,
+</span></span><span style="display:flex;"><span>     &#34;model&#34;: &#34;Galaxy S24 Ultra&#34;,
+</span></span><span style="display:flex;"><span>     &#34;source&#34;: &#34;postgres&#34;,
+</span></span><span style="display:flex;"><span>     &#34;price&#34;: 1299.99
+</span></span><span style="display:flex;"><span>   },
+</span></span><span style="display:flex;"><span>   {
+</span></span><span style="display:flex;"><span>     &#34;type&#34;: &#34;phone&#34;,
+</span></span><span style="display:flex;"><span>     &#34;manafacturer&#34;: &#34;Samsung&#34;,
+</span></span><span style="display:flex;"><span>     &#34;model&#34;: &#34;Galaxy Z Fold 5&#34;,
+</span></span><span style="display:flex;"><span>     &#34;source&#34;: &#34;mysql&#34;,
+</span></span><span style="display:flex;"><span>     &#34;price&#34;: 1799.99
+</span></span><span style="display:flex;"><span>   }
+</span></span><span style="display:flex;"><span> ],
+</span></span><span style="display:flex;"><span> &#34;errors&#34;: [
+</span></span><span style="display:flex;"><span>   &#34;error redis: key eviction due to memory pressure&#34;
+</span></span><span style="display:flex;"><span> ]
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>real    0m3.827s
+</span></span><span style="display:flex;"><span>user    0m0.136s
+</span></span><span style="display:flex;"><span>sys     0m0.150s
+</span></span></code></pre></div><p>We got a total of six results from the data stores <code>fakePostgres</code> and <code>fakeMySQL</code>, the <code>fakeRedis</code> returned an error which is also recorded in the aggregated results.</p>
+<p>Notice that the dispatcher took three seconds to run <code>real  0m3.827s</code>, why? We set the dispatcher timeout to three seconds, which means we want all the workers to finish by this deadline. Workers searching data stores <code>fakePostgres</code>, <code>fakeMySQL</code> and <code>fakeRedis</code> all return within this time limit. However, the dispatcher is waiting for the worker searching data store <code>fakeMongoDB</code> to return. It does not, as we set the function to return after thirty seconds, so after three seconds the time-out triggers, and we cancel the goroutine and the dispatcher progresses into the merge and sort phases.</p>
+<p>If you would like to see the entire code, it is available at this <a href="https://go.dev/play/p/WttQIjOTRdv" target="_blank">playground</a>.</p>
+<p>Thank you for reading.</p>
+
+  
+  <hr>
+<div class="footer">
+    
+	    
+            <a class="previous-post" href="https://www.usman.me.uk/posts/line_profiler/?ref=footer"><span style="font-weight:bold;">« Previous</span><br>Finding Performance Issues In Python Using Line...</a>
+        
+	    
+    
+</div>
+
+  
+</div>
+            </main>
+            
+  
+
+        </div>
+    </body>
+</html>

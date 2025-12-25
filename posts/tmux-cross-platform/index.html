@@ -103,7 +103,7 @@
 
 
 
-<meta name="generator" content="Hugo 0.152.2">
+<meta name="generator" content="Hugo 0.153.2">
 
 
     
@@ -315,7 +315,7 @@
 <p>Now move any OS specific settings out of <em>.tmux.conf</em> into <em>.tmux-osx.conf</em> and <em>.tmux-linux.conf</em> respectively.</p>
 <p>In your <em>.tmux.conf</em> file add the line:</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#66d9ef">if</span>-shell <span style="color:#e6db74">&#34;uname | grep -q Darwin&#34;</span> <span style="color:#e6db74">&#39;source-file ~/.tmux-osx.conf&#39;</span> <span style="color:#ae81ff">\
-</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span><span style="color:#e6db74">&#39;source-file ~/.tmux-linux.conf&#39;</span>
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">&#39;source-file ~/.tmux-linux.conf&#39;</span>
 </span></span></code></pre></div><p>Basically, when tmux reads in it&rsquo;s configuration, if the OS is &lsquo;Darwin&rsquo; (OS X) then it will read <em>.tmux-osx.conf</em> else it will read in <em>.tmux-linux.conf</em>.</p>
 <p>Note: the above code snippet assumes that the three *.conf files are placed in your home directory, if they are not change the paths.</p>
 
