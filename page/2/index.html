@@ -74,7 +74,7 @@
 <meta property="og:url" content="https://www.usman.me.uk/" />
 
 
-<meta property="og:updated_time" content="2025-11-13T13:45:31Z" />
+<meta property="og:updated_time" content="2025-12-01T15:51:50Z" />
 
 
 <link rel="sitemap" type="application/xml" title="Sitemap" href='https://www.usman.me.uk/sitemap.xml' />
@@ -278,6 +278,54 @@
                 <div class="posts">
     
     
+    <article class="post">
+        <div class="info">
+  <h1 class="post-title">
+    <a href="https://www.usman.me.uk/posts/tar_relative_path/">Tar Archiving Using Relative Paths</a>
+  </h1>
+
+  <div class="headline">
+    <div>
+      
+      
+      <time datetime=" 2018-03-10T15:40:39&#43;0100" class="post-date">
+        March 10, 2018
+      </time>
+      
+      <span> - </span>
+      <span class="reading-time">
+        
+          
+        
+
+        <span>1 min read</span>
+      </span>
+    </div>
+
+    
+  </div>
+
+  
+  
+
+  
+</div>
+
+        
+        <p>If you want to archive a directory (using the tar command), but not include the absolute path to the directory. You can use the <strong>-C</strong> option to the tar command, which essentially cd&rsquo;s into the directory and then archives it. Here is an example:</p>
+<pre tabindex="0"><code>$ tar czf /tmp/my_backup.tar.gz -C ~/home/coorp/my_files
+</code></pre><p>When un-archived, the directory structure will be:</p>
+<ul>
+<li><em>/some_path/my_files</em></li>
+</ul>
+<p>And not:</p>
+<ul>
+<li><em>/some_path/home/coorp/my_files</em>.</li>
+</ul>
+<p>Fin.</p>
+        
+        
+    </article>
     <article class="post">
         <div class="info">
   <h1 class="post-title">
@@ -722,57 +770,6 @@ nothing to commit, working tree clean
         
         <div class="read-more-link">
             <a href="/posts/using-sub-tests-benchmarks/">Read More…</a>
-        </div>
-        
-        
-    </article>
-    <article class="post">
-        <div class="info">
-  <h1 class="post-title">
-    <a href="https://www.usman.me.uk/posts/svg-sprites/">SVG Sprites</a>
-  </h1>
-
-  <div class="headline">
-    <div>
-      
-      
-      <time datetime=" 2016-08-16T19:54:44&#43;0100" class="post-date">
-        August 16, 2016
-      </time>
-      
-      <span> - </span>
-      <span class="reading-time">
-        
-          
-        
-
-        <span>1 min read</span>
-      </span>
-    </div>
-
-    
-  </div>
-
-  
-  
-
-  
-</div>
-
-        
-        <p>Within an single SVG file we can define many sprites. This consists of merging all your SVG sprites into a single .svg image file. Every sprite is wrapped in a &lsquo;symbol&rsquo; tag, like this:</p>
-<pre tabindex="0"><code>&lt;svg class=&#34;character&#34; width=&#34;100pt&#34; height=&#34;100pt&#34; version=&#34;1.1&#34; xmlns=&#34;http://www.w3.org/2000/svg&#34;&gt;
-    &lt;symbol id=&#34;circle-red&#34; viewBox=&#34;0 0 100 100&#34;&gt;
-      &lt;circle cx=&#34;50&#34; cy=&#34;50&#34; r=&#34;40&#34; stroke=&#34;black&#34; stroke-width=&#34;3&#34; fill=&#34;red&#34; /&gt;
-    &lt;/symbol&gt;
-    &lt;symbol id=&#34;circle-black&#34; viewBox=&#34;0 0 100 100&#34;&gt;
-      &lt;circle cx=&#34;50&#34; cy=&#34;50&#34; r=&#34;40&#34; stroke=&#34;black&#34; stroke-width=&#34;3&#34; /&gt;
-    &lt;/symbol&gt;
-&lt;/svg&gt;
-</code></pre><p>We can then use HTML or CSS to pick out each part of the image:</p>
-        
-        <div class="read-more-link">
-            <a href="/posts/svg-sprites/">Read More…</a>
         </div>
         
         

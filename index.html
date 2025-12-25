@@ -74,7 +74,7 @@
 <meta property="og:url" content="https://www.usman.me.uk/" />
 
 
-<meta property="og:updated_time" content="2025-11-13T13:45:31Z" />
+<meta property="og:updated_time" content="2025-12-01T15:51:50Z" />
 
 
 <link rel="sitemap" type="application/xml" title="Sitemap" href='https://www.usman.me.uk/sitemap.xml' />
@@ -278,6 +278,53 @@
                 <div class="posts">
     
     
+    <article class="post">
+        <div class="info">
+  <h1 class="post-title">
+    <a href="https://www.usman.me.uk/posts/k8s-pod-creation/">How Kubernetes Creates a Pod</a>
+  </h1>
+
+  <div class="headline">
+    <div>
+      
+      
+      <time datetime=" 2025-12-01T15:51:50Z" class="post-date">
+        December 1, 2025
+      </time>
+      
+      <span> - </span>
+      <span class="reading-time">
+        
+          
+        
+
+        <span>5 mins read</span>
+      </span>
+    </div>
+
+    
+  </div>
+
+  
+  
+
+  
+</div>
+
+        
+        <h2 id="overview">Overview</h2>
+<ul>
+<li>Learn the process Kubernetes goes through to create a Pod when you apply a manifest.</li>
+</ul>
+<h2 id="introduction">Introduction</h2>
+<p>In this blog post, we will discuss the process that Kubernetes goes through to create a Pod. Kubernetes is made up of a number of components, and we will see how these various components coordinate with each other to deploy various manifests. A Pod is a group of containers and is the smallest unit that Kubernetes administers. Kubernetes manages Pods, not containers. Pods live on nodes, nodes live on machines.</p>
+        
+        <div class="read-more-link">
+            <a href="/posts/k8s-pod-creation/">Read More…</a>
+        </div>
+        
+        
+    </article>
     <article class="post">
         <div class="info">
   <h1 class="post-title">
@@ -712,54 +759,6 @@ adding the following fields:</p>
         <div class="read-more-link">
             <a href="/posts/borg-ignore/">Read More…</a>
         </div>
-        
-        
-    </article>
-    <article class="post">
-        <div class="info">
-  <h1 class="post-title">
-    <a href="https://www.usman.me.uk/posts/tar_relative_path/">Tar Archiving Using Relative Paths</a>
-  </h1>
-
-  <div class="headline">
-    <div>
-      
-      
-      <time datetime=" 2018-03-10T15:40:39&#43;0100" class="post-date">
-        March 10, 2018
-      </time>
-      
-      <span> - </span>
-      <span class="reading-time">
-        
-          
-        
-
-        <span>1 min read</span>
-      </span>
-    </div>
-
-    
-  </div>
-
-  
-  
-
-  
-</div>
-
-        
-        <p>If you want to archive a directory (using the tar command), but not include the absolute path to the directory. You can use the <strong>-C</strong> option to the tar command, which essentially cd&rsquo;s into the directory and then archives it. Here is an example:</p>
-<pre tabindex="0"><code>$ tar czf /tmp/my_backup.tar.gz -C ~/home/coorp/my_files
-</code></pre><p>When un-archived, the directory structure will be:</p>
-<ul>
-<li><em>/some_path/my_files</em></li>
-</ul>
-<p>And not:</p>
-<ul>
-<li><em>/some_path/home/coorp/my_files</em>.</li>
-</ul>
-<p>Fin.</p>
         
         
     </article>

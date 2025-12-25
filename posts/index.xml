@@ -7,8 +7,15 @@
     <generator>Hugo</generator>
     <language>en-gb</language>
     <copyright>Usman Mahmood</copyright>
-    <lastBuildDate>Thu, 13 Nov 2025 13:45:31 +0000</lastBuildDate>
+    <lastBuildDate>Mon, 01 Dec 2025 15:51:50 +0000</lastBuildDate>
     <atom:link href="https://www.usman.me.uk/posts/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>How Kubernetes Creates a Pod</title>
+      <link>https://www.usman.me.uk/posts/k8s-pod-creation/</link>
+      <pubDate>Mon, 01 Dec 2025 15:51:50 +0000</pubDate>
+      <guid>https://www.usman.me.uk/posts/k8s-pod-creation/</guid>
+      <description>&lt;h2 id=&#34;overview&#34;&gt;Overview&lt;/h2&gt;&#xA;&lt;ul&gt;&#xA;&lt;li&gt;Learn the process Kubernetes goes through to create a Pod when you apply a manifest.&lt;/li&gt;&#xA;&lt;/ul&gt;&#xA;&lt;h2 id=&#34;introduction&#34;&gt;Introduction&lt;/h2&gt;&#xA;&lt;p&gt;In this blog post, we will discuss the process that Kubernetes goes through to create a Pod. Kubernetes is made up of a number of components, and we will see how these various components coordinate with each other to deploy various manifests. A Pod is a group of containers and is the smallest unit that Kubernetes administers. Kubernetes manages Pods, not containers. Pods live on nodes, nodes live on machines.&lt;/p&gt;</description>
+    </item>
     <item>
       <title>Using Go&#39;s errgroup Package To Implement The Scatter Gather Pattern</title>
       <link>https://www.usman.me.uk/posts/errgroup/</link>
