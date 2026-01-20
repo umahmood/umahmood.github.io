@@ -7,8 +7,29 @@
     <generator>Hugo</generator>
     <language>en-gb</language>
     <copyright>Usman Mahmood</copyright>
-    <lastBuildDate>Mon, 01 Dec 2025 15:51:50 +0000</lastBuildDate>
+    <lastBuildDate>Mon, 19 Jan 2026 23:34:59 +0000</lastBuildDate>
     <atom:link href="https://www.usman.me.uk/posts/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>LLM: Understanding Tokens</title>
+      <link>https://www.usman.me.uk/posts/llm-tokens/</link>
+      <pubDate>Mon, 19 Jan 2026 23:34:59 +0000</pubDate>
+      <guid>https://www.usman.me.uk/posts/llm-tokens/</guid>
+      <description>&lt;h2 id=&#34;overview&#34;&gt;Overview&lt;/h2&gt;&#xA;&lt;ul&gt;&#xA;&lt;li&gt;Understand why tokens are the currency of LLMs&lt;/li&gt;&#xA;&lt;li&gt;Learn how tokenisers split words into tokens&lt;/li&gt;&#xA;&lt;li&gt;Why tokens are different across LLM providers&lt;/li&gt;&#xA;&lt;li&gt;How the costs of tokens are calculated&lt;/li&gt;&#xA;&lt;li&gt;Understand token limits&lt;/li&gt;&#xA;&lt;/ul&gt;&#xA;&lt;h2 id=&#34;introduction&#34;&gt;Introduction&lt;/h2&gt;&#xA;&lt;p&gt;In this post, we look deeper into tokens, and how they relate to Large Language Models (LLMs). If you have read any API documentation or any other technical content relating to LLMs, you will have come across the term tokens. Tokens are fundamental to LLMs, and understanding them is vital when learning how LLMs work under the hood.&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>LLM: Understanding Log Probabilities</title>
+      <link>https://www.usman.me.uk/posts/llm-logprob/</link>
+      <pubDate>Mon, 12 Jan 2026 23:34:59 +0000</pubDate>
+      <guid>https://www.usman.me.uk/posts/llm-logprob/</guid>
+      <description>&lt;h2 id=&#34;overview&#34;&gt;Overview&lt;/h2&gt;&#xA;&lt;ul&gt;&#xA;&lt;li&gt;Learn what token log probabilities are.&lt;/li&gt;&#xA;&lt;li&gt;Understand and use the &lt;em&gt;logprobs&lt;/em&gt; parameter.&lt;/li&gt;&#xA;&lt;li&gt;Learn the practical use cases for log probabilities.&lt;/li&gt;&#xA;&lt;/ul&gt;&#xA;&lt;h2 id=&#34;introduction&#34;&gt;Introduction&lt;/h2&gt;&#xA;&lt;p&gt;In this blog post, we will discuss what LLM log probabilities are, also known as &lt;em&gt;logprobs&lt;/em&gt;. We will use the OpenAI API to retrieve the log probabilities of individual tokens output in response to user prompts. We will write some code to understand what we can do when we have this extra information returned from the API. And finally, see some practical use cases of log probabilities.&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>LLM: Understanding The Temperature Parameter</title>
+      <link>https://www.usman.me.uk/posts/llm-temperature/</link>
+      <pubDate>Fri, 02 Jan 2026 23:51:24 +0000</pubDate>
+      <guid>https://www.usman.me.uk/posts/llm-temperature/</guid>
+      <description>&lt;h2 id=&#34;overview&#34;&gt;Overview&lt;/h2&gt;&#xA;&lt;ul&gt;&#xA;&lt;li&gt;How tokens are the fundamental unit of LLMs.&lt;/li&gt;&#xA;&lt;li&gt;Understand the token vocabulary and role it plays in LLMs.&lt;/li&gt;&#xA;&lt;li&gt;Learn what the LLM temperature parameter is and how it works.&lt;/li&gt;&#xA;&lt;li&gt;Understand why LLMs are non-deterministic.&lt;/li&gt;&#xA;&lt;li&gt;The use cases where developers may adjust the temperature parameter.&lt;/li&gt;&#xA;&lt;/ul&gt;&#xA;&lt;h2 id=&#34;introduction&#34;&gt;Introduction&lt;/h2&gt;&#xA;&lt;p&gt;During inference, a user can pass in various parameters into an LLM to guide its behaviour and the output it returns. One of those parameters is the temperature parameter, when this parameter is set to a low or high value it controls the randomness of the LLMs output. In this post we will dive deeper into the temperature parameter and explain what it is, its purpose, and have a look at what happens when you set the temperature to different values during LLM inference.&lt;/p&gt;</description>
+    </item>
     <item>
       <title>How Kubernetes Creates a Pod</title>
       <link>https://www.usman.me.uk/posts/k8s-pod-creation/</link>

@@ -1,0 +1,606 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en-gb" lang="en-gb">
+<head>
+    
+
+
+
+
+
+
+
+
+
+
+    
+
+
+
+
+
+
+
+<script defer language="javascript" type="text/javascript" src="/js/bundle.min.d451ff92e80abc2a828eb9bb262e4db374bd4e954642f9245c54eec84bf690f3.js"></script>
+
+
+
+
+
+
+    
+    <meta http-equiv="content-type" content="text/html; charset=utf-8">
+
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    
+    <link rel="icon" href=/favicon.png>
+
+    
+    
+
+
+
+
+
+  
+
+
+
+
+
+  
+  
+  
+
+
+<!-- Open Graph image and Twitter Card metadata -->
+
+<title itemprop="name">Usman Mahmood - LLM: Understanding Tokens</title>
+<meta property="og:title" content=Usman&#32;Mahmood&#32;-&#32;LLM:&#32;Understanding&#32;Tokens />
+<meta name="twitter:title" content=Usman&#32;Mahmood&#32;-&#32;LLM:&#32;Understanding&#32;Tokens />
+<meta itemprop="name" content=Usman&#32;Mahmood&#32;-&#32;LLM:&#32;Understanding&#32;Tokens />
+<meta name="application-name" content=Usman&#32;Mahmood&#32;-&#32;LLM:&#32;Understanding&#32;Tokens />
+<meta property="og:site_name" content="Blog" />
+
+
+<meta name="description" content="" />
+<meta itemprop="description" content="" />
+<meta property="og:description" content="" />
+<meta name="twitter:description" content="" />
+
+
+<base href="https://www.usman.me.uk/posts/llm-tokens/" />
+<link rel="canonical" href="https://www.usman.me.uk/posts/llm-tokens/" itemprop="url" />
+<meta name="url" content="https://www.usman.me.uk/posts/llm-tokens/" />
+<meta name="twitter:url" content="https://www.usman.me.uk/posts/llm-tokens/" />
+<meta property="og:url" content="https://www.usman.me.uk/posts/llm-tokens/" />
+
+
+<meta property="og:updated_time" content="2026-01-19T23:34:59Z" />
+
+
+<link rel="sitemap" type="application/xml" title="Sitemap" href='https://www.usman.me.uk/sitemap.xml' />
+
+<meta name="robots" content="index,follow" />
+<meta name="googlebot" content="index,follow" />
+
+
+
+  
+    <meta name="twitter:site" content="@make_slice" />
+    <meta name="twitter:creator" content="@make_slice" />
+
+<meta property="fb:admins" content="" />
+
+
+<meta name="apple-mobile-web-app-title" content="Blog" />
+<meta name="apple-mobile-web-app-capable" content="yes" />
+<meta name="apple-mobile-web-app-status-bar-style" content="black" />
+
+
+
+
+
+
+<meta name="generator" content="Hugo 0.154.5">
+
+
+    
+    
+
+<link type="text/css" rel="stylesheet" href="/css/bundle.min.0d70d5aed9787dcd4309c157b56a11f2811027b0be28bc951ad207bf2efd221b.css">
+
+
+    
+    <style>
+    body {
+        --sidebar-bg-color: #202020;
+        --sidebar-img-border-color: #515151;
+        --sidebar-p-color: #909090;
+        --sidebar-h1-color: #FFF;
+        --sidebar-a-color: #FFF;
+        --sidebar-socials-color: #FFF;
+        --text-color: #222;
+        --bkg-color: #FAF9F6;
+        --post-title-color: #303030;
+        --list-color: #5a5a5a;
+        --link-color: #268bd2;
+        --date-color: #515151;
+        --table-border-color: #E5E5E5;
+        --table-stripe-color: #F9F9F9;
+        --code-color: #000;
+        --code-background-color: #E5E5E5;
+        --code-block-color: #fff;
+        --code-block-background-color: #272822;
+        --moon-sun-color: #FFF;
+        --moon-sun-background-color: #515151;
+    }
+    body.dark-theme {
+        --text-color: #eee;
+        --bkg-color: #121212;
+        --post-title-color: #DBE2E9;
+        --list-color: #9d9d9d;
+        --link-color: #268bd2;
+        --date-color: #9a9a9a;
+        --table-border-color: #515151;
+        --table-stripe-color: #202020;
+        --code-color: #fff;
+        --code-background-color: #515151;
+        --code-block-color: #fff;
+        --code-block-background-color: #272822;
+    }
+    body {
+        background-color: var(--bkg-color);
+    }
+</style>
+
+</head>
+
+    <body class="dark-theme">
+        <div class="wrapper">
+            <aside class="sidebar">
+    <div class="container sidebar-sticky">
+        <div class="light-dark" align="right">
+    <button class="btn-light-dark" title="Toggle light/dark mode">
+        <svg class="moon" xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 16 16">
+            <path fill="currentColor" d="M6 .278a.768.768 0 0 1 .08.858a7.208 7.208 0 0 0-.878 3.46c0 4.021 3.278 7.277 7.318 7.277c.527 0 1.04-.055 1.533-.16a.787.787 0 0 1 .81.316a.733.733 0 0 1-.031.893A8.349 8.349 0 0 1 8.344 16C3.734 16 0 12.286 0 7.71C0 4.266 2.114 1.312 5.124.06A.752.752 0 0 1 6 .278z"/>
+        </svg>
+        <svg class="sun" xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 16 16">
+            <path fill="currentColor" d="M8 12a4 4 0 1 0 0-8a4 4 0 0 0 0 8zM8 0a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-1 0v-2A.5.5 0 0 1 8 0zm0 13a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-1 0v-2A.5.5 0 0 1 8 13zm8-5a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1 0-1h2a.5.5 0 0 1 .5.5zM3 8a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1 0-1h2A.5.5 0 0 1 3 8zm10.657-5.657a.5.5 0 0 1 0 .707l-1.414 1.415a.5.5 0 1 1-.707-.708l1.414-1.414a.5.5 0 0 1 .707 0zm-9.193 9.193a.5.5 0 0 1 0 .707L3.05 13.657a.5.5 0 0 1-.707-.707l1.414-1.414a.5.5 0 0 1 .707 0zm9.193 2.121a.5.5 0 0 1-.707 0l-1.414-1.414a.5.5 0 0 1 .707-.707l1.414 1.414a.5.5 0 0 1 0 .707zM4.464 4.465a.5.5 0 0 1-.707 0L2.343 3.05a.5.5 0 1 1 .707-.707l1.414 1.414a.5.5 0 0 1 0 .708z"/>
+        </svg>
+    </button>
+</div>
+
+        <div class="sidebar-about">
+    <h1 class="brand">
+        
+            <a href="https://www.usman.me.uk/">
+                <img src="/images/gopher.png" alt="brand image">
+            </a>
+        
+        
+            <a href="https://www.usman.me.uk/">
+                <h1>Usman Mahmood</h1>
+            </a>
+        
+    </h1>
+    <p class="lead">
+    Algorithms + Data Structures = Programs
+    </p>
+</div>
+
+        <nav>
+    <ul class="sidebar-nav">
+
+        
+        
+        
+        
+            
+
+            
+                
+                
+            
+            
+                
+                
+            
+                
+                
+            
+        
+        
+            
+
+            
+                
+                
+                    <li class="heading">
+                        <a href="/posts/">Posts</a>
+                    </li>
+                    
+                
+            
+            
+                
+                
+            
+                
+                
+            
+        
+
+    </ul>
+</nav>
+
+        
+    <a target="_blank" class="social" title="GitHub" href="https://github.com/umahmood">
+        <svg xmlns="http://www.w3.org/2000/svg" width="1.2em" height="1.2em" viewBox="-2 -2 24 24">
+            <path fill="currentColor" d="M18.88 1.099C18.147.366 17.265 0 16.233 0H3.746C2.714 0 1.832.366 1.099 1.099C.366 1.832 0 2.714 0 3.746v12.487c0 1.032.366 1.914 1.099 2.647c.733.733 1.615 1.099 2.647 1.099H6.66c.19 0 .333-.007.429-.02a.504.504 0 0 0 .286-.169c.095-.1.143-.245.143-.435l-.007-.885c-.004-.564-.006-1.01-.006-1.34l-.3.052c-.19.035-.43.05-.721.046a5.555 5.555 0 0 1-.904-.091a2.026 2.026 0 0 1-.872-.39a1.651 1.651 0 0 1-.572-.8l-.13-.3a3.25 3.25 0 0 0-.41-.663c-.186-.243-.375-.407-.566-.494l-.09-.065a.956.956 0 0 1-.17-.156a.723.723 0 0 1-.117-.182c-.026-.061-.004-.111.065-.15c.07-.04.195-.059.378-.059l.26.04c.173.034.388.138.643.311a2.1 2.1 0 0 1 .631.677c.2.355.44.626.722.813c.282.186.566.28.852.28c.286 0 .533-.022.742-.065a2.59 2.59 0 0 0 .585-.196c.078-.58.29-1.028.637-1.34a8.907 8.907 0 0 1-1.333-.234a5.314 5.314 0 0 1-1.223-.507a3.5 3.5 0 0 1-1.047-.872c-.277-.347-.505-.802-.683-1.365c-.177-.564-.266-1.215-.266-1.952c0-1.049.342-1.942 1.027-2.68c-.32-.788-.29-1.673.091-2.652c.252-.079.625-.02 1.119.175c.494.195.856.362 1.086.5c.23.14.414.257.553.352a9.233 9.233 0 0 1 2.497-.338c.859 0 1.691.113 2.498.338l.494-.312a6.997 6.997 0 0 1 1.197-.572c.46-.174.81-.221 1.054-.143c.39.98.424 1.864.103 2.653c.685.737 1.028 1.63 1.028 2.68c0 .737-.089 1.39-.267 1.957c-.177.568-.407 1.023-.689 1.366a3.65 3.65 0 0 1-1.053.865c-.42.234-.828.403-1.223.507a8.9 8.9 0 0 1-1.333.235c.45.39.676 1.005.676 1.846v3.11c0 .147.021.266.065.357a.36.36 0 0 0 .208.189c.096.034.18.056.254.064c.074.01.18.013.318.013h2.914c1.032 0 1.914-.366 2.647-1.099c.732-.732 1.099-1.615 1.099-2.647V3.746c0-1.032-.367-1.914-1.1-2.647z"/>
+        </svg>
+    </a>
+
+
+
+
+
+    <a target="_blank" class="social" title="X" href="https://x.com/make_slice">
+        <svg xmlns="http://www.w3.org/2000/svg" width="1.1em" height="1.1em" viewBox="0 0 512 472.799">
+            <path fill="currentColor" d="M403.229 0h78.506L310.219 196.04 512 462.799H354.002L230.261 301.007 88.669 462.799h-78.56l183.455-209.683L0 0h161.999l111.856 147.88L403.229 0zm-27.556 415.805h43.505L138.363 44.527h-46.68l283.99 371.278z"/>
+        </svg>
+    </a>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        <p class="footnote">
+    <br>
+    &copy; 2026 Usman Mahmood. All rights reserved.
+</p>
+
+  </div>
+</aside>
+
+            <main class="content container">
+                <div class="post">
+  <div class="info">
+  <h1 class="post-title">
+    <a href="https://www.usman.me.uk/posts/llm-tokens/">LLM: Understanding Tokens</a>
+  </h1>
+
+  <div class="headline">
+    <div>
+      
+      
+      <time datetime=" 2026-01-19T23:34:59Z" class="post-date">
+        January 19, 2026
+      </time>
+      
+      <span> - </span>
+      <span class="reading-time">
+        
+          
+        
+
+        <span>12 mins read</span>
+      </span>
+    </div>
+
+    
+  </div>
+
+  
+  
+
+  
+</div>
+
+  <h2 id="overview">Overview</h2>
+<ul>
+<li>Understand why tokens are the currency of LLMs</li>
+<li>Learn how tokenisers split words into tokens</li>
+<li>Why tokens are different across LLM providers</li>
+<li>How the costs of tokens are calculated</li>
+<li>Understand token limits</li>
+</ul>
+<h2 id="introduction">Introduction</h2>
+<p>In this post, we look deeper into tokens, and how they relate to Large Language Models (LLMs). If you have read any API documentation or any other technical content relating to LLMs, you will have come across the term tokens. Tokens are fundamental to LLMs, and understanding them is vital when learning how LLMs work under the hood.</p>
+<h2 id="what-are-tokens">What Are Tokens?</h2>
+<p>Tokens are the currency of LLMs, when you send a text prompt to an LLM such as &ldquo;Hello World!&rdquo;, this gets broken down into three tokens (in OpenAI GPT models). These tokens are then fed into other components that make up the LLM architecture during inference.</p>
+<p>Input:</p>
+<table>
+  <thead>
+      <tr>
+          <th>&ldquo;Hello World!&rdquo;</th>
+          <th>Tokens [9906, 4435, 0]</th>
+          <th>$0.00125 / 1k tokens</th>
+      </tr>
+  </thead>
+  <tbody>
+  </tbody>
+</table>
+<p>The input prompt &ldquo;Hello World!&rdquo; gets broken down into three tokens and billed at some small amount per 1k tokens. At this point the tokens are fed into the LLM, the LLM does some thinking/reasoning and returns an output.</p>
+<p>Output:</p>
+<table>
+  <thead>
+      <tr>
+          <th>&ldquo;Hi!&rdquo;</th>
+          <th>Tokens [13347, 0]</th>
+          <th>$0.01 / 1k tokens</th>
+      </tr>
+  </thead>
+  <tbody>
+  </tbody>
+</table>
+<p>Here the LLM outputs &ldquo;Hi!&rdquo; which is made up of two tokens, these are billed at a different rate to the input tokens.</p>
+<p>We can actually see how words are converted into to tokens using the tiktoken library. tiktoken is a tokeniser used by OpenAI&rsquo;s models.</p>
+<pre tabindex="0"><code># setup
+uv init
+uv add tiktoken
+uv run main.py
+</code></pre><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#f92672">import</span> tiktoken
+</span></span><span style="display:flex;"><span>encoding <span style="color:#f92672">=</span> tiktoken<span style="color:#f92672">.</span>get_encoding(<span style="color:#e6db74">&#34;cl100k_base&#34;</span>)
+</span></span><span style="display:flex;"><span>print(encoding<span style="color:#f92672">.</span>encode(<span style="color:#e6db74">&#34;Hello World!&#34;</span>))
+</span></span></code></pre></div><p>Output:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-plain" data-lang="plain"><span style="display:flex;"><span>[9906, 4435, 0]
+</span></span></code></pre></div><p>This process is also reversible, we can take the encoded input tokens and decode them to get the original words:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>print(encoding<span style="color:#f92672">.</span>decode([<span style="color:#ae81ff">9906</span>, <span style="color:#ae81ff">4435</span>, <span style="color:#ae81ff">0</span>]))
+</span></span></code></pre></div><p>Output:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-plain" data-lang="plain"><span style="display:flex;"><span>Hello World!
+</span></span></code></pre></div><p>Let&rsquo;s see some real world text examples with their approximate token counts:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-plain" data-lang="plain"><span style="display:flex;"><span>&#34;To be, or not to be, that is the question.&#34; = 13 tokens
+</span></span><span style="display:flex;"><span>President Barack Obama&#39;s Inaugural Address   = 2845 tokens
+</span></span><span style="display:flex;"><span>The US Declaration of Independence           = 1695 tokens
+</span></span></code></pre></div><p>An important thing to understand is that LLMs do not understand or process words, they only understand and process tokens. Language models do not see text like humans, instead they see a sequence of numbers.</p>
+<h2 id="how-words-are-broken-into-tokens">How Words Are Broken into Tokens</h2>
+<p>Words are broken up into tokens using a tokeniser, the tiktoken library implements the Byte Pair Encoding (BPE) tokeniser. Language models use tokenisers like Byte Pair Encoding (BPE) as a way of converting text into tokens. There are many different types of tokenisers (like SentencePiece or WordPiece) each with their own advantages and disadvantages, and different LLMs use different tokenisers. The goal of the tokeniser is to help the model generalise and better understand grammar.</p>
+<p>An important thing to understand, is that there is not a simple one-to-one mapping of words to tokens. The reason for this is that the tokenisation process is a little more intelligent. Let&rsquo;s have a look at a simple example (using BPE tokeniser):</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#f92672">import</span> tiktoken
+</span></span><span style="display:flex;"><span>encoding <span style="color:#f92672">=</span> tiktoken<span style="color:#f92672">.</span>get_encoding(<span style="color:#e6db74">&#34;cl100k_base&#34;</span>)
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">for</span> word <span style="color:#f92672">in</span> [<span style="color:#e6db74">&#39;jumping&#39;</span>, <span style="color:#e6db74">&#39;burning&#39;</span>, <span style="color:#e6db74">&#39;encoding&#39;</span>]:
+</span></span><span style="display:flex;"><span>    tokens <span style="color:#f92672">=</span> encoding<span style="color:#f92672">.</span>encode(word)
+</span></span><span style="display:flex;"><span>    print(<span style="color:#e6db74">f</span><span style="color:#e6db74">&#34;</span><span style="color:#e6db74">{</span>word<span style="color:#e6db74">}</span><span style="color:#e6db74"> -&gt; </span><span style="color:#e6db74">{</span>tokens<span style="color:#e6db74">}</span><span style="color:#e6db74">&#34;</span>)
+</span></span></code></pre></div><p>Output:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-plain" data-lang="plain"><span style="display:flex;"><span>jumping -&gt; [44396, 287]
+</span></span><span style="display:flex;"><span>burning -&gt; [22464, 287]
+</span></span><span style="display:flex;"><span>encoding -&gt; [17600]
+</span></span></code></pre></div><p>From the output we can see that &ldquo;jumping&rdquo; is broken up into two tokens, &ldquo;jump&rdquo; (token 44396) and &ldquo;ing&rdquo; (token 287), the same is true for &ldquo;burning&rdquo;. But, &ldquo;encoding&rdquo; is converted to a single token (17600), why is this? As stated earlier tokenisers are a little more intelligent than just mapping words to tokens. Tokenisers like BPE, form tokens based on frequency in the training data, this means it takes the context of the data into consideration. In the example above &ldquo;encoding&rdquo; appears very frequently in text (especially technical/programming contexts), so it was merged into a single token during training. &ldquo;jumping&rdquo; and &ldquo;burning&rdquo; are less common, so they remain as two tokens.</p>
+<p>Another important thing to understand is that tokenisation is deterministic and consistent i.e &ldquo;Hello&rdquo; will always map to the same token ID (e.g. 9906) both during training and inference. The token vocabulary is fixed after training, so the same text always produces the same token IDs when using that model&rsquo;s tokeniser.</p>
+<h2 id="tokens-are-not-unique-across-different-llms">Tokens Are Not Unique Across Different LLMs</h2>
+<p>Tokens are not unique across LLMs, this is because different models use different tokenisers and are trained on different datasets. The same text will typically be split into different numbers and types of tokens across models like GPT, Claude, and Gemini. &ldquo;encoding&rdquo; may or may not appear as a single token as it depends on how frequent it appears in that models training dataset. And, if the word does appear as a single token it will almost certainly have a different token value. So, the same input prompt will use a different number of tokens across LLM providers because different models use different tokenisers and have different training datasets.</p>
+<p>Let&rsquo;s see an example, we will call various LLM API providers and see how they split the input prompt into a different number of tokens.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-plain" data-lang="plain"><span style="display:flex;"><span>uv init
+</span></span><span style="display:flex;"><span>uv add openai anthropic google-genai
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#f92672">import</span> anthropic
+</span></span><span style="display:flex;"><span><span style="color:#f92672">from</span> openai <span style="color:#f92672">import</span> OpenAI
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> google.genai <span style="color:#66d9ef">as</span> genai
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">openai_api</span>(prompt: str) <span style="color:#f92672">-&gt;</span> <span style="color:#66d9ef">None</span>:
+</span></span><span style="display:flex;"><span>    print(<span style="color:#e6db74">&#34;=== OpenAI ===&#34;</span>)
+</span></span><span style="display:flex;"><span>    client <span style="color:#f92672">=</span> OpenAI(api_key<span style="color:#f92672">=</span>OPENAI_API_KEY)
+</span></span><span style="display:flex;"><span>    params <span style="color:#f92672">=</span> {
+</span></span><span style="display:flex;"><span>        <span style="color:#e6db74">&#34;model&#34;</span>: <span style="color:#e6db74">&#34;gpt-4.1&#34;</span>,
+</span></span><span style="display:flex;"><span>        <span style="color:#e6db74">&#34;messages&#34;</span>: [{
+</span></span><span style="display:flex;"><span>            <span style="color:#e6db74">&#34;role&#34;</span>: <span style="color:#e6db74">&#34;user&#34;</span>,
+</span></span><span style="display:flex;"><span>            <span style="color:#e6db74">&#34;content&#34;</span>: prompt,
+</span></span><span style="display:flex;"><span>        }],
+</span></span><span style="display:flex;"><span>        <span style="color:#e6db74">&#34;max_tokens&#34;</span>: <span style="color:#ae81ff">500</span>,
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>    completion <span style="color:#f92672">=</span> client<span style="color:#f92672">.</span>chat<span style="color:#f92672">.</span>completions<span style="color:#f92672">.</span>create(<span style="color:#f92672">**</span>params)
+</span></span><span style="display:flex;"><span>    print(<span style="color:#e6db74">f</span><span style="color:#e6db74">&#34;Response: </span><span style="color:#e6db74">{</span>completion<span style="color:#f92672">.</span>choices[<span style="color:#ae81ff">0</span>]<span style="color:#f92672">.</span>message<span style="color:#f92672">.</span>content<span style="color:#e6db74">}</span><span style="color:#e6db74">&#34;</span>)
+</span></span><span style="display:flex;"><span>    print(<span style="color:#e6db74">f</span><span style="color:#e6db74">&#34;Input Tokens: </span><span style="color:#e6db74">{</span>completion<span style="color:#f92672">.</span>usage<span style="color:#f92672">.</span>prompt_tokens<span style="color:#e6db74">}</span><span style="color:#e6db74">&#34;</span>)
+</span></span><span style="display:flex;"><span>    print(<span style="color:#e6db74">f</span><span style="color:#e6db74">&#34;Output Tokens: </span><span style="color:#e6db74">{</span>completion<span style="color:#f92672">.</span>usage<span style="color:#f92672">.</span>completion_tokens<span style="color:#e6db74">}</span><span style="color:#e6db74">&#34;</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">claude_api</span>(prompt: str) <span style="color:#f92672">-&gt;</span> <span style="color:#66d9ef">None</span>:
+</span></span><span style="display:flex;"><span>    print(<span style="color:#e6db74">&#34;=== Claude API ===&#34;</span>)
+</span></span><span style="display:flex;"><span>    claude_client <span style="color:#f92672">=</span> anthropic<span style="color:#f92672">.</span>Anthropic(
+</span></span><span style="display:flex;"><span>        api_key<span style="color:#f92672">=</span>ANTHROPIC_API_KEY
+</span></span><span style="display:flex;"><span>    )
+</span></span><span style="display:flex;"><span>    claude_response <span style="color:#f92672">=</span> claude_client<span style="color:#f92672">.</span>messages<span style="color:#f92672">.</span>create(
+</span></span><span style="display:flex;"><span>        model<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;claude-sonnet-4-20250514&#34;</span>,
+</span></span><span style="display:flex;"><span>        max_tokens<span style="color:#f92672">=</span><span style="color:#ae81ff">500</span>,
+</span></span><span style="display:flex;"><span>        messages<span style="color:#f92672">=</span>[
+</span></span><span style="display:flex;"><span>            {<span style="color:#e6db74">&#34;role&#34;</span>: <span style="color:#e6db74">&#34;user&#34;</span>, <span style="color:#e6db74">&#34;content&#34;</span>: prompt}
+</span></span><span style="display:flex;"><span>        ]
+</span></span><span style="display:flex;"><span>    )
+</span></span><span style="display:flex;"><span>    print(<span style="color:#e6db74">f</span><span style="color:#e6db74">&#34;Response: </span><span style="color:#e6db74">{</span>claude_response<span style="color:#f92672">.</span>content[<span style="color:#ae81ff">0</span>]<span style="color:#f92672">.</span>text<span style="color:#e6db74">}</span><span style="color:#e6db74">&#34;</span>)
+</span></span><span style="display:flex;"><span>    print(<span style="color:#e6db74">f</span><span style="color:#e6db74">&#34;Input tokens: </span><span style="color:#e6db74">{</span>claude_response<span style="color:#f92672">.</span>usage<span style="color:#f92672">.</span>input_tokens<span style="color:#e6db74">}</span><span style="color:#e6db74">&#34;</span>)
+</span></span><span style="display:flex;"><span>    print(<span style="color:#e6db74">f</span><span style="color:#e6db74">&#34;Output tokens: </span><span style="color:#e6db74">{</span>claude_response<span style="color:#f92672">.</span>usage<span style="color:#f92672">.</span>output_tokens<span style="color:#e6db74">}</span><span style="color:#e6db74">&#34;</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">gemini_api</span>(prompt: str) <span style="color:#f92672">-&gt;</span> <span style="color:#66d9ef">None</span>:
+</span></span><span style="display:flex;"><span>    print(<span style="color:#e6db74">&#34;=== Gemini API ===&#34;</span>)
+</span></span><span style="display:flex;"><span>    client <span style="color:#f92672">=</span> genai<span style="color:#f92672">.</span>Client(api_key<span style="color:#f92672">=</span>GEMINI_API_KEY)
+</span></span><span style="display:flex;"><span>    response <span style="color:#f92672">=</span> client<span style="color:#f92672">.</span>models<span style="color:#f92672">.</span>generate_content(
+</span></span><span style="display:flex;"><span>        model<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;gemini-3-flash-preview&#34;</span>,
+</span></span><span style="display:flex;"><span>        max_tokens<span style="color:#f92672">=</span><span style="color:#ae81ff">500</span>,
+</span></span><span style="display:flex;"><span>        contents<span style="color:#f92672">=</span>prompt
+</span></span><span style="display:flex;"><span>    )
+</span></span><span style="display:flex;"><span>    print(<span style="color:#e6db74">f</span><span style="color:#e6db74">&#34;Response: </span><span style="color:#e6db74">{</span>response<span style="color:#f92672">.</span>text<span style="color:#e6db74">}</span><span style="color:#e6db74">&#34;</span>)
+</span></span><span style="display:flex;"><span>    print(<span style="color:#e6db74">f</span><span style="color:#e6db74">&#34;Input tokens: </span><span style="color:#e6db74">{</span>response<span style="color:#f92672">.</span>usage_metadata<span style="color:#f92672">.</span>prompt_token_count<span style="color:#e6db74">}</span><span style="color:#e6db74">&#34;</span>)
+</span></span><span style="display:flex;"><span>    print(
+</span></span><span style="display:flex;"><span>        <span style="color:#e6db74">f</span><span style="color:#e6db74">&#34;Output tokens: &#34;</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#e6db74">f</span><span style="color:#e6db74">&#34;</span><span style="color:#e6db74">{</span>response<span style="color:#f92672">.</span>usage_metadata<span style="color:#f92672">.</span>candidates_token_count<span style="color:#e6db74">}</span><span style="color:#e6db74">&#34;</span>
+</span></span><span style="display:flex;"><span>    )
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>prompt <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Explain quantum physics in a tweet length message.&#34;</span>
+</span></span><span style="display:flex;"><span>openai_api(prompt)
+</span></span><span style="display:flex;"><span>claude_api(prompt)
+</span></span><span style="display:flex;"><span>gemini_api(prompt)
+</span></span></code></pre></div><p>Output:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-plain" data-lang="plain"><span style="display:flex;"><span>$ uv run main.py
+</span></span><span style="display:flex;"><span>=== OpenAI ===
+</span></span><span style="display:flex;"><span>Response: Quantum physics studies how tiny particles like atoms and photons
+</span></span><span style="display:flex;"><span>behave, revealing a weird world where things can be in many states at once and
+</span></span><span style="display:flex;"><span>only become definite when observed.
+</span></span><span style="display:flex;"><span>Input Tokens: 16
+</span></span><span style="display:flex;"><span>Output Tokens: 32
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>=== Claude API ===
+</span></span><span style="display:flex;"><span>Response: Quantum physics: particles exist in multiple states simultaneously
+</span></span><span style="display:flex;"><span>until observed, can be &#34;entangled&#34; across vast distances, and behave as both
+</span></span><span style="display:flex;"><span>waves and particles. Reality is probabilistic, not deterministic—the universe is
+</span></span><span style="display:flex;"><span>far weirder than it appears! 🌊⚛️
+</span></span><span style="display:flex;"><span>Input tokens: 17
+</span></span><span style="display:flex;"><span>Output tokens: 64
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>=== Gemini API ===
+</span></span><span style="display:flex;"><span>Response: Quantum physics: At the subatomic level, reality is a blur of
+</span></span><span style="display:flex;"><span>probability. Particles can exist in multiple states at once (superposition),
+</span></span><span style="display:flex;"><span>behave like waves, and stay instantly linked across space (entanglement).
+</span></span><span style="display:flex;"><span>Nothing is certain until it’s observed. ⚛️🌌 #Physics
+</span></span><span style="display:flex;"><span>Input tokens: 10
+</span></span><span style="display:flex;"><span>Output tokens: 57
+</span></span></code></pre></div><p>We make three API calls against three different models with the input prompt <code>&quot;Explain quantum physics in a tweet length message.&quot;</code>, giving a total prompt length of nine (eight words plus full stop). From the output above, we can see that this input prompt was converted to sixteen input tokens for OpenAI, seventeen for Claude and ten for Gemini.</p>
+<h2 id="hidden-tokens">Hidden Tokens</h2>
+<p>If we use tiktoken library again to tokenize the input prompt that we used above, you will notice something odd:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#f92672">import</span> tiktoken
+</span></span><span style="display:flex;"><span>encoding <span style="color:#f92672">=</span> tiktoken<span style="color:#f92672">.</span>get_encoding(<span style="color:#e6db74">&#34;cl100k_base&#34;</span>)
+</span></span><span style="display:flex;"><span>print(encoding<span style="color:#f92672">.</span>encode(<span style="color:#e6db74">&#34;Explain quantum physics in a tweet length message.&#34;</span>))
+</span></span></code></pre></div><p>Output:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-plain" data-lang="plain"><span style="display:flex;"><span>[849, 21435, 31228, 22027, 304, 264, 12072, 3160, 1984, 13]
+</span></span></code></pre></div><p>When we made the API call to OpenAI above, it reported using sixteen input tokens (<code>completion.usage.prompt_tokens</code>). But, from the output of the tokeniser (the same tokeniser used by OpenAI models) above, we can see the same input prompt was converted into ten tokens. Why the discrepancy?</p>
+<p>This happens because OpenAI API&rsquo;s token count includes hidden system tokens in addition to our actual prompt. When we use tiktoken locally on just the text &ldquo;Hello World!&rdquo;, you get three tokens (the actual content tokens). But when we send it through the Chat Completions API, OpenAI adds additional information, this is true for the other LLMs as well. What additional information are these APIs adding to prompts?</p>
+<ol>
+<li>System message tokens - default system context</li>
+<li>Message formatting tokens - Special tokens that structure the message as a chat turn (role markers, delimiters, etc.)</li>
+<li>Other overhead - Tokens for the conversation structure itself</li>
+</ol>
+<p>So the breakdown is roughly:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-plain" data-lang="plain"><span style="display:flex;"><span>3 tokens           - Actual &#34;Hello World!&#34; content
+</span></span><span style="display:flex;"><span>~7 tokens          - API overhead (formatting, system context, message structure)
+</span></span><span style="display:flex;"><span>= 10 tokens total  - What the API reports (completion.usage.prompt_tokens)
+</span></span></code></pre></div><p>Understanding hidden tokens is important, especially for things like prompt engineering and when calculating API/model usage costs.</p>
+<h2 id="how-the-cost-of-tokens-are-calculated">How the Cost of Tokens Are Calculated</h2>
+<p>As mentioned earlier tokens are the currency of LLMs, an input prompt gets encoded into input tokens and billed at some small amount. The input tokens are fed into the LLM, the LLM does some thinking/reasoning and returns some output tokens. The output tokens are also billed at some small amount but at a different rate to the input tokens.</p>
+<p>Let&rsquo;s see an example of a real world pricing structure, by having a look at the API pricing of GPT-5.2. As of today&rsquo;s date, the cost of this model is:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-plain" data-lang="plain"><span style="display:flex;"><span>GPT-5.2
+</span></span><span style="display:flex;"><span>The best model for coding and agentic tasks across industries
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>Price
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>Input:
+</span></span><span style="display:flex;"><span>$1.750 / 1M tokens
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>Cached input:
+</span></span><span style="display:flex;"><span>$0.175 / 1M tokens
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>Output:
+</span></span><span style="display:flex;"><span>$14.000 / 1M tokens
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>source: https://openai.com/api/pricing/
+</span></span></code></pre></div><p>Usage is priced per token, varying by model and type of token. Calculating the exact cost of LLM/API usage can be tricky, as we have seen from the previous section. Where hidden tokens can get added to the input prompt, but also from the above pricing you can see there is a cost for cached input tokens. Cached tokens are tokens that are reused in conversation history and are often billed at a reduced rate.</p>
+<p>Also, keep in mind that when you prompt an LLM whether it&rsquo;s via a chat UI, API, or coding agent. Each new prompt includes the full conversation history (known as the context) because LLMs are stateless, they have no memory between calls. When you use ChatGPT, Claude, or Gemini via the chat UI, it manages the sending of the entire conversation thread with each request. When you use the API you have to manage this yourself.</p>
+<p>But, the important thing to know is when you do send your prompt and the context along with it, every message gets tokenized and counts towards your input tokens for each new request. This is why longer conversations cost more, because you&rsquo;re paying to reprocess the entire context every time you send a new message. As you go about prompting an LLM, the flow of prompts plus contexts would look something like this:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-plain" data-lang="plain"><span style="display:flex;"><span>Request 1:
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>→ User prompt 1 : 10 input tokens
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>← LLM response 1: 50 output tokens
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>Request 2:
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>→ User prompt 2  : 15 tokens
+</span></span><span style="display:flex;"><span>→ User prompt 1  : 10 tokens (from Request 1)
+</span></span><span style="display:flex;"><span>→ LLM response 1 : 50 tokens (from Request 1)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>← LLM response 2 : 70 output tokens
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>Request 3:
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>→ User prompt 3  : 20 tokens
+</span></span><span style="display:flex;"><span>→ User prompt 2  : 15 tokens (from Request 2)
+</span></span><span style="display:flex;"><span>→ LLM response 2 : 70 output (from Request 2)
+</span></span><span style="display:flex;"><span>→ User prompt 1  : 10 tokens (from Request 1)
+</span></span><span style="display:flex;"><span>→ LLM response 1 : 50 tokens (from Request 1)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>← LLM response 3 : 80 output tokens
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>...
+</span></span></code></pre></div><p>This is why long conversations can get expensive quickly, you&rsquo;re repeatedly paying for all previous messages (both yours and the LLM&rsquo;s). Luckily, cached tokens from previous contexts can help keep the costs down.</p>
+<p>Let&rsquo;s calculate the cost of a conversation using the GPT-5.2 model pricing from above:</p>
+<p>Prompt 1:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-plain" data-lang="plain"><span style="display:flex;"><span>input tokens  = 1000
+</span></span><span style="display:flex;"><span>output tokens = 500
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>input tokens cost  = input tokens  / 1M * $1.750 = $0.00175
+</span></span><span style="display:flex;"><span>output tokens cost = output tokens / 1M * $14    = $0.007
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>total cost = $0.00175 + $0.007 = $0.00875
+</span></span></code></pre></div><p>Prompt 2:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-plain" data-lang="plain"><span style="display:flex;"><span>input tokens  = 1000
+</span></span><span style="display:flex;"><span>cached tokens = 1500 (cached previous conversation)
+</span></span><span style="display:flex;"><span>output tokens = 500
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>input tokens cost  = input tokens  / 1M * $1.750 = $0.00175
+</span></span><span style="display:flex;"><span>cached tokens cost = cached tokens / 1M * $0.175 = $0.0002625
+</span></span><span style="display:flex;"><span>output tokens cost = output tokens / 1M * $14    = $0.007
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>total cost = $0.00175 + $0.0002625 + $0.007 = $0.0090125
+</span></span></code></pre></div><p>Prompt 3:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-plain" data-lang="plain"><span style="display:flex;"><span>input tokens  = 1000
+</span></span><span style="display:flex;"><span>cached tokens = 3500 (cached)
+</span></span><span style="display:flex;"><span>output tokens = 500
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>input tokens cost  = input tokens  / 1M * $1.750 = $0.00175
+</span></span><span style="display:flex;"><span>cached tokens cost = cached tokens / 1M * $0.175 = $0.0006125
+</span></span><span style="display:flex;"><span>output tokens cost = output tokens / 1M * $14    = $0.007
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>total cost = $0.00175 + $0.0006125 + $0.007 = $0.0093625
+</span></span></code></pre></div><p>Total conversation cost:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-plain" data-lang="plain"><span style="display:flex;"><span>$0.00875 + $0.0090125 + $0.0093625 = $0.03
+</span></span></code></pre></div><p>There are various things that you can do to control the costs of LLM usage, such as setting the <code>max_tokens</code> parameter in API calls, shorten or rephrase prompts, summarise or preprocess inputs before sending them.</p>
+<h2 id="token-limits">Token Limits</h2>
+<p>When you use AI chat via the web/desktop/mobile apps, and have had a really long conversation, you will have seen that the interface will typically warn you when approaching conversation limits.</p>
+<p>LLM models have a maximum combined token limit made up of <code>input + output</code> tokens, when this reaches the model&rsquo;s limits you probably start a new chat. For example, some of Claude&rsquo;s models have a 200k token limit (depending on usage tiers). Token limits exist because of technical constraints, such as limitations in the transformer architecture that LLMs are built upon. And, hardware memory requirements, in fact doubling the number of tokens in the LLMs context can quadruple memory usage.</p>
+<p>One way to look at this is to view the context window as a bucket, and tokens as marbles. There is a certain amount of marbles you can put into the bucket before you fill it up, and it starts overflowing.</p>
+<h2 id="summary">Summary</h2>
+<ul>
+<li>Tokens are the fundamental unit in LLMs.</li>
+<li>LLMs do not process words, they process tokens. They do not see text like humans, instead they see a sequence of numbers.</li>
+<li>Words are converted into tokens using a tokeniser like Byte Pair Encoding (BPE).</li>
+<li>Different LLMs use different tokenisers and have different training sets, so token IDs are not the same across LLMs.</li>
+<li>Input and output tokens are billed at different rates and priced per token.</li>
+<li>When billing input tokens, the entire context window is fed in alongside the new user prompt.</li>
+<li>LLMs have a context window which have token limits. Once a context window exceeds the token limit, you may have to start a new chat.</li>
+</ul>
+<p>I hope you found this post helpful.</p>
+<p>Thank you for reading.</p>
+
+  
+  <hr>
+<div class="footer">
+    
+	    
+            <a class="previous-post" href="https://www.usman.me.uk/posts/llm-logprob/?ref=footer"><span style="font-weight:bold;">« Previous</span><br>LLM: Understanding Log Probabilities</a>
+        
+	    
+    
+</div>
+
+  
+</div>
+            </main>
+            
+  
+
+        </div>
+    </body>
+</html>

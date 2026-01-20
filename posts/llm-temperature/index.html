@@ -1,0 +1,601 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en-gb" lang="en-gb">
+<head>
+    
+
+
+
+
+
+
+
+
+
+
+    
+
+
+
+
+
+
+
+<script defer language="javascript" type="text/javascript" src="/js/bundle.min.d451ff92e80abc2a828eb9bb262e4db374bd4e954642f9245c54eec84bf690f3.js"></script>
+
+
+
+
+
+
+    
+    <meta http-equiv="content-type" content="text/html; charset=utf-8">
+
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    
+    <link rel="icon" href=/favicon.png>
+
+    
+    
+
+
+
+
+
+  
+
+
+
+
+
+  
+  
+  
+
+
+<!-- Open Graph image and Twitter Card metadata -->
+
+<title itemprop="name">Usman Mahmood - LLM: Understanding The Temperature Parameter</title>
+<meta property="og:title" content=Usman&#32;Mahmood&#32;-&#32;LLM:&#32;Understanding&#32;The&#32;Temperature&#32;Parameter />
+<meta name="twitter:title" content=Usman&#32;Mahmood&#32;-&#32;LLM:&#32;Understanding&#32;The&#32;Temperature&#32;Parameter />
+<meta itemprop="name" content=Usman&#32;Mahmood&#32;-&#32;LLM:&#32;Understanding&#32;The&#32;Temperature&#32;Parameter />
+<meta name="application-name" content=Usman&#32;Mahmood&#32;-&#32;LLM:&#32;Understanding&#32;The&#32;Temperature&#32;Parameter />
+<meta property="og:site_name" content="Blog" />
+
+
+<meta name="description" content="" />
+<meta itemprop="description" content="" />
+<meta property="og:description" content="" />
+<meta name="twitter:description" content="" />
+
+
+<base href="https://www.usman.me.uk/posts/llm-temperature/" />
+<link rel="canonical" href="https://www.usman.me.uk/posts/llm-temperature/" itemprop="url" />
+<meta name="url" content="https://www.usman.me.uk/posts/llm-temperature/" />
+<meta name="twitter:url" content="https://www.usman.me.uk/posts/llm-temperature/" />
+<meta property="og:url" content="https://www.usman.me.uk/posts/llm-temperature/" />
+
+
+<meta property="og:updated_time" content="2026-01-02T23:51:24Z" />
+
+
+<link rel="sitemap" type="application/xml" title="Sitemap" href='https://www.usman.me.uk/sitemap.xml' />
+
+<meta name="robots" content="index,follow" />
+<meta name="googlebot" content="index,follow" />
+
+
+
+  
+    <meta name="twitter:site" content="@make_slice" />
+    <meta name="twitter:creator" content="@make_slice" />
+
+<meta property="fb:admins" content="" />
+
+
+<meta name="apple-mobile-web-app-title" content="Blog" />
+<meta name="apple-mobile-web-app-capable" content="yes" />
+<meta name="apple-mobile-web-app-status-bar-style" content="black" />
+
+
+
+
+
+
+<meta name="generator" content="Hugo 0.154.5">
+
+
+    
+    
+
+<link type="text/css" rel="stylesheet" href="/css/bundle.min.0d70d5aed9787dcd4309c157b56a11f2811027b0be28bc951ad207bf2efd221b.css">
+
+
+    
+    <style>
+    body {
+        --sidebar-bg-color: #202020;
+        --sidebar-img-border-color: #515151;
+        --sidebar-p-color: #909090;
+        --sidebar-h1-color: #FFF;
+        --sidebar-a-color: #FFF;
+        --sidebar-socials-color: #FFF;
+        --text-color: #222;
+        --bkg-color: #FAF9F6;
+        --post-title-color: #303030;
+        --list-color: #5a5a5a;
+        --link-color: #268bd2;
+        --date-color: #515151;
+        --table-border-color: #E5E5E5;
+        --table-stripe-color: #F9F9F9;
+        --code-color: #000;
+        --code-background-color: #E5E5E5;
+        --code-block-color: #fff;
+        --code-block-background-color: #272822;
+        --moon-sun-color: #FFF;
+        --moon-sun-background-color: #515151;
+    }
+    body.dark-theme {
+        --text-color: #eee;
+        --bkg-color: #121212;
+        --post-title-color: #DBE2E9;
+        --list-color: #9d9d9d;
+        --link-color: #268bd2;
+        --date-color: #9a9a9a;
+        --table-border-color: #515151;
+        --table-stripe-color: #202020;
+        --code-color: #fff;
+        --code-background-color: #515151;
+        --code-block-color: #fff;
+        --code-block-background-color: #272822;
+    }
+    body {
+        background-color: var(--bkg-color);
+    }
+</style>
+
+</head>
+
+    <body class="dark-theme">
+        <div class="wrapper">
+            <aside class="sidebar">
+    <div class="container sidebar-sticky">
+        <div class="light-dark" align="right">
+    <button class="btn-light-dark" title="Toggle light/dark mode">
+        <svg class="moon" xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 16 16">
+            <path fill="currentColor" d="M6 .278a.768.768 0 0 1 .08.858a7.208 7.208 0 0 0-.878 3.46c0 4.021 3.278 7.277 7.318 7.277c.527 0 1.04-.055 1.533-.16a.787.787 0 0 1 .81.316a.733.733 0 0 1-.031.893A8.349 8.349 0 0 1 8.344 16C3.734 16 0 12.286 0 7.71C0 4.266 2.114 1.312 5.124.06A.752.752 0 0 1 6 .278z"/>
+        </svg>
+        <svg class="sun" xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 16 16">
+            <path fill="currentColor" d="M8 12a4 4 0 1 0 0-8a4 4 0 0 0 0 8zM8 0a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-1 0v-2A.5.5 0 0 1 8 0zm0 13a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-1 0v-2A.5.5 0 0 1 8 13zm8-5a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1 0-1h2a.5.5 0 0 1 .5.5zM3 8a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1 0-1h2A.5.5 0 0 1 3 8zm10.657-5.657a.5.5 0 0 1 0 .707l-1.414 1.415a.5.5 0 1 1-.707-.708l1.414-1.414a.5.5 0 0 1 .707 0zm-9.193 9.193a.5.5 0 0 1 0 .707L3.05 13.657a.5.5 0 0 1-.707-.707l1.414-1.414a.5.5 0 0 1 .707 0zm9.193 2.121a.5.5 0 0 1-.707 0l-1.414-1.414a.5.5 0 0 1 .707-.707l1.414 1.414a.5.5 0 0 1 0 .707zM4.464 4.465a.5.5 0 0 1-.707 0L2.343 3.05a.5.5 0 1 1 .707-.707l1.414 1.414a.5.5 0 0 1 0 .708z"/>
+        </svg>
+    </button>
+</div>
+
+        <div class="sidebar-about">
+    <h1 class="brand">
+        
+            <a href="https://www.usman.me.uk/">
+                <img src="/images/gopher.png" alt="brand image">
+            </a>
+        
+        
+            <a href="https://www.usman.me.uk/">
+                <h1>Usman Mahmood</h1>
+            </a>
+        
+    </h1>
+    <p class="lead">
+    Algorithms + Data Structures = Programs
+    </p>
+</div>
+
+        <nav>
+    <ul class="sidebar-nav">
+
+        
+        
+        
+        
+            
+
+            
+                
+                
+            
+            
+                
+                
+            
+                
+                
+            
+        
+        
+            
+
+            
+                
+                
+                    <li class="heading">
+                        <a href="/posts/">Posts</a>
+                    </li>
+                    
+                
+            
+            
+                
+                
+            
+                
+                
+            
+        
+
+    </ul>
+</nav>
+
+        
+    <a target="_blank" class="social" title="GitHub" href="https://github.com/umahmood">
+        <svg xmlns="http://www.w3.org/2000/svg" width="1.2em" height="1.2em" viewBox="-2 -2 24 24">
+            <path fill="currentColor" d="M18.88 1.099C18.147.366 17.265 0 16.233 0H3.746C2.714 0 1.832.366 1.099 1.099C.366 1.832 0 2.714 0 3.746v12.487c0 1.032.366 1.914 1.099 2.647c.733.733 1.615 1.099 2.647 1.099H6.66c.19 0 .333-.007.429-.02a.504.504 0 0 0 .286-.169c.095-.1.143-.245.143-.435l-.007-.885c-.004-.564-.006-1.01-.006-1.34l-.3.052c-.19.035-.43.05-.721.046a5.555 5.555 0 0 1-.904-.091a2.026 2.026 0 0 1-.872-.39a1.651 1.651 0 0 1-.572-.8l-.13-.3a3.25 3.25 0 0 0-.41-.663c-.186-.243-.375-.407-.566-.494l-.09-.065a.956.956 0 0 1-.17-.156a.723.723 0 0 1-.117-.182c-.026-.061-.004-.111.065-.15c.07-.04.195-.059.378-.059l.26.04c.173.034.388.138.643.311a2.1 2.1 0 0 1 .631.677c.2.355.44.626.722.813c.282.186.566.28.852.28c.286 0 .533-.022.742-.065a2.59 2.59 0 0 0 .585-.196c.078-.58.29-1.028.637-1.34a8.907 8.907 0 0 1-1.333-.234a5.314 5.314 0 0 1-1.223-.507a3.5 3.5 0 0 1-1.047-.872c-.277-.347-.505-.802-.683-1.365c-.177-.564-.266-1.215-.266-1.952c0-1.049.342-1.942 1.027-2.68c-.32-.788-.29-1.673.091-2.652c.252-.079.625-.02 1.119.175c.494.195.856.362 1.086.5c.23.14.414.257.553.352a9.233 9.233 0 0 1 2.497-.338c.859 0 1.691.113 2.498.338l.494-.312a6.997 6.997 0 0 1 1.197-.572c.46-.174.81-.221 1.054-.143c.39.98.424 1.864.103 2.653c.685.737 1.028 1.63 1.028 2.68c0 .737-.089 1.39-.267 1.957c-.177.568-.407 1.023-.689 1.366a3.65 3.65 0 0 1-1.053.865c-.42.234-.828.403-1.223.507a8.9 8.9 0 0 1-1.333.235c.45.39.676 1.005.676 1.846v3.11c0 .147.021.266.065.357a.36.36 0 0 0 .208.189c.096.034.18.056.254.064c.074.01.18.013.318.013h2.914c1.032 0 1.914-.366 2.647-1.099c.732-.732 1.099-1.615 1.099-2.647V3.746c0-1.032-.367-1.914-1.1-2.647z"/>
+        </svg>
+    </a>
+
+
+
+
+
+    <a target="_blank" class="social" title="X" href="https://x.com/make_slice">
+        <svg xmlns="http://www.w3.org/2000/svg" width="1.1em" height="1.1em" viewBox="0 0 512 472.799">
+            <path fill="currentColor" d="M403.229 0h78.506L310.219 196.04 512 462.799H354.002L230.261 301.007 88.669 462.799h-78.56l183.455-209.683L0 0h161.999l111.856 147.88L403.229 0zm-27.556 415.805h43.505L138.363 44.527h-46.68l283.99 371.278z"/>
+        </svg>
+    </a>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        <p class="footnote">
+    <br>
+    &copy; 2026 Usman Mahmood. All rights reserved.
+</p>
+
+  </div>
+</aside>
+
+            <main class="content container">
+                <div class="post">
+  <div class="info">
+  <h1 class="post-title">
+    <a href="https://www.usman.me.uk/posts/llm-temperature/">LLM: Understanding The Temperature Parameter</a>
+  </h1>
+
+  <div class="headline">
+    <div>
+      
+      
+      <time datetime=" 2026-01-02T23:51:24Z" class="post-date">
+        January 2, 2026
+      </time>
+      
+      <span> - </span>
+      <span class="reading-time">
+        
+          
+        
+
+        <span>13 mins read</span>
+      </span>
+    </div>
+
+    
+  </div>
+
+  
+  
+
+  
+</div>
+
+  <h2 id="overview">Overview</h2>
+<ul>
+<li>How tokens are the fundamental unit of LLMs.</li>
+<li>Understand the token vocabulary and role it plays in LLMs.</li>
+<li>Learn what the LLM temperature parameter is and how it works.</li>
+<li>Understand why LLMs are non-deterministic.</li>
+<li>The use cases where developers may adjust the temperature parameter.</li>
+</ul>
+<h2 id="introduction">Introduction</h2>
+<p>During inference, a user can pass in various parameters into an LLM to guide its behaviour and the output it returns. One of those parameters is the temperature parameter, when this parameter is set to a low or high value it controls the randomness of the LLMs output. In this post we will dive deeper into the temperature parameter and explain what it is, its purpose, and have a look at what happens when you set the temperature to different values during LLM inference.</p>
+<p>Before learning more about the temperature, let&rsquo;s quickly recap on what LLM tokens are and what a token vocabulary is.</p>
+<h2 id="tokens">Tokens</h2>
+<p>Tokens are the currency of LLMs, when you send a text prompt to an LLM such as &ldquo;Hello World!&rdquo; this gets broken down into three tokens (in OpenAI GPT models). These tokens are then fed into other components that make up the LLM architecture during inference.</p>
+<p>Input:</p>
+<table>
+  <thead>
+      <tr>
+          <th>&ldquo;Hello World!&rdquo;</th>
+          <th>Tokens [2344, 3125, 12]</th>
+          <th>$0.00125 / 1k tokens</th>
+      </tr>
+  </thead>
+  <tbody>
+  </tbody>
+</table>
+<p>The input prompt &ldquo;Hello World!&rdquo; gets broken down into three tokens and billed at some small amount per 1k tokens. At this point the tokens are fed into the LLM, the LLM does some thinking/reasoning and returns an output.</p>
+<p>Output:</p>
+<table>
+  <thead>
+      <tr>
+          <th>&ldquo;Hi!&rdquo;</th>
+          <th>Tokens [2514, 12]</th>
+          <th>$0.01 / 1k tokens</th>
+      </tr>
+  </thead>
+  <tbody>
+  </tbody>
+</table>
+<p>Here the LLM outputs &ldquo;Hi!&rdquo; which is made up of two tokens, these are billed at a different rate to the input tokens.</p>
+<h2 id="token-vocabulary">Token Vocabulary</h2>
+<p>As well as user submitted tokens being fed into an LLM during inference, an LLM also has its own set of tokens called a token vocabulary. A token vocabulary is the complete set of all possible tokens an LLM can generate.</p>
+<p>Before an LLM undergoes the training phase in its development, a token vocabulary needs to be built which provides the foundation for the LLMs training and is used during its inference stages.</p>
+<p>The token vocabulary is built before the preprocessing stage of the LLM. Developers take a large corpus of raw text and run a tokenization algorithm (BPE, WordPiece, etc.) on it. The corpus of raw text comes from web data (from crawling the open web i.e. news sites, Reddit, Wikipedia), books, scientific/academic papers, code repositories and other sources such as PDF files.</p>
+<p>So at a high level, the process order is: corpus of raw text → tokenizer training → token vocabulary created → model training. At its core, the token vocabulary is a dictionary mapping of tokens to IDs, Here is an example:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-plain" data-lang="plain"><span style="display:flex;"><span>Token (text)         Token ID
+</span></span><span style="display:flex;"><span>------------------------------
+</span></span><span style="display:flex;"><span>&#39;Hello&#39;              9906
+</span></span><span style="display:flex;"><span>&#39;World&#39;              10343
+</span></span><span style="display:flex;"><span>&#39; Hello&#39;             22691
+</span></span><span style="display:flex;"><span>&#39;hello&#39;              15339
+</span></span><span style="display:flex;"><span>&#39;ing&#39;                287
+</span></span><span style="display:flex;"><span>&#39;un&#39;                 359
+</span></span><span style="display:flex;"><span>&#39;.&#39;                  13
+</span></span><span style="display:flex;"><span>&#39;\n&#39;                 198
+</span></span><span style="display:flex;"><span>&#39;42&#39;                 2983
+</span></span></code></pre></div><p>This is just a small simple example, in reality vocabularies are much larger (100k-200k tokens) and include special tokens like <code>&lt;pad&gt;</code>, <code>&lt;eos&gt;</code>, <code>&lt;unk&gt;</code>. The most important thing is that once the token vocabulary is created, the token vocabulary is then fixed and used during inference with the temperature parameter (as well as other parameters) to drive the output of the LLM.</p>
+<h2 id="what-is-llm-temperature">What Is LLM Temperature?</h2>
+<p>Now that we know what tokens and a token vocabulary is, let&rsquo;s finally learn what the LLM temperature parameter is and how it is used.</p>
+<p>The temperature parameter is used to control the amount of randomness in token selection from the LLMs token vocabulary. When the temperature is set to a high value, it makes all tokens more equally likely to be selected, while lower values (closer to 0) make the model favour its highest-confidence tokens. The result of setting the temperature is that it allows us to direct the output of an LLM to be more diverse and creative or be more predictable and focused.</p>
+<p>Let&rsquo;s look at a code example to get a better understanding, of how changing the temperature to low and high values affects the LLMs output:</p>
+<p><strong>Note</strong>: The OpenAI documentation states that the temperature can be set in the range (0,2).</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#f92672">from</span> openai <span style="color:#f92672">import</span> OpenAI
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>temperature <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>client <span style="color:#f92672">=</span> OpenAI(api_key<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;&lt;API-KEY&gt;&#34;</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>response <span style="color:#f92672">=</span> client<span style="color:#f92672">.</span>responses<span style="color:#f92672">.</span>create(
+</span></span><span style="display:flex;"><span>    model<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;gpt-4.1&#34;</span>,
+</span></span><span style="display:flex;"><span>    temperature<span style="color:#f92672">=</span>temperature,
+</span></span><span style="display:flex;"><span>    input<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;Write a one-sentence bedtime story about a unicorn.&#34;</span>
+</span></span><span style="display:flex;"><span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>print(response<span style="color:#f92672">.</span>output_text)
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-plain" data-lang="plain"><span style="display:flex;"><span>$ python3 script.py
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>Under a sky full of twinkling stars, a gentle unicorn named Luna tiptoed through
+</span></span><span style="display:flex;"><span>a moonlit meadow, sprinkling dreams of magic and kindness wherever she went.
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>Under a sky full of twinkling stars, a gentle unicorn named Luna tiptoed through
+</span></span><span style="display:flex;"><span>a moonlit meadow, sprinkling dreams of magic and kindness wherever she went.
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>Under a sky full of twinkling stars, a gentle unicorn named Luna tiptoed through
+</span></span><span style="display:flex;"><span>a moonlit meadow, leaving trails of sparkling dreams for all the children fast asleep.
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>Under a sky full of twinkling stars, a gentle unicorn named Luna tiptoed through
+</span></span><span style="display:flex;"><span>a moonlit meadow, leaving trails of sparkling dreams for all the children fast asleep.
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>Under a blanket of twinkling stars, a gentle unicorn named Luna tiptoed through
+</span></span><span style="display:flex;"><span>a moonlit meadow, sprinkling dreams of magic and wonder for all the sleeping children.
+</span></span></code></pre></div><p>We set the temperature to a low value and run the script five times. Notice how the output of each call to the API is very similar. There is very little variation as we set the temperature low, the output is more predictable and focused.</p>
+<p>Let&rsquo;s change the temperature to a higher value and rerun the script again:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>temperature <span style="color:#f92672">=</span> <span style="color:#ae81ff">1.8</span>
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-plain" data-lang="plain"><span style="display:flex;"><span>$ python3 script.py
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>A gentle unicorn with a silver mane tiptoed through a moonlit meadow, gently
+</span></span><span style="display:flex;"><span>sprinkling good dreams upon sleeping children as the stars whispered soft lullabies
+</span></span><span style="display:flex;"><span>from above.
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>At the edge of a magical forest, a gentle unicorn sprinkled starlight on the
+</span></span><span style="display:flex;"><span>flowers every night, guiding sweet dreams to every child.
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>One windy night, a gentle unicorn sprinkled starlight across the fields, smiling
+</span></span><span style="display:flex;"><span>as every shining beam filled children’s dreams with wondrous magic.
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>Under a moonlit sky, a gentle unicorn sprinkled silver stardust across dreamland,
+</span></span><span style="display:flex;"><span>tucking every child into a magical, peaceful sleep.
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>Under a velvet sky sprinkled with stardust, a gentle unicorn named Luna tiptoed
+</span></span><span style="display:flex;"><span>through a silver meadow, guiding sleepy dreamers to lands where every wish comes
+</span></span><span style="display:flex;"><span>true.
+</span></span></code></pre></div><p>Notice how the output of each call to the API is very different. There is a lot of variation as we set the temperature high and the output is more diverse and creative.</p>
+<p>So, the temperature is like a knob we can use for controlling a model&rsquo;s behaviour when it&rsquo;s picking which tokens to select and return in its output.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-plain" data-lang="plain"><span style="display:flex;"><span>temperature &lt; 1: Greedy, focused outputs
+</span></span><span style="display:flex;"><span>temperature = 1: Standard softmax
+</span></span><span style="display:flex;"><span>temperature &gt; 1: More creative/random outputs
+</span></span></code></pre></div><h2 id="llms-are-non-deterministic">LLMs Are Non-Deterministic</h2>
+<p>If you have any experience with prompting LLMs, you will know that if you enter the same prompt, you will get different output from the LLM. This is because LLMs they are non-deterministic, LLMs do not just predict a single token. Instead, they predict probabilities for what the next token could be, with each token in the LLM&rsquo;s vocabulary getting assigned a probability. Those token probabilities are then sampled to determine what the next selected token will be.</p>
+<p>You may think that setting the temperature to zero would make the LLM deterministic, because the model would always pick the token with the highest probability. But, if you have a closer look at the output of the script when we set the temperature to zero:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-plain" data-lang="plain"><span style="display:flex;"><span>Under a sky full of twinkling stars, a gentle unicorn named Luna tiptoed through
+</span></span><span style="display:flex;"><span>a moonlit meadow, sprinkling dreams of magic and kindness wherever she went.
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>Under a sky full of twinkling stars, a gentle unicorn named Luna tiptoed through
+</span></span><span style="display:flex;"><span>a moonlit meadow, sprinkling dreams of magic and kindness wherever she went.
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>Under a sky full of twinkling stars, a gentle unicorn named Luna tiptoed through
+</span></span><span style="display:flex;"><span>a moonlit meadow, leaving trails of sparkling dreams for all the children fast asleep.
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>Under a sky full of twinkling stars, a gentle unicorn named Luna tiptoed through
+</span></span><span style="display:flex;"><span>a moonlit meadow, leaving trails of sparkling dreams for all the children fast asleep.
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>Under a blanket of twinkling stars, a gentle unicorn named Luna tiptoed through
+</span></span><span style="display:flex;"><span>a moonlit meadow, sprinkling dreams of magic and wonder for all the sleeping children.
+</span></span></code></pre></div><p>Notice that the first two outputs from the model are the same, third and fourth are the same, and the fifth output is unique. Why is this? If multiple tokens have the same highest predicted probability, then the sampling method performs a tie-break and returns one of the tokens. Which means you do not always get the same output when you set the temperature to zero, which in turn makes the LLMs non-deterministic.</p>
+<p>As a simple example, imagine we have sampled the following tokens:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-plain" data-lang="plain"><span style="display:flex;"><span>&#34;Under a &#34;
+</span></span></code></pre></div><p>And we are sampling the next token:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-plain" data-lang="plain"><span style="display:flex;"><span>sky: 93%
+</span></span><span style="display:flex;"><span>blanket: 93%
+</span></span><span style="display:flex;"><span>moon: 43%
+</span></span><span style="display:flex;"><span>star: 56%
+</span></span></code></pre></div><p>The LLM sampling process would perform a tie-break between the highest probability tokens:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-plain" data-lang="plain"><span style="display:flex;"><span>tiebreak(&#34;sky&#34;, &#34;blanket&#34;)
+</span></span></code></pre></div><p>The exact method of how tie breaking is implemented is not clear and appears to be implementation dependent.</p>
+<h2 id="how-the-temperature-parameter-works">How the Temperature Parameter Works?</h2>
+<p>To understand the temperature parameter more thoroughly, we will go through a step-by-step process as to what is happening during inference with respect to the temperature parameter, by going through a simple example.</p>
+<h3 id="1-user-submits-a-request-which-includes-a-prompt-and-temperature-variable">1. User Submits a Request Which Includes a Prompt and Temperature Variable</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>response <span style="color:#f92672">=</span> client<span style="color:#f92672">.</span>responses<span style="color:#f92672">.</span>create(
+</span></span><span style="display:flex;"><span>    model<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;gpt-4.1&#34;</span>,
+</span></span><span style="display:flex;"><span>    temperature<span style="color:#f92672">=</span><span style="color:#ae81ff">1.8</span>,
+</span></span><span style="display:flex;"><span>    input<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;Write a one-sentence bedtime story about a unicorn.&#34;</span>
+</span></span><span style="display:flex;"><span>)
+</span></span></code></pre></div><h3 id="2-llm-breaks-the-prompt-into-tokens">2. LLM Breaks the Prompt into Tokens</h3>
+<pre tabindex="0"><code>&#34;Write a one-sentence bedtime story about a unicorn.&#34;
+                         ↓
+[8144, 264, 832, 1355, 18886, 89607, 3446, 922, 264, 82930, 13]`
+</code></pre><h3 id="3-model-computes-a-logit-raw-score-for-every-single-token-in-its-vocabulary">3. Model Computes A Logit (raw score) For Every Single Token In Its Vocabulary</h3>
+<p><strong>Note</strong>: A logit is a raw unnormalised score output by a Neural Network (NN). For LLMs, after they finish processing the input tokens, the model&rsquo;s final NN layer produces logits for each token in the vocabulary.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-plain" data-lang="plain"><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>  &#34;hello&#34;: 5.2,
+</span></span><span style="display:flex;"><span>  &#34;world&#34;: 3.1,
+</span></span><span style="display:flex;"><span>  &#34;ing&#34;: 2.8,
+</span></span><span style="display:flex;"><span>  &#34; &#34;: 1.5,
+</span></span><span style="display:flex;"><span>  &#34;cat&#34;: -0.3,
+</span></span><span style="display:flex;"><span>  ... (100K+ more tokens)
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>When computing the logit for every single token in its vocabulary, the input prompt tokens (as well as many other parameters) are used to calculate the score of each token. Which means this step happens every time the model does inference.</p>
+<h3 id="4-temperature-parameter-scales-the-logits-mathematically">4. Temperature Parameter Scales the Logits Mathematically</h3>
+<p>At low temperatures, logits get amplified, which means high scores get much higher and low scores get much lower. The higher scoring token dominates, which means similar tokens will get picked, resulting in more predictable output. At high temperatures, logits get compressed which means all scores flatten out, and many tokens become equally likely to be picked, resulting in more random output.</p>
+<p>Imagine the model&rsquo;s logits for the next token are:</p>
+<pre tabindex="0"><code>&#34;happy&#34;: 8.0
+&#34;sad&#34;: 2.0
+&#34;angry&#34;: 1.0
+</code></pre><p>If <code>temperature = 0.1</code> then the logits are scaled with this formula:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-plain" data-lang="plain"><span style="display:flex;"><span>logit / temperature = scaled_logit
+</span></span></code></pre></div><p>So using the logit values from the model:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-plain" data-lang="plain"><span style="display:flex;"><span>8.0 / 0.1 = 80.0
+</span></span><span style="display:flex;"><span>2.0 / 0.1 = 20.0
+</span></span><span style="display:flex;"><span>1.0 / 0.1 = 10.0
+</span></span></code></pre></div><p>If <code>temperature = 2.0</code>:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-plain" data-lang="plain"><span style="display:flex;"><span>8.0 / 2.0 = 4.0
+</span></span><span style="display:flex;"><span>2.0 / 2.0 = 1.0
+</span></span><span style="display:flex;"><span>1.0 / 2.0 = 0.5
+</span></span></code></pre></div><p>Notice the difference in the scaled logits when the temperature is low versus when it is high. When the temperature is low the scaled logits higher values are amplified and when the temperature is high the scaled logits are much closer together.</p>
+<h3 id="5-softmax-function-converts-the-scaled-temperature-values-into-probabilities">5. Softmax Function Converts the Scaled Temperature Values into Probabilities</h3>
+<p><strong>Note</strong>: <code>softmax</code> is a function that is used to take logits i.e. the raw scores computed by a model and turning them into probabilities. The function&rsquo;s goal is to make sure the output values are in the range (0, 1) which makes them interpretable as probabilities.</p>
+<p>Once the model has scaled the logits according to the temperature, the next step is to apply the <code>softmax</code> function to the scaled logits. The <code>softmax</code> function converts the scaled logits to probabilities using the formula <code>e^x / sum(e^x for all tokens)</code>. Below, we apply <code>softmax</code> to the scaled logits at both low and high temperatures to see its affect.</p>
+<p><code>Temperature = 0.1</code>:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-plain" data-lang="plain"><span style="display:flex;"><span>8.0 / 0.1 = 80.0
+</span></span><span style="display:flex;"><span>2.0 / 0.1 = 20.0
+</span></span><span style="display:flex;"><span>1.0 / 0.1 = 10.0
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>e^80 = huge number
+</span></span><span style="display:flex;"><span>e^20 = huge number
+</span></span><span style="display:flex;"><span>e^10 = huge number
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>&#34;happy&#34;: e^80 / (e^80 + e^20 + e^10) ≈ 0.99 (99%)
+</span></span><span style="display:flex;"><span>&#34;sad&#34;: e^20 / (e^80 + e^20 + e^10) ≈ 0.008 (0.8%)
+</span></span><span style="display:flex;"><span>&#34;angry&#34;: e^10 / (e^80 + e^20 + e^10) ≈ 0.002 (0.2%)
+</span></span></code></pre></div><p>At the low temperature, dividing by 0.1 amplifies logit differences, making the highest logit dominate (99% for &ldquo;happy&rdquo;). The model becomes more confident/deterministic.</p>
+<p><code>Temperature = 2.0</code>:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-plain" data-lang="plain"><span style="display:flex;"><span>8.0 / 2.0 = 4.0
+</span></span><span style="display:flex;"><span>2.0 / 2.0 = 1.0
+</span></span><span style="display:flex;"><span>1.0 / 2.0 = 0.5
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>e^4.0 ≈ 54.6
+</span></span><span style="display:flex;"><span>e^1.0 ≈ 2.72
+</span></span><span style="display:flex;"><span>e^0.5 ≈ 1.65
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>&#34;happy&#34;: 54.6 / (54.6 + 2.72 + 1.65) ≈ 0.92 (92%)
+</span></span><span style="display:flex;"><span>&#34;sad&#34;: 2.72 / (54.6 + 2.72 + 1.65) ≈ 0.04 (4%)
+</span></span><span style="display:flex;"><span>&#34;angry&#34;: 1.65 / (54.6 + 2.72 + 1.65) ≈ 0.03 (3%)
+</span></span></code></pre></div><p>At the higher temperature, logits stay closer to original values, probabilities are more uniform. More randomness.</p>
+<h3 id="6-sampling-next-token-based-on-probabilities">6. Sampling Next Token Based on Probabilities</h3>
+<p>Finally, after <code>softmax</code> converts to probabilities, The model samples <strong>one</strong> token based on those probabilities.</p>
+<p>At temperature 0.1 with these probabilities:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-plain" data-lang="plain"><span style="display:flex;"><span>&#34;happy&#34;: 99%
+</span></span><span style="display:flex;"><span>&#34;sad&#34;: 0.8%
+</span></span><span style="display:flex;"><span>&#34;angry&#34;: 0.2%
+</span></span></code></pre></div><p><code>&quot;happy&quot;</code> would almost certainly get selected. With 99% probability, it gets picked the vast majority of the time. &ldquo;Sad&rdquo; and &ldquo;angry&rdquo; have only a tiny 0.8% and 0.2% chance respectively of being selected.</p>
+<p>At temperature 2.0 with these probabilities:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-plain" data-lang="plain"><span style="display:flex;"><span>&#34;happy&#34;: 92%
+</span></span><span style="display:flex;"><span>&#34;sad&#34;: 4%
+</span></span><span style="display:flex;"><span>&#34;angry&#34;: 3%
+</span></span></code></pre></div><p><code>&quot;happy&quot;</code> has a 92% chance of being selected, which is much higher than &ldquo;sad&rdquo; and &ldquo;angry&rdquo;. The higher temperature makes the distribution more uniform (less dominated by the highest logit), but &ldquo;happy&rdquo; is still strongly favoured. It just gives &ldquo;sad&rdquo; and &ldquo;angry&rdquo; a better chance than they had at temperature 0.1 (where they were essentially 0%).</p>
+<p>Remember, this is just sampling one token and adding it to the output. Once added to the output, it samples the next token and adds it to the output, this repeats until it hits a stop token and the output returned. Just to clarify this process, imagine we ask an LLM to complete the next few words of the following poem &ldquo;roses are red&rdquo;, the (extremely simplified) process would look something like this:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-plain" data-lang="plain"><span style="display:flex;"><span>Feed into NN layers: [roses are red]
+</span></span><span style="display:flex;"><span>Pick most probable token from token vocabulary, lets say &#39;violets&#39;
+</span></span><span style="display:flex;"><span>Feed into NN layers: [roses are red violets]
+</span></span><span style="display:flex;"><span>Pick most probable token from token vocabulary, lets say &#39;are&#39;
+</span></span><span style="display:flex;"><span>Feed into NN layers: [roses are red violets are]
+</span></span><span style="display:flex;"><span>Pick most probable token from token vocabulary, lets say &#39;blue&#39;
+</span></span><span style="display:flex;"><span>! Stop !
+</span></span><span style="display:flex;"><span>Output: roses are red violets are blue
+</span></span></code></pre></div><h2 id="temperature-parameter-use-cases">Temperature Parameter Use Cases</h2>
+<p>Now that we have seen what the temperature parameter is and how it works, what are some of the use cases of the parameter. The temperature is only exposed in the API and not the web/mobile apps of the LLM providers (OpenAI, Clause, Perplexity, etc.). This is so developers can tweak the models to suit their end application requirements.</p>
+<p>Here are practical use cases where developers might adjust temperature:</p>
+<p><strong>Low temperature (0-0.3):</strong></p>
+<ul>
+<li><strong>Customer support chatbots</strong> - consistent, factual answers to common questions</li>
+<li><strong>Code generation</strong> - deterministic output for reproducible code</li>
+<li><strong>Data extraction</strong> - reliable structured responses (pulling info from documents)</li>
+<li><strong>Medical/legal advice</strong> - accuracy and consistency matter more than variety</li>
+</ul>
+<p><strong>Medium temperature (0.5-0.7):</strong></p>
+<ul>
+<li><strong>General Q&amp;A assistants</strong> - balanced between consistency and natural variation</li>
+<li><strong>Content summarization</strong> - faithful to source while sounding natural</li>
+</ul>
+<p><strong>High temperature (0.8-1.0+):</strong></p>
+<ul>
+<li><strong>Creative writing</strong> - poetry, fiction, brainstorming</li>
+<li><strong>Chatbots for entertainment</strong> - conversational, unpredictable responses</li>
+</ul>
+<p><strong>Dynamic adjustment:</strong></p>
+<p>Some apps adjust temperature based on context:</p>
+<ul>
+<li>A writing assistant might use low temperature for technical sections, high for creative sections</li>
+<li>A code editor uses low temperature for completions, higher for &ldquo;suggest alternatives&rdquo;</li>
+<li>A chatbot uses low temperature for factual queries, higher for open-ended questions</li>
+</ul>
+<h2 id="summary">Summary</h2>
+<p>In this blog post, we learned about how prompts are split into tokens and fed into an LLM and help calculate the probabilities of the tokens that get sampled from the token vocabulary. We saw code examples on how to set the temperature and how setting the temperature to low and high values drives the output of the model. Without temperature control, you&rsquo;re stuck with either deterministic outputs (always picking the most likely token) or completely random outputs. Temperature lets you dial in the right balance between consistency and creativity.</p>
+<p>Thank you for reading.</p>
+
+  
+  <hr>
+<div class="footer">
+    
+	    
+            <a class="previous-post" href="https://www.usman.me.uk/posts/k8s-pod-creation/?ref=footer"><span style="font-weight:bold;">« Previous</span><br>How Kubernetes Creates a Pod</a>
+        
+	    
+            <div class="next-post">
+                <a href="https://www.usman.me.uk/posts/llm-logprob/?ref=footer"><span style="font-weight:bold;">Next »</span><br>LLM: Understanding Log Probabilities</a>
+            </div>
+        
+    
+</div>
+
+  
+</div>
+            </main>
+            
+  
+
+        </div>
+    </body>
+</html>

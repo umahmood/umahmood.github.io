@@ -3,12 +3,21 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
     <loc>https://www.usman.me.uk/</loc>
-    <lastmod>2025-12-01T15:51:50+00:00</lastmod>
+    <lastmod>2026-01-19T23:34:59+00:00</lastmod>
   </url><url>
-    <loc>https://www.usman.me.uk/posts/k8s-pod-creation/</loc>
-    <lastmod>2025-12-01T15:51:50+00:00</lastmod>
+    <loc>https://www.usman.me.uk/posts/llm-tokens/</loc>
+    <lastmod>2026-01-19T23:34:59+00:00</lastmod>
   </url><url>
     <loc>https://www.usman.me.uk/posts/</loc>
+    <lastmod>2026-01-19T23:34:59+00:00</lastmod>
+  </url><url>
+    <loc>https://www.usman.me.uk/posts/llm-logprob/</loc>
+    <lastmod>2026-01-12T23:34:59+00:00</lastmod>
+  </url><url>
+    <loc>https://www.usman.me.uk/posts/llm-temperature/</loc>
+    <lastmod>2026-01-02T23:51:24+00:00</lastmod>
+  </url><url>
+    <loc>https://www.usman.me.uk/posts/k8s-pod-creation/</loc>
     <lastmod>2025-12-01T15:51:50+00:00</lastmod>
   </url><url>
     <loc>https://www.usman.me.uk/posts/errgroup/</loc>

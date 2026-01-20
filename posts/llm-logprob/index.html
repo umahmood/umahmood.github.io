@@ -1,0 +1,640 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en-gb" lang="en-gb">
+<head>
+    
+
+
+
+
+
+
+
+
+
+
+    
+
+
+
+
+
+
+
+<script defer language="javascript" type="text/javascript" src="/js/bundle.min.d451ff92e80abc2a828eb9bb262e4db374bd4e954642f9245c54eec84bf690f3.js"></script>
+
+
+
+
+
+
+    
+    <meta http-equiv="content-type" content="text/html; charset=utf-8">
+
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    
+    <link rel="icon" href=/favicon.png>
+
+    
+    
+
+
+
+
+
+  
+
+
+
+
+
+  
+  
+  
+
+
+<!-- Open Graph image and Twitter Card metadata -->
+
+<title itemprop="name">Usman Mahmood - LLM: Understanding Log Probabilities</title>
+<meta property="og:title" content=Usman&#32;Mahmood&#32;-&#32;LLM:&#32;Understanding&#32;Log&#32;Probabilities />
+<meta name="twitter:title" content=Usman&#32;Mahmood&#32;-&#32;LLM:&#32;Understanding&#32;Log&#32;Probabilities />
+<meta itemprop="name" content=Usman&#32;Mahmood&#32;-&#32;LLM:&#32;Understanding&#32;Log&#32;Probabilities />
+<meta name="application-name" content=Usman&#32;Mahmood&#32;-&#32;LLM:&#32;Understanding&#32;Log&#32;Probabilities />
+<meta property="og:site_name" content="Blog" />
+
+
+<meta name="description" content="" />
+<meta itemprop="description" content="" />
+<meta property="og:description" content="" />
+<meta name="twitter:description" content="" />
+
+
+<base href="https://www.usman.me.uk/posts/llm-logprob/" />
+<link rel="canonical" href="https://www.usman.me.uk/posts/llm-logprob/" itemprop="url" />
+<meta name="url" content="https://www.usman.me.uk/posts/llm-logprob/" />
+<meta name="twitter:url" content="https://www.usman.me.uk/posts/llm-logprob/" />
+<meta property="og:url" content="https://www.usman.me.uk/posts/llm-logprob/" />
+
+
+<meta property="og:updated_time" content="2026-01-12T23:34:59Z" />
+
+
+<link rel="sitemap" type="application/xml" title="Sitemap" href='https://www.usman.me.uk/sitemap.xml' />
+
+<meta name="robots" content="index,follow" />
+<meta name="googlebot" content="index,follow" />
+
+
+
+  
+    <meta name="twitter:site" content="@make_slice" />
+    <meta name="twitter:creator" content="@make_slice" />
+
+<meta property="fb:admins" content="" />
+
+
+<meta name="apple-mobile-web-app-title" content="Blog" />
+<meta name="apple-mobile-web-app-capable" content="yes" />
+<meta name="apple-mobile-web-app-status-bar-style" content="black" />
+
+
+
+
+
+
+<meta name="generator" content="Hugo 0.154.5">
+
+
+    
+    
+
+<link type="text/css" rel="stylesheet" href="/css/bundle.min.0d70d5aed9787dcd4309c157b56a11f2811027b0be28bc951ad207bf2efd221b.css">
+
+
+    
+    <style>
+    body {
+        --sidebar-bg-color: #202020;
+        --sidebar-img-border-color: #515151;
+        --sidebar-p-color: #909090;
+        --sidebar-h1-color: #FFF;
+        --sidebar-a-color: #FFF;
+        --sidebar-socials-color: #FFF;
+        --text-color: #222;
+        --bkg-color: #FAF9F6;
+        --post-title-color: #303030;
+        --list-color: #5a5a5a;
+        --link-color: #268bd2;
+        --date-color: #515151;
+        --table-border-color: #E5E5E5;
+        --table-stripe-color: #F9F9F9;
+        --code-color: #000;
+        --code-background-color: #E5E5E5;
+        --code-block-color: #fff;
+        --code-block-background-color: #272822;
+        --moon-sun-color: #FFF;
+        --moon-sun-background-color: #515151;
+    }
+    body.dark-theme {
+        --text-color: #eee;
+        --bkg-color: #121212;
+        --post-title-color: #DBE2E9;
+        --list-color: #9d9d9d;
+        --link-color: #268bd2;
+        --date-color: #9a9a9a;
+        --table-border-color: #515151;
+        --table-stripe-color: #202020;
+        --code-color: #fff;
+        --code-background-color: #515151;
+        --code-block-color: #fff;
+        --code-block-background-color: #272822;
+    }
+    body {
+        background-color: var(--bkg-color);
+    }
+</style>
+
+</head>
+
+    <body class="dark-theme">
+        <div class="wrapper">
+            <aside class="sidebar">
+    <div class="container sidebar-sticky">
+        <div class="light-dark" align="right">
+    <button class="btn-light-dark" title="Toggle light/dark mode">
+        <svg class="moon" xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 16 16">
+            <path fill="currentColor" d="M6 .278a.768.768 0 0 1 .08.858a7.208 7.208 0 0 0-.878 3.46c0 4.021 3.278 7.277 7.318 7.277c.527 0 1.04-.055 1.533-.16a.787.787 0 0 1 .81.316a.733.733 0 0 1-.031.893A8.349 8.349 0 0 1 8.344 16C3.734 16 0 12.286 0 7.71C0 4.266 2.114 1.312 5.124.06A.752.752 0 0 1 6 .278z"/>
+        </svg>
+        <svg class="sun" xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 16 16">
+            <path fill="currentColor" d="M8 12a4 4 0 1 0 0-8a4 4 0 0 0 0 8zM8 0a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-1 0v-2A.5.5 0 0 1 8 0zm0 13a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-1 0v-2A.5.5 0 0 1 8 13zm8-5a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1 0-1h2a.5.5 0 0 1 .5.5zM3 8a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1 0-1h2A.5.5 0 0 1 3 8zm10.657-5.657a.5.5 0 0 1 0 .707l-1.414 1.415a.5.5 0 1 1-.707-.708l1.414-1.414a.5.5 0 0 1 .707 0zm-9.193 9.193a.5.5 0 0 1 0 .707L3.05 13.657a.5.5 0 0 1-.707-.707l1.414-1.414a.5.5 0 0 1 .707 0zm9.193 2.121a.5.5 0 0 1-.707 0l-1.414-1.414a.5.5 0 0 1 .707-.707l1.414 1.414a.5.5 0 0 1 0 .707zM4.464 4.465a.5.5 0 0 1-.707 0L2.343 3.05a.5.5 0 1 1 .707-.707l1.414 1.414a.5.5 0 0 1 0 .708z"/>
+        </svg>
+    </button>
+</div>
+
+        <div class="sidebar-about">
+    <h1 class="brand">
+        
+            <a href="https://www.usman.me.uk/">
+                <img src="/images/gopher.png" alt="brand image">
+            </a>
+        
+        
+            <a href="https://www.usman.me.uk/">
+                <h1>Usman Mahmood</h1>
+            </a>
+        
+    </h1>
+    <p class="lead">
+    Algorithms + Data Structures = Programs
+    </p>
+</div>
+
+        <nav>
+    <ul class="sidebar-nav">
+
+        
+        
+        
+        
+            
+
+            
+                
+                
+            
+            
+                
+                
+            
+                
+                
+            
+        
+        
+            
+
+            
+                
+                
+                    <li class="heading">
+                        <a href="/posts/">Posts</a>
+                    </li>
+                    
+                
+            
+            
+                
+                
+            
+                
+                
+            
+        
+
+    </ul>
+</nav>
+
+        
+    <a target="_blank" class="social" title="GitHub" href="https://github.com/umahmood">
+        <svg xmlns="http://www.w3.org/2000/svg" width="1.2em" height="1.2em" viewBox="-2 -2 24 24">
+            <path fill="currentColor" d="M18.88 1.099C18.147.366 17.265 0 16.233 0H3.746C2.714 0 1.832.366 1.099 1.099C.366 1.832 0 2.714 0 3.746v12.487c0 1.032.366 1.914 1.099 2.647c.733.733 1.615 1.099 2.647 1.099H6.66c.19 0 .333-.007.429-.02a.504.504 0 0 0 .286-.169c.095-.1.143-.245.143-.435l-.007-.885c-.004-.564-.006-1.01-.006-1.34l-.3.052c-.19.035-.43.05-.721.046a5.555 5.555 0 0 1-.904-.091a2.026 2.026 0 0 1-.872-.39a1.651 1.651 0 0 1-.572-.8l-.13-.3a3.25 3.25 0 0 0-.41-.663c-.186-.243-.375-.407-.566-.494l-.09-.065a.956.956 0 0 1-.17-.156a.723.723 0 0 1-.117-.182c-.026-.061-.004-.111.065-.15c.07-.04.195-.059.378-.059l.26.04c.173.034.388.138.643.311a2.1 2.1 0 0 1 .631.677c.2.355.44.626.722.813c.282.186.566.28.852.28c.286 0 .533-.022.742-.065a2.59 2.59 0 0 0 .585-.196c.078-.58.29-1.028.637-1.34a8.907 8.907 0 0 1-1.333-.234a5.314 5.314 0 0 1-1.223-.507a3.5 3.5 0 0 1-1.047-.872c-.277-.347-.505-.802-.683-1.365c-.177-.564-.266-1.215-.266-1.952c0-1.049.342-1.942 1.027-2.68c-.32-.788-.29-1.673.091-2.652c.252-.079.625-.02 1.119.175c.494.195.856.362 1.086.5c.23.14.414.257.553.352a9.233 9.233 0 0 1 2.497-.338c.859 0 1.691.113 2.498.338l.494-.312a6.997 6.997 0 0 1 1.197-.572c.46-.174.81-.221 1.054-.143c.39.98.424 1.864.103 2.653c.685.737 1.028 1.63 1.028 2.68c0 .737-.089 1.39-.267 1.957c-.177.568-.407 1.023-.689 1.366a3.65 3.65 0 0 1-1.053.865c-.42.234-.828.403-1.223.507a8.9 8.9 0 0 1-1.333.235c.45.39.676 1.005.676 1.846v3.11c0 .147.021.266.065.357a.36.36 0 0 0 .208.189c.096.034.18.056.254.064c.074.01.18.013.318.013h2.914c1.032 0 1.914-.366 2.647-1.099c.732-.732 1.099-1.615 1.099-2.647V3.746c0-1.032-.367-1.914-1.1-2.647z"/>
+        </svg>
+    </a>
+
+
+
+
+
+    <a target="_blank" class="social" title="X" href="https://x.com/make_slice">
+        <svg xmlns="http://www.w3.org/2000/svg" width="1.1em" height="1.1em" viewBox="0 0 512 472.799">
+            <path fill="currentColor" d="M403.229 0h78.506L310.219 196.04 512 462.799H354.002L230.261 301.007 88.669 462.799h-78.56l183.455-209.683L0 0h161.999l111.856 147.88L403.229 0zm-27.556 415.805h43.505L138.363 44.527h-46.68l283.99 371.278z"/>
+        </svg>
+    </a>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        <p class="footnote">
+    <br>
+    &copy; 2026 Usman Mahmood. All rights reserved.
+</p>
+
+  </div>
+</aside>
+
+            <main class="content container">
+                <div class="post">
+  <div class="info">
+  <h1 class="post-title">
+    <a href="https://www.usman.me.uk/posts/llm-logprob/">LLM: Understanding Log Probabilities</a>
+  </h1>
+
+  <div class="headline">
+    <div>
+      
+      
+      <time datetime=" 2026-01-12T23:34:59Z" class="post-date">
+        January 12, 2026
+      </time>
+      
+      <span> - </span>
+      <span class="reading-time">
+        
+          
+        
+
+        <span>11 mins read</span>
+      </span>
+    </div>
+
+    
+  </div>
+
+  
+  
+
+  
+</div>
+
+  <h2 id="overview">Overview</h2>
+<ul>
+<li>Learn what token log probabilities are.</li>
+<li>Understand and use the <em>logprobs</em> parameter.</li>
+<li>Learn the practical use cases for log probabilities.</li>
+</ul>
+<h2 id="introduction">Introduction</h2>
+<p>In this blog post, we will discuss what LLM log probabilities are, also known as <em>logprobs</em>. We will use the OpenAI API to retrieve the log probabilities of individual tokens output in response to user prompts. We will write some code to understand what we can do when we have this extra information returned from the API. And finally, see some practical use cases of log probabilities.</p>
+<h2 id="quick-recap-on-tokens">Quick Recap on Tokens</h2>
+<p>Tokens are the currency of LLMs, when you send a text prompt to an LLM such as &ldquo;What is the capital of Canada?&rdquo; this gets broken down into tokens. These tokens are then fed into other components that make up the LLM architecture during inference.</p>
+<p>Input:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-plain" data-lang="plain"><span style="display:flex;"><span>Prompt: &#34;What is the capital of Canada?&#34;
+</span></span><span style="display:flex;"><span>                       ↓
+</span></span><span style="display:flex;"><span>Tokens: [4827, 382, 290, 8444, 563, 328, 10351, 30]
+</span></span></code></pre></div><p>The input prompt &ldquo;What is the capital of Canada?&rdquo; gets broken down into eight tokens (in OpenAI GPT models). At this point the tokens are fed into the LLM, the LLM does some thinking/reasoning and returns an output.</p>
+<p>Output:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-plain" data-lang="plain"><span style="display:flex;"><span>Tokens:  [976, 9029, 328, 10351, 382, 67810, 13]
+</span></span><span style="display:flex;"><span>                        ↓
+</span></span><span style="display:flex;"><span>Decoded: &#34;The capital of Canada is Ottawa&#34;
+</span></span></code></pre></div><p>Here the LLM outputs &ldquo;The capital of Canada is Ottawa&rdquo; which is made up of seven tokens.</p>
+<h2 id="log-probability">Log Probability</h2>
+<p>When an LLM returns its response to a user after inference, how can we view how likely each individual output token was at being picked and placed in the output as the LLM was building its response. This is done by looking at the log probability of each token returned, the log probability is the probability of each output token occurring in the sequence given the context.</p>
+<p>Let&rsquo;s look at a simple example - imagine we submit the prompt &ldquo;What is the capital of Canada?&rdquo;:</p>
+<p>Now imagine during inference the model has built up the following output - &ldquo;The capital of Canada is&rdquo;. And is determining which token to pick next, based on the <strong>context</strong> of the input prompt and the output built so far, it has the following tokens to choose from:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-plain" data-lang="plain"><span style="display:flex;"><span>Tokens:
+</span></span><span style="display:flex;"><span>  Ottawa: 100%
+</span></span><span style="display:flex;"><span>  Toronto: 22.21%
+</span></span><span style="display:flex;"><span>  Montreal: 10.23%
+</span></span><span style="display:flex;"><span>  Vancouver: 8.49%
+</span></span><span style="display:flex;"><span>  Alberta: 3.57%
+</span></span></code></pre></div><p>In this case, the most probable token to be selected is <code>Ottawa</code>, as the model is 100% confident that this is the most probable token.</p>
+<p><strong>Note</strong>: this is a contrived example, in reality the LLM would not be simply be selecting from tokens all representing cities in Canada :)</p>
+<p>So, during inference the LLM assigns log probabilities to tokens, and selects the token with the highest probability at each step, and we can extract this information and use it for various use cases.</p>
+<h2 id="code">Code</h2>
+<p>Let&rsquo;s look at a code example of how to access the log probabilities of the output tokens. In this example, we will use the OpenAI Chat Completions API to make a request and then print out the <em>logprobs</em> of each token:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-plain" data-lang="plain"><span style="display:flex;"><span># setup
+</span></span><span style="display:flex;"><span>$ mkdir logprobs
+</span></span><span style="display:flex;"><span>$ cd logprobs
+</span></span><span style="display:flex;"><span>$ uv init
+</span></span><span style="display:flex;"><span>$ uv add numpy openai
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#f92672">from</span> openai <span style="color:#f92672">import</span> OpenAI
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> numpy <span style="color:#66d9ef">as</span> np
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">format</span>(token: str) <span style="color:#f92672">-&gt;</span> str:
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> <span style="color:#e6db74">&#34;&lt;SPACE&gt;&#34;</span> <span style="color:#66d9ef">if</span> token<span style="color:#f92672">.</span>isspace() <span style="color:#66d9ef">else</span> token
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">main</span>():
+</span></span><span style="display:flex;"><span>    client <span style="color:#f92672">=</span> OpenAI(api_key<span style="color:#f92672">=</span>API_KEY)
+</span></span><span style="display:flex;"><span>    params <span style="color:#f92672">=</span> {
+</span></span><span style="display:flex;"><span>        <span style="color:#e6db74">&#34;model&#34;</span>: <span style="color:#e6db74">&#34;gpt-4.1&#34;</span>,
+</span></span><span style="display:flex;"><span>        <span style="color:#e6db74">&#34;messages&#34;</span>: [{
+</span></span><span style="display:flex;"><span>            <span style="color:#e6db74">&#34;role&#34;</span>: <span style="color:#e6db74">&#34;user&#34;</span>,
+</span></span><span style="display:flex;"><span>            <span style="color:#e6db74">&#34;content&#34;</span>: <span style="color:#e6db74">&#34;How tall is the Eiffel Tower in miles? Be concise&#34;</span>
+</span></span><span style="display:flex;"><span>        }],
+</span></span><span style="display:flex;"><span>        <span style="color:#e6db74">&#34;max_tokens&#34;</span>: <span style="color:#ae81ff">500</span>,
+</span></span><span style="display:flex;"><span>        <span style="color:#e6db74">&#34;logprobs&#34;</span>: <span style="color:#66d9ef">True</span>,
+</span></span><span style="display:flex;"><span>        <span style="color:#e6db74">&#34;top_logprobs&#34;</span>: <span style="color:#ae81ff">3</span>,
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>    completion <span style="color:#f92672">=</span> client<span style="color:#f92672">.</span>chat<span style="color:#f92672">.</span>completions<span style="color:#f92672">.</span>create(<span style="color:#f92672">**</span>params)
+</span></span><span style="display:flex;"><span>    print(<span style="color:#e6db74">&#34;output:&#34;</span>, completion<span style="color:#f92672">.</span>choices[<span style="color:#ae81ff">0</span>]<span style="color:#f92672">.</span>message<span style="color:#f92672">.</span>content)
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">for</span> item <span style="color:#f92672">in</span> completion<span style="color:#f92672">.</span>choices[<span style="color:#ae81ff">0</span>]<span style="color:#f92672">.</span>logprobs<span style="color:#f92672">.</span>content:
+</span></span><span style="display:flex;"><span>        print(<span style="color:#e6db74">f</span><span style="color:#e6db74">&#34;selected token: </span><span style="color:#e6db74">{</span>format(item<span style="color:#f92672">.</span>token)<span style="color:#e6db74">}</span><span style="color:#e6db74">&#34;</span>)
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">for</span> top_logprob <span style="color:#f92672">in</span> item<span style="color:#f92672">.</span>top_logprobs:
+</span></span><span style="display:flex;"><span>            token <span style="color:#f92672">=</span> format(top_logprob<span style="color:#f92672">.</span>token)
+</span></span><span style="display:flex;"><span>            probability <span style="color:#f92672">=</span> np<span style="color:#f92672">.</span>round(np<span style="color:#f92672">.</span>exp(top_logprob<span style="color:#f92672">.</span>logprob)<span style="color:#f92672">*</span><span style="color:#ae81ff">100</span>, <span style="color:#ae81ff">2</span>)
+</span></span><span style="display:flex;"><span>            print(<span style="color:#e6db74">f</span><span style="color:#e6db74">&#34;</span><span style="color:#e6db74">{</span>token<span style="color:#e6db74">:</span><span style="color:#e6db74">&lt;15</span><span style="color:#e6db74">}</span><span style="color:#e6db74"> </span><span style="color:#e6db74">{</span>top_logprob<span style="color:#f92672">.</span>logprob<span style="color:#e6db74">:</span><span style="color:#e6db74">&lt;10.5f</span><span style="color:#e6db74">}</span><span style="color:#e6db74"> </span><span style="color:#e6db74">{</span>probability<span style="color:#e6db74">:</span><span style="color:#e6db74">&lt;5</span><span style="color:#e6db74">}</span><span style="color:#e6db74">%&#34;</span>)
+</span></span><span style="display:flex;"><span>        print()
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">if</span> __name__ <span style="color:#f92672">==</span> <span style="color:#e6db74">&#34;__main__&#34;</span>:
+</span></span><span style="display:flex;"><span>    main()
+</span></span></code></pre></div><p>In this example, we enable log probabilities by setting the <code>logprobs</code> parameter to <code>True</code> and then we set the <code>top_logprobs</code> to <code>3</code>, which means we want the top three tokens with the highest probability at this stage in the context.</p>
+<p>Let&rsquo;s run the script and analyse the output:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-plain" data-lang="plain"><span style="display:flex;"><span>$ uv run main.py
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>output: The Eiffel Tower is about **0.19 miles** tall.
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>selected token: The
+</span></span><span style="display:flex;"><span>The             0.00000    100.0%
+</span></span><span style="display:flex;"><span>Approximately   -17.50000  0.0  %
+</span></span><span style="display:flex;"><span>0               -18.50000  0.0  %
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>selected token: Eiffel
+</span></span><span style="display:flex;"><span>Eiffel          -0.00001   100.0%
+</span></span><span style="display:flex;"><span>**              -11.62501  0.0  %
+</span></span><span style="display:flex;"><span>height          -15.25001  0.0  %
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>selected token: Tower
+</span></span><span style="display:flex;"><span>Tower           0.00000    100.0%
+</span></span><span style="display:flex;"><span>&lt;SPACE&gt;         -19.25000  0.0  %
+</span></span><span style="display:flex;"><span>&lt;SPACE&gt;         -22.75000  0.0  %
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>selected token: is
+</span></span><span style="display:flex;"><span>is              0.00000    100.0%
+</span></span><span style="display:flex;"><span>stands          -21.18750  0.0  %
+</span></span><span style="display:flex;"><span>&#39;s              -21.43750  0.0  %
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>selected token: about
+</span></span><span style="display:flex;"><span>about           -0.16033   85.19%
+</span></span><span style="display:flex;"><span>approximately   -1.91033   14.8 %
+</span></span><span style="display:flex;"><span>**              -9.53533   0.01 %
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>selected token: **
+</span></span><span style="display:flex;"><span>&lt;SPACE&gt;         -0.47408   62.25%
+</span></span><span style="display:flex;"><span>**              -0.97408   37.75%
+</span></span><span style="display:flex;"><span>***             -16.22408  0.0  %
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>selected token: 0
+</span></span><span style="display:flex;"><span>0               -0.00091   99.91%
+</span></span><span style="display:flex;"><span>1               -7.00092   0.09 %
+</span></span><span style="display:flex;"><span>984             -12.62591  0.0  %
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>selected token: .
+</span></span><span style="display:flex;"><span>.               0.00000    100.0%
+</span></span><span style="display:flex;"><span>,               -24.40625  0.0  %
+</span></span><span style="display:flex;"><span>&lt;SPACE&gt;         -25.79688  0.0  %
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>selected token: 19
+</span></span><span style="display:flex;"><span>19              -0.01254   98.75%
+</span></span><span style="display:flex;"><span>000             -5.38754   0.46 %
+</span></span><span style="display:flex;"><span>2               -6.01254   0.24 %
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>selected token: miles
+</span></span><span style="display:flex;"><span>miles           -0.00000   100.0%
+</span></span><span style="display:flex;"><span>**              -16.62500  0.0  %
+</span></span><span style="display:flex;"><span>&lt;SPACE&gt;         -19.75000  0.0  %
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>selected token: **
+</span></span><span style="display:flex;"><span>**              -0.00286   99.71%
+</span></span><span style="display:flex;"><span>tall            -6.00286   0.25 %
+</span></span><span style="display:flex;"><span>(               -7.87786   0.04 %
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>selected token: tall
+</span></span><span style="display:flex;"><span>tall            -0.00034   99.97%
+</span></span><span style="display:flex;"><span>(               -8.00034   0.03 %
+</span></span><span style="display:flex;"><span>high            -18.12534  0.0  %
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>selected token: .
+</span></span><span style="display:flex;"><span>.               -0.57595   56.22%
+</span></span><span style="display:flex;"><span>(               -0.82595   43.78%
+</span></span><span style="display:flex;"><span>(~              -12.07595  0.0  %
+</span></span></code></pre></div><p>In response to the prompt, &ldquo;How tall is the Eiffel Tower in miles? Be concise&rdquo;, we got the output, &ldquo;The Eiffel Tower is about <strong>0.19 miles</strong> tall.&rdquo;. Also, with the API response, we got the log probabilities of each token appearing in the sequence at that stage. For all the output tokens, we display the tokens considered at this stage, its log probability, and the log probability converted to a percentage.</p>
+<p>Let&rsquo;s isolate a single output token, so we can understand the output of the API better:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-plain" data-lang="plain"><span style="display:flex;"><span>selected token: Eiffel
+</span></span><span style="display:flex;"><span>Eiffel          -0.00001   100.0%
+</span></span><span style="display:flex;"><span>**              -11.62501  0.0  %
+</span></span><span style="display:flex;"><span>height          -15.25001  0.0  %
+</span></span></code></pre></div><p>Out of all the tokens sampled at this step during inference:</p>
+<ol>
+<li>The model considered all possible tokens it could generate next.</li>
+<li>&ldquo;Eiffel&rdquo; had the highest log probability (100%), so it was selected as the actual output.</li>
+<li>The model then extracts the top three tokens <code>top_logprobs=3</code> that have the highest probability of being selected.</li>
+<li>The API returns the top three tokens with their log probabilities - &ldquo;Eiffel&rdquo; (-0.00001), &ldquo;**&rdquo; (-11.62501), &ldquo;height&rdquo; (-15.25001).</li>
+</ol>
+<p>This allows users to measure the model&rsquo;s confidence of the output or explore alternatives the model considered. The model, was confident that &ldquo;Eiffel&rdquo; was essentially certain (logprob of 0.0 means ~100% probability), while the alternatives were extremely unlikely (logprob of -11 means probability of <code>e^(-11) ≈ 0%</code>).</p>
+<h2 id="understanding-log-probabilities-value">Understanding Log Probabilities Value</h2>
+<p>If you look at the values of the log probabilities, you will notice the values are negative or zero (or in the range [-∞, 0] to be more precise). The <em>logprob</em> value actually stores the natural logarithm of the probability, not the probability itself. The reason for this is that the probabilities for individual tokens are often minuscule (e.g. 0.0000001). Adding, dividing, multiplying these small numbers together can cause numerical underflow. Basically, the numbers become so small that computers cannot represent them accurately. So the model calculates the natural logarithm of the small probabilities:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-plain" data-lang="plain"><span style="display:flex;"><span>logprob = math.log(8.939686826368393e-06) = -11.62501
+</span></span></code></pre></div><p>Log probability is a <code>log(p)</code>, where <code>p</code> is the probability of a token occurring at a specific position based on the previous tokens in the context. The higher the log probability, the higher the chance that token is selected in that context. The log probability values are either negative or <code>0.0</code>, where <code>0.0</code> corresponds to 100% probability.</p>
+<p>Note: Not all APIs expose the <em>logprobs</em> parameter, so make sure you read the relevant API documentation. Here is a table which shows whether popular API providers support the <em>logprobs</em> parameter:</p>
+<table>
+  <thead>
+      <tr>
+          <th>API</th>
+          <th>Supports logprobs</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>Google (Gemini)</td>
+          <td>Yes</td>
+      </tr>
+      <tr>
+          <td>Anthropic (Claude)</td>
+          <td>No</td>
+      </tr>
+      <tr>
+          <td>OpenAI</td>
+          <td>Yes</td>
+      </tr>
+      <tr>
+          <td>Azure OpenAI</td>
+          <td>Yes</td>
+      </tr>
+      <tr>
+          <td>Hugging Face Inference API</td>
+          <td>Yes</td>
+      </tr>
+  </tbody>
+</table>
+<h2 id="use-cases">Use Cases</h2>
+<p>Now that we have seen what log probabilities are and how they work, let&rsquo;s look at the practical use cases for the <em>logprobs</em> parameter:</p>
+<p><strong>1. Confidence/Uncertainty Detection</strong></p>
+<p>You can use log probabilities to identify how confident a model is when retrieving answers to questions. If you have a Q&amp;A RAG/chat based system, you can detect how confident the model is in its answers and take steps to reduce errors. Let&rsquo;s look at an example of asking an LLM a series of medical questions and seeing how confident it is in its answers.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#f92672">from</span> openai <span style="color:#f92672">import</span> OpenAI
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> numpy <span style="color:#66d9ef">as</span> np
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>PROMPT <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;&#34;&#34;Medical Text:
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">A 45-year-old male presents to the emergency department with sudden onset chest
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">pain radiating to the left arm, accompanied by diaphoresis and shortness of
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">breath. The pain began 2 hours ago while he was mowing the lawn. He has a
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">history of hypertension and hyperlipidemia, currently managed with lisinopril
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">and atorvastatin. His father died of a myocardial infarction at age 52. Vital
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">signs show BP 150/95, HR 102, RR 22, O2 sat 94</span><span style="color:#e6db74">% o</span><span style="color:#e6db74">n room air. Physical exam
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">reveals an anxious-appearing male with cool, clammy skin. Cardiac auscultation
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">is normal without murmurs. An ECG is ordered.
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">Based on the clinical presentation above, </span><span style="color:#e6db74">{question}</span><span style="color:#e6db74">
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">&#34;&#34;&#34;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">main</span>():
+</span></span><span style="display:flex;"><span>    questions <span style="color:#f92672">=</span> [
+</span></span><span style="display:flex;"><span>        <span style="color:#e6db74">&#34;what is the most likely diagnosis?&#34;</span>,
+</span></span><span style="display:flex;"><span>        <span style="color:#e6db74">&#34;what specific medication and exact dosage should be administered first in the emergency department?&#34;</span>
+</span></span><span style="display:flex;"><span>    ]
+</span></span><span style="display:flex;"><span>    client <span style="color:#f92672">=</span> OpenAI(api_key<span style="color:#f92672">=</span>API_KEY)
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">for</span> question <span style="color:#f92672">in</span> questions:
+</span></span><span style="display:flex;"><span>        params <span style="color:#f92672">=</span> {
+</span></span><span style="display:flex;"><span>            <span style="color:#e6db74">&#34;model&#34;</span>: <span style="color:#e6db74">&#34;gpt-4.1&#34;</span>,
+</span></span><span style="display:flex;"><span>            <span style="color:#e6db74">&#34;messages&#34;</span>: [{
+</span></span><span style="display:flex;"><span>                <span style="color:#e6db74">&#34;role&#34;</span>: <span style="color:#e6db74">&#34;user&#34;</span>,
+</span></span><span style="display:flex;"><span>                <span style="color:#e6db74">&#34;content&#34;</span>: PROMPT<span style="color:#f92672">.</span>format(question<span style="color:#f92672">=</span>question),
+</span></span><span style="display:flex;"><span>            }],
+</span></span><span style="display:flex;"><span>            <span style="color:#e6db74">&#34;max_tokens&#34;</span>: <span style="color:#ae81ff">500</span>,
+</span></span><span style="display:flex;"><span>            <span style="color:#e6db74">&#34;logprobs&#34;</span>: <span style="color:#66d9ef">True</span>,
+</span></span><span style="display:flex;"><span>            <span style="color:#e6db74">&#34;top_logprobs&#34;</span>: <span style="color:#ae81ff">3</span>,
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>        completion <span style="color:#f92672">=</span> client<span style="color:#f92672">.</span>chat<span style="color:#f92672">.</span>completions<span style="color:#f92672">.</span>create(<span style="color:#f92672">**</span>params)
+</span></span><span style="display:flex;"><span>        print(<span style="color:#e6db74">f</span><span style="color:#e6db74">&#34;Question: </span><span style="color:#e6db74">{</span>question<span style="color:#e6db74">}</span><span style="color:#e6db74">&#34;</span>)
+</span></span><span style="display:flex;"><span>        logprobs <span style="color:#f92672">=</span> [token<span style="color:#f92672">.</span>logprob <span style="color:#66d9ef">for</span> token <span style="color:#f92672">in</span>
+</span></span><span style="display:flex;"><span>                    completion<span style="color:#f92672">.</span>choices[<span style="color:#ae81ff">0</span>]<span style="color:#f92672">.</span>logprobs<span style="color:#f92672">.</span>content]
+</span></span><span style="display:flex;"><span>        avg_logprob <span style="color:#f92672">=</span> np<span style="color:#f92672">.</span>mean(logprobs)
+</span></span><span style="display:flex;"><span>        confidence <span style="color:#f92672">=</span> np<span style="color:#f92672">.</span>exp(avg_logprob)
+</span></span><span style="display:flex;"><span>        percentage <span style="color:#f92672">=</span> np<span style="color:#f92672">.</span>round(confidence<span style="color:#f92672">*</span><span style="color:#ae81ff">100</span>, <span style="color:#ae81ff">2</span>)
+</span></span><span style="display:flex;"><span>        print(<span style="color:#e6db74">f</span><span style="color:#e6db74">&#34;Confidence: </span><span style="color:#e6db74">{</span>confidence<span style="color:#e6db74">:</span><span style="color:#e6db74">.6f</span><span style="color:#e6db74">}</span><span style="color:#e6db74"> (</span><span style="color:#e6db74">{</span>percentage<span style="color:#e6db74">:</span><span style="color:#e6db74">.2f</span><span style="color:#e6db74">}</span><span style="color:#e6db74">%)&#34;</span>)
+</span></span><span style="display:flex;"><span>        print(<span style="color:#e6db74">f</span><span style="color:#e6db74">&#34;Avg. logprob: </span><span style="color:#e6db74">{</span>avg_logprob<span style="color:#e6db74">:</span><span style="color:#e6db74">.4f</span><span style="color:#e6db74">}</span><span style="color:#e6db74">&#34;</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">if</span> __name__ <span style="color:#f92672">==</span> <span style="color:#e6db74">&#34;__main__&#34;</span>:
+</span></span><span style="display:flex;"><span>    main()
+</span></span></code></pre></div><p>Output:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-plain" data-lang="plain"><span style="display:flex;"><span>uv run main.py
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>Question: Based on the clinical presentation above, what is the most likely diagnosis?
+</span></span><span style="display:flex;"><span>Confidence: 0.668006 (66.80%)
+</span></span><span style="display:flex;"><span>(Avg. logprob -0.4035)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>Question: Based on the clinical presentation above, what specific medication
+</span></span><span style="display:flex;"><span>and exact dosage should be administered first in the emergency department?
+</span></span><span style="display:flex;"><span>Confidence: 0.000000 (0.00%)
+</span></span><span style="display:flex;"><span>(Avg. logprob -50.3084)
+</span></span></code></pre></div><p>We ask the LLM two questions about the medical text, in response to the first question the model is moderately confident in its answer. The model recognises the tell-tale signs of MI (Myocardial Infarction, or heart attack) presentation, but it is not 100% certain. For the second question, the model is very low in confidence, because the model is less certain about dosages, different guidelines and less certainty about exact medical protocols. The model is essentially guessing, so is very uncertain in its answer.</p>
+<p><strong>2. Token Healing</strong></p>
+<p>Token healing is a technique that uses log probabilities to handle prompts that end mid-sequence. For example, if we submit the prompt &lsquo;Is the Eiffel Tower located in Par&rsquo;, the tokenizer might split it awkwardly (e.g., &lsquo;Par&rsquo; becomes one token, forcing the model to start generation with a new complete token).</p>
+<p>With token healing, you:</p>
+<ul>
+<li>Remove the last token from your prompt (&lsquo;Par&rsquo;)</li>
+<li>Regenerate from the shortened prompt (&ldquo;Is the Eiffel Tower located in &ldquo;)</li>
+<li>Use <em>logprobs</em> to examine alternative tokens and their probabilities</li>
+<li>Select the token that naturally completes the original ending (e.g., &lsquo;Paris&rsquo;)</li>
+</ul>
+<p>This lets you produce more coherent outputs by respecting natural token boundaries rather than forcing the model to continue from arbitrary cutoff points.</p>
+<p><strong>3. Detecting Hallucinations</strong></p>
+<p>If you are struggling with hallucinated answers to questions in your application, you can leverage log probabilities to potentially detect this. We saw this above when we calculated confidence scores to the answers we got in response to questions. Low <em>logprobs</em> on factual claims can indicate hallucinations.</p>
+<p><strong>4. Calculate Perplexity</strong></p>
+<p>Another use case of log probabilities is that they can be used to calculate perplexity. Perplexity measures how &ldquo;surprised&rdquo; or &ldquo;confused&rdquo; a model is. You could send the same prompt into <code>gtp-4.1</code> and <code>gpt-4o-mini</code> and calculate the perplexity to get a measure of how surprised/confused each model is for the same prompt. You can calculate perplexity as follows:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#66d9ef">for</span> model <span style="color:#f92672">in</span> models:
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">...</span>
+</span></span><span style="display:flex;"><span>    logprobs <span style="color:#f92672">=</span> [token<span style="color:#f92672">.</span>logprob <span style="color:#66d9ef">for</span> token <span style="color:#f92672">in</span> response<span style="color:#f92672">.</span>choices[<span style="color:#ae81ff">0</span>]<span style="color:#f92672">.</span>logprobs<span style="color:#f92672">.</span>content]
+</span></span><span style="display:flex;"><span>    avg_logprob <span style="color:#f92672">=</span> np<span style="color:#f92672">.</span>mean(logprobs)
+</span></span><span style="display:flex;"><span>    perplexity <span style="color:#f92672">=</span> np<span style="color:#f92672">.</span>exp(<span style="color:#f92672">-</span>avg_logprob)
+</span></span><span style="display:flex;"><span>    print(<span style="color:#e6db74">f</span><span style="color:#e6db74">&#34;</span><span style="color:#e6db74">{</span>model<span style="color:#e6db74">}</span><span style="color:#e6db74">: Perplexity = </span><span style="color:#e6db74">{</span>perplexity<span style="color:#e6db74">:</span><span style="color:#e6db74">.2f</span><span style="color:#e6db74">}</span><span style="color:#e6db74">&#34;</span>)
+</span></span></code></pre></div><p>When calculating perplexity, lower perplexity means the model is <strong>more</strong> confident/less surprised by its own output. And higher perplexity means the model is struggling/uncertain.</p>
+<p>We can use perplexity to help us with:</p>
+<ul>
+<li>Model Selection - pick the best model for our domain.</li>
+<li>Quality Assessment - Higher perplexity means lower quality results.</li>
+<li>Domain fit - compare different models across different topics (engineering, medical, literature, etc.) to see where each model excels.</li>
+</ul>
+<p><strong>Note</strong>: You should not just use perplexity on its own to judge a model, but pair it with other metrics to build a better understanding.</p>
+<p>There are many more uses case for log probabilities, but I find the above use cases the most interesting.</p>
+<h2 id="summary">Summary</h2>
+<p>In this post, we learned:</p>
+<ul>
+<li>
+<p>Log probabilities are probabilities assigned to output tokens. The Log probability of an output token indicates the chance of that token occurring in a sequence given the context.</p>
+</li>
+<li>
+<p>The <em>logprob</em> value stores the natural logarithm of the probability, not the probability itself.</p>
+</li>
+<li>
+<p>Log probability is a <code>log(p)</code>, where <code>p</code> is the probability of a token occurring at a specific position based on the previous tokens in the context.</p>
+</li>
+<li>
+<p>APIs have to request <em>logprobs</em> by setting <code>logprobs=True</code> and requesting the number of most likely tokens to return via the <code>top_logprobs</code> parameter (these parameters are for OpenAI and would be different across LLM APIs).</p>
+</li>
+<li>
+<p>Log probabilities are only available via APIs and not via the chat web/mobile apps.</p>
+</li>
+<li>
+<p>Some practical use cases of log probabilities and how they can be used to enhance applications or model selection.</p>
+</li>
+</ul>
+<p>Thank you for reading.</p>
+
+  
+  <hr>
+<div class="footer">
+    
+	    
+            <a class="previous-post" href="https://www.usman.me.uk/posts/llm-temperature/?ref=footer"><span style="font-weight:bold;">« Previous</span><br>LLM: Understanding The Temperature Parameter</a>
+        
+	    
+            <div class="next-post">
+                <a href="https://www.usman.me.uk/posts/llm-tokens/?ref=footer"><span style="font-weight:bold;">Next »</span><br>LLM: Understanding Tokens</a>
+            </div>
+        
+    
+</div>
+
+  
+</div>
+            </main>
+            
+  
+
+        </div>
+    </body>
+</html>

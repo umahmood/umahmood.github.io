@@ -74,7 +74,7 @@
 <meta property="og:url" content="https://www.usman.me.uk/" />
 
 
-<meta property="og:updated_time" content="2025-12-01T15:51:50Z" />
+<meta property="og:updated_time" content="2026-01-19T23:34:59Z" />
 
 
 <link rel="sitemap" type="application/xml" title="Sitemap" href='https://www.usman.me.uk/sitemap.xml' />
@@ -101,7 +101,7 @@
 
 
 
-<meta name="generator" content="Hugo 0.153.2">
+<meta name="generator" content="Hugo 0.154.5">
 
 
     
@@ -268,7 +268,7 @@
 
         <p class="footnote">
     <br>
-    &copy; 2025 Usman Mahmood. All rights reserved.
+    &copy; 2026 Usman Mahmood. All rights reserved.
 </p>
 
   </div>
@@ -278,6 +278,161 @@
                 <div class="posts">
     
     
+    <article class="post">
+        <div class="info">
+  <h1 class="post-title">
+    <a href="https://www.usman.me.uk/posts/compile-openvpn/">Compiling OpenVPN on the Raspberry Pi 3</a>
+  </h1>
+
+  <div class="headline">
+    <div>
+      
+      
+      <time datetime=" 2019-12-15T14:41:12&#43;0100" class="post-date">
+        December 15, 2019
+      </time>
+      
+      <span> - </span>
+      <span class="reading-time">
+        
+          
+        
+
+        <span>1 min read</span>
+      </span>
+    </div>
+
+    
+  </div>
+
+  
+  
+
+  
+</div>
+
+        
+        <p>Recently I needed to upgrade the version of OpenVPN on my Raspberry Pi 3 Model B. Below are the steps needed to do this, here we upgrade to OpenVPN version 2.4.8.</p>
+<pre tabindex="0"><code>$ cd /tmp
+$ wget https://swupdate.openvpn.org/community/releases/openvpn-2.4.8.tar.gz
+$ tar xf openvpn-2.4.8.tar.gz
+$ cd openvpn-2.4.8/
+$ sudo apt-get install libssl-dev
+$ sudo apt-get install liblzo2-dev
+$ sudo apt-get install libpam0g-dev
+$ ./configure --prefix=/usr
+$ sudo make
+$ sudo make install
+</code></pre><p>Verify that the new version installed:</p>
+        
+        <div class="read-more-link">
+            <a href="/posts/compile-openvpn/">Read More…</a>
+        </div>
+        
+        
+    </article>
+    <article class="post">
+        <div class="info">
+  <h1 class="post-title">
+    <a href="https://www.usman.me.uk/posts/styling-markers-mapbox/">Styling Markers on Mapbox Static Maps</a>
+  </h1>
+
+  <div class="headline">
+    <div>
+      
+      
+      <time datetime=" 2019-10-05T16:12:46&#43;0100" class="post-date">
+        October 5, 2019
+      </time>
+      
+      <span> - </span>
+      <span class="reading-time">
+        
+          
+        
+
+        <span>1 min read</span>
+      </span>
+    </div>
+
+    
+  </div>
+
+  
+  
+
+  
+</div>
+
+        
+        <p>Recently I was using the python map-box api to generate static maps. I needed to
+style the markers which pin pointed locations on the map. I found it difficult to
+find the necessary documentation on how to do this. In the end it simply involved
+adding the following fields:</p>
+<ul>
+<li>maker-colour (hex value).</li>
+<li>marker-symbol (<a href="https://labs.mapbox.com/maki-icons/" target="_blank">Maki icon name</a>. an integer, or a lowercase letter).</li>
+<li>marker-size (small, large).</li>
+</ul>
+<p>To the JSON like so:</p>
+        
+        <div class="read-more-link">
+            <a href="/posts/styling-markers-mapbox/">Read More…</a>
+        </div>
+        
+        
+    </article>
+    <article class="post">
+        <div class="info">
+  <h1 class="post-title">
+    <a href="https://www.usman.me.uk/posts/borg-ignore/">Ignoring Directories When Backing up with Borg</a>
+  </h1>
+
+  <div class="headline">
+    <div>
+      
+      
+      <time datetime=" 2018-09-14T20:36:32Z" class="post-date">
+        September 14, 2018
+      </time>
+      
+      <span> - </span>
+      <span class="reading-time">
+        
+          
+        
+
+        <span>1 min read</span>
+      </span>
+    </div>
+
+    
+  </div>
+
+  
+  
+
+  
+</div>
+
+        
+        <p>Borg backup has a <code>--exclude-if-present</code> flag, which allows you to ignore a directory from being backed up, If it contains a certain &rsquo;tag&rsquo; file.</p>
+<p>So given the following directory structure, which we want to back up:</p>
+<pre tabindex="0"><code>+ MyFiles
+	+ dirA
+		- file_one.pdf
+		- file_two.pdf
+	+ dirB
+		- spreadsheet.xsl
+		- image.png
+</code></pre><p>If we want to ignore <code>dirB</code> from being backed up by borg, we have to create a tag file in that directory:</p>
+        
+        <div class="read-more-link">
+            <a href="/posts/borg-ignore/">Read More…</a>
+        </div>
+        
+        
+    </article>
     <article class="post">
         <div class="info">
   <h1 class="post-title">
@@ -615,161 +770,6 @@ func main() {
         
         <div class="read-more-link">
             <a href="/posts/runtime-user-panics/">Read More…</a>
-        </div>
-        
-        
-    </article>
-    <article class="post">
-        <div class="info">
-  <h1 class="post-title">
-    <a href="https://www.usman.me.uk/posts/git-empty-commit/">Creating Empty Git Commits</a>
-  </h1>
-
-  <div class="headline">
-    <div>
-      
-      
-      <time datetime=" 2016-11-29T00:43:13Z" class="post-date">
-        November 29, 2016
-      </time>
-      
-      <span> - </span>
-      <span class="reading-time">
-        
-          
-        
-
-        <span>2 mins read</span>
-      </span>
-    </div>
-
-    
-  </div>
-
-  
-  
-
-  
-</div>
-
-        
-        <p>You may not know it, but Git allows you to create an empty commit in to your repo. It doesn&rsquo;t like it, but you can do it any way.</p>
-<p>An empty commit is one where you don&rsquo;t actually commit any code changes i.e. if you <em>git status</em> your repo, you get the message:</p>
-<pre tabindex="0"><code>On branch master
-nothing to commit, working tree clean
-</code></pre><p>Why would you want to create an empty commit? You may want to communicate changes, which have nothing to do with code. But you have updated something that you want the rest of the team to know about. And you feel that communicating this via the git log make sense.</p>
-        
-        <div class="read-more-link">
-            <a href="/posts/git-empty-commit/">Read More…</a>
-        </div>
-        
-        
-    </article>
-    <article class="post">
-        <div class="info">
-  <h1 class="post-title">
-    <a href="https://www.usman.me.uk/posts/git-commit-change-date/">Changing the Date of Git Commits</a>
-  </h1>
-
-  <div class="headline">
-    <div>
-      
-      
-      <time datetime=" 2016-11-15T19:29:07Z" class="post-date">
-        November 15, 2016
-      </time>
-      
-      <span> - </span>
-      <span class="reading-time">
-        
-          
-        
-
-        <span>2 mins read</span>
-      </span>
-    </div>
-
-    
-  </div>
-
-  
-  
-
-  
-</div>
-
-        
-        <p>Have you ever looked at peoples Github contribution timelines and seen a word or some ASCII art. This is done by creating a repo, then manipulating the dates of commits, to create the desired design.</p>
-<p>This blog post is not about creating funky pieces of art in your Github commit history timeline. But instead, shows you how to change the date of a commit using Git.</p>
-<p>When you make a git commit you can actually set the date of the commit to anything you want. Lets get started.</p>
-        
-        <div class="read-more-link">
-            <a href="/posts/git-commit-change-date/">Read More…</a>
-        </div>
-        
-        
-    </article>
-    <article class="post">
-        <div class="info">
-  <h1 class="post-title">
-    <a href="https://www.usman.me.uk/posts/using-sub-tests-benchmarks/">Using Subtests and Sub-benchmarks in Go</a>
-  </h1>
-
-  <div class="headline">
-    <div>
-      
-      
-      <time datetime=" 2016-10-22T21:45:22&#43;0100" class="post-date">
-        October 22, 2016
-      </time>
-      
-      <span> - </span>
-      <span class="reading-time">
-        
-          
-        
-
-        <span>4 mins read</span>
-      </span>
-    </div>
-
-    
-  </div>
-
-  
-  
-
-  
-</div>
-
-        
-        <p>In this post we will walk through an example of how to use the new subtests and sub-benchmarks functionality introduced in Go 1.7.</p>
-<h4 id="subtests">Subtests</h4>
-<p>One of the nifty features in Go is the ability to write table driven tests. For example, if we wanted to test the function:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">Double</span>(<span style="color:#a6e22e">n</span> <span style="color:#66d9ef">int</span>) <span style="color:#66d9ef">int</span> {
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">n</span> <span style="color:#f92672">*</span> <span style="color:#ae81ff">2</span>
-</span></span><span style="display:flex;"><span>}
-</span></span></code></pre></div><p>Then we could write a table driven test as follows:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">TestDouble</span>(<span style="color:#a6e22e">t</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">testing</span>.<span style="color:#a6e22e">T</span>) {
-</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">testCases</span> <span style="color:#f92672">:=</span> []<span style="color:#66d9ef">struct</span> {
-</span></span><span style="display:flex;"><span>		<span style="color:#a6e22e">n</span>    <span style="color:#66d9ef">int</span>
-</span></span><span style="display:flex;"><span>		<span style="color:#a6e22e">want</span> <span style="color:#66d9ef">int</span>
-</span></span><span style="display:flex;"><span>	}{
-</span></span><span style="display:flex;"><span>		{<span style="color:#ae81ff">2</span>, <span style="color:#ae81ff">4</span>},
-</span></span><span style="display:flex;"><span>		{<span style="color:#ae81ff">4</span>, <span style="color:#ae81ff">10</span>},
-</span></span><span style="display:flex;"><span>		{<span style="color:#ae81ff">3</span>, <span style="color:#ae81ff">6</span>},
-</span></span><span style="display:flex;"><span>	}
-</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">for</span> <span style="color:#a6e22e">_</span>, <span style="color:#a6e22e">tc</span> <span style="color:#f92672">:=</span> <span style="color:#66d9ef">range</span> <span style="color:#a6e22e">testCases</span> {
-</span></span><span style="display:flex;"><span>		<span style="color:#a6e22e">got</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">Double</span>(<span style="color:#a6e22e">tc</span>.<span style="color:#a6e22e">n</span>)
-</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">got</span> <span style="color:#f92672">!=</span> <span style="color:#a6e22e">tc</span>.<span style="color:#a6e22e">want</span> {
-</span></span><span style="display:flex;"><span>			<span style="color:#a6e22e">t</span>.<span style="color:#a6e22e">Errorf</span>(<span style="color:#e6db74">&#34;fail got %v want %v&#34;</span>, <span style="color:#a6e22e">got</span>, <span style="color:#a6e22e">tc</span>.<span style="color:#a6e22e">want</span>)
-</span></span><span style="display:flex;"><span>		}
-</span></span><span style="display:flex;"><span>	}
-</span></span><span style="display:flex;"><span>}
-</span></span></code></pre></div><p><strong>Note:</strong> The test case {4, 10} is present to make the test fail, 4 * 2 != 10 😃.</p>
-        
-        <div class="read-more-link">
-            <a href="/posts/using-sub-tests-benchmarks/">Read More…</a>
         </div>
         
         
